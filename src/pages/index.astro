@@ -554,7 +554,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       startX = e.touches[0].clientX;
       const transform = carousel.style.transform;
       startTransform = transform ? parseFloat(transform.match(/-?\d+\.?\d*/)) || 0 : 0;
-    });
+    }, { passive: true });
     
     carousel.addEventListener('touchmove', (e) => {
       const diff = e.touches[0].clientX - startX;
@@ -566,7 +566,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       
       carousel.style.transform = `translateX(${newTransform}%)`;
       e.preventDefault();
-    });
+    }, { passive: false });
     
     carousel.addEventListener('touchend', (e) => {
       endX = e.changedTouches[0].clientX;
@@ -582,7 +582,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
         }
       }
       updateCarousel();
-    });
+    }, { passive: true });
     
     // Funzione per equalizzare le altezze delle card
     function equalizeCardHeights() {
@@ -807,7 +807,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       eventsStartX = e.touches[0].clientX;
       const transform = eventsCarousel.style.transform;
       eventsStartTransform = transform ? parseFloat(transform.match(/-?\d+\.?\d*/)) || 0 : 0;
-    });
+    }, { passive: true });
     
     eventsCarousel.addEventListener('touchmove', (e) => {
       const diff = e.touches[0].clientX - eventsStartX;
@@ -819,7 +819,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       
       eventsCarousel.style.transform = `translateX(${newTransform}%)`;
       e.preventDefault();
-    });
+    }, { passive: false });
     
     eventsCarousel.addEventListener('touchend', (e) => {
       eventsEndX = e.changedTouches[0].clientX;
@@ -835,7 +835,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
         }
       }
       updateEventsCarousel();
-    });
+    }, { passive: true });
     
     // Funzione per equalizzare le altezze delle card eventi
     function equalizeEventsCardHeights() {
