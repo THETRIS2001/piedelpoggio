@@ -1,12 +1,57 @@
 ---
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import fs from 'fs';
+import path from 'path';
+
+const docsDir = path.join(process.cwd(), 'public', 'documents', 'proloco');
+
+// Palette ciclica per colorare le card come in Parrocchia
+const colorPalette = [
+  { card: 'from-yellow-50 to-orange-100', border: 'border-orange-200', hoverText: 'group-hover:text-orange-600', icon: 'bg-orange-600' },
+  { card: 'from-rose-50 to-pink-100',     border: 'border-pink-200',   hoverText: 'group-hover:text-pink-600',   icon: 'bg-pink-600' },
+  { card: 'from-green-50 to-emerald-100', border: 'border-emerald-200',hoverText: 'group-hover:text-emerald-600', icon: 'bg-emerald-600' },
+  { card: 'from-blue-50 to-indigo-100',   border: 'border-indigo-200', hoverText: 'group-hover:text-indigo-600', icon: 'bg-indigo-600' },
+  { card: 'from-purple-50 to-violet-100', border: 'border-violet-200', hoverText: 'group-hover:text-violet-600', icon: 'bg-violet-600' },
+  { card: 'from-cyan-50 to-sky-100',      border: 'border-sky-200',    hoverText: 'group-hover:text-sky-600',    icon: 'bg-sky-600' },
+  { card: 'from-lime-50 to-green-100',    border: 'border-lime-200',   hoverText: 'group-hover:text-lime-600',   icon: 'bg-lime-600' },
+  { card: 'from-amber-50 to-yellow-100',  border: 'border-yellow-200', hoverText: 'group-hover:text-yellow-600', icon: 'bg-amber-600' },
+];
+
+let docs = [] as Array<{ name: string; href: string; ext: string; dateISO: string; dateDisplay: string; classes: { card: string; border: string; hoverText: string; icon: string } }>;
+try {
+  const files = fs.readdirSync(docsDir);
+  docs = files
+    .filter((name) => !name.startsWith('.') && /\.(pdf|docx?|xlsx?|pptx?)$/i.test(name))
+    .map((name, idx) => {
+      const fullPath = path.join(docsDir, name);
+      const stats = fs.statSync(fullPath);
+      const extLower = (name.split('.')
+        .pop() || '')
+        .toLowerCase();
+      const palette = colorPalette[idx % colorPalette.length];
+      const classes = { card: palette.card, border: palette.border, hoverText: palette.hoverText, icon: palette.icon };
+      const date = stats.mtime;
+      return {
+        name: name.replace(/\.[^/.]+$/, ''),
+        href: `/documents/proloco/${name}`,
+        ext: (name.split('.').pop() || '').toUpperCase(),
+        dateISO: new Date(date).toISOString(),
+        dateDisplay: new Date(date).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+        classes,
+      };
+    })
+    // Documenti più recenti prima
+    .sort((a, b) => new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime());
+} catch (err) {
+  docs = [];
+}
 ---
 
 <DefaultLayout 
-  title="Statuto - Piedelpoggio" 
-  description="Consulta lo statuto dell'Associazione Pro Pie del Poggio"
+  title="Documenti Pro Loco - Piedelpoggio" 
+  description="Documenti ufficiali della Pro Loco: Statuto, riunioni e atti"
 >
-  <main class="min-h-screen bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/20">
+  <main class=" bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/20">
     <!-- Hero Section -->
     <section class="hero-section">
       <!-- Background with gradient -->
@@ -26,14 +71,81 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
             </div>
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-indigo-600 bg-clip-text text-transparent">
-                STATUTO
+                DOCUMENTI PRO LOCO
               </span>
             </h1>
           </div>
           <div class="w-32 h-1.5 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-500 rounded-full mx-auto mb-8"></div>
           <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">
-            Associazione Culturale Sportiva e del Tempo Libero Pro Pie del Poggio
+            Statuto e documenti ufficiali della Pro Loco Pro Pie del Poggio
           </p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Elenco Documenti Pro Loco (automatico) - spostato sopra lo Statuto -->
+    <section class="pt-4 pb-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12">
+          <div class="flex items-center space-x-4 mb-8">
+            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Documenti Pro Loco</h2>
+          </div>
+
+          <!-- Barra di ricerca e filtri data (stile analogo a Notizie/Eventi) -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="md:col-span-2">
+              <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-1">Cerca</label>
+              <input id="searchInput" type="text" placeholder="Cerca per nome documento" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600" />
+            </div>
+            <div>
+              <label for="dateFrom" class="block text-sm font-medium text-gray-700 mb-1">Data Inizio</label>
+              <input id="dateFrom" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600" />
+            </div>
+            <div>
+              <label for="dateTo" class="block text-sm font-medium text-gray-700 mb-1">Data Fine</label>
+              <input id="dateTo" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600" />
+            </div>
+            <div class="md:col-span-4 flex items-center gap-3">
+              <button id="applyFilter" type="button" class="px-4 py-2 rounded-xl text-white shadow-md" style="background: linear-gradient(135deg, #2563EB, #4F46E5);">Applica</button>
+              <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl text-gray-700 border border-gray-300 hover:bg-gray-50">Reset</button>
+            </div>
+          </div>
+
+          {docs.length === 0 ? (
+            <p class="text-gray-600 text-sm md:text-base">Nessun documento trovato nella cartella <code>/public/documents/proloco</code>.</p>
+          ) : (
+            <>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {docs.map((doc) => (
+                <a 
+                  href={doc.href} 
+                  class={`doc-item block bg-gradient-to-br ${doc.classes.card} rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border ${doc.classes.border}`} 
+                  target="_blank"
+                  data-name={doc.name}
+                  data-date={doc.dateISO}
+                >
+                  <div class="flex items-start space-x-4">
+                    <div class={`w-12 h-12 ${doc.classes.icon} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                      <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                      </svg>
+                    </div>
+                    <div class="flex-1">
+                      <h4 class={`font-semibold text-gray-900 ${doc.classes.hoverText} transition-colors mb-1`}>{doc.name}</h4>
+                      <p class="text-sm text-gray-700">{doc.ext} • {doc.dateDisplay}</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <p id="filterEmptyMessage" class="text-gray-600 text-sm md:text-base mt-4 hidden">Nessun documento corrisponde ai filtri impostati.</p>
+            </>
+          )}
         </div>
       </div>
     </section>
@@ -41,10 +153,23 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
     <!-- Content Section -->
     <section class="pt-4 pb-6 sm:pb-16 px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto">
-        <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12 space-y-8">
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12">
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Statuto della Pro Loco</h2>
+              <p class="text-gray-600 text-sm md:text-base">Testo integrale dello Statuto dell'associazione</p>
+            </div>
+          </div>
+          
+          <div id="statutoContent" class="space-y-8">
           
           <!-- Sede, costituzione, durata, oggetto sociale -->
-          <div class="space-y-6">
+          <div class="mt-6 md:mt-10 space-y-6">
             <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
               Sede, costituzione, durata, oggetto sociale
             </h2>
@@ -535,8 +660,62 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
             </div>
           </div>
 
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- Sezione Documenti spostata sopra: qui non duplico -->
   </main>
 </DefaultLayout>
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const dateFrom = document.getElementById('dateFrom');
+    const dateTo = document.getElementById('dateTo');
+    const applyBtn = document.getElementById('applyFilter');
+    const resetBtn = document.getElementById('clearFilter');
+    const items = Array.from(document.querySelectorAll('.doc-item'));
+    const filterEmptyMessage = document.getElementById('filterEmptyMessage');
+
+    function filterDocs() {
+      const q = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase().trim();
+      const fromDate = (dateFrom && dateFrom.value) ? new Date(dateFrom.value) : null;
+      const toDate = (dateTo && dateTo.value) ? new Date(dateTo.value) : null;
+      let visibleCount = 0;
+
+      items.forEach((item) => {
+        const name = (item.dataset && item.dataset.name ? item.dataset.name : '').toLowerCase();
+        const itemDateStr = (item.dataset && item.dataset.date ? item.dataset.date : '');
+        const itemDate = itemDateStr ? new Date(itemDateStr) : null;
+        let show = true;
+        if (q && !name.includes(q)) show = false;
+        if (fromDate && itemDate && itemDate < fromDate) show = false;
+        if (toDate && itemDate && itemDate > toDate) show = false;
+
+        item.style.display = show ? 'block' : 'none';
+        if (show) visibleCount++;
+      });
+
+      if (filterEmptyMessage) {
+        filterEmptyMessage.classList.toggle('hidden', visibleCount !== 0);
+      }
+    }
+
+    if (applyBtn) applyBtn.addEventListener('click', filterDocs);
+    if (searchInput) searchInput.addEventListener('input', filterDocs);
+    if (dateFrom) dateFrom.addEventListener('input', filterDocs);
+    if (dateTo) dateTo.addEventListener('input', filterDocs);
+    if (resetBtn) resetBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      if (dateFrom) dateFrom.value = '';
+      if (dateTo) dateTo.value = '';
+      filterDocs();
+    });
+
+    // Prima esecuzione per allineare stato messaggio
+    filterDocs();
+
+    // Toggle Statuto rimosso su richiesta
+  });
+</script>

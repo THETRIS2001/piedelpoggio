@@ -1,7 +1,16 @@
 import type { APIRoute } from 'astro';
-import { getBookings, createBooking, deleteBooking, checkBookingConflict, type Booking } from '../../lib/supabase';
+import { getBookings, createBooking, deleteBooking, checkBookingConflict, getBookingById, type Booking } from '../../lib/supabase';
 
 export const prerender = false;
+
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 export const GET: APIRoute = async ({ request }) => {
   try {
@@ -106,6 +115,39 @@ export const POST: APIRoute = async ({ request }) => {
       customer_email: body.customerEmail,
     });
 
+    try {
+      const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+      if (RESEND_API_KEY) {
+        const subject = `Nuova prenotazione campo: ${newBooking.date} ${newBooking.start}–${newBooking.end}`;
+        const html = `
+          <div style="font-family: Arial, sans-serif;">
+            <h2>Nuova prenotazione campo sportivo</h2>
+            <p><strong>Nome:</strong> ${escapeHtml(newBooking.customer_name)}</p>
+            <p><strong>Telefono:</strong> ${escapeHtml(newBooking.customer_phone)}</p>
+            ${newBooking.customer_email ? `<p><strong>Email:</strong> ${escapeHtml(newBooking.customer_email)}</p>` : ''}
+            <p><strong>Quando:</strong> ${escapeHtml(newBooking.date)} ${escapeHtml(newBooking.start)}–${escapeHtml(newBooking.end)}</p>
+            ${newBooking.title ? `<p><strong>Titolo:</strong> ${escapeHtml(newBooking.title)}</p>` : ''}
+          </div>
+        `;
+        const payload = {
+          from: 'Prenotazioni Pro Loco <onboarding@resend.dev>',
+          to: ['pro.piedelpoggio@gmail.com'],
+          subject,
+          html,
+        };
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+      }
+    } catch (e) {
+      console.error('Email send error (create booking):', e);
+    }
+
     return new Response(JSON.stringify({ 
       booking: newBooking,
       message: 'Booking created successfully' 
@@ -146,7 +188,43 @@ export const DELETE: APIRoute = async ({ request }) => {
       });
     }
 
+    const booking = await getBookingById(id);
     await deleteBooking(id);
+
+    try {
+      if (booking) {
+        const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+        if (RESEND_API_KEY) {
+          const subject = `Cancellazione prenotazione campo: ${booking.date} ${booking.start}–${booking.end}`;
+          const html = `
+            <div style="font-family: Arial, sans-serif;">
+              <h2>Prenotazione cancellata</h2>
+              <p><strong>Nome:</strong> ${escapeHtml(booking.customer_name)}</p>
+              <p><strong>Telefono:</strong> ${escapeHtml(booking.customer_phone)}</p>
+              ${booking.customer_email ? `<p><strong>Email:</strong> ${escapeHtml(booking.customer_email)}</p>` : ''}
+              <p><strong>Quando:</strong> ${escapeHtml(booking.date)} ${escapeHtml(booking.start)}–${escapeHtml(booking.end)}</p>
+              ${booking.title ? `<p><strong>Titolo:</strong> ${escapeHtml(booking.title)}</p>` : ''}
+            </div>
+          `;
+          const payload = {
+            from: 'Prenotazioni Pro Loco <onboarding@resend.dev>',
+            to: ['pro.piedelpoggio@gmail.com'],
+            subject,
+            html,
+          };
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${RESEND_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+        }
+      }
+    } catch (e) {
+      console.error('Email send error (delete booking):', e);
+    }
 
     return new Response(JSON.stringify({ 
       message: 'Booking deleted successfully' 

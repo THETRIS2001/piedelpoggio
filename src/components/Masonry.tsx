@@ -29,6 +29,8 @@ const useMeasure = () => {
 
   useLayoutEffect(() => {
     if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    setSize({ width: rect.width, height: rect.height });
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
       setSize({ width, height });

@@ -1,7 +1,10 @@
 ---
-export const prerender = true;
+export const prerender = false;
 
 import DefaultLayout from '../layouts/DefaultLayout.astro';
+const params = Astro.url.searchParams;
+const inviato = params.get('inviato') === '1';
+const errore = params.get('errore') === '1';
 ---
 
 <DefaultLayout title="Suggerisci un'idea - Piedelpoggio">
@@ -45,6 +48,31 @@ import DefaultLayout from '../layouts/DefaultLayout.astro';
     
     
     
+    {(inviato || errore) && (
+      <div id="idea-status-overlay" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center">
+        <div id="idea-status-card" class="mx-auto max-w-md w-[92%] sm:w-full">
+          <div class="rounded-2xl shadow-2xl overflow-hidden bg-white">
+            <div class={`px-6 py-4 ${inviato ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white' : 'bg-gradient-to-r from-red-600 to-rose-600 text-white'}`}>
+              <div class="flex items-center gap-3">
+                {inviato ? (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                ) : (
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M4.293 4.293l15.414 15.414"/></svg>
+                )}
+                <h3 class="text-lg font-semibold">{inviato ? 'Proposta recapitata correttamente' : 'Problema durante l\'invio'}</h3>
+              </div>
+            </div>
+            <div class="px-6 py-5">
+              {inviato ? (
+                <p class="text-gray-700">Abbiamo ricevuto la tua proposta via email. Ti risponderemo appena possibile.</p>
+              ) : (
+                <p class="text-gray-700">La proposta non è stata recapitata. Riprova più tardi oppure scrivi a <a href="mailto:pro.piedelpoggio@gmail.com" class="text-red-700 underline">pro.piedelpoggio@gmail.com</a>.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
     <div class="max-w-4xl mx-auto relative z-10">
       <!-- Form Card -->
       <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12 animate-slide-up" style="animation-delay: 0.2s;">
@@ -171,14 +199,14 @@ import DefaultLayout from '../layouts/DefaultLayout.astro';
 
 <script>
   // Character counter for textarea
-  const textarea = document.getElementById('idea') as HTMLTextAreaElement;
+  const textarea = document.getElementById('idea');
   const charCount = document.getElementById('char-count');
   const charError = document.getElementById('char-error');
-  const form = document.getElementById('idea-form') as HTMLFormElement;
+  const form = document.getElementById('idea-form');
   
   if (textarea && charCount) {
     textarea.addEventListener('input', () => {
-      const currentLength = textarea.value.length;
+      const currentLength = textarea.value ? textarea.value.length : 0;
       charCount.textContent = `${currentLength}/2000`;
       
       // Hide error message when typing
@@ -203,15 +231,32 @@ import DefaultLayout from '../layouts/DefaultLayout.astro';
   // Form validation
   if (form) {
     form.addEventListener('submit', (e) => {
-      const ideaText = textarea?.value || '';
+      const ideaText = textarea && textarea.value ? textarea.value : '';
       
       if (ideaText.length < 10) {
         e.preventDefault();
         if (charError) {
           charError.classList.remove('hidden');
         }
-        textarea?.focus();
+        textarea && textarea.focus && textarea.focus();
         return false;
+      }
+    });
+  }
+  const overlay = document.getElementById('idea-status-overlay');
+  const card = document.getElementById('idea-status-card');
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+    if (card) {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        overlay.style.display = 'none';
       }
     });
   }

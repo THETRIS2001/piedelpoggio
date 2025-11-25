@@ -183,7 +183,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
                   <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
                     <iframe 
                       src={webcam.url}
-                      class={`w-full h-full`}
+                      class="w-full h-full"
                       frameborder="0"
                       allowfullscreen
                       title={`Webcam ${webcam.title}`}
@@ -222,7 +222,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
                   <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
                     <iframe 
                       src={webcam.url}
-                      class={`w-full h-full`}
+                      class="w-full h-full"
                       frameborder="0"
                       allowfullscreen
                       title={`Webcam ${webcam.title}`}
@@ -456,5 +456,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
 
     // Rendi la funzione globale
     window.openWebcam = openWebcam;
+
+    
   </script>
 </DefaultLayout>

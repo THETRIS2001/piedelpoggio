@@ -12,5 +12,15 @@ export default defineConfig({
   adapter: cloudflare(),
   build: {
     format: 'directory'
+  },
+  vite: {
+    optimizeDeps: {
+      include: ['react', 'react-dom']
+    },
+    server: {
+      hmr: {
+        overlay: true
+      }
+    }
   }
 });

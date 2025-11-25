@@ -69,6 +69,21 @@ export async function deleteBooking(id: string): Promise<void> {
   }
 }
 
+export async function getBookingById(id: string): Promise<Booking | null> {
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*')
+    .eq('id', id)
+    .limit(1);
+
+  if (error) {
+    console.error('Error fetching booking by id:', error);
+    throw error;
+  }
+
+  return Array.isArray(data) && data.length > 0 ? (data[0] as Booking) : null;
+}
+
 // Funzione per verificare conflitti di orario
 export async function checkBookingConflict(
   date: string, 
