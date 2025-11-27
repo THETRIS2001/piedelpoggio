@@ -1,0 +1,13 @@
+VERIFICA CONTENUTI SE CORRETTI e soprattutto pagine eventi e notizie e bilancio
+
+Responsivness: tag pagine di dimensioni diverse (es eventi vs terremoto)
+
+Meteo non combacia
+
+Possibilità di caricamento immagini e video dagli utenti
+
+__________________________________________________
+Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
+npm run dev -- --port 4324 
+lo trovi su:
+http://localhost:4321/

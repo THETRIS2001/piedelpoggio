@@ -201,8 +201,8 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
   const [error, setError] = useState<string | null>(null);
 
   // Coordinate per Leonessa (vicino a Piedelpoggio)
-  const LATITUDE = 42.5667;
-  const LONGITUDE = 12.9667;
+  const LATITUDE = 42.5560;
+  const LONGITUDE = 12.9941;
   const GOOGLE_API_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
   const getWeatherIcon = (iconBaseUri: string, weatherType: string, isDark: boolean = false) => {

@@ -1,0 +1,168 @@
+---
+export const prerender = false
+import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import fs from 'fs/promises'
+import path from 'path'
+
+const folder = Astro.params.folder
+const MEDIA_ROOT = path.join(process.cwd(), 'public', 'media', folder)
+
+const isAllowed = (name: string) => {
+  const ext = path.extname(name).toLowerCase()
+  return ['.jpg','.jpeg','.png','.webp','.gif','.mp4','.webm','.ogg'].includes(ext)
+}
+
+let meta: any = null
+let files: Array<{ name: string; url: string; isVideo: boolean }> = []
+let formattedDate: string = ''
+
+try {
+  const txt = await fs.readFile(path.join(MEDIA_ROOT, 'meta.txt'), 'utf-8')
+  meta = JSON.parse(txt)
+} catch {}
+
+try {
+  const names = await fs.readdir(MEDIA_ROOT)
+  files = names
+    .filter(n => isAllowed(n))
+    .map(n => ({ name: n, url: `/media/${folder}/${n}`, isVideo: /\.(mp4|webm|ogg)$/i.test(n) }))
+} catch {}
+
+if (meta?.date) {
+  const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
+  const dt = new Date(meta.date)
+  formattedDate = `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`
+}
+---
+
+<DefaultLayout title={meta?.eventName || folder} description="Galleria immagini dell'evento">
+  <main class="bg-gradient-to-br from-red-50/30 via-white to-orange-50/20">
+    <section class="relative overflow-hidden pt-12 md:pt-16">
+      <div class="absolute inset-0 bg-gradient-to-b from-red-100/70 via-red-50/50 to-transparent"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-40" style="background: radial-gradient(circle, rgba(255, 36, 0, 0.12) 0%, rgba(255, 36, 0, 0.04) 60%, transparent 100%);"></div>
+      <div class="absolute left-4 top-4 z-10">
+        <a href="/media" id="backLink" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-white shadow-md" style="background: linear-gradient(135deg, #FF2400, #E01E00);">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span>Torna indietro</span>
+        </a>
+      </div>
+      <div class="relative z-10 container mx-auto px-4 text-center">
+        <div class="animate-fade-in">
+          <div class="flex items-center justify-center mb-8">
+            <div class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6" style="background: linear-gradient(135deg, #FF2400, #E01E00);">
+              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+              <span class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent">{meta?.eventName || folder}</span>
+            </h1>
+          </div>
+          <div class="w-32 h-1.5 rounded-full mx-auto mb-8" style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"></div>
+          <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-medium">{formattedDate}</p>
+          {meta?.description && (
+            <p class="mt-3 text-base md:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">{meta.description}</p>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="pt-6 pb-16">
+      <div class="container mx-auto px-4">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-4 md:p-6">
+          <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {files.map((f, idx) => (
+              <div class="rounded-lg overflow-hidden bg-gray-100">
+                {f.isVideo ? (
+                  <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
+                ) : (
+                  <img src={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="lightbox" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+      <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <img id="lightboxImg" src="" alt="" class="max-w-[85vw] max-h-[85vh] rounded-xl shadow-strong" />
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('backLink')?.addEventListener('click', (e) => {
+      e.preventDefault()
+      if (history.length > 1) {
+        history.back()
+      } else {
+        location.href = '/media'
+      }
+    })
+
+    const imgs = Array.from(document.querySelectorAll('#gallery img')).map(el => el.getAttribute('src'))
+    const lb = document.getElementById('lightbox')
+    const lbImg = document.getElementById('lightboxImg')
+    const prevBtn = document.getElementById('prevBtn')
+    const nextBtn = document.getElementById('nextBtn')
+    let current = 0
+
+    const setSizeForSrc = (src) => {
+      const temp = new Image()
+      temp.onload = () => {
+        const maxW = window.innerWidth * 0.8
+        const maxH = window.innerHeight * 0.8
+        const scale = Math.min(maxW / temp.naturalWidth, maxH / temp.naturalHeight)
+        const w = Math.round(temp.naturalWidth * scale)
+        const h = Math.round(temp.naturalHeight * scale)
+        lbImg.style.width = w + 'px'
+        lbImg.style.height = h + 'px'
+      }
+      temp.src = src
+    }
+
+    const showIndex = (idx) => {
+      current = idx
+      const src = imgs[current]!
+      lbImg.setAttribute('src', src)
+      setSizeForSrc(src)
+      lb.classList.remove('hidden')
+      lb.classList.add('flex')
+      document.body.style.overflow = 'hidden'
+    }
+
+    document.querySelectorAll('#gallery img').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        const idx = Number((e.currentTarget).getAttribute('data-idx'))
+        showIndex(idx)
+      })
+    })
+
+    const close = () => {
+      lb.classList.add('hidden')
+      lb.classList.remove('flex')
+      document.body.style.overflow = 'unset'
+    }
+    lb.addEventListener('click', close)
+    document.addEventListener('keydown', (e) => {
+      if (lb.classList.contains('hidden')) return
+      if (e.key === 'Escape') close()
+      if (e.key === 'ArrowLeft') { showIndex((current - 1 + imgs.length) % imgs.length) }
+      if (e.key === 'ArrowRight') { showIndex((current + 1) % imgs.length) }
+    })
+    prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); showIndex((current - 1 + imgs.length) % imgs.length) })
+    nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); showIndex((current + 1) % imgs.length) })
+
+    window.addEventListener('resize', () => {
+      if (lb.classList.contains('hidden')) return
+      const src = lbImg.getAttribute('src')
+      if (src) setSizeForSrc(src)
+    })
+  </script>
+</DefaultLayout>

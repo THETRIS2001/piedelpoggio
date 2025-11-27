@@ -234,7 +234,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
           <!-- Contenitore del carosello -->
           <div class="flex-1 overflow-x-hidden rounded-xl sm:rounded-2xl px-2 md:px-4 pt-4">
             <div id="news-carousel" class="flex transition-transform duration-500 ease-in-out">
-              {allNews.map((item, index) => (
+              {allNews.map((item, index) => {
                 <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-1 md:px-2 news-card-container">
                   <div class="animate-slide-up h-full" style={`animation-delay: ${(index % 3) * 0.1}s;`}>
                     <Card
@@ -247,7 +247,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
                     />
                   </div>
                 </div>
-              ))}
+              })}
             </div>
           </div>
           
@@ -269,14 +269,16 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
         <!-- Indicatori di posizione -->
         {allNews.length > 3 && (
           <div class="flex justify-center mt-8 gap-2 flex-wrap">
-            {allNews.map((_, index) => (
-              <button 
-                class="indicator w-3 h-3 rounded-full transition-all duration-300"
-                data-index={index}
-                style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"
-                aria-label={`Vai alla notizia ${index + 1}`}
-              />
-            ))}
+            {allNews.map((_, index) => {
+              return (
+                <button 
+                  class="indicator w-3 h-3 rounded-full transition-all duration-300"
+                  data-index={index}
+                  style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"
+                  aria-label={`Vai alla notizia ${index + 1}`}
+                />
+              )
+            })}
           </div>
         )}
       </div>
@@ -331,20 +333,22 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
           <!-- Contenitore del carosello -->
           <div class="flex-1 overflow-x-hidden rounded-xl sm:rounded-2xl px-2 md:px-4 pt-4">
             <div id="events-carousel" class="flex transition-transform duration-500 ease-in-out">
-              {allUpcomingEvents.map((item, index) => (
-                <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-1 md:px-2 events-card-container">
-                  <div class="animate-slide-up h-full" style={`animation-delay: ${(index % 3) * 0.1}s;`}>
-                    <Card
-                      title={item.data.title}
-                      description={item.body ? item.body.substring(0, 150) + '...' : 'Scopri tutti i dettagli di questo evento speciale.'}
-                      href={`/eventi/${item.slug}`}
-                      date={item.data.startsAt}
-                      category="Eventi"
-                      image={item.data.cover || galleryImages[index % galleryImages.length]}
-                    />
+              {allUpcomingEvents.map((item, index) => {
+                return (
+                  <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-1 md:px-2 events-card-container">
+                    <div class="animate-slide-up h-full" style={`animation-delay: ${(index % 3) * 0.1}s;`}>
+                      <Card
+                        title={item.data.title}
+                        description={item.body ? item.body.substring(0, 150) + '...' : 'Scopri tutti i dettagli di questo evento speciale.'}
+                        href={`/eventi/${item.slug}`}
+                        date={item.data.startsAt}
+                        category="Eventi"
+                        image={item.data.cover || galleryImages[index % galleryImages.length]}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
           
@@ -366,14 +370,16 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
         <!-- Indicatori di posizione -->
         {allUpcomingEvents.length > 3 && (
           <div class="flex justify-center mt-8 gap-2 flex-wrap">
-            {allUpcomingEvents.map((_, index) => (
-              <button 
-                class="events-indicator w-3 h-3 rounded-full transition-all duration-300"
-                data-index={index}
-                style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"
-                aria-label={`Vai all'evento ${index + 1}`}
-              />
-            ))}
+            {allUpcomingEvents.map((_, index) => {
+              return (
+                <button 
+                  class="events-indicator w-3 h-3 rounded-full transition-all duration-300"
+                  data-index={index}
+                  style="background: linear-gradient(135deg, #0ea5e9, #0284c7);"
+                  aria-label={`Vai all'evento ${index + 1}`}
+                />
+              )
+            })}
           </div>
         )}
       </div>
