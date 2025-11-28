@@ -31,11 +31,12 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     </section>
     <section class="pt-4 pb-16">
       <div class="container mx-auto px-4">
+        
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-            <div class="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="bg-white/70 rounded-xl border border-gray-200 p-3 md:p-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
               <div>
                 <div class="text-xs font-semibold text-gray-700 mb-1">Cerca Evento</div>
                 <input id="searchEvents" type="text" placeholder="Es. Festa di Agosto" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" />
@@ -48,103 +49,112 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                 <div class="text-xs font-semibold text-gray-700 mb-1">Data Fine</div>
                 <input id="dateTo" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" />
               </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <button id="applyFilter" type="button" class="px-4 py-2 rounded-xl text-white shadow-md" style="background: linear-gradient(135deg, #2563EB, #4F46E5);">Applica</button>
-              <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl text-gray-700 border border-gray-300 hover:bg-gray-50">Reset</button>
+              <div class="flex items-end justify-end">
+                <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl text-gray-700 border border-gray-300 hover:bg-gray-50">Reset</button>
+              </div>
             </div>
           </div>
-
-          <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+          <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-2"></div>
         </div>
 
         <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-3">Carica contenuti</h2>
-          <div class="mb-4 rounded-xl border border-blue-200/50 bg-blue-50/60 p-3">
-            <div class="flex items-start gap-2">
-              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
-              </svg>
-              <div class="text-sm text-blue-900">
-                <p class="font-semibold">Prima di caricare</p>
-                <ul class="mt-1 space-y-1 list-disc pl-4">
-                  <li>Verifica se l’evento è già presente nell’elenco e seleziona “Evento esistente”. In caso contrario crea un nuovo evento indicando nome e data.</li>
-                  <li>Carica contenuti riferiti a un singolo evento. Se hai file di eventi diversi, effettua caricamenti separati.</li>
-                </ul>
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Carica contenuti</h2>
+          <form id="uploadForm" class="space-y-4">
+          <div class="mb-4">
+            <div class="flex items-center gap-2 mb-3">
+              <button id="modeExisting" type="button" class="px-3 py-1.5 rounded-full text-sm font-medium text-white" style="background: linear-gradient(135deg, #FF2400, #E01E00);">Esistente</button>
+              <button id="modeNew" type="button" class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300">Nuovo</button>
+              <button type="button" aria-label="Info" class="ml-auto flex-shrink-0 w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50 flex items-center justify-center" data-info="event">
+                <span class="text-sm font-bold">i</span>
+              </button>
+            </div>
+            <div id="existingBox" class="space-y-3">
+              <div class="relative">
+                <input id="comboInput" type="text" placeholder="Cerca evento (nome)" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+                <input id="existingFolderHidden" name="existingFolder" type="hidden" value="" />
+                <div id="comboSuggestions" class="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-48 overflow-auto hidden z-50"></div>
+              </div>
+              <div id="existingEventSummary" class="hidden">
+                <div class="flex items-center gap-3">
+                  <div class="text-sm font-semibold text-gray-900" id="summaryName"></div>
+                  <div class="inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5" id="summaryDate"></div>
+                </div>
+                <div class="text-xs text-gray-700 mt-2" id="summaryDesc"></div>
+              </div>
+            </div>
+            <div id="newEventFields" class="hidden mt-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Evento</label>
+                <input name="eventName" id="eventName" type="text" placeholder="Nome evento" maxlength="60" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" required />
+                <div id="nameLimitMsg" class="text-xs text-red-600 mt-1"></div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Data evento</label>
+                  <input name="date" id="date" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" required />
+                </div>
+              </div>
+                <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Descrizione</label>
+                <textarea name="description" id="description" rows="3" maxlength="200" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" placeholder="Descrizione dell'evento"></textarea>
+                <div id="descLimitMsg" class="text-xs text-red-600 mt-1"></div>
               </div>
             </div>
           </div>
-          <form id="uploadForm" class="space-y-3">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Evento</label>
-              <input name="eventName" id="eventName" type="text" placeholder="Nome evento" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" required />
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Data evento</label>
-                <input name="date" id="date" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" required />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Evento esistente</label>
-                <select name="existingFolder" id="existingFolder" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600">
-                  <option value="">Nuovo evento</option>
-                </select>
-                <p class="text-xs text-gray-500 mt-1">Se l’evento è già presente, selezionalo qui. Altrimenti lascia “Nuovo evento”.</p>
+            <input name="files" id="files" type="file" multiple accept="image/*,video/*" class="sr-only" required />
+            <div id="dropzone" class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-8 text-center hover:bg-red-50">
+              <div class="flex flex-col items-center justify-center gap-3">
+                <p class="text-sm text-gray-700">Trascina qui immagini e video oppure <button type="button" id="pickFiles" class="text-red-600 hover:text-red-700 underline">carica file</button></p>
+                <div id="filesSummary" class="text-sm text-gray-600"></div>
               </div>
             </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Descrizione</label>
-              <textarea name="description" rows="3" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" placeholder="Descrizione dell'evento"></textarea>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">File</label>
-              <input name="files" id="files" type="file" multiple accept="image/*,video/*" class="sr-only" required />
-              <label for="files" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white shadow-md cursor-pointer" style="background: linear-gradient(135deg, #2563EB, #4F46E5);">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v16h16V4H4zm4 4h8v8H8V8z"/>
-                </svg>
-                <span>Seleziona file</span>
-              </label>
-              <span id="filesSummary" class="ml-3 text-sm text-gray-600"></span>
-            </div>
-            <div class="flex items-center gap-3">
-              <button type="submit" class="px-4 py-2 rounded-xl text-white shadow-md" style="background: linear-gradient(135deg, #2563EB, #4F46E5);">Carica</button>
-              <span id="uploadStatus" class="text-sm text-gray-600"></span>
-            </div>
+            <div id="uploadStatus" class="hidden text-sm font-medium rounded-xl border px-3 py-2 mt-2"></div>
+            <button id="submitBtn" type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #FF2400, #E01E00);" disabled>Invia</button>
           </form>
         </div>
       </div>
       </div>
     </section>
+    <div id="infoModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-2xl shadow-xl w-[92%] max-w-md p-5 border border-red-200">
+        <div class="flex items-center justify-between mb-3">
+          <div id="infoTitle" class="text-base font-semibold text-gray-900"></div>
+          <button id="infoClose" class="inline-flex items-center justify-center w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50">✕</button>
+        </div>
+        <div id="infoBody" class="text-sm text-gray-700 leading-relaxed"></div>
+      </div>
+    </div>
   </main>
 
   <script>
     let events = []
+    let externalFiles: File[] = []
+    function clientCreateSlug(text) {
+      return (text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+    }
+    function isDuplicateNewEvent(name, date) {
+      if (!name || !date) return false
+      const slug = clientCreateSlug(name)
+      const folder = `${slug}-${date.replace(/-/g, '')}`
+      return (events || []).some(ev => ev.folder === folder)
+    }
     async function loadEvents() {
       const res = await fetch('/api/media?list=events')
       const data = await res.json()
       events = Array.isArray(data.events) ? data.events : []
       renderEvents(events)
-      populateFolders(events)
+      renderComboSuggestions('')
     }
-    function populateFolders(list) {
-      const sel = document.getElementById('existingFolder')
-      if (!sel) return
-      const current = sel.value
-      sel.innerHTML = ''
-      const opt0 = document.createElement('option')
-      opt0.value = ''
-      opt0.textContent = "Nuovo evento"
-      sel.appendChild(opt0)
-      list.forEach(ev => {
-        const label = ev.meta && ev.meta.eventName ? `${ev.meta.eventName}` : humanize(ev.folder)
-        const opt = document.createElement('option')
-        opt.value = ev.folder
-        opt.textContent = label
-        sel.appendChild(opt)
-      })
-      sel.value = current
+    function clamp(text, max = 60) {
+      const t = String(text || '')
+      return t.length > max ? t.slice(0, max) + '…' : t
     }
     function formatDate(d) {
       const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
@@ -174,7 +184,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       })
       filtered.forEach(ev => {
         const card = document.createElement('div')
-        card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition'
+        card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
         const cover = document.createElement('div')
         cover.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
         ;(ev.files || []).slice(0,3).forEach(f => {
@@ -200,23 +210,40 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           cover.appendChild(cell)
         })
         const info = document.createElement('div')
-        info.className = 'p-3'
+        info.className = 'p-3 flex flex-col flex-1'
         const title = document.createElement('div')
-        title.className = 'font-semibold text-gray-900 text-sm'
-        title.textContent = ev.meta?.eventName || humanize(ev.folder)
+        title.className = 'font-semibold text-gray-900 text-base md:text-lg'
+        title.textContent = clamp(ev.meta?.eventName || humanize(ev.folder), 60)
         const date = document.createElement('div')
-        date.className = 'text-xs text-gray-600'
+        date.className = 'self-start w-fit inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5 mt-1'
         date.textContent = ev.meta?.date ? formatDate(ev.meta.date) : ''
         const desc = document.createElement('div')
-        desc.className = 'text-xs text-gray-700 mt-1'
+        desc.className = 'text-xs md:text-sm text-gray-700 mt-2 mb-2'
         desc.textContent = ev.meta?.description ? ev.meta.description : ''
+        desc.style.textAlign = 'justify'
+        ;(desc as any).style.textJustify = 'inter-word'
+        const filesArr = (ev.files || [])
+        const photosCount = filesArr.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name)).length
+        const videosCount = filesArr.filter(f => /\.(mp4|webm|ogg)$/i.test(f.name)).length
+        const counts = document.createElement('div')
+        counts.className = 'flex items-center gap-2 mt-1 mb-2'
+        const badgePhoto = document.createElement('span')
+        badgePhoto.className = 'inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5'
+        badgePhoto.textContent = `Foto: ${photosCount}`
+        const badgeVideo = document.createElement('span')
+        badgeVideo.className = 'inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5'
+        badgeVideo.textContent = `Video: ${videosCount}`
+        counts.appendChild(badgePhoto)
+        counts.appendChild(badgeVideo)
         info.appendChild(title)
         info.appendChild(date)
         info.appendChild(desc)
+        info.appendChild(counts)
         const openLink = document.createElement('a')
-        openLink.className = 'mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-lg text-xs border border-gray-300 text-gray-700 hover:bg-gray-50'
+        openLink.className = 'mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white w-full shadow-md hover:shadow-lg transition-all duration-300 mt-auto'
         openLink.textContent = 'Apri galleria'
         openLink.href = `/media/${ev.folder}`
+        openLink.style.background = '#EF4144'
         info.appendChild(openLink)
         card.appendChild(cover)
         card.appendChild(info)
@@ -224,7 +251,130 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         grid.appendChild(card)
       })
     }
-    document.getElementById('applyFilter')?.addEventListener('click', () => renderEvents(events))
+    let uploadMode = 'existing'
+    function setModeButtons() {
+      const mE = document.getElementById('modeExisting') as HTMLButtonElement | null
+      const mN = document.getElementById('modeNew') as HTMLButtonElement | null
+      if (mE && mN) {
+        if (uploadMode === 'existing') {
+          mE.style.background = 'linear-gradient(135deg, #FF2400, #E01E00)'
+          mE.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-white'
+          mN.style.background = ''
+          mN.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300'
+        } else {
+          mN.style.background = 'linear-gradient(135deg, #FF2400, #E01E00)'
+          mN.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-white'
+          mE.style.background = ''
+          mE.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300'
+        }
+      }
+    }
+    function updateUploadVisibility() {
+      const existingVal = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
+      const existingBox = document.getElementById('existingBox')
+      const newFields = document.getElementById('newEventFields')
+      const nameEl = document.getElementById('eventName') as HTMLInputElement | null
+      const dateEl = document.getElementById('date') as HTMLInputElement | null
+      const summary = document.getElementById('existingEventSummary')
+      const sName = document.getElementById('summaryName')
+      const sDate = document.getElementById('summaryDate')
+      const sDesc = document.getElementById('summaryDesc')
+      setModeButtons()
+      if (!newFields) return
+      if (uploadMode === 'existing') {
+        existingBox?.classList.remove('hidden')
+        newFields.classList.add('hidden')
+        nameEl && (nameEl.required = false)
+        dateEl && (dateEl.required = false)
+        if (existingVal) {
+          const ev = (events || []).find(e => e.folder === existingVal)
+          if (ev) {
+            sName && (sName.textContent = ev.meta?.eventName || humanize(ev.folder))
+            sDate && (sDate.textContent = ev.meta?.date ? formatDate(ev.meta.date) : '')
+            sDesc && (sDesc.textContent = ev.meta?.description || '')
+            summary?.classList.remove('hidden')
+          }
+        } else {
+          summary?.classList.add('hidden')
+          sName && (sName.textContent = '')
+          sDate && (sDate.textContent = '')
+          sDesc && (sDesc.textContent = '')
+        }
+      } else {
+        existingBox?.classList.add('hidden')
+        newFields.classList.remove('hidden')
+        nameEl && (nameEl.required = true)
+        dateEl && (dateEl.required = true)
+        summary?.classList.add('hidden')
+        sName && (sName.textContent = '')
+        sDate && (sDate.textContent = '')
+        sDesc && (sDesc.textContent = '')
+      }
+    }
+    const comboInput = document.getElementById('comboInput') as HTMLInputElement | null
+    const comboBox = document.getElementById('comboSuggestions')
+    const existingHidden = document.getElementById('existingFolderHidden') as HTMLInputElement | null
+    function labelFor(ev) {
+      const name = ev.meta?.eventName || humanize(ev.folder)
+      const d = ev.meta?.date ? ` — ${formatDate(ev.meta.date)}` : ''
+      return name + d
+    }
+    function renderComboSuggestions(q) {
+      if (!comboBox) return
+      const list = (events || [])
+        .filter(ev => {
+          const name = (ev.meta?.eventName || ev.folder || '').toLowerCase()
+          return q ? name.includes(q.toLowerCase()) : true
+        })
+        .slice(0, 50)
+      comboBox.innerHTML = ''
+      list.forEach(ev => {
+        const item = document.createElement('button')
+        item.type = 'button'
+        item.className = 'w-full text-left px-3 py-2 hover:bg-red-50'
+        item.textContent = labelFor(ev)
+        item.addEventListener('click', () => {
+          if (existingHidden) existingHidden.value = ev.folder
+          if (comboInput) comboInput.value = labelFor(ev)
+          comboBox.classList.add('hidden')
+          updateUploadVisibility()
+          updateSubmitEnabled()
+          console.log('existing:selected', ev.folder)
+        })
+        comboBox.appendChild(item)
+      })
+    }
+    comboInput?.addEventListener('input', (e) => {
+      const q = (e.target as HTMLInputElement).value || ''
+      renderComboSuggestions(q)
+      comboBox?.classList.remove('hidden')
+    })
+    comboInput?.addEventListener('focus', () => {
+      renderComboSuggestions(comboInput.value || '')
+      comboBox?.classList.remove('hidden')
+    })
+    document.addEventListener('click', (e) => {
+      if (!comboBox) return
+      const target = e.target as HTMLElement
+      const inside = target.closest('#comboSuggestions') || target.closest('#comboInput')
+      if (!inside) comboBox.classList.add('hidden')
+    })
+    document.getElementById('modeExisting')?.addEventListener('click', () => {
+      uploadMode = 'existing'
+      updateUploadVisibility()
+      updateSubmitEnabled()
+      console.log('mode:set', uploadMode)
+    })
+    document.getElementById('modeNew')?.addEventListener('click', () => {
+      uploadMode = 'new'
+      if (existingHidden) existingHidden.value = ''
+      if (comboInput) comboInput.value = ''
+      updateUploadVisibility()
+      updateSubmitEnabled()
+      console.log('mode:set', uploadMode)
+    })
+    document.getElementById('eventName')?.addEventListener('input', () => updateSubmitEnabled())
+    document.getElementById('date')?.addEventListener('input', () => updateSubmitEnabled())
     document.getElementById('searchEvents')?.addEventListener('input', () => renderEvents(events))
     document.getElementById('dateFrom')?.addEventListener('input', () => renderEvents(events))
     document.getElementById('dateTo')?.addEventListener('input', () => renderEvents(events))
@@ -242,32 +392,203 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const formEl = document.getElementById('uploadForm') as HTMLFormElement
       const statusEl = document.getElementById('uploadStatus')
       const filesInput = document.getElementById('files') as HTMLInputElement | null
+      console.log('submit:start', {
+        uploadMode,
+        existingFolder: (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || '',
+        eventName: (document.getElementById('eventName') as HTMLInputElement | null)?.value || '',
+        date: (document.getElementById('date') as HTMLInputElement | null)?.value || '',
+        filesInputCount: filesInput && filesInput.files ? filesInput.files.length : 0,
+        externalFilesCount: externalFiles.length
+      })
       if (!filesInput || !filesInput.files || filesInput.files.length === 0) {
-        statusEl && (statusEl.textContent = 'Seleziona almeno un file')
-        setTimeout(() => { statusEl && (statusEl.textContent = '') }, 3000)
+        if (statusEl) {
+          statusEl.textContent = 'Seleziona almeno un file'
+          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
+          statusEl.classList.remove('hidden')
+        }
+        setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 3000)
         return
+      }
+      const isValidEvent = (function(){
+        const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
+        const nameEl = document.getElementById('eventName') as HTMLInputElement | null
+        const dateEl = document.getElementById('date') as HTMLInputElement | null
+        if (uploadMode === 'existing') return !!existing
+        return !!(nameEl && nameEl.value && dateEl && dateEl.value)
+      })()
+      if (!isValidEvent) {
+        if (statusEl) {
+          statusEl.textContent = 'Completa i dati evento o seleziona evento esistente'
+          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
+          statusEl.classList.remove('hidden')
+        }
+        setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 3000)
+        return
+      }
+      if (uploadMode === 'new') {
+        const name = (document.getElementById('eventName') as HTMLInputElement | null)?.value || ''
+        const date = (document.getElementById('date') as HTMLInputElement | null)?.value || ''
+        const duplicate = isDuplicateNewEvent(name, date)
+        if (duplicate) {
+          if (statusEl) {
+            statusEl.textContent = 'Esiste già un evento con lo stesso nome e data. Usa "Evento esistente" oppure cambia nome/data.'
+            statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
+            statusEl.classList.remove('hidden')
+          }
+          setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
+          return
+        }
       }
       if (!formEl) return
       const fd = new FormData(formEl)
-      ;(filesInput.files ? Array.from(filesInput.files) : []).forEach(f => fd.append('files', f))
+      // I file dell'input sono già inclusi in FormData(formEl). Aggiungo solo quelli da drag&drop.
+      externalFiles.forEach(f => fd.append('files', f))
       const res = await fetch('/api/media', { method: 'POST', body: fd })
+      console.log('submit:responseStatus', res.status)
       if (res.ok) {
-        statusEl && (statusEl.textContent = 'Caricamento completato')
+        if (statusEl) {
+          statusEl.textContent = 'Caricamento completato'
+          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-green-50 text-green-700 border-green-300'
+          statusEl.classList.remove('hidden')
+        }
         await loadEvents()
         formEl.reset()
         const summary = document.getElementById('filesSummary')
         summary && (summary.textContent = '')
+        externalFiles = []
+        const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
+        submitBtn && (submitBtn.disabled = true)
       } else {
-        statusEl && (statusEl.textContent = 'Errore nel caricamento')
+        let msg = ''
+        try {
+          const t = await res.text()
+          try { msg = JSON.parse(t)?.error || t } catch { msg = t }
+        } catch {}
+        console.error('submit:error', msg)
+        if (statusEl) {
+          statusEl.textContent = msg || 'Errore nel caricamento'
+          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
+          statusEl.classList.remove('hidden')
+        }
       }
-      setTimeout(() => { statusEl && (statusEl.textContent = '') }, 4000)
+      setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
     })
+    function updateSubmitEnabled() {
+      const input = document.getElementById('files') as HTMLInputElement | null
+      const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
+      const hasFiles = !!(input && input.files && input.files.length > 0) || externalFiles.length > 0
+      const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
+      const nameEl = document.getElementById('eventName') as HTMLInputElement | null
+      const dateEl = document.getElementById('date') as HTMLInputElement | null
+      const hasEventInfo = uploadMode === 'existing' ? !!existing : !!(nameEl && nameEl.value && dateEl && dateEl.value)
+      const hasDup = uploadMode === 'new' ? isDuplicateNewEvent(nameEl?.value || '', dateEl?.value || '') : false
+      const enabled = hasFiles && hasEventInfo && !hasDup
+      submitBtn && (submitBtn.disabled = !enabled)
+      console.log('updateSubmitEnabled', {
+        enabled,
+        hasFiles,
+        hasEventInfo,
+        hasDup,
+        uploadMode,
+        existing,
+        eventName: nameEl?.value || '',
+        date: dateEl?.value || '',
+        inputFiles: input && input.files ? input.files.length : 0,
+        externalFiles: externalFiles.length
+      })
+    }
     document.getElementById('files')?.addEventListener('change', (e) => {
       const input = e.target as HTMLInputElement
       const summary = document.getElementById('filesSummary')
       const count = input.files ? input.files.length : 0
+      externalFiles = []
       if (summary) summary.textContent = count > 0 ? `${count} file selezionati` : ''
+      console.log('files:inputChange', { count })
+      updateSubmitEnabled()
     })
+    const dropzone = document.getElementById('dropzone')
+    const pickFiles = document.getElementById('pickFiles')
+    dropzone?.addEventListener('dragover', (e) => {
+      e.preventDefault()
+      dropzone.classList.add('bg-red-50')
+      dropzone.classList.add('border-red-400')
+    })
+    dropzone?.addEventListener('dragleave', () => {
+      dropzone.classList.remove('bg-red-50')
+      dropzone.classList.remove('border-red-400')
+    })
+    dropzone?.addEventListener('drop', (e) => {
+      e.preventDefault()
+      const input = document.getElementById('files') as HTMLInputElement | null
+      const summary = document.getElementById('filesSummary')
+      const files = (e as DragEvent).dataTransfer?.files
+      if (input && files) {
+        externalFiles = Array.from(files)
+        const countInput = input.files ? input.files.length : 0
+        const countDrop = externalFiles.length
+        const total = countInput + countDrop
+        if (summary) summary.textContent = total > 0 ? `${total} file selezionati` : ''
+        console.log('files:drop', { countInput, countDrop, total })
+        updateSubmitEnabled()
+      }
+      dropzone.classList.remove('bg-red-50')
+      dropzone.classList.remove('border-red-400')
+    })
+    pickFiles?.addEventListener('click', () => {
+      const input = document.getElementById('files') as HTMLInputElement | null
+      input?.click()
+      console.log('files:pickClick')
+    })
+    const descEl = document.getElementById('description') as HTMLTextAreaElement | null
+    const descMsg = document.getElementById('descLimitMsg')
+    descEl?.addEventListener('input', () => {
+      const len = (descEl?.value || '').length
+      if (descMsg) descMsg.textContent = len >= 200 ? 'Hai raggiunto il limite di 200 caratteri' : ''
+    })
+    const evtNameEl = document.getElementById('eventName') as HTMLInputElement | null
+    const nameMsg = document.getElementById('nameLimitMsg')
+    evtNameEl?.addEventListener('input', () => {
+      const len = (evtNameEl?.value || '').length
+      if (nameMsg) nameMsg.textContent = len >= 60 ? 'Hai raggiunto il limite di 60 caratteri' : ''
+    })
+    const infoModal = document.getElementById('infoModal')
+    const infoTitle = document.getElementById('infoTitle')
+    const infoBody = document.getElementById('infoBody')
+    const infoClose = document.getElementById('infoClose')
+    function openInfo(key) {
+      if (!infoModal || !infoTitle || !infoBody) return
+      if (key === 'event' || key === 'files') {
+        infoTitle.textContent = 'Come organizzare i caricamenti'
+        infoBody.innerHTML = `
+          <p style="text-align: justify; text-justify: inter-word;">
+            Se l’evento è già presente, seleziona “Evento esistente”. In caso contrario crea un nuovo evento indicando nome e data.
+          </p>
+          <div class="my-3 border-t border-gray-200"></div>
+          <p style="text-align: justify; text-justify: inter-word;">
+            Carica sempre foto e video di <strong>un solo evento alla volta</strong>. Se hai file relativi a eventi diversi, effettua caricamenti separati per mantenere ordine e coerenza.
+          </p>
+        `
+      }
+      infoModal.classList.remove('hidden')
+      infoModal.classList.add('flex')
+    }
+    document.querySelectorAll('[data-info]')?.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-info')
+        openInfo(key)
+      })
+    })
+    function closeInfo() {
+      if (!infoModal) return
+      infoModal.classList.add('hidden')
+      infoModal.classList.remove('flex')
+    }
+    infoClose?.addEventListener('click', closeInfo)
+    infoModal?.addEventListener('click', (e) => {
+      if (e.target === infoModal) closeInfo()
+    })
+    updateUploadVisibility()
+    updateSubmitEnabled()
     loadEvents()
   </script>
 </DefaultLayout>

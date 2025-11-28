@@ -89,46 +89,64 @@ export const POST: APIRoute = async ({ request }) => {
     const existingFolder = form.get('existingFolder') ? String(form.get('existingFolder')) : undefined
     const files = form.getAll('files') as File[]
 
-    if (!eventName || !date) {
-      return new Response(JSON.stringify({ error: 'missing fields' }), { status: 400 })
-    }
-
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/
-    if (!dateRegex.test(date)) {
-      return new Response(JSON.stringify({ error: 'invalid date' }), { status: 400 })
-    }
-
-    const folder = existingFolder && existingFolder.length > 0
+    let folder = existingFolder && existingFolder.length > 0
       ? existingFolder
-      : `${createSlug(eventName)}-${date.replace(/-/g, '')}`
+      : ''
 
-    const targetDir = path.join(MEDIA_ROOT, folder)
-    await ensureDir(targetDir)
+    let targetDir: string
+    let meta: Meta | null = null
+
+    if (folder) {
+      // Upload su evento esistente: non richiedere eventName/date
+      targetDir = path.join(MEDIA_ROOT, folder)
+      await ensureDir(targetDir)
+      const existingMeta = await readMeta(targetDir)
+      meta = existingMeta
+      if (meta && typeof description !== 'undefined') {
+        meta = { ...meta, description }
+        await writeMeta(targetDir, meta)
+      }
+    } else {
+      // Creazione nuovo evento: richiedere eventName e date validi
+      if (!eventName || !date) {
+        return new Response(JSON.stringify({ error: 'missing fields' }), { status: 400 })
+      }
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+      if (!dateRegex.test(date)) {
+        return new Response(JSON.stringify({ error: 'invalid date' }), { status: 400 })
+      }
+      folder = `${createSlug(eventName)}-${date.replace(/-/g, '')}`
+      targetDir = path.join(MEDIA_ROOT, folder)
+      await ensureDir(targetDir)
+      meta = { eventName, date, description }
+      await writeMeta(targetDir, meta)
+    }
 
     const savedFiles: string[] = []
+    const unique = new Map<string, File>()
     for (const f of files) {
       if (!f || !f.name) continue
       if (!isAllowedFile(f.name)) continue
+      const safe = sanitizeFilename(f.name)
+      if (!unique.has(safe)) unique.set(safe, f)
+    }
+    for (const [safe, f] of unique) {
       const ab = await f.arrayBuffer()
       const buf = Buffer.from(ab)
-      const safe = sanitizeFilename(f.name)
       const filePath = path.join(targetDir, safe)
       await fs.writeFile(filePath, buf)
       savedFiles.push(safe)
     }
 
-    const meta: Meta = { eventName, date, description }
-    await writeMeta(targetDir, meta)
-
     try {
       const RESEND_API_KEY = import.meta.env.RESEND_API_KEY
       if (RESEND_API_KEY) {
-        const subject = `Nuovo contenuto caricato: ${eventName}`
+        const subject = `Nuovo contenuto caricato: ${(meta?.eventName) || eventName || folder}`
         const html = `
           <div style="font-family: Arial, sans-serif;">
             <h2>Nuovo upload</h2>
-            <p><strong>Evento:</strong> ${eventName}</p>
-            <p><strong>Data evento:</strong> ${date}</p>
+            <p><strong>Evento:</strong> ${(meta?.eventName) || eventName}</p>
+            <p><strong>Data evento:</strong> ${(meta?.date) || date}</p>
             ${description ? `<p><strong>Descrizione:</strong> ${description}</p>` : ''}
             <p><strong>File:</strong> ${savedFiles.join(', ')}</p>
           </div>
