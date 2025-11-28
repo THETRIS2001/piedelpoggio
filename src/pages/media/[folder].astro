@@ -91,7 +91,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={f.thumbUrl || f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src={(f.thumbUrl || (f.url + '?w=960&q=70&fmt=webp'))} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
                 )}
               </div>
             ))}

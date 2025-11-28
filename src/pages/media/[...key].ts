@@ -28,7 +28,7 @@ function contentTypeFor(name: string): string {
   return 'application/octet-stream'
 }
 
-export const GET: APIRoute = async ({ params, locals }) => {
+export const GET: APIRoute = async ({ params, locals, request }) => {
   const key = String(params.key || '')
   if (!key) {
     return new Response('Not found', { status: 404 })
@@ -37,18 +37,50 @@ export const GET: APIRoute = async ({ params, locals }) => {
   if (!bucket) {
     return new Response('Not found', { status: 404 })
   }
-  const obj = await bucket.get(`media/${key}`)
-  if (!obj) {
+  try {
+    const url = new URL(request.url)
+    const isOriginalPath = key.startsWith('_original/')
+    if (!isOriginalPath) {
+      const w = url.searchParams.get('w')
+      const h = url.searchParams.get('h')
+      const q = url.searchParams.get('q')
+      const fmt = url.searchParams.get('fmt')
+      const needsResize = !!(w || h || q || fmt)
+      if (needsResize) {
+        const target = new URL(request.url)
+        target.search = ''
+        target.pathname = `/media/_original/${key}`
+        const width = w ? parseInt(w, 10) : undefined
+        const height = h ? parseInt(h, 10) : undefined
+        const quality = q ? parseInt(q, 10) : 70
+        const format = fmt || 'webp'
+        const resp = await fetch(target.toString(), {
+          cf: { image: { width, height, fit: 'cover', quality, format } }
+        } as any)
+        return new Response(resp.body, {
+          status: resp.status,
+          headers: {
+            'Content-Type': resp.headers.get('Content-Type') || 'image/webp',
+            'Cache-Control': 'public, max-age=3600'
+          }
+        })
+      }
+    }
+    const realKey = isOriginalPath ? key.replace(/^_original\//, '') : key
+    const obj = await bucket.get(`media/${realKey}`)
+    if (!obj) {
+      return new Response('Not found', { status: 404 })
+    }
+    const body = await obj.arrayBuffer()
+    const ct = (obj as any).httpMetadata?.contentType || contentTypeFor(realKey)
+    return new Response(body, {
+      status: 200,
+      headers: {
+        'Content-Type': ct,
+        'Cache-Control': 'public, max-age=3600'
+      }
+    })
+  } catch {
     return new Response('Not found', { status: 404 })
   }
-  const body = await obj.arrayBuffer()
-  const ct = (obj as any).httpMetadata?.contentType || contentTypeFor(key)
-  return new Response(body, {
-    status: 200,
-    headers: {
-      'Content-Type': ct,
-      'Cache-Control': 'public, max-age=3600'
-    }
-  })
 }
-
