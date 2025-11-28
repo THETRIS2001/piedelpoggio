@@ -91,11 +91,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  f.thumbUrl ? (
-                    <img src={f.thumbUrl} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
-                  ) : (
-                    <div class="w-full h-40 md:h-48 bg-gray-200 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300" />
-                  )
+                  <img src={f.thumbUrl || f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
                 )}
               </div>
             ))}

@@ -37,7 +37,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
-          <div class="rounded-xl border border-gray-200 p-3 md:p-4 mb-6" style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);">
+          <div class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6">
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
               <div>
                 <div class="text-xs font-semibold text-white mb-1">Cerca Evento</div>
@@ -242,18 +242,13 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             v.loop = true
             cell.appendChild(v)
           } else {
-            if (f.thumbUrl) {
-              const img = document.createElement('img')
-              img.src = f.thumbUrl
-              img.alt = ev.meta?.eventName || f.name
-              img.loading = 'lazy'
-              img.className = 'w-full h-full object-cover'
-              cell.appendChild(img)
-            } else {
-              const ph = document.createElement('div')
-              ph.className = 'w-full h-full bg-gray-200 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300'
-              cell.appendChild(ph)
-            }
+            const img = document.createElement('img')
+            img.src = f.thumbUrl || f.url
+            img.alt = ev.meta?.eventName || f.name
+            img.loading = 'lazy'
+            img.className = 'w-full h-full object-cover'
+            img.onerror = () => { img.src = f.url }
+            cell.appendChild(img)
           }
           cover.appendChild(cell)
         })
@@ -291,7 +286,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         openLink.className = 'mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white w-full shadow-md hover:shadow-lg transition-all duration-300 mt-auto'
         openLink.textContent = 'Apri galleria'
         openLink.href = `/media/${ev.folder}`
-        openLink.style.background = 'linear-gradient(to right, #FF2400, #E01E00, #CC1A00)';
+        openLink.style.background = '#E01E00'
         info.appendChild(openLink)
         card.appendChild(cover)
         card.appendChild(info)
