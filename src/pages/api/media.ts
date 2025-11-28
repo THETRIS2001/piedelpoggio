@@ -53,7 +53,10 @@ export const GET: APIRoute = async ({ request }) => {
     const url = new URL(request.url)
     const q = url.searchParams.get('list')
     if (q !== 'events') {
-      return new Response(JSON.stringify({ error: 'invalid list' }), { status: 400 })
+      return new Response(JSON.stringify({ error: 'invalid list' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
 
     await ensureDir(MEDIA_ROOT)
@@ -76,7 +79,10 @@ export const GET: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' }
     })
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'list failed' }), { status: 500 })
+    return new Response(JSON.stringify({ error: 'list failed' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    })
   }
 }
 

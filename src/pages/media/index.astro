@@ -146,11 +146,40 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       return (events || []).some(ev => ev.folder === folder)
     }
     async function loadEvents() {
-      const res = await fetch('/api/media?list=events')
-      const data = await res.json()
-      events = Array.isArray(data.events) ? data.events : []
-      renderEvents(events)
-      renderComboSuggestions('')
+      try {
+        const res = await fetch('/api/media?list=events')
+        if (!res.ok) {
+          console.error('loadEvents: response not ok', res.status)
+          const grid = document.getElementById('eventsGrid')
+          if (grid) {
+            grid.innerHTML = '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Errore nel caricamento degli eventi</div>'
+          }
+          events = []
+          return
+        }
+        let data
+        try {
+          data = await res.json()
+        } catch (e) {
+          console.error('loadEvents: json parse error')
+          const grid = document.getElementById('eventsGrid')
+          if (grid) {
+            grid.innerHTML = '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Dati non validi ricevuti</div>'
+          }
+          events = []
+          return
+        }
+        events = Array.isArray(data.events) ? data.events : []
+        renderEvents(events)
+        renderComboSuggestions('')
+      } catch (err) {
+        console.error('loadEvents: fetch failed')
+        const grid = document.getElementById('eventsGrid')
+        if (grid) {
+          grid.innerHTML = '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Impossibile contattare il server</div>'
+        }
+        events = []
+      }
     }
     function clamp(text, max = 60) {
       const t = String(text || '')
