@@ -119,6 +119,7 @@ const BookingCalendar: React.FC = () => {
     customerPhone: '',
     title: ''
   });
+  const [formErrors, setFormErrors] = useState<{ name?: string; phone?: string }>({});
 
   // Fetch dati prenotazioni
   const loadBookings = async () => {
@@ -248,15 +249,21 @@ const BookingCalendar: React.FC = () => {
       return;
     }
 
+    setFormErrors({});
     if (!formData.customerName.trim() || !formData.customerPhone.trim()) {
-      showMessage('error', 'Nome e telefono sono obbligatori');
+      const errs: { name?: string; phone?: string } = {};
+      if (!formData.customerName.trim()) errs.name = 'Inserisci il nome';
+      if (!formData.customerPhone.trim()) errs.phone = 'Inserisci il numero di telefono';
+      setFormErrors(errs);
+      showMessage('error', 'Controlla i campi evidenziati');
       return;
     }
 
     // Validazione numero di telefono (formato italiano)
     const phoneRegex = /^(\+39\s?)?((3[0-9]{2}|32[0-9]|33[0-9]|34[0-9]|36[0-9]|37[0-9]|38[0-9]|39[0-9])\s?\d{6,7}|0[1-9]\d{1,3}\s?\d{6,8})$/;
     if (!phoneRegex.test(formData.customerPhone.trim())) {
-      showMessage('error', 'Inserisci un numero di telefono valido (es: 3331234567 o 0612345678)');
+      setFormErrors({ phone: 'Formato numero non valido (es: 3331234567 o 0612345678)' });
+      showMessage('error', 'Controlla i campi evidenziati');
       return;
     }
 
@@ -629,24 +636,30 @@ const BookingCalendar: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Prenota il campo</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Nome *</label>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Nome <span className="text-red-600">*</span></label>
                 <input
                   type="text"
                   value={formData.customerName}
-                  onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  onChange={(e) => { setFormData({ ...formData, customerName: e.target.value }); if (formErrors.name) setFormErrors({ ...formErrors, name: undefined }); }}
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formErrors.name ? 'border-red-300 focus:ring-red-500' : 'border-gray-200 focus:ring-green-500'}`}
                   placeholder="Il tuo nome"
                 />
+                {formErrors.name && (
+                  <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">{formErrors.name}</div>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">Telefono *</label>
+                <label className="block text-sm font-medium text-gray-600 mb-1">Telefono <span className="text-red-600">*</span></label>
                 <input
                   type="tel"
                   value={formData.customerPhone}
-                  onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  onChange={(e) => { setFormData({ ...formData, customerPhone: e.target.value }); if (formErrors.phone) setFormErrors({ ...formErrors, phone: undefined }); }}
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formErrors.phone ? 'border-red-300 focus:ring-red-500' : 'border-gray-200 focus:ring-green-500'}`}
                   placeholder="Il tuo numero di telefono"
                 />
+                {formErrors.phone && (
+                  <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">{formErrors.phone}</div>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Descrizione</label>
