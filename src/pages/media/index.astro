@@ -247,7 +247,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
-            img.onerror = () => { img.src = f.url }
             cell.appendChild(img)
           }
           cover.appendChild(cell)
