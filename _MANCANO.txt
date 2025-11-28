@@ -4,7 +4,7 @@ Responsivness: tag pagine di dimensioni diverse (es eventi vs terremoto)
 
 Meteo non combacia
 
-Possibilità di caricamento immagini e video dagli utenti
+Compressione foto e video pre caricamento
 
 __________________________________________________
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
