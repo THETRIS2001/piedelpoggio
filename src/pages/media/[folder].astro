@@ -1,14 +1,12 @@
 ---
 export const prerender = false
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
-import fs from 'fs/promises'
-import path from 'path'
 
 const folder = Astro.params.folder
-const MEDIA_ROOT = path.join(process.cwd(), 'public', 'media', folder)
 
 const isAllowed = (name: string) => {
-  const ext = path.extname(name).toLowerCase()
+  const i = name.lastIndexOf('.')
+  const ext = i >= 0 ? name.slice(i).toLowerCase() : ''
   return ['.jpg','.jpeg','.png','.webp','.gif','.mp4','.webm','.ogg'].includes(ext)
 }
 
@@ -17,15 +15,12 @@ let files: Array<{ name: string; url: string; isVideo: boolean }> = []
 let formattedDate: string = ''
 
 try {
-  const txt = await fs.readFile(path.join(MEDIA_ROOT, 'meta.txt'), 'utf-8')
-  meta = JSON.parse(txt)
-} catch {}
-
-try {
-  const names = await fs.readdir(MEDIA_ROOT)
-  files = names
-    .filter(n => isAllowed(n))
-    .map(n => ({ name: n, url: `/media/${folder}/${n}`, isVideo: /\.(mp4|webm|ogg)$/i.test(n) }))
+  const res = await fetch(`/api/media?folder=${encodeURIComponent(folder)}`)
+  if (res.ok) {
+    const data = await res.json()
+    meta = data?.meta || null
+    files = (data?.files || []).map((f: any) => ({ name: f.name, url: f.url, isVideo: /\.(mp4|webm|ogg)$/i.test(f.name) }))
+  }
 } catch {}
 
 if (meta?.date) {

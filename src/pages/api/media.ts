@@ -1,6 +1,4 @@
 import type { APIRoute } from 'astro'
-import path from 'path'
-import fs from 'fs/promises'
 import { createSlug } from '../../utils/slug'
 
 export const prerender = false
@@ -11,82 +9,134 @@ type Meta = {
   description?: string
 }
 
-const MEDIA_ROOT = path.join(process.cwd(), 'public', 'media')
-
-async function ensureDir(p: string) {
+function getBucket(locals: any): any | null {
   try {
-    await fs.mkdir(p, { recursive: true })
-  } catch {}
-}
-
-async function readMeta(dir: string): Promise<Meta | null> {
-  try {
-    const txt = await fs.readFile(path.join(dir, 'meta.txt'), 'utf-8')
-    const json = JSON.parse(txt)
-    return json
+    const env = locals?.runtime?.env as any
+    return env?.MEDIA_BUCKET || null
   } catch {
     return null
   }
 }
 
-async function writeMeta(dir: string, meta: Meta): Promise<void> {
-  const content = JSON.stringify(meta)
-  await fs.writeFile(path.join(dir, 'meta.txt'), content, 'utf-8')
+function getExt(name: string): string {
+  const i = name.lastIndexOf('.')
+  return i >= 0 ? name.slice(i).toLowerCase() : ''
 }
 
 function isAllowedFile(filename: string): boolean {
-  const ext = path.extname(filename).toLowerCase()
+  const ext = getExt(filename)
   const images = ['.jpg', '.jpeg', '.png', '.webp', '.gif']
   const videos = ['.mp4', '.webm', '.ogg']
   return images.includes(ext) || videos.includes(ext)
 }
 
 function sanitizeFilename(name: string): string {
-  const base = name.replace(/\.[^.]+$/, '')
-  const ext = path.extname(name)
+  const i = name.lastIndexOf('.')
+  const base = i >= 0 ? name.slice(0, i) : name
+  const ext = i >= 0 ? name.slice(i) : ''
   const slug = createSlug(base)
-  return `${slug}${ext}`
+  return `${slug}${ext.toLowerCase()}`
 }
 
-export const GET: APIRoute = async ({ request }) => {
+function contentTypeFor(name: string): string {
+  const ext = getExt(name)
+  if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
+  if (ext === '.png') return 'image/png'
+  if (ext === '.webp') return 'image/webp'
+  if (ext === '.gif') return 'image/gif'
+  if (ext === '.mp4') return 'video/mp4'
+  if (ext === '.webm') return 'video/webm'
+  if (ext === '.ogg') return 'video/ogg'
+  return 'application/octet-stream'
+}
+
+export const GET: APIRoute = async ({ request, locals }) => {
   try {
     const url = new URL(request.url)
-    const q = url.searchParams.get('list')
-    if (q !== 'events') {
-      return new Response(JSON.stringify({ error: 'invalid list' }), {
-        status: 400,
+    const listParam = url.searchParams.get('list')
+    const folderParam = url.searchParams.get('folder')
+
+    const bucket = getBucket(locals)
+    if (!bucket) {
+      return new Response(JSON.stringify({ events: [] }), {
+        status: 200,
         headers: { 'Content-Type': 'application/json' }
       })
     }
 
-    await ensureDir(MEDIA_ROOT)
-    const dirs = await fs.readdir(MEDIA_ROOT, { withFileTypes: true })
-    const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
+    const prefix = 'media/'
 
-    for (const d of dirs) {
-      if (!d.isDirectory()) continue
-      const full = path.join(MEDIA_ROOT, d.name)
-      const meta = await readMeta(full)
-      const names = await fs.readdir(full)
-      const files = names
-        .filter(n => isAllowedFile(n))
-        .map(n => ({ name: n, url: `/media/${d.name}/${n}` }))
-      events.push({ folder: d.name, meta, files })
+    if (listParam === 'events') {
+      const listed = await bucket.list({ prefix })
+      const folders = new Set<string>()
+      for (const obj of listed.objects || []) {
+        const key = obj.key || ''
+        if (!key.startsWith(prefix)) continue
+        const rest = key.slice(prefix.length)
+        const seg = rest.split('/')[0]
+        if (seg) folders.add(seg)
+      }
+
+      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
+      for (const folder of folders) {
+        let meta: Meta | null = null
+        try {
+          const metaObj = await bucket.get(`${prefix}${folder}/meta.txt`)
+          if (metaObj) {
+            const txt = await metaObj.text()
+            meta = JSON.parse(txt)
+          }
+        } catch {}
+        const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+        const files = (filesList.objects || [])
+          .map((o: any) => o.key as string)
+          .map((k: string) => k.split('/').pop() || '')
+          .filter((name: string) => isAllowedFile(name))
+          .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+        events.push({ folder, meta, files })
+      }
+
+      return new Response(JSON.stringify({ events }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
 
-    return new Response(JSON.stringify({ events }), {
-      status: 200,
+    if (folderParam) {
+      const folder = folderParam
+      let meta: Meta | null = null
+      try {
+        const metaObj = await bucket.get(`${prefix}${folder}/meta.txt`)
+        if (metaObj) {
+          const txt = await metaObj.text()
+          meta = JSON.parse(txt)
+        }
+      } catch {}
+      const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+      const files = (filesList.objects || [])
+        .map((o: any) => o.key as string)
+        .map((k: string) => k.split('/').pop() || '')
+        .filter((name: string) => isAllowedFile(name))
+        .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+      return new Response(JSON.stringify({ folder, meta, files }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
+
+    return new Response(JSON.stringify({ error: 'invalid list' }), {
+      status: 400,
       headers: { 'Content-Type': 'application/json' }
     })
-  } catch (e) {
-    return new Response(JSON.stringify({ error: 'list failed' }), {
-      status: 500,
+  } catch {
+    return new Response(JSON.stringify({ events: [] }), {
+      status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
   }
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const form = await request.formData()
     const eventName = String(form.get('eventName') || '')
@@ -95,25 +145,30 @@ export const POST: APIRoute = async ({ request }) => {
     const existingFolder = form.get('existingFolder') ? String(form.get('existingFolder')) : undefined
     const files = form.getAll('files') as File[]
 
-    let folder = existingFolder && existingFolder.length > 0
-      ? existingFolder
-      : ''
+    const bucket = getBucket(locals)
+    if (!bucket) {
+      return new Response(JSON.stringify({ error: 'storage unavailable' }), { status: 503 })
+    }
 
-    let targetDir: string
+    let folder = existingFolder && existingFolder.length > 0 ? existingFolder : ''
     let meta: Meta | null = null
 
+    const prefix = 'media/'
+
     if (folder) {
-      // Upload su evento esistente: non richiedere eventName/date
-      targetDir = path.join(MEDIA_ROOT, folder)
-      await ensureDir(targetDir)
-      const existingMeta = await readMeta(targetDir)
-      meta = existingMeta
+      const metaKey = `${prefix}${folder}/meta.txt`
+      try {
+        const metaObj = await bucket.get(metaKey)
+        if (metaObj) {
+          const txt = await metaObj.text()
+          meta = JSON.parse(txt)
+        }
+      } catch {}
       if (meta && typeof description !== 'undefined') {
         meta = { ...meta, description }
-        await writeMeta(targetDir, meta)
+        await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
       }
     } else {
-      // Creazione nuovo evento: richiedere eventName e date validi
       if (!eventName || !date) {
         return new Response(JSON.stringify({ error: 'missing fields' }), { status: 400 })
       }
@@ -122,10 +177,9 @@ export const POST: APIRoute = async ({ request }) => {
         return new Response(JSON.stringify({ error: 'invalid date' }), { status: 400 })
       }
       folder = `${createSlug(eventName)}-${date.replace(/-/g, '')}`
-      targetDir = path.join(MEDIA_ROOT, folder)
-      await ensureDir(targetDir)
       meta = { eventName, date, description }
-      await writeMeta(targetDir, meta)
+      const metaKey = `${prefix}${folder}/meta.txt`
+      await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
     }
 
     const savedFiles: string[] = []
@@ -136,11 +190,11 @@ export const POST: APIRoute = async ({ request }) => {
       const safe = sanitizeFilename(f.name)
       if (!unique.has(safe)) unique.set(safe, f)
     }
+
     for (const [safe, f] of unique) {
       const ab = await f.arrayBuffer()
-      const buf = Buffer.from(ab)
-      const filePath = path.join(targetDir, safe)
-      await fs.writeFile(filePath, buf)
+      const key = `${prefix}${folder}/${safe}`
+      await bucket.put(key, ab, { httpMetadata: { contentType: contentTypeFor(safe) } })
       savedFiles.push(safe)
     }
 
@@ -174,15 +228,11 @@ export const POST: APIRoute = async ({ request }) => {
       }
     } catch {}
 
-    return new Response(JSON.stringify({
-      folder,
-      files: savedFiles,
-      meta
-    }), {
+    return new Response(JSON.stringify({ folder, files: savedFiles, meta }), {
       status: 201,
       headers: { 'Content-Type': 'application/json' }
     })
-  } catch (e) {
+  } catch {
     return new Response(JSON.stringify({ error: 'upload failed' }), { status: 500 })
   }
 }
