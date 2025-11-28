@@ -109,7 +109,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       date: body.date,
       start: body.start,
       end: body.end,
-      title: body.title || `Prenotazione ${body.customerName}`,
+      title: body.title || `Prenotazione`,
       customer_name: body.customerName,
       customer_phone: body.customerPhone,
       customer_email: body.customerEmail,

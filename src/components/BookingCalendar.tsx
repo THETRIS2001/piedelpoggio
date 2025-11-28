@@ -593,24 +593,29 @@ const BookingCalendar: React.FC = () => {
               <p className="text-sm text-gray-600">Nessuna prenotazione presente.</p>
             ) : (
               <ul className="space-y-2">
-                {occupiedForDate.map((b, i) => (
-                  <li key={i} className="px-3 py-2 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
-                    <div>
-                      <div className="font-medium">{removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} {b.title ? `· ${b.title}` : ''}</div>
-                      <div className="text-xs text-gray-600">{maskCustomerName(b.customer_name)}</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 border border-rose-200">occupato</span>
-                      <button
-                        onClick={() => handleCancelBooking(b.id)}
-                        disabled={isLoading}
-                        className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
-                      >
-                        Cancella
-                      </button>
-                    </div>
-                  </li>
-                ))}
+                {occupiedForDate.map((b, i) => {
+                  const masked = maskCustomerName(b.customer_name)
+                  const titleRaw = b.title || ''
+                  const titleSanitized = titleRaw && b.customer_name ? titleRaw.split(b.customer_name).join(masked) : titleRaw
+                  return (
+                    <li key={i} className="px-3 py-2 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
+                      <div>
+                        <div className="font-medium">{removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} {titleSanitized ? `· ${titleSanitized}` : ''}</div>
+                        <div className="text-xs text-gray-600">{masked}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 border border-rose-200">occupato</span>
+                        <button
+                          onClick={() => handleCancelBooking(b.id)}
+                          disabled={isLoading}
+                          className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
+                        >
+                          Cancella
+                        </button>
+                      </div>
+                    </li>
+                  )
+                })}
               </ul>
             )}
           </div>
