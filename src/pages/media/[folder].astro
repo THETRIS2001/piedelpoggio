@@ -16,7 +16,7 @@ let formattedDate: string = ''
 
 try {
   const res = await fetch(`/api/media?folder=${encodeURIComponent(folder)}`)
-  if (res.ok) {
+  if (res.ok) { 
     const data = await res.json()
     meta = data?.meta || null
     files = (data?.files || []).map((f: any) => ({ name: f.name, url: f.url, isVideo: /\.(mp4|webm|ogg)$/i.test(f.name) }))
