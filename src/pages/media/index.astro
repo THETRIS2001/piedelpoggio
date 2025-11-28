@@ -553,33 +553,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       }
       xhr.send(fd)
     })
-        if (statusEl) {
-          statusEl.textContent = 'Caricamento completato'
-          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-green-50 text-green-700 border-green-300'
-          statusEl.classList.remove('hidden')
-        }
-        await loadEvents()
-        formEl.reset()
-        const summary = document.getElementById('filesSummary')
-        summary && (summary.textContent = '')
-        externalFiles = []
-        const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
-        submitBtn && (submitBtn.disabled = true)
-      } else {
-        let msg = ''
-        try {
-          const t = await res.text()
-          try { msg = JSON.parse(t)?.error || t } catch { msg = t }
-        } catch {}
-        console.error('submit:error', msg)
-        if (statusEl) {
-          statusEl.textContent = msg || 'Errore nel caricamento'
-          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
-          statusEl.classList.remove('hidden')
-        }
-      }
-      setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
-    })
+    
     function updateSubmitEnabled() {
       const input = document.getElementById('files') as HTMLInputElement | null
       const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
