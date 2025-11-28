@@ -35,22 +35,22 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
-          <div class="bg-white/70 rounded-xl border-2 border-gray-500 p-3 md:p-4 mb-6">
+          <div class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6">
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
               <div>
-                <div class="text-xs font-semibold text-gray-700 mb-1">Cerca Evento</div>
+                <div class="text-xs font-semibold text-white mb-1">Cerca Evento</div>
                 <input id="searchEvents" type="text" placeholder="Es. Festa di Agosto" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" />
               </div>
               <div>
-                <div class="text-xs font-semibold text-gray-700 mb-1">Data Inizio</div>
+                <div class="text-xs font-semibold text-white mb-1">Data Inizio</div>
                 <input id="dateFrom" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" />
               </div>
               <div>
-                <div class="text-xs font-semibold text-gray-700 mb-1">Data Fine</div>
+                <div class="text-xs font-semibold text-white mb-1">Data Fine</div>
                 <input id="dateTo" type="date" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-primary-600" />
               </div>
               <div class="flex items-end justify-end">
-                <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl text-gray-700 border border-gray-300 hover:bg-gray-50">Reset</button>
+                <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90">Reset</button>
               </div>
             </div>
           </div>
