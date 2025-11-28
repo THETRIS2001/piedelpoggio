@@ -15,11 +15,21 @@ let files: Array<{ name: string; url: string; isVideo: boolean }> = []
 let formattedDate: string = ''
 
 try {
-  const res = await fetch(`/api/media?folder=${encodeURIComponent(folder)}`)
-  if (res.ok) { 
-    const data = await res.json()
-    meta = data?.meta || null
-    files = (data?.files || []).map((f: any) => ({ name: f.name, url: f.url, isVideo: /\.(mp4|webm|ogg)$/i.test(f.name) }))
+  const bucket = (Astro.locals as any)?.runtime?.env?.MEDIA_BUCKET
+  if (bucket) {
+    try {
+      const m = await bucket.get(`media/${folder}/meta.txt`)
+      if (m) {
+        const txt = await m.text()
+        meta = JSON.parse(txt)
+      }
+    } catch {}
+    const listed = await bucket.list({ prefix: `media/${folder}/` })
+    const names = (listed.objects || [])
+      .map((o: any) => o.key as string)
+      .map((k: string) => k.split('/').pop() || '')
+      .filter((n: string) => isAllowed(n))
+    files = names.map((n: string) => ({ name: n, url: `/media/${folder}/${n}`, isVideo: /\.(mp4|webm|ogg)$/i.test(n) }))
   }
 } catch {}
 
