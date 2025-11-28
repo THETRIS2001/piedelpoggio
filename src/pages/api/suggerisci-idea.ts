@@ -12,7 +12,7 @@ function escapeHtml(input: string): string {
     .replace(/'/g, '&#39;');
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const form = await request.formData();
 
@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
       </div>
     `;
 
-    const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+    const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
     if (!RESEND_API_KEY) {
       console.error('Missing RESEND_API_KEY environment variable');
       return new Response('', {

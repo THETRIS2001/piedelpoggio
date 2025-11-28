@@ -199,7 +199,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     try {
-      const RESEND_API_KEY = import.meta.env.RESEND_API_KEY
+      const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY
       if (RESEND_API_KEY) {
         const subject = `Nuovo contenuto caricato: ${(meta?.eventName) || eventName || folder}`
         const html = `

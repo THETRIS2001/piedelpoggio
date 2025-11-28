@@ -46,7 +46,7 @@ export const GET: APIRoute = async ({ request }) => {
   }
 };
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     
@@ -116,7 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     try {
-      const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+      const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
       if (RESEND_API_KEY) {
         const subject = `Nuova prenotazione campo: ${newBooking.date} ${newBooking.start}–${newBooking.end}`;
         const html = `
@@ -172,7 +172,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 };
 
-export const DELETE: APIRoute = async ({ request }) => {
+export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
@@ -193,7 +193,7 @@ export const DELETE: APIRoute = async ({ request }) => {
 
     try {
       if (booking) {
-        const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+        const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
         if (RESEND_API_KEY) {
           const subject = `Cancellazione prenotazione campo: ${booking.date} ${booking.start}–${booking.end}`;
           const html = `
