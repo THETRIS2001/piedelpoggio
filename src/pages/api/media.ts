@@ -77,7 +77,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         if (seg) folders.add(seg)
       }
 
-      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
+      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string; thumbUrl?: string }> }> = []
       for (const folder of folders) {
         let meta: Meta | null = null
         try {
@@ -88,11 +88,21 @@ export const GET: APIRoute = async ({ request, locals }) => {
           }
         } catch {}
         const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+        const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
+        const thumbSet = new Set<string>((thumbsList.objects || []).map((o: any) => (o.key as string).split('/').pop() || ''))
         const files = (filesList.objects || [])
           .map((o: any) => o.key as string)
           .map((k: string) => k.split('/').pop() || '')
           .filter((name: string) => isAllowedFile(name))
-          .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+          .map((name: string) => {
+            const url = `/media/${folder}/${name}`
+            const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(name)
+            if (!isImg) return { name, url }
+            const base = name.replace(/\.[^/.]+$/, '')
+            const tname = `${base}.webp`
+            const thumbUrl = thumbSet.has(tname) ? `/media/${folder}/_thumbs/${tname}` : undefined
+            return thumbUrl ? { name, url, thumbUrl } : { name, url }
+          })
         events.push({ folder, meta, files })
       }
 
@@ -113,11 +123,21 @@ export const GET: APIRoute = async ({ request, locals }) => {
         }
       } catch {}
       const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+      const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
+      const thumbSet = new Set<string>((thumbsList.objects || []).map((o: any) => (o.key as string).split('/').pop() || ''))
       const files = (filesList.objects || [])
         .map((o: any) => o.key as string)
         .map((k: string) => k.split('/').pop() || '')
         .filter((name: string) => isAllowedFile(name))
-        .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+        .map((name: string) => {
+          const url = `/media/${folder}/${name}`
+          const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(name)
+          if (!isImg) return { name, url }
+          const base = name.replace(/\.[^/.]+$/, '')
+          const tname = `${base}.webp`
+          const thumbUrl = thumbSet.has(tname) ? `/media/${folder}/_thumbs/${tname}` : undefined
+          return thumbUrl ? { name, url, thumbUrl } : { name, url }
+        })
       return new Response(JSON.stringify({ folder, meta, files }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
@@ -189,7 +209,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
 
       const safe = sanitizeFilename(filename)
-      const key = `${prefix}${folder}/${safe}`
+      const isThumb = url.searchParams.get('thumb') === '1'
+      const key = isThumb ? `${prefix}${folder}/_thumbs/${safe}` : `${prefix}${folder}/${safe}`
       const body = request.body
       if (!body) {
         return new Response(JSON.stringify({ error: 'missing body' }), { status: 400 })
@@ -293,10 +314,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(JSON.stringify({ error: 'Dimensione totale oltre il limite di 1GB' }), { status: 413 })
     }
     for (const [safe, f] of unique) {
-      const key = `${prefix}${folder}/${safe}`
+      const isThumb = safe.startsWith('__thumb__')
+      const dest = isThumb ? safe.replace(/^__thumb__-?/, '') : safe
+      const key = isThumb ? `${prefix}${folder}/_thumbs/${dest}` : `${prefix}${folder}/${dest}`
       const body: any = (f as any).stream ? (f as any).stream() : await f.arrayBuffer()
-      await bucket.put(key, body, { httpMetadata: { contentType: contentTypeFor(safe) } })
-      savedFiles.push(safe)
+      const ct = isThumb ? 'image/webp' : contentTypeFor(dest)
+      await bucket.put(key, body, { httpMetadata: { contentType: ct } })
+      savedFiles.push(dest)
     }
 
     try {

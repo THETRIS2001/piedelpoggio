@@ -11,7 +11,7 @@ const isAllowed = (name: string) => {
 }
 
 let meta: any = null
-let files: Array<{ name: string; url: string; isVideo: boolean }> = []
+let files: Array<{ name: string; url: string; isVideo: boolean; thumbUrl?: string }> = []
 let formattedDate: string = ''
 
 try {
@@ -25,11 +25,21 @@ try {
       }
     } catch {}
     const listed = await bucket.list({ prefix: `media/${folder}/` })
+    const thumbs = await bucket.list({ prefix: `media/${folder}/_thumbs/` })
+    const thumbSet = new Set<string>((thumbs.objects || []).map((o: any) => (o.key as string).split('/').pop() || ''))
     const names = (listed.objects || [])
       .map((o: any) => o.key as string)
       .map((k: string) => k.split('/').pop() || '')
       .filter((n: string) => isAllowed(n))
-    files = names.map((n: string) => ({ name: n, url: `/media/${folder}/${n}`, isVideo: /\.(mp4|webm|ogg)$/i.test(n) }))
+    files = names.map((n: string) => {
+      const isVideo = /\.(mp4|webm|ogg)$/i.test(n)
+      const url = `/media/${folder}/${n}`
+      if (isVideo) return { name: n, url, isVideo }
+      const base = n.replace(/\.[^/.]+$/, '')
+      const tname = `${base}.webp`
+      const thumbUrl = thumbSet.has(tname) ? `/media/${folder}/_thumbs/${tname}` : undefined
+      return thumbUrl ? { name: n, url, isVideo, thumbUrl } : { name: n, url, isVideo }
+    })
   }
 } catch {}
 
@@ -81,7 +91,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src={f.thumbUrl || f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
                 )}
               </div>
             ))}
@@ -111,7 +121,7 @@ if (meta?.date) {
       }
     })
 
-    const imgs = Array.from(document.querySelectorAll('#gallery img')).map(el => el.getAttribute('src'))
+    const imgs = Array.from(document.querySelectorAll('#gallery img')).map(el => el.getAttribute('data-original'))
     const lb = document.getElementById('lightbox')
     const lbImg = document.getElementById('lightboxImg')
     const prevBtn = document.getElementById('prevBtn')
