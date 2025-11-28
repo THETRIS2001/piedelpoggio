@@ -191,10 +191,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       if (!unique.has(safe)) unique.set(safe, f)
     }
 
+    // Enforce total size limit 1GB and stream uploads to R2 to avoid high memory usage
+    const MAX_TOTAL_BYTES = 1024 * 1024 * 1024
+    const totalBytes = Array.from(unique.values()).reduce((acc, file) => acc + (file.size || 0), 0)
+    if (totalBytes > MAX_TOTAL_BYTES) {
+      return new Response(JSON.stringify({ error: 'Dimensione totale oltre il limite di 1GB' }), { status: 413 })
+    }
     for (const [safe, f] of unique) {
-      const ab = await f.arrayBuffer()
       const key = `${prefix}${folder}/${safe}`
-      await bucket.put(key, ab, { httpMetadata: { contentType: contentTypeFor(safe) } })
+      const body: any = (f as any).stream ? (f as any).stream() : await f.arrayBuffer()
+      await bucket.put(key, body, { httpMetadata: { contentType: contentTypeFor(safe) } })
       savedFiles.push(safe)
     }
 

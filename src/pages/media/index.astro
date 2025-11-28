@@ -108,7 +108,16 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                 <div id="filesSummary" class="text-sm text-gray-600"></div>
               </div>
             </div>
+            <div class="text-xs text-gray-600 mt-2">Limite caricamento: <span class="font-semibold">1GB</span> totali</div>
+            <div id="sizeLimitMsg" class="text-xs text-gray-600 mt-1"></div>
             <div id="uploadStatus" class="hidden text-sm font-medium rounded-xl border px-3 py-2 mt-2"></div>
+            <div id="uploadProgress" class="hidden mt-3">
+              <div class="text-xs text-gray-700 mb-1" id="uploadNote">Caricamento in corso — non chiudere la pagina</div>
+              <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                <div id="uploadBar" class="bg-red-600 h-2 rounded-full" style="width:0%"></div>
+              </div>
+              <div id="uploadPercent" class="text-xs text-gray-700 mt-1">0%</div>
+            </div>
             <button id="submitBtn" type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #FF2400, #E01E00);" disabled>Invia</button>
           </form>
         </div>
@@ -416,6 +425,28 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (dt) dt.value = ''
       renderEvents(events)
     })
+    const MAX_TOTAL_BYTES = 1024 * 1024 * 1024
+    function formatBytes(b) {
+      const u = ['B','KB','MB','GB']
+      let i = 0
+      let v = b
+      while (v >= 1024 && i < u.length - 1) { v /= 1024; i++ }
+      return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`
+    }
+    function totalSelectedBytes() {
+      const input = document.getElementById('files') as HTMLInputElement | null
+      const inputBytes = input && input.files ? Array.from(input.files).reduce((a,f)=>a+(f.size||0),0) : 0
+      const dropBytes = externalFiles.reduce((a,f)=>a+(f.size||0),0)
+      return inputBytes + dropBytes
+    }
+    function updateSizeLimitInfo() {
+      const msg = document.getElementById('sizeLimitMsg')
+      if (!msg) return
+      const bytes = totalSelectedBytes()
+      const over = bytes > MAX_TOTAL_BYTES
+      msg.textContent = over ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB` : `Selezionati ${formatBytes(bytes)} su 1GB`
+      msg.className = over ? 'text-xs text-red-700 mt-1' : 'text-xs text-gray-600 mt-1'
+    }
     document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
       e.preventDefault()
       const formEl = document.getElementById('uploadForm') as HTMLFormElement
@@ -470,11 +501,58 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       }
       if (!formEl) return
       const fd = new FormData(formEl)
-      // I file dell'input sono già inclusi in FormData(formEl). Aggiungo solo quelli da drag&drop.
       externalFiles.forEach(f => fd.append('files', f))
-      const res = await fetch('/api/media', { method: 'POST', body: fd })
-      console.log('submit:responseStatus', res.status)
-      if (res.ok) {
+      const progress = document.getElementById('uploadProgress')
+      const bar = document.getElementById('uploadBar') as HTMLDivElement | null
+      const pct = document.getElementById('uploadPercent')
+      progress?.classList.remove('hidden')
+      const xhr = new XMLHttpRequest()
+      xhr.open('POST', '/api/media')
+      xhr.upload.onprogress = (evt) => {
+        if (!evt.lengthComputable) return
+        const percent = Math.round((evt.loaded / evt.total) * 100)
+        if (bar) bar.style.width = percent + '%'
+        if (pct) pct.textContent = percent + '%'
+      }
+      xhr.onreadystatechange = async () => {
+        if (xhr.readyState === 4) {
+          console.log('submit:responseStatus', xhr.status)
+          if (xhr.status >= 200 && xhr.status < 300) {
+            if (statusEl) {
+              statusEl.textContent = 'Caricamento completato'
+              statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-green-50 text-green-700 border-green-300'
+              statusEl.classList.remove('hidden')
+            }
+            await loadEvents()
+            formEl.reset()
+            const summary = document.getElementById('filesSummary')
+            summary && (summary.textContent = '')
+            externalFiles = []
+            const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
+            submitBtn && (submitBtn.disabled = true)
+            progress?.classList.add('hidden')
+            if (bar) bar.style.width = '0%'
+            if (pct) pct.textContent = '0%'
+          } else {
+            let msg = ''
+            try {
+              msg = JSON.parse(xhr.responseText)?.error || xhr.responseText
+            } catch { msg = xhr.responseText }
+            console.error('submit:error', msg)
+            if (statusEl) {
+              statusEl.textContent = msg || 'Errore nel caricamento'
+              statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
+              statusEl.classList.remove('hidden')
+            }
+            progress?.classList.add('hidden')
+            if (bar) bar.style.width = '0%'
+            if (pct) pct.textContent = '0%'
+          }
+          setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
+        }
+      }
+      xhr.send(fd)
+    })
         if (statusEl) {
           statusEl.textContent = 'Caricamento completato'
           statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-green-50 text-green-700 border-green-300'
@@ -511,20 +589,24 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const dateEl = document.getElementById('date') as HTMLInputElement | null
       const hasEventInfo = uploadMode === 'existing' ? !!existing : !!(nameEl && nameEl.value && dateEl && dateEl.value)
       const hasDup = uploadMode === 'new' ? isDuplicateNewEvent(nameEl?.value || '', dateEl?.value || '') : false
-      const enabled = hasFiles && hasEventInfo && !hasDup
+      const sizeOk = totalSelectedBytes() <= MAX_TOTAL_BYTES
+      const enabled = hasFiles && hasEventInfo && !hasDup && sizeOk
       submitBtn && (submitBtn.disabled = !enabled)
       console.log('updateSubmitEnabled', {
         enabled,
         hasFiles,
         hasEventInfo,
         hasDup,
+        sizeOk,
         uploadMode,
         existing,
         eventName: nameEl?.value || '',
         date: dateEl?.value || '',
         inputFiles: input && input.files ? input.files.length : 0,
-        externalFiles: externalFiles.length
+        externalFiles: externalFiles.length,
+        totalBytes: totalSelectedBytes()
       })
+      updateSizeLimitInfo()
     }
     document.getElementById('files')?.addEventListener('change', (e) => {
       const input = e.target as HTMLInputElement
@@ -534,6 +616,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (summary) summary.textContent = count > 0 ? `${count} file selezionati` : ''
       console.log('files:inputChange', { count })
       updateSubmitEnabled()
+      updateSizeLimitInfo()
     })
     const dropzone = document.getElementById('dropzone')
     const pickFiles = document.getElementById('pickFiles')
@@ -559,6 +642,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         if (summary) summary.textContent = total > 0 ? `${total} file selezionati` : ''
         console.log('files:drop', { countInput, countDrop, total })
         updateSubmitEnabled()
+        updateSizeLimitInfo()
       }
       dropzone.classList.remove('bg-red-50')
       dropzone.classList.remove('border-red-400')
