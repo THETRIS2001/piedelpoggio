@@ -159,6 +159,101 @@ export const GET: APIRoute = async ({ request, locals }) => {
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const url = new URL(request.url)
+    const notify = url.searchParams.get('notify') === '1'
+    if (notify) {
+      const bucket = getBucket(locals)
+      if (!bucket) {
+        return new Response(JSON.stringify({ error: 'storage unavailable' }), { status: 503 })
+      }
+      let data: any = null
+      try {
+        const ct = request.headers.get('content-type') || ''
+        if (ct.includes('application/json')) {
+          data = await request.json()
+        } else {
+          const fd = await request.formData()
+          data = {
+            folder: String(fd.get('folder') || ''),
+            eventName: String(fd.get('eventName') || ''),
+            date: String(fd.get('date') || ''),
+            description: fd.get('description') ? String(fd.get('description')) : undefined,
+            files: (fd.getAll('files') || []).map((v) => String(v)),
+          }
+        }
+      } catch {}
+      const folderInput = String(data?.folder || '')
+      const eventNameInput = String(data?.eventName || '')
+      const dateInput = String(data?.date || '')
+      const descriptionInput = typeof data?.description !== 'undefined' ? String(data.description) : undefined
+      let folder = folderInput
+      let meta: Meta | null = null
+      const prefix = 'media/'
+      if (!folder) {
+        if (!eventNameInput || !dateInput) {
+          return new Response(JSON.stringify({ error: 'missing fields' }), { status: 400 })
+        }
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+        if (!dateRegex.test(dateInput)) {
+          return new Response(JSON.stringify({ error: 'invalid date' }), { status: 400 })
+        }
+        folder = `${createSlug(eventNameInput)}-${dateInput.replace(/-/g, '')}`
+      }
+      try {
+        const m = await bucket.get(`${prefix}${folder}/meta.txt`)
+        if (m) {
+          const txt = await m.text()
+          meta = JSON.parse(txt)
+        }
+      } catch {}
+      if (meta && typeof descriptionInput !== 'undefined') {
+        meta = { ...meta, description: descriptionInput }
+        await bucket.put(`${prefix}${folder}/meta.txt`, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+      }
+      let files: string[] = Array.isArray(data?.files) ? data.files.map((x: any) => String(x)) : []
+      if (files.length === 0) {
+        try {
+          const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+          files = (filesList.objects || [])
+            .map((o: any) => o.key as string)
+            .map((k: string) => k.split('/').pop() || '')
+            .filter((name: string) => isAllowedFile(name))
+        } catch {}
+      }
+      try {
+        const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY
+        if (RESEND_API_KEY) {
+          const subject = `Upload completato: ${(meta?.eventName) || eventNameInput || folder}`
+          const filesHtml = files.map((n) => `${n}`).join('<br>')
+          const html = `
+            <div style="font-family: Arial, sans-serif;">
+              <h2>Upload completato</h2>
+              <p><strong>Evento:</strong> ${(meta?.eventName) || eventNameInput || folder}</p>
+              <p><strong>Data evento:</strong> ${(meta?.date) || dateInput || ''}</p>
+              ${descriptionInput ? `<p><strong>Descrizione:</strong> ${descriptionInput}</p>` : ''}
+              <p><strong>File caricati (${files.length}):</strong><br>${filesHtml}</p>
+            </div>
+          `
+          const payload = {
+            from: 'Upload Media <onboarding@resend.dev>',
+            to: ['pro.piedelpoggio@gmail.com'],
+            subject,
+            html,
+          }
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${RESEND_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          })
+        }
+      } catch {}
+      return new Response(JSON.stringify({ ok: true, folder, files, meta }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
     const raw = url.searchParams.get('raw')
     if (raw === '1') {
       const bucket = getBucket(locals)
@@ -218,35 +313,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const ct = contentTypeHint || contentTypeFor(safe)
       await bucket.put(key, body, { httpMetadata: { contentType: ct } })
 
-      try {
-        const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY
-        if (RESEND_API_KEY) {
-          const subject = `Nuovo contenuto caricato: ${(meta?.eventName) || eventName || folder}`
-          const html = `
-            <div style="font-family: Arial, sans-serif;">
-              <h2>Nuovo upload</h2>
-              <p><strong>Evento:</strong> ${(meta?.eventName) || eventName}</p>
-              <p><strong>Data evento:</strong> ${(meta?.date) || date}</p>
-              ${description ? `<p><strong>Descrizione:</strong> ${description}</p>` : ''}
-              <p><strong>File:</strong> ${safe}</p>
-            </div>
-          `
-          const payload = {
-            from: 'Upload Media <onboarding@resend.dev>',
-            to: ['pro.piedelpoggio@gmail.com'],
-            subject,
-            html,
-          }
-          await fetch('https://api.resend.com/emails', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${RESEND_API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          })
-        }
-      } catch {}
+      // no email here; final notification is handled via notify=1 branch
 
       return new Response(JSON.stringify({ folder, files: [safe], meta }), {
         status: 201,
@@ -323,35 +390,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       savedFiles.push(dest)
     }
 
-    try {
-      const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY
-      if (RESEND_API_KEY) {
-        const subject = `Nuovo contenuto caricato: ${(meta?.eventName) || eventName || folder}`
-        const html = `
-          <div style="font-family: Arial, sans-serif;">
-            <h2>Nuovo upload</h2>
-            <p><strong>Evento:</strong> ${(meta?.eventName) || eventName}</p>
-            <p><strong>Data evento:</strong> ${(meta?.date) || date}</p>
-            ${description ? `<p><strong>Descrizione:</strong> ${description}</p>` : ''}
-            <p><strong>File:</strong> ${savedFiles.join(', ')}</p>
-          </div>
-        `
-        const payload = {
-          from: 'Upload Media <onboarding@resend.dev>',
-          to: ['pro.piedelpoggio@gmail.com'],
-          subject,
-          html,
-        }
-        await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${RESEND_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        })
-      }
-    } catch {}
+    // no email here; final notification is handled via notify=1 branch
 
     return new Response(JSON.stringify({ folder, files: savedFiles, meta }), {
       status: 201,

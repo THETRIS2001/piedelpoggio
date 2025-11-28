@@ -284,7 +284,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         openLink.className = 'mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white w-full shadow-md hover:shadow-lg transition-all duration-300 mt-auto'
         openLink.textContent = 'Apri galleria'
         openLink.href = `/media/${ev.folder}`
-        openLink.style.background = '#EF4144'
+        openLink.style.background = '#E01E00'
         info.appendChild(openLink)
         card.appendChild(cover)
         card.appendChild(info)
@@ -611,6 +611,20 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           if (!f || !f.name || f.size === 0) continue
           await uploadOne(f)
         }
+        const isThumb = (n: string) => n.startsWith('__thumb__')
+        const originals = sources.map(f => f.name).filter(n => !!n && !isThumb(n))
+        const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
+        const name = (document.getElementById('eventName') as HTMLInputElement | null)?.value || ''
+        const date = (document.getElementById('date') as HTMLInputElement | null)?.value || ''
+        const desc = (document.getElementById('description') as HTMLTextAreaElement | null)?.value || ''
+        const folder = existing ? existing : `${clientCreateSlug(name)}-${date.replace(/-/g, '')}`
+        try {
+          await fetch('/api/media?notify=1', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ folder, eventName: name, date, description: desc, files: originals })
+          })
+        } catch {}
         await loadEvents()
         formEl.reset()
         const summary = document.getElementById('filesSummary')
