@@ -242,12 +242,18 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             v.loop = true
             cell.appendChild(v)
           } else {
-            const img = document.createElement('img')
-            img.src = f.thumbUrl || (f.url + '?w=960&q=70&fmt=webp')
-            img.alt = ev.meta?.eventName || f.name
-            img.loading = 'lazy'
-            img.className = 'w-full h-full object-cover'
-            cell.appendChild(img)
+            if (f.thumbUrl) {
+              const img = document.createElement('img')
+              img.src = f.thumbUrl
+              img.alt = ev.meta?.eventName || f.name
+              img.loading = 'lazy'
+              img.className = 'w-full h-full object-cover'
+              cell.appendChild(img)
+            } else {
+              const ph = document.createElement('div')
+              ph.className = 'w-full h-full bg-gray-200 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300'
+              cell.appendChild(ph)
+            }
           }
           cover.appendChild(cell)
         })
