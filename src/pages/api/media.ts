@@ -138,6 +138,101 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    const url = new URL(request.url)
+    const raw = url.searchParams.get('raw')
+    if (raw === '1') {
+      const bucket = getBucket(locals)
+      if (!bucket) {
+        return new Response(JSON.stringify({ error: 'storage unavailable' }), { status: 503 })
+      }
+
+      const eventName = String(url.searchParams.get('eventName') || '')
+      const date = String(url.searchParams.get('date') || '')
+      const description = url.searchParams.get('description') ? String(url.searchParams.get('description')) : undefined
+      const existingFolder = url.searchParams.get('existingFolder') ? String(url.searchParams.get('existingFolder')) : undefined
+      const filename = String(url.searchParams.get('filename') || '')
+      const contentTypeHint = String(url.searchParams.get('contentType') || '')
+
+      if (!filename) {
+        return new Response(JSON.stringify({ error: 'missing filename' }), { status: 400 })
+      }
+
+      let folder = existingFolder && existingFolder.length > 0 ? existingFolder : ''
+      let meta: Meta | null = null
+      const prefix = 'media/'
+
+      if (folder) {
+        const metaKey = `${prefix}${folder}/meta.txt`
+        try {
+          const metaObj = await bucket.get(metaKey)
+          if (metaObj) {
+            const txt = await metaObj.text()
+            meta = JSON.parse(txt)
+          }
+        } catch {}
+        if (meta && typeof description !== 'undefined') {
+          meta = { ...meta, description }
+          await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+        }
+      } else {
+        if (!eventName || !date) {
+          return new Response(JSON.stringify({ error: 'missing fields' }), { status: 400 })
+        }
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+        if (!dateRegex.test(date)) {
+          return new Response(JSON.stringify({ error: 'invalid date' }), { status: 400 })
+        }
+        folder = `${createSlug(eventName)}-${date.replace(/-/g, '')}`
+        meta = { eventName, date, description }
+        const metaKey = `${prefix}${folder}/meta.txt`
+        await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+      }
+
+      const safe = sanitizeFilename(filename)
+      const key = `${prefix}${folder}/${safe}`
+      const body = request.body
+      if (!body) {
+        return new Response(JSON.stringify({ error: 'missing body' }), { status: 400 })
+      }
+      const ct = contentTypeHint || contentTypeFor(safe)
+      await bucket.put(key, body, { httpMetadata: { contentType: ct } })
+
+      try {
+        const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY
+        if (RESEND_API_KEY) {
+          const subject = `Nuovo contenuto caricato: ${(meta?.eventName) || eventName || folder}`
+          const html = `
+            <div style="font-family: Arial, sans-serif;">
+              <h2>Nuovo upload</h2>
+              <p><strong>Evento:</strong> ${(meta?.eventName) || eventName}</p>
+              <p><strong>Data evento:</strong> ${(meta?.date) || date}</p>
+              ${description ? `<p><strong>Descrizione:</strong> ${description}</p>` : ''}
+              <p><strong>File:</strong> ${safe}</p>
+            </div>
+          `
+          const payload = {
+            from: 'Upload Media <onboarding@resend.dev>',
+            to: ['pro.piedelpoggio@gmail.com'],
+            subject,
+            html,
+          }
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${RESEND_API_KEY}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          })
+        }
+      } catch {}
+
+      return new Response(JSON.stringify({ folder, files: [safe], meta }), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
+
     const form = await request.formData()
     const eventName = String(form.get('eventName') || '')
     const date = String(form.get('date') || '')
