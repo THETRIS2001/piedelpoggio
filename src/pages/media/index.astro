@@ -288,11 +288,76 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         openLink.href = `/media/${ev.folder}`
         openLink.style.background = '#E01E00'
         info.appendChild(openLink)
+        const dlBtn = document.createElement('button')
+        dlBtn.type = 'button'
+        dlBtn.className = 'mt-2 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-white text-[#E01E00] border border-[#E01E00] w-full shadow-sm hover:bg-red-50 transition-all duration-300'
+        dlBtn.textContent = 'Scarica cartella'
+        dlBtn.addEventListener('click', () => downloadFolderZip(ev.folder, ev.files || []))
+        info.appendChild(dlBtn)
         card.appendChild(cover)
         card.appendChild(info)
         
         grid.appendChild(card)
       })
+    }
+    async function ensureFflate() {
+      const g = (window as any)
+      if (g.fflate) return g.fflate
+      await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js'; s.onload = resolve; s.onerror = reject; document.head.appendChild(s) })
+      return (window as any).fflate
+    }
+    async function downloadFolderZip(folder, files) {
+      try {
+        const fflate = await ensureFflate()
+        const overlay = document.createElement('div')
+        overlay.className = 'fixed inset-0 bg-black/40 z-50 flex items-center justify-center'
+        const card = document.createElement('div')
+        card.className = 'bg-white rounded-xl p-4 w-80 text-center shadow-lg'
+        const title = document.createElement('div')
+        title.className = 'text-sm font-semibold text-gray-800'
+        title.textContent = 'Preparazione download — non chiudere la pagina'
+        const barBox = document.createElement('div')
+        barBox.className = 'w-full bg-gray-200 rounded-full h-2 mt-3 overflow-hidden'
+        const bar = document.createElement('div')
+        bar.className = 'bg-red-600 h-2 rounded-full'
+        bar.style.width = '0%'
+        const pct = document.createElement('div')
+        pct.className = 'text-xs text-gray-700 mt-2'
+        pct.textContent = '0%'
+        barBox.appendChild(bar)
+        card.appendChild(title)
+        card.appendChild(barBox)
+        card.appendChild(pct)
+        overlay.appendChild(card)
+        document.body.appendChild(overlay)
+        const list = files.filter((it) => it && it.name && !it.name.startsWith('_thumbs/') && !it.name.startsWith('__thumb__'))
+        let loaded = 0
+        const total = list.length
+        const map: any = {}
+        for (const it of list) {
+          const res = await fetch(it.url)
+          const ab = await res.arrayBuffer()
+          const u8 = new Uint8Array(ab)
+          map[it.name] = u8
+          loaded++
+          const percent = Math.round((loaded / total) * 100)
+          bar.style.width = percent + '%'
+          pct.textContent = percent + '%'
+        }
+        const zip = fflate.zipSync(map, { level: 0 })
+        const blob = new Blob([zip], { type: 'application/zip' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${folder}.zip`
+        document.body.appendChild(a)
+        a.click()
+        URL.revokeObjectURL(url)
+        setTimeout(() => { overlay.remove() }, 500)
+      } catch (e) {
+        console.error('downloadFolderZip:error', e)
+        alert('Errore nel preparare il download')
+      }
     }
     let uploadMode = 'existing'
     function setModeButtons() {

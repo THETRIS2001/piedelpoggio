@@ -79,6 +79,7 @@ if (meta?.date) {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           <span>Torna indietro</span>
         </a>
+        <button id="downloadFolder" type="button" class="inline-flex items-center gap-2 ml-2 px-3 py-1.5 rounded-lg border border-red-600 text-red-700 bg-white/70 hover:bg-red-50">Scarica cartella</button>
       </div>
     </div>
 
@@ -179,5 +180,65 @@ if (meta?.date) {
       const src = lbImg.getAttribute('src')
       if (src) setSizeForSrc(src)
     })
+    async function ensureFflate() {
+      const g = (window as any)
+      if (g.fflate) return g.fflate
+      await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js'; s.onload = resolve; s.onerror = reject; document.head.appendChild(s) })
+      return (window as any).fflate
+    }
+    async function downloadAll() {
+      try {
+        const fflate = await ensureFflate()
+        const overlay = document.createElement('div')
+        overlay.className = 'fixed inset-0 bg-black/40 z-50 flex items-center justify-center'
+        const card = document.createElement('div')
+        card.className = 'bg-white rounded-xl p-4 w-80 text-center shadow-lg'
+        const title = document.createElement('div')
+        title.className = 'text-sm font-semibold text-gray-800'
+        title.textContent = 'Preparazione download — non chiudere la pagina'
+        const barBox = document.createElement('div')
+        barBox.className = 'w-full bg-gray-200 rounded-full h-2 mt-3 overflow-hidden'
+        const bar = document.createElement('div')
+        bar.className = 'bg-red-600 h-2 rounded-full'
+        bar.style.width = '0%'
+        const pct = document.createElement('div')
+        pct.className = 'text-xs text-gray-700 mt-2'
+        pct.textContent = '0%'
+        barBox.appendChild(bar)
+        card.appendChild(title)
+        card.appendChild(barBox)
+        card.appendChild(pct)
+        overlay.appendChild(card)
+        document.body.appendChild(overlay)
+        const list = Array.from(document.querySelectorAll('#gallery img')).map(el => ({ name: el.getAttribute('alt') || 'file', url: el.getAttribute('data-original') || '' })).filter(it => it.url)
+        let loaded = 0
+        const total = list.length
+        const map: any = {}
+        for (const it of list) {
+          const res = await fetch(it.url)
+          const ab = await res.arrayBuffer()
+          const u8 = new Uint8Array(ab)
+          map[it.name] = u8
+          loaded++
+          const percent = Math.round((loaded / total) * 100)
+          bar.style.width = percent + '%'
+          pct.textContent = percent + '%'
+        }
+        const zip = fflate.zipSync(map, { level: 0 })
+        const blob = new Blob([zip], { type: 'application/zip' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `${folder}.zip`
+        document.body.appendChild(a)
+        a.click()
+        URL.revokeObjectURL(url)
+        setTimeout(() => { overlay.remove() }, 500)
+      } catch (e) {
+        console.error('downloadAll:error', e)
+        alert('Errore nel preparare il download')
+      }
+    }
+    document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
   </script>
 </DefaultLayout>

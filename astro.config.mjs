@@ -14,6 +14,7 @@ export default defineConfig({
     format: 'directory'
   },
   vite: {
+    cacheDir: '.vite-cache',
     optimizeDeps: {
       include: ['react', 'react-dom']
     },
