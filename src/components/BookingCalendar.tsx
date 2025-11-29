@@ -107,7 +107,7 @@ const BookingCalendar: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-  const [selectionMode, setSelectionMode] = useState<'start' | 'end' | 'complete'>('start'); // Traccia lo stato della selezione
+  const [selectedDuration, setSelectedDuration] = useState<number>(0);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -141,46 +141,26 @@ const BookingCalendar: React.FC = () => {
     return () => clearInterval(id);
   }, []);
 
-  // Gestisce il click su uno slot orario
-  const handleSlotClick = (slotTime: string) => {
-    const slotMinutes = minutesFromTime(slotTime);
-    
-    if (selectionMode === 'start' || selectionMode === 'complete') {
-      // Impedisce la selezione di mezzanotte come orario di inizio
-      if (slotTime === '00:00') {
-        return;
-      }
-      
-      // Primo click o reset: seleziona l'orario di inizio
-      setStartTime(slotTime);
-      setEndTime('');
-      setSelectionMode('end');
-    } else if (selectionMode === 'end') {
-      const startMinutes = minutesFromTime(startTime);
-      
-      if (slotMinutes > startMinutes) {
-        // Secondo click su orario successivo: seleziona l'orario di fine
-        setEndTime(slotTime);
-        setSelectionMode('complete');
-      } else {
-        // Click su orario precedente o uguale: riparte con nuovo inizio
-        // Impedisce la selezione di mezzanotte come orario di inizio
-        if (slotTime === '00:00') {
-          return;
-        }
-        
-        setStartTime(slotTime);
-        setEndTime('');
-        setSelectionMode('end');
-      }
-    }
+  const handleSelectStart = (slotTime: string) => {
+    if (slotTime === '00:00') return;
+    setStartTime(slotTime);
+    setEndTime('');
+    setSelectedDuration(0);
+  };
+  const handleSelectDuration = (hours: number) => {
+    if (!startTime) return;
+    const startMin = minutesFromTime(startTime);
+    const endMin = startMin + hours * STEP;
+    const hh = String(Math.floor(endMin / 60)).padStart(2, '0');
+    const mm = String(endMin % 60).padStart(2, '0');
+    setSelectedDuration(hours);
+    setEndTime(`${hh}:${mm}`);
   };
 
-  // Reset della selezione quando cambia la data
   useEffect(() => {
     setStartTime('');
     setEndTime('');
-    setSelectionMode('start');
+    setSelectedDuration(0);
   }, [selectedDate]);
 
   // Mostra messaggio temporaneo
@@ -228,18 +208,15 @@ const BookingCalendar: React.FC = () => {
    };
 
   const canBookSlot = () => {
-    // Check if both times are selected
-    if (!startTime || !endTime) return false;
-    
+    if (!startTime || !endTime || !selectedDuration) return false;
     const selectedDateObj = new Date(selectedDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     selectedDateObj.setHours(0, 0, 0, 0);
-    
-    // Non si può prenotare nel passato
     if (selectedDateObj < today) return false;
-    
-    // Controlla se lo slot è già occupato
+    const sMin = minutesFromTime(startTime);
+    const eMin = minutesFromTime(endTime);
+    if (eMin <= sMin || eMin > WORK_END) return false;
     return !isSlotBusy(selectedDate, startTime, endTime);
   };
 
@@ -496,32 +473,73 @@ const BookingCalendar: React.FC = () => {
                 <label className="text-xs text-gray-600">Giorno</label>
                 <div className="mt-1 px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800">{selectedDate}</div>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="start" className="text-xs text-gray-600">Ora inizio</label>
-                  <select id="start" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="mt-1 w-full px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                    <option value="">seleziona</option>
-                    {slots.map(s => {
-                      // Non mostrare 00:00 come orario di inizio (solo come fine)
-                      if (s === '00:00') return null;
-                      return <option key={s} value={s}>{s}</option>;
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="end" className="text-xs text-gray-600">Ora fine</label>
-                  <select id="end" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="mt-1 w-full px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                    <option value="">seleziona</option>
-                    {slots.map((s, i) => {
-                      // mostriamo solo slot dopo start
-                      if (!startTime || minutesFromTime(s) <= minutesFromTime(startTime)) return null;
-                      return <option key={s} value={s}>{s}</option>;
-                    })}
-                  </select>
+              <div>
+                <label className="text-xs text-gray-600">Ora di inizio</label>
+                <div className="mt-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                  {slots.map((s) => {
+                    if (s === '00:00') return null;
+                    const slotEndMinutes = minutesFromTime(s) + STEP;
+                    const eh = String(Math.floor(slotEndMinutes / 60)).padStart(2, '0');
+                    const em = String(slotEndMinutes % 60).padStart(2, '0');
+                    const eStr = `${eh}:${em}`;
+                    const d = new Date(selectedDate);
+                    d.setHours(0,0,0,0);
+                    const t = new Date();
+                    t.setHours(0,0,0,0);
+                    const isPastDay = d < t;
+                    const disabled = isPastDay || isSlotBusy(selectedDate, s, eStr);
+                    const selected = s === startTime;
+                    let buttonStyle = '';
+                    if (selected) buttonStyle = 'bg-primary-100 text-primary-700 border-primary-200';
+                    else if (disabled) buttonStyle = 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed';
+                    else buttonStyle = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
+                    return (
+                      <button
+                        key={`${selectedDate}-${s}`}
+                        onClick={() => !disabled && handleSelectStart(s)}
+                        disabled={disabled}
+                        className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${buttonStyle}`}
+                      >
+                        {s}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-              
-              {/* Pulsante per prenotare */}
+              <div>
+                <label className="text-xs text-gray-600">Durata</label>
+                <div className="mt-1 grid grid-cols-6 gap-2">
+                  {[1,2,3,4,5,6].map((h) => {
+                    const hasStart = !!startTime;
+                    const sMin = minutesFromTime(startTime);
+                    const eMin = sMin + h * STEP;
+                    const hh = String(Math.floor(eMin / 60)).padStart(2, '0');
+                    const mm = String(eMin % 60).padStart(2, '0');
+                    const eStr = `${hh}:${mm}`;
+                    const d = new Date(selectedDate);
+                    d.setHours(0,0,0,0);
+                    const t = new Date();
+                    t.setHours(0,0,0,0);
+                    const isPastDay = d < t;
+                    const invalid = !hasStart || isPastDay || eMin > WORK_END || isSlotBusy(selectedDate, startTime, eStr);
+                    const sel = selectedDuration === h;
+                    let cls = '';
+                    if (sel) cls = 'bg-primary-100 text-primary-700 border-primary-200';
+                    else if (invalid) cls = 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed';
+                    else cls = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
+                    return (
+                      <button
+                        key={`dur-${h}`}
+                        onClick={() => !invalid && handleSelectDuration(h)}
+                        disabled={invalid}
+                        className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${cls}`}
+                      >
+                        {h}h
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
               <div className="pt-2">
                 {canBookSlot() ? (
                   <button
@@ -529,72 +547,23 @@ const BookingCalendar: React.FC = () => {
                     disabled={isLoading}
                     className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isLoading ? 'Caricamento...' : 'Prenota questo slot'}
+                    {isLoading ? 'Caricamento...' : 'Prenota questa fascia'}
                   </button>
                 ) : (
-                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">
-                    {selectionMode === 'start' ? 'Clicca un orario per iniziare' : 
-                     selectionMode === 'end' ? 'Clicca un orario successivo per finire' : 
-                     !startTime || !endTime ? 'seleziona orario di inizio e fine' : 'Slot non disponibile'}
-                  </div>
+                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona ora di inizio e durata</div>
                 )}
               </div>
-
               <div className="flex items-center gap-2 text-xs flex-wrap">
                 <span className={`px-2 py-1 rounded-md border ${legendColors.available}`}>Disponibile</span>
                 <span className={`px-2 py-1 rounded-md border ${legendColors.busy}`}>Occupato</span>
                 <span className={`px-2 py-1 rounded-md border ${legendColors.selected}`}>Selezionato</span>
-                {selectionMode === 'end' && <span className="px-2 py-1 rounded-md border bg-gray-100 text-gray-400 border-gray-200">Non selezionabile</span>}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Timeline oraria per il giorno selezionato */}
         <div className="md:col-span-2">
-          <h3 className="text-sm font-semibold text-gray-800 mb-3">Orari disponibili per {selectedDate}</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-            {slots.map((s, idx) => {
-              const slotEndMinutes = minutesFromTime(s) + STEP;
-              const eh = String(Math.floor(slotEndMinutes / 60)).padStart(2, '0');
-              const em = String(slotEndMinutes % 60).padStart(2, '0');
-              const eStr = `${eh}:${em}`;
-              const busy = isSlotBusy(selectedDate, s, eStr);
-              const selected = minutesFromTime(s) >= minutesFromTime(startTime) && minutesFromTime(eStr) <= minutesFromTime(endTime);
-              
-              // Determina se lo slot è disabilitato
-              const isDisabled = busy || 
-                                (selectionMode === 'end' && startTime && minutesFromTime(s) <= minutesFromTime(startTime)) ||
-                                (selectionMode === 'start' && s === '00:00') ||
-                                (selectionMode === 'complete' && s === '00:00');
-              
-              // Determina lo stile del bottone
-              let buttonStyle = '';
-              if (busy) {
-                buttonStyle = 'bg-rose-100 text-rose-700 border-rose-200 cursor-not-allowed';
-              } else if (selected) {
-                buttonStyle = 'bg-primary-100 text-primary-700 border-primary-200';
-              } else if (isDisabled) {
-                buttonStyle = 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed';
-              } else {
-                buttonStyle = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
-              }
-              
-              return (
-                <button
-                  key={`${selectedDate}-${s}`}
-                  onClick={() => !isDisabled && handleSlotClick(s)}
-                  disabled={isDisabled}
-                  className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${buttonStyle}`}
-                >
-                  {s}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Prenotazioni visibili a tutti */}
-          <div className="mt-6">
+          <div className="mt-0">
             <h4 className="text-sm font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
             {occupiedForDate.length === 0 ? (
               <p className="text-sm text-gray-600">Nessuna prenotazione presente.</p>
