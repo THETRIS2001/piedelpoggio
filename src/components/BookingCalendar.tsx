@@ -107,7 +107,7 @@ const BookingCalendar: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-  const [selectedDuration, setSelectedDuration] = useState<number>(0);
+  
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -143,33 +143,16 @@ const BookingCalendar: React.FC = () => {
 
   const handleSelectStart = (slotTime: string) => {
     if (slotTime === '00:00') return;
-    if (!selectedDuration) return;
-    const startMin = minutesFromTime(slotTime);
-    const endMin = startMin + selectedDuration * STEP;
-    const hh = String(Math.floor(endMin / 60)).padStart(2, '0');
-    const mm = String(endMin % 60).padStart(2, '0');
-    const endStr = endMin === WORK_END ? '00:00' : `${hh}:${mm}`;
     setStartTime(slotTime);
-    setEndTime(endStr);
+    setEndTime('');
   };
-  const handleSelectDuration = (hours: number) => {
-    setSelectedDuration(hours);
-    if (startTime) {
-      const startMin = minutesFromTime(startTime);
-      const endMin = startMin + hours * STEP;
-      const hh = String(Math.floor(endMin / 60)).padStart(2, '0');
-      const mm = String(endMin % 60).padStart(2, '0');
-      const endStr = endMin === WORK_END ? '00:00' : `${hh}:${mm}`;
-      setEndTime(endStr);
-    } else {
-      setEndTime('');
-    }
+  const handleSelectEnd = (end: string) => {
+    setEndTime(end);
   };
 
   useEffect(() => {
     setStartTime('');
     setEndTime('');
-    setSelectedDuration(0);
   }, [selectedDate]);
 
   // Mostra messaggio temporaneo
@@ -217,7 +200,7 @@ const BookingCalendar: React.FC = () => {
    };
 
   const canBookSlot = () => {
-    if (!startTime || !endTime || !selectedDuration) return false;
+    if (!startTime || !endTime) return false;
     const selectedDateObj = new Date(selectedDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -229,29 +212,41 @@ const BookingCalendar: React.FC = () => {
     return !isSlotBusy(selectedDate, startTime, endTime);
   };
 
-  const availableStarts = useMemo(() => {
-    if (!selectedDuration) return [] as { start: string; end: string }[];
+  const startOptions = useMemo(() => {
     const d = new Date(selectedDate);
     d.setHours(0,0,0,0);
     const t = new Date();
     t.setHours(0,0,0,0);
-    if (d < t) return [] as { start: string; end: string }[];
-    const result: { start: string; end: string }[] = [];
+    if (d < t) return [] as string[];
+    const opts: string[] = [];
     for (let m = WORK_START; m < WORK_END; m += STEP) {
-      const endMin = m + selectedDuration * STEP;
-      if (endMin > WORK_END) break;
       const sh = String(Math.floor(m / 60)).padStart(2, '0');
       const sm = String(m % 60).padStart(2, '0');
-      const eh = String(Math.floor(endMin / 60)).padStart(2, '0');
-      const em = String(endMin % 60).padStart(2, '0');
       const sStr = `${sh}:${sm}`;
-      const eStr = endMin === WORK_END ? '00:00' : `${eh}:${em}`;
-      if (!isSlotBusy(selectedDate, sStr, eStr)) {
-        result.push({ start: sStr, end: eStr });
+      const firstEndMin = m + STEP;
+      const eh = String(Math.floor(firstEndMin / 60)).padStart(2, '0');
+      const em = String(firstEndMin % 60).padStart(2, '0');
+      const firstEndStr = firstEndMin === WORK_END ? '00:00' : `${eh}:${em}`;
+      if (!isSlotBusy(selectedDate, sStr, firstEndStr)) {
+        opts.push(sStr);
       }
     }
-    return result;
-  }, [selectedDuration, selectedDate, bookingsByDate]);
+    return opts;
+  }, [selectedDate, bookingsByDate]);
+
+  const endOptions = useMemo(() => {
+    if (!startTime) return [] as string[];
+    const sMin = minutesFromTime(startTime);
+    const opts: string[] = [];
+    for (let endMin = sMin + STEP; endMin <= WORK_END; endMin += STEP) {
+      const hh = String(Math.floor(endMin / 60)).padStart(2, '0');
+      const mm = String(endMin % 60).padStart(2, '0');
+      const eStr = endMin === WORK_END ? '00:00' : `${hh}:${mm}`;
+      if (isSlotBusy(selectedDate, startTime, eStr)) break;
+      opts.push(eStr);
+    }
+    return opts;
+  }, [startTime, selectedDate, bookingsByDate]);
 
   const handleBooking = async () => {
     if (!canBookSlot()) {
@@ -488,9 +483,30 @@ const BookingCalendar: React.FC = () => {
         ))}
       </div>
 
-      {/* Selezione dettagli */}
-      <div className="mt-6 grid md:grid-cols-3 gap-4">
-        <div className="md:col-span-1">
+      <div className="mt-6 space-y-4">
+        <div className="rounded-2xl border border-amber-200/70 bg-gradient-to-r from-amber-50 via-yellow-50 to-white p-5 shadow-sm">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-amber-200 to-amber-100 flex items-center justify-center shadow-inner ring-1 ring-amber-300/40">
+                <svg className="w-8 h-8 text-amber-900" viewBox="0 0 24 24">
+                  <text x="12" y="16" textAnchor="middle" fontSize="16" fontWeight="700" fill="currentColor">€</text>
+                </svg>
+              </div>
+              <div>
+                <div className="text-xs sm:text-sm font-semibold text-amber-900">Costo Prenotazione</div>
+                <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-amber-800">20€</div>
+                
+              </div>
+            </div>
+            <a href="/info/contatti" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span>Contatti Pagamento</span>
+            </a>
+          </div>
+        </div>
+        <div>
           <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
             <h3 className="text-sm font-semibold text-gray-800 mb-3">Dettagli prenotazione</h3>
             <div className="space-y-3">
@@ -498,51 +514,48 @@ const BookingCalendar: React.FC = () => {
                 <label className="text-xs text-gray-600">Giorno</label>
                 <div className="mt-1 px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800">{selectedDate}</div>
               </div>
-              <div>
-                <label className="text-xs text-gray-600">Durata</label>
-                <div className="mt-1 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
-                  {[1,2,3,4,5,6].map((h) => {
-                    const sel = selectedDuration === h;
-                    let cls = '';
-                    if (sel) cls = 'bg-primary-100 text-primary-700 border-primary-200';
-                    else cls = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
-                    return (
-                      <button
-                        key={`dur-${h}`}
-                        onClick={() => handleSelectDuration(h)}
-                        className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${cls}`}
-                      >
-                        {h}h
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-              <div>
-                <label className="text-xs text-gray-600">Orari disponibili</label>
-                {!selectedDuration ? (
-                  <div className="mt-1 px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-600 text-sm">Seleziona la durata per vedere gli orari</div>
-                ) : (
-                  <div className="mt-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                    {availableStarts.length === 0 ? (
-                      <div className="col-span-full px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-600 text-sm">Nessun orario disponibile per questa durata</div>
-                    ) : availableStarts.map(({ start, end }) => {
-                      const selected = start === startTime && end === endTime;
-                      let cls = '';
-                      if (selected) cls = 'bg-primary-100 text-primary-700 border-primary-200';
-                      else cls = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
-                      return (
-                        <button
-                          key={`${selectedDate}-${start}`}
-                          onClick={() => handleSelectStart(start)}
-                          className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${cls}`}
-                        >
-                          {removeSecondsFromTime(start)}–{removeSecondsFromTime(end)}
-                        </button>
-                      );
-                    })}
+              <div className="grid grid-cols-2 gap-3 items-end">
+                <div>
+                  <label className="text-xs text-gray-600">Ora di inizio</label>
+                  <div className="relative">
+                    <select
+                      value={startTime}
+                      onChange={(e) => handleSelectStart(e.target.value)}
+                      className="mt-1 w-full px-3 py-2 pr-14 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
+                    >
+                      <option value="">Seleziona</option>
+                      {startOptions.map((s) => (
+                        <option key={`s-${s}`} value={s}>{removeSecondsFromTime(s)}</option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+                      </svg>
+                    </div>
                   </div>
-                )}
+                </div>
+                <div>
+                  <label className="text-xs text-gray-600">Ora di fine</label>
+                  <div className="relative">
+                    <select
+                      value={endTime}
+                      onChange={(e) => handleSelectEnd(e.target.value)}
+                      disabled={!startTime || endOptions.length === 0}
+                      className={`mt-1 w-full px-3 py-2 pr-14 rounded-lg focus:outline-none focus:ring-2 appearance-none ${(!startTime || endOptions.length === 0) ? 'bg-gray-100 text-gray-400 border-gray-200' : 'bg-white border border-gray-200 text-gray-800 focus:ring-primary-500'}`}
+                    >
+                      <option value="">Seleziona</option>
+                      {endOptions.map((e) => (
+                        <option key={`e-${e}`} value={e}>{removeSecondsFromTime(e)}</option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="pt-2">
                 {canBookSlot() ? (
@@ -551,18 +564,18 @@ const BookingCalendar: React.FC = () => {
                     disabled={isLoading}
                     className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isLoading ? 'Caricamento...' : 'Prenota questa fascia'}
+                    {isLoading ? 'Caricamento...' : 'Prenota questo intervallo'}
                   </button>
                 ) : (
-                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona durata e orario</div>
+                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona inizio e fine</div>
                 )}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="md:col-span-2">
-          <div className="mt-0">
+        <div>
+          <div className="p-4 bg-white rounded-xl border border-gray-200">
             <h4 className="text-sm font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
             {occupiedForDate.length === 0 ? (
               <p className="text-sm text-gray-600">Nessuna prenotazione presente.</p>
@@ -572,18 +585,21 @@ const BookingCalendar: React.FC = () => {
                   const masked = maskCustomerName(b.customer_name)
                   const titleRaw = b.title || ''
                   const titleSanitized = titleRaw && b.customer_name ? titleRaw.split(b.customer_name).join(masked) : titleRaw
+                  let cleanedTitle = titleSanitized ? titleSanitized.split(masked).join('').trim() : ''
+                  if (cleanedTitle.toLowerCase().startsWith('prenotazione')) {
+                    cleanedTitle = cleanedTitle.replace(/^prenotazione\s*/i, '').trim()
+                  }
                   return (
-                    <li key={i} className="px-3 py-2 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">{removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} {titleSanitized ? `· ${titleSanitized}` : ''}</div>
-                        <div className="text-xs text-gray-600">{masked}</div>
+                    <li key={i} className="px-4 py-3 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
+                      <div className="font-medium">
+                        {removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} · Prenotato da {masked}{cleanedTitle ? ` · ${cleanedTitle}` : ''}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 border border-rose-200">occupato</span>
                         <button
                           onClick={() => handleCancelBooking(b.id)}
                           disabled={isLoading}
-                          className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
+                          className="text-sm px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+                          aria-label="Cancella prenotazione"
                         >
                           Cancella
                         </button>

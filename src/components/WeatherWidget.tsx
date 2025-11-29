@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { SITE_CONFIG } from '../utils/config';
 import HourlyTemperatureChart from './HourlyTemperatureChart';
 import HourlyPrecipitationChart from './HourlyPrecipitationChart';
 import CountUp from './CountUp';
@@ -200,9 +201,8 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Coordinate per Leonessa (vicino a Piedelpoggio)
-  const LATITUDE = 42.5560;
-  const LONGITUDE = 12.9941;
+  const LATITUDE = SITE_CONFIG.coordinates.lat;
+  const LONGITUDE = SITE_CONFIG.coordinates.lon;
   const GOOGLE_API_KEY = import.meta.env.PUBLIC_GOOGLE_MAPS_API_KEY;
 
   const getWeatherIcon = (iconBaseUri: string, weatherType: string, isDark: boolean = false) => {
@@ -296,7 +296,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
       hour.setHours(currentHour + i, 0, 0, 0);
       
       const isPast = i < 0;
-      const baseTemp = weather?.currentConditions?.temperature?.degrees || 15;
+      const baseTemp = weather ? toCelsius(weather.currentConditions?.temperature) : 15;
       
       // Simula variazioni di temperatura durante il giorno con un ciclo più realistico
       const hourOfDay = hour.getHours();
@@ -358,7 +358,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
         
         return {
           time: hour.interval.startTime,
-          temperature: hour.temperature.degrees,
+          temperature: toCelsius(hour.temperature),
           isPast
         };
       });
@@ -405,6 +405,16 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
     };
 
     return translations[description] || description || 'Condizioni variabili';
+  };
+
+  const toCelsius = (t?: GoogleTemperature) => {
+    if (!t) return 0;
+    const unit = String(t.unit || '').toUpperCase();
+    const val = Number(t.degrees || 0);
+    if (unit === 'FAHRENHEIT' || unit === 'F') {
+      return (val - 32) * (5 / 9);
+    }
+    return val;
   };
 
   // Stato per i dati orari
@@ -500,7 +510,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
 
   console.log('WeatherWidget: Rendering dati meteo', weather);
 
-  const currentTemp = Math.round(weather.currentConditions.temperature.degrees);
+  const currentTemp = Math.round(toCelsius(weather.currentConditions.temperature));
   const currentIcon = getWeatherIcon(
     weather.currentConditions.weatherCondition.iconBaseUri, 
     weather.currentConditions.weatherCondition.type
@@ -590,8 +600,8 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
             const dayName = isToday ? 'Oggi' : date.toLocaleDateString('it-IT', { weekday: 'short' });
             
             // Usa le temperature max/min dalla nuova struttura API
-            const maxTemp = forecast.maxTemperature ? Math.round(forecast.maxTemperature.degrees) : 0;
-            const minTemp = forecast.minTemperature ? Math.round(forecast.minTemperature.degrees) : 0;
+            const maxTemp = forecast.maxTemperature ? Math.round(toCelsius(forecast.maxTemperature)) : 0;
+            const minTemp = forecast.minTemperature ? Math.round(toCelsius(forecast.minTemperature)) : 0;
             
             const icon = getWeatherIcon(
               forecast.daytimeForecast.weatherCondition.iconBaseUri,

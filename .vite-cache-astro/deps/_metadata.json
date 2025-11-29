@@ -1,65 +1,80 @@
 {
-  "hash": "c3107234",
-  "configHash": "1b3175df",
+  "hash": "b763403d",
+  "configHash": "8c01e9eb",
   "lockfileHash": "d7ab087a",
-  "browserHash": "52a8295b",
+  "browserHash": "d0947058",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "1b9d2c72",
+      "fileHash": "c0c40c5d",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "4952775b",
+      "fileHash": "735f8e1c",
       "needsInterop": true
+    },
+    "motion": {
+      "src": "../../node_modules/motion/dist/es/index.mjs",
+      "file": "motion.js",
+      "fileHash": "ad81b697",
+      "needsInterop": false
+    },
+    "motion/react": {
+      "src": "../../node_modules/motion/dist/es/react.mjs",
+      "file": "motion_react.js",
+      "fileHash": "18167b13",
+      "needsInterop": false
+    },
+    "gsap": {
+      "src": "../../node_modules/gsap/index.js",
+      "file": "gsap.js",
+      "fileHash": "9a592503",
+      "needsInterop": false
     },
     "@astrojs/react/client.js": {
       "src": "../../node_modules/@astrojs/react/dist/client.js",
       "file": "@astrojs_react_client__js.js",
-      "fileHash": "f8b0840e",
+      "fileHash": "7f4d62e7",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "635367a2",
+      "fileHash": "ae50ea4a",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "5bd0f5a3",
+      "fileHash": "b3b012f3",
       "needsInterop": true
     },
     "astro > cssesc": {
       "src": "../../node_modules/cssesc/cssesc.js",
       "file": "astro___cssesc.js",
-      "fileHash": "ba635d69",
+      "fileHash": "895ca4d7",
       "needsInterop": true
     },
     "astro > aria-query": {
       "src": "../../node_modules/aria-query/lib/index.js",
       "file": "astro___aria-query.js",
-      "fileHash": "321ff6f8",
+      "fileHash": "eaa8e00e",
       "needsInterop": true
     },
     "astro > axobject-query": {
       "src": "../../node_modules/axobject-query/lib/index.js",
       "file": "astro___axobject-query.js",
-      "fileHash": "20111977",
+      "fileHash": "12076014",
       "needsInterop": true
-    },
-    "motion/react": {
-      "src": "../../node_modules/motion/dist/es/react.mjs",
-      "file": "motion_react.js",
-      "fileHash": "b9ede5fe",
-      "needsInterop": false
     }
   },
   "chunks": {
+    "chunk-UHJV5OXI": {
+      "file": "chunk-UHJV5OXI.js"
+    },
     "chunk-HIKZHPW6": {
       "file": "chunk-HIKZHPW6.js"
     },

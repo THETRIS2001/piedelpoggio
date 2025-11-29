@@ -1,12 +1,11 @@
 VERIFICA CONTENUTI SE CORRETTI e soprattutto pagine eventi e notizie e bilancio
 
+Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento
+
 Responsivness: tag pagine di dimensioni diverse (es eventi vs terremoto)
 
 Meteo non combacia
 
-Pagina prenotazione va resa piu chiara
-
-Pulsante downkoad per ogni cartella
 Non carica video grandi.
 Compressione anteprime
 
