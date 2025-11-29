@@ -282,18 +282,27 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         info.appendChild(date)
         info.appendChild(desc)
         info.appendChild(counts)
+        const actions = document.createElement('div')
+        actions.className = 'mt-3 flex items-center gap-2 mt-auto'
         const openLink = document.createElement('a')
-        openLink.className = 'mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white w-full shadow-md hover:shadow-lg transition-all duration-300 mt-auto'
+        openLink.className = 'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white flex-1 shadow-md hover:shadow-lg transition-all duration-300'
         openLink.textContent = 'Apri galleria'
         openLink.href = `/media/${ev.folder}`
         openLink.style.background = '#E01E00'
-        info.appendChild(openLink)
-        const dlBtn = document.createElement('button')
-        dlBtn.type = 'button'
-        dlBtn.className = 'mt-2 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-white text-[#E01E00] border border-[#E01E00] w-full shadow-sm hover:bg-red-50 transition-all duration-300'
-        dlBtn.textContent = 'Scarica cartella'
-        dlBtn.addEventListener('click', () => downloadFolderZip(ev.folder, ev.files || []))
-        info.appendChild(dlBtn)
+        const dlIcon = document.createElement('button')
+        dlIcon.type = 'button'
+        dlIcon.className = 'inline-flex items-center justify-center w-10 h-10 rounded-xl border border-red-600 bg-white text-red-700 hover:bg-red-50'
+        dlIcon.setAttribute('aria-label', 'Scarica cartella')
+        dlIcon.setAttribute('title', 'Scarica cartella')
+        dlIcon.innerHTML = `
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v8m0 0l-4-4m4 4l4-4M4 18h16v2H4z" />
+          </svg>
+        `
+        dlIcon.addEventListener('click', () => downloadFolderZip(ev.folder, ev.files || []))
+        actions.appendChild(openLink)
+        actions.appendChild(dlIcon)
+        info.appendChild(actions)
         card.appendChild(cover)
         card.appendChild(info)
         
@@ -330,7 +339,15 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         card.appendChild(pct)
         overlay.appendChild(card)
         document.body.appendChild(overlay)
-        const list = files.filter((it) => it && it.name && !it.name.startsWith('_thumbs/') && !it.name.startsWith('__thumb__'))
+        const list = files.filter((it) => {
+          const n = (it?.name || '').toLowerCase()
+          const u = (it?.url || '').toLowerCase()
+          if (!n) return false
+          if (n.startsWith('__thumb__')) return false
+          if (u.includes('/_thumbs/')) return false
+          if (n.endsWith('.webp') || u.endsWith('.webp')) return false
+          return true
+        })
         let loaded = 0
         const total = list.length
         const map: any = {}

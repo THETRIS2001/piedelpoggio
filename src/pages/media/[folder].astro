@@ -210,7 +210,18 @@ if (meta?.date) {
         card.appendChild(pct)
         overlay.appendChild(card)
         document.body.appendChild(overlay)
-        const list = Array.from(document.querySelectorAll('#gallery img')).map(el => ({ name: el.getAttribute('alt') || 'file', url: el.getAttribute('data-original') || '' })).filter(it => it.url)
+        const imgs = Array.from(document.querySelectorAll('#gallery img')).map(el => ({ name: el.getAttribute('alt') || 'file', url: el.getAttribute('data-original') || '' }))
+        const vids = Array.from(document.querySelectorAll('#gallery video')).map(el => {
+          const url = el.getAttribute('src') || ''
+          const name = url.split('/').pop() || 'video'
+          return { name, url }
+        })
+        const all = [...imgs, ...vids].filter(it => it.url)
+        const list = all.filter(it => {
+          const n = (it.name || '').toLowerCase()
+          const u = (it.url || '').toLowerCase()
+          return !(n.endsWith('.webp') || u.endsWith('.webp'))
+        })
         let loaded = 0
         const total = list.length
         const map: any = {}
