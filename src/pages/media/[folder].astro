@@ -246,8 +246,6 @@ if (meta?.date) {
       }
     }
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
-  </script>
-</DefaultLayout>
     function cfLowRes(url) {
       if (!url) return url
       const origin = (location && location.origin) || ''
@@ -266,10 +264,12 @@ if (meta?.date) {
             console.log('host', location.hostname)
             console.log('orig', orig)
             console.log('low', low)
-            fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(e => console.log('orig:error'))
-            fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(e => console.log('low:error'))
+            fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(() => console.log('orig:error'))
+            fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(() => console.log('low:error'))
             console.groupEnd()
           } catch {}
         })
       } catch {}
     })
+  </script>
+</DefaultLayout>
