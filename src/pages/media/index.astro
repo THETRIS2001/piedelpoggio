@@ -258,8 +258,14 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               console.log('host', host)
               console.log('orig', orig)
               console.log('low', low)
-              fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(e => console.log('orig:error'))
-              fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(e => console.log('low:error'))
+              fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(() => console.log('orig:error'))
+              fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(() => console.log('low:error'))
+              fetch(low, { method: 'GET', cache: 'no-store' })
+                .then(r => {
+                  const hdr = r.headers.get('cf-resized')
+                  console.log('low:cf-resized', hdr || '(none)')
+                })
+                .catch(() => console.log('low:cf-resized:error'))
               console.groupEnd()
             } catch {}
           }
