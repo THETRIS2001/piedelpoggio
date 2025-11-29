@@ -11,7 +11,7 @@ const isAllowed = (name: string) => {
 }
 
 let meta: any = null
-let files: Array<{ name: string; url: string; isVideo: boolean; thumbUrl?: string }> = []
+let files: Array<{ name: string; url: string; isVideo: boolean }> = []
 let formattedDate: string = ''
 
 try {
@@ -87,7 +87,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src={import.meta.env.PROD ? `/cdn-cgi/image/width=500,quality=80,format=auto${f.url}` : f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
                 )}
               </div>
             ))}

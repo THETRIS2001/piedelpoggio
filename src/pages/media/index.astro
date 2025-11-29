@@ -243,7 +243,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             cell.appendChild(v)
           } else {
             const img = document.createElement('img')
-            img.src = f.url
+            img.src = cfLowRes(f.url)
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
@@ -315,6 +315,18 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js'; s.onload = resolve; s.onerror = reject; document.head.appendChild(s) })
       return (window as any).fflate
     }
+    function cfLowRes(url) {
+      try {
+        const host = (location && location.hostname) || ''
+        const isLocal = host.includes('localhost') || host === '127.0.0.1'
+        if (isLocal) return url
+        if (!url) return url
+        if (url.startsWith('/')) return `/cdn-cgi/image/width=500,quality=80,format=auto${url}`
+        if (url.startsWith('http')) return `/cdn-cgi/image/width=500,quality=80,format=auto/${url}`
+        return url
+      } catch { return url }
+    }
+
     async function downloadFolderZip(folder, files) {
       try {
         const fflate = await ensureFflate()
