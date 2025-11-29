@@ -338,7 +338,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (!url) return url
       const origin = (location && location.origin) || ''
       const abs = url.startsWith('/') ? origin + url : url
-      return `/cdn-cgi/image/width=500,quality=80,format=auto/${abs}`
+      const usrc = encodeURIComponent(abs)
+      return `/api/image?w=500&q=80&f=auto&src=${usrc}`
     }
 
     async function downloadFolderZip(folder, files) {

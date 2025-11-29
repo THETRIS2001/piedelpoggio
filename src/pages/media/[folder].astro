@@ -87,7 +87,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={`/cdn-cgi/image/width=500,quality=80,format=auto${f.url}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src={`/api/image?w=500&q=80&f=auto&src=${encodeURIComponent(f.url)}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
                 )}
               </div>
             ))}
@@ -250,7 +250,8 @@ if (meta?.date) {
       if (!url) return url
       const origin = (location && location.origin) || ''
       const abs = url.startsWith('/') ? origin + url : url
-      return `/cdn-cgi/image/width=500,quality=80,format=auto/${abs}`
+      const usrc = encodeURIComponent(abs)
+      return `/api/image?w=500&q=80&f=auto&src=${usrc}`
     }
     document.querySelectorAll('#gallery img').forEach((el) => {
       try {
