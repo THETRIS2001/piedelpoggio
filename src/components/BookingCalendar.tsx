@@ -143,18 +143,27 @@ const BookingCalendar: React.FC = () => {
 
   const handleSelectStart = (slotTime: string) => {
     if (slotTime === '00:00') return;
-    setStartTime(slotTime);
-    setEndTime('');
-    setSelectedDuration(0);
-  };
-  const handleSelectDuration = (hours: number) => {
-    if (!startTime) return;
-    const startMin = minutesFromTime(startTime);
-    const endMin = startMin + hours * STEP;
+    if (!selectedDuration) return;
+    const startMin = minutesFromTime(slotTime);
+    const endMin = startMin + selectedDuration * STEP;
     const hh = String(Math.floor(endMin / 60)).padStart(2, '0');
     const mm = String(endMin % 60).padStart(2, '0');
+    const endStr = endMin === WORK_END ? '00:00' : `${hh}:${mm}`;
+    setStartTime(slotTime);
+    setEndTime(endStr);
+  };
+  const handleSelectDuration = (hours: number) => {
     setSelectedDuration(hours);
-    setEndTime(`${hh}:${mm}`);
+    if (startTime) {
+      const startMin = minutesFromTime(startTime);
+      const endMin = startMin + hours * STEP;
+      const hh = String(Math.floor(endMin / 60)).padStart(2, '0');
+      const mm = String(endMin % 60).padStart(2, '0');
+      const endStr = endMin === WORK_END ? '00:00' : `${hh}:${mm}`;
+      setEndTime(endStr);
+    } else {
+      setEndTime('');
+    }
   };
 
   useEffect(() => {
@@ -219,6 +228,30 @@ const BookingCalendar: React.FC = () => {
     if (eMin <= sMin || eMin > WORK_END) return false;
     return !isSlotBusy(selectedDate, startTime, endTime);
   };
+
+  const availableStarts = useMemo(() => {
+    if (!selectedDuration) return [] as { start: string; end: string }[];
+    const d = new Date(selectedDate);
+    d.setHours(0,0,0,0);
+    const t = new Date();
+    t.setHours(0,0,0,0);
+    if (d < t) return [] as { start: string; end: string }[];
+    const result: { start: string; end: string }[] = [];
+    for (let m = WORK_START; m < WORK_END; m += STEP) {
+      const endMin = m + selectedDuration * STEP;
+      if (endMin > WORK_END) break;
+      const sh = String(Math.floor(m / 60)).padStart(2, '0');
+      const sm = String(m % 60).padStart(2, '0');
+      const eh = String(Math.floor(endMin / 60)).padStart(2, '0');
+      const em = String(endMin % 60).padStart(2, '0');
+      const sStr = `${sh}:${sm}`;
+      const eStr = endMin === WORK_END ? '00:00' : `${eh}:${em}`;
+      if (!isSlotBusy(selectedDate, sStr, eStr)) {
+        result.push({ start: sStr, end: eStr });
+      }
+    }
+    return result;
+  }, [selectedDuration, selectedDate, bookingsByDate]);
 
   const handleBooking = async () => {
     if (!canBookSlot()) {
@@ -353,15 +386,7 @@ const BookingCalendar: React.FC = () => {
     setSelectedDate(toDateKey(d));
   };
 
-  // Assicurare che fine sia sempre dopo inizio
-  useEffect(() => {
-    if (startTime && endTime && minutesFromTime(endTime) <= minutesFromTime(startTime)) {
-      const next = minutesFromTime(startTime) + STEP;
-      const hh = String(Math.floor(next / 60)).padStart(2, '0');
-      const mm = String(next % 60).padStart(2, '0');
-      setEndTime(`${hh}:${mm}`);
-    }
-  }, [startTime, endTime]);
+  
 
   return (
     <div>
@@ -474,64 +499,17 @@ const BookingCalendar: React.FC = () => {
                 <div className="mt-1 px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800">{selectedDate}</div>
               </div>
               <div>
-                <label className="text-xs text-gray-600">Ora di inizio</label>
-                <div className="mt-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-                  {slots.map((s) => {
-                    if (s === '00:00') return null;
-                    const slotEndMinutes = minutesFromTime(s) + STEP;
-                    const eh = String(Math.floor(slotEndMinutes / 60)).padStart(2, '0');
-                    const em = String(slotEndMinutes % 60).padStart(2, '0');
-                    const eStr = `${eh}:${em}`;
-                    const d = new Date(selectedDate);
-                    d.setHours(0,0,0,0);
-                    const t = new Date();
-                    t.setHours(0,0,0,0);
-                    const isPastDay = d < t;
-                    const disabled = isPastDay || isSlotBusy(selectedDate, s, eStr);
-                    const selected = s === startTime;
-                    let buttonStyle = '';
-                    if (selected) buttonStyle = 'bg-primary-100 text-primary-700 border-primary-200';
-                    else if (disabled) buttonStyle = 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed';
-                    else buttonStyle = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
-                    return (
-                      <button
-                        key={`${selectedDate}-${s}`}
-                        onClick={() => !disabled && handleSelectStart(s)}
-                        disabled={disabled}
-                        className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${buttonStyle}`}
-                      >
-                        {s}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-              <div>
                 <label className="text-xs text-gray-600">Durata</label>
-                <div className="mt-1 grid grid-cols-6 gap-2">
+                <div className="mt-1 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
                   {[1,2,3,4,5,6].map((h) => {
-                    const hasStart = !!startTime;
-                    const sMin = minutesFromTime(startTime);
-                    const eMin = sMin + h * STEP;
-                    const hh = String(Math.floor(eMin / 60)).padStart(2, '0');
-                    const mm = String(eMin % 60).padStart(2, '0');
-                    const eStr = `${hh}:${mm}`;
-                    const d = new Date(selectedDate);
-                    d.setHours(0,0,0,0);
-                    const t = new Date();
-                    t.setHours(0,0,0,0);
-                    const isPastDay = d < t;
-                    const invalid = !hasStart || isPastDay || eMin > WORK_END || isSlotBusy(selectedDate, startTime, eStr);
                     const sel = selectedDuration === h;
                     let cls = '';
                     if (sel) cls = 'bg-primary-100 text-primary-700 border-primary-200';
-                    else if (invalid) cls = 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed';
                     else cls = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
                     return (
                       <button
                         key={`dur-${h}`}
-                        onClick={() => !invalid && handleSelectDuration(h)}
-                        disabled={invalid}
+                        onClick={() => handleSelectDuration(h)}
                         className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${cls}`}
                       >
                         {h}h
@@ -539,6 +517,32 @@ const BookingCalendar: React.FC = () => {
                     );
                   })}
                 </div>
+              </div>
+              <div>
+                <label className="text-xs text-gray-600">Orari disponibili</label>
+                {!selectedDuration ? (
+                  <div className="mt-1 px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-600 text-sm">Seleziona la durata per vedere gli orari</div>
+                ) : (
+                  <div className="mt-1 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                    {availableStarts.length === 0 ? (
+                      <div className="col-span-full px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-600 text-sm">Nessun orario disponibile per questa durata</div>
+                    ) : availableStarts.map(({ start, end }) => {
+                      const selected = start === startTime && end === endTime;
+                      let cls = '';
+                      if (selected) cls = 'bg-primary-100 text-primary-700 border-primary-200';
+                      else cls = 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer';
+                      return (
+                        <button
+                          key={`${selectedDate}-${start}`}
+                          onClick={() => handleSelectStart(start)}
+                          className={`px-3 py-2 rounded-lg border text-sm text-center transition-colors ${cls}`}
+                        >
+                          {removeSecondsFromTime(start)}–{removeSecondsFromTime(end)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
               <div className="pt-2">
                 {canBookSlot() ? (
@@ -550,13 +554,8 @@ const BookingCalendar: React.FC = () => {
                     {isLoading ? 'Caricamento...' : 'Prenota questa fascia'}
                   </button>
                 ) : (
-                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona ora di inizio e durata</div>
+                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona durata e orario</div>
                 )}
-              </div>
-              <div className="flex items-center gap-2 text-xs flex-wrap">
-                <span className={`px-2 py-1 rounded-md border ${legendColors.available}`}>Disponibile</span>
-                <span className={`px-2 py-1 rounded-md border ${legendColors.busy}`}>Occupato</span>
-                <span className={`px-2 py-1 rounded-md border ${legendColors.selected}`}>Selezionato</span>
               </div>
             </div>
           </div>
