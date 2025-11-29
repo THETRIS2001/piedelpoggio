@@ -248,3 +248,28 @@ if (meta?.date) {
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
   </script>
 </DefaultLayout>
+    function cfLowRes(url) {
+      if (!url) return url
+      const origin = (location && location.origin) || ''
+      const abs = url.startsWith('/') ? origin + url : url
+      return `/cdn-cgi/image/width=500,quality=80,format=auto/${abs}`
+    }
+    document.querySelectorAll('#gallery img').forEach((el) => {
+      try {
+        const orig = el.getAttribute('data-original') || ''
+        const low = cfLowRes(orig)
+        el.setAttribute('src', low)
+        el.addEventListener('error', () => {
+          try { (el.parentElement)?.remove() } catch {}
+          try {
+            console.groupCollapsed('cf-image')
+            console.log('host', location.hostname)
+            console.log('orig', orig)
+            console.log('low', low)
+            fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(e => console.log('orig:error'))
+            fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(e => console.log('low:error'))
+            console.groupEnd()
+          } catch {}
+        })
+      } catch {}
+    })

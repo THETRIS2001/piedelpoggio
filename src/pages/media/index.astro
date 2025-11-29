@@ -243,12 +243,25 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             cell.appendChild(v)
           } else {
             const img = document.createElement('img')
-            img.src = cfLowRes(f.url)
+            const low = cfLowRes(f.url)
+            img.src = low
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
-            img.onerror = () => { cell.remove() }
+            img.onerror = () => { try { cell.remove() } catch {} }
             cell.appendChild(img)
+            try {
+              const host = location.hostname
+              const origin = location.origin
+              const orig = f.url.startsWith('/') ? origin + f.url : f.url
+              console.groupCollapsed('cf-image')
+              console.log('host', host)
+              console.log('orig', orig)
+              console.log('low', low)
+              fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(e => console.log('orig:error'))
+              fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(e => console.log('low:error'))
+              console.groupEnd()
+            } catch {}
           }
           cover.appendChild(cell)
         })
@@ -317,8 +330,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     }
     function cfLowRes(url) {
       if (!url) return url
-      if (url.startsWith('/')) return `/cdn-cgi/image/width=500,quality=80,format=auto${url}`
-      return `/cdn-cgi/image/width=500,quality=80,format=auto/${url}`
+      const origin = (location && location.origin) || ''
+      const abs = url.startsWith('/') ? origin + url : url
+      return `/cdn-cgi/image/width=500,quality=80,format=auto/${abs}`
     }
 
     async function downloadFolderZip(folder, files) {
