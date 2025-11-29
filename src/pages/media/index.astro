@@ -247,7 +247,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
-            img.onerror = () => { img.src = f.url }
+            img.onerror = () => { cell.remove() }
             cell.appendChild(img)
           }
           cover.appendChild(cell)
@@ -316,15 +316,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       return (window as any).fflate
     }
     function cfLowRes(url) {
-      try {
-        const host = (location && location.hostname) || ''
-        const isLocal = host.includes('localhost') || host === '127.0.0.1'
-        if (isLocal) return url
-        if (!url) return url
-        if (url.startsWith('/')) return `/cdn-cgi/image/width=500,quality=80,format=auto${url}`
-        if (url.startsWith('http')) return `/cdn-cgi/image/width=500,quality=80,format=auto/${url}`
-        return url
-      } catch { return url }
+      if (!url) return url
+      if (url.startsWith('/')) return `/cdn-cgi/image/width=500,quality=80,format=auto${url}`
+      return `/cdn-cgi/image/width=500,quality=80,format=auto/${url}`
     }
 
     async function downloadFolderZip(folder, files) {
