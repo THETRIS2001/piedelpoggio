@@ -20,7 +20,6 @@ function contentTypeFor(name: string): string {
   const ext = getExt(name)
   if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
   if (ext === '.png') return 'image/png'
-  if (ext === '.webp') return 'image/webp'
   if (ext === '.gif') return 'image/gif'
   if (ext === '.mp4') return 'video/mp4'
   if (ext === '.webm') return 'video/webm'
@@ -51,4 +50,3 @@ export const GET: APIRoute = async ({ params, locals }) => {
     }
   })
 }
-

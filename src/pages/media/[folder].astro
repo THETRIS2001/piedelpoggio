@@ -7,7 +7,7 @@ const folder = Astro.params.folder
 const isAllowed = (name: string) => {
   const i = name.lastIndexOf('.')
   const ext = i >= 0 ? name.slice(i).toLowerCase() : ''
-  return ['.jpg','.jpeg','.png','.webp','.gif','.mp4','.webm','.ogg'].includes(ext)
+  return ['.jpg','.jpeg','.png','.gif','.mp4','.webm','.ogg'].includes(ext)
 }
 
 let meta: any = null
@@ -25,8 +25,7 @@ try {
       }
     } catch {}
     const listed = await bucket.list({ prefix: `media/${folder}/` })
-    const thumbs = await bucket.list({ prefix: `media/${folder}/_thumbs/` })
-    const thumbSet = new Set<string>((thumbs.objects || []).map((o: any) => (o.key as string).split('/').pop() || ''))
+    
     const names = (listed.objects || [])
       .map((o: any) => o.key as string)
       .map((k: string) => k.split('/').pop() || '')
@@ -34,11 +33,7 @@ try {
     files = names.map((n: string) => {
       const isVideo = /\.(mp4|webm|ogg)$/i.test(n)
       const url = `/media/${folder}/${n}`
-      if (isVideo) return { name: n, url, isVideo }
-      const base = n.replace(/\.[^/.]+$/, '')
-      const tname = `${base}.webp`
-      const thumbUrl = thumbSet.has(tname) ? `/media/${folder}/_thumbs/${tname}` : undefined
-      return thumbUrl ? { name: n, url, isVideo, thumbUrl } : { name: n, url, isVideo }
+      return { name: n, url, isVideo }
     })
   }
 } catch {}
@@ -92,7 +87,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={f.thumbUrl || f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src={f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
                 )}
               </div>
             ))}

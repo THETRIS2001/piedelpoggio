@@ -243,7 +243,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             cell.appendChild(v)
           } else {
             const img = document.createElement('img')
-            img.src = f.thumbUrl || f.url
+            img.src = f.url
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
@@ -343,8 +343,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           const n = (it?.name || '').toLowerCase()
           const u = (it?.url || '').toLowerCase()
           if (!n) return false
-          if (n.startsWith('__thumb__')) return false
-          if (u.includes('/_thumbs/')) return false
           if (n.endsWith('.webp') || u.endsWith('.webp')) return false
           return true
         })
@@ -520,33 +518,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       while (v >= 1024 && i < u.length - 1) { v /= 1024; i++ }
       return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`
     }
-    function isImageFile(f) { return !!f && /^image\/(jpeg|png|webp|gif)$/i.test(f.type || '') }
-    function baseName(n) { const i = n.lastIndexOf('.'); return i >= 0 ? n.slice(0, i) : n }
-    function toBlob(canvas, type, quality) { return new Promise((resolve) => { canvas.toBlob((b) => resolve(b || new Blob()), type, quality) }) }
-    async function generatePreview(file) {
-      const url = URL.createObjectURL(file)
-      try {
-        const img = (window as any).createImageBitmap ? await (window as any).createImageBitmap(file) : await new Promise((resolve, reject) => { const i = new Image(); i.onload = () => resolve(i); i.onerror = reject; i.src = url })
-        const iw = (img as any).width || (img as HTMLImageElement).naturalWidth
-        const ih = (img as any).height || (img as HTMLImageElement).naturalHeight
-        const maxW = 960
-        const scale = Math.min(1, maxW / iw)
-        const w = Math.round(iw * scale)
-        const h = Math.round(ih * scale)
-        const canvas = document.createElement('canvas')
-        canvas.width = w; canvas.height = h
-        const ctx = canvas.getContext('2d')
-        if (!ctx) return null
-        ctx.drawImage(img as any, 0, 0, w, h)
-        const blob: any = await toBlob(canvas, 'image/webp', 0.7)
-        const f = new File([blob], `__thumb__-${baseName(file.name)}.webp`, { type: 'image/webp' })
-        return f
-      } catch {
-        return null
-      } finally {
-        URL.revokeObjectURL(url)
-      }
-    }
+    
     function totalSelectedBytes() {
       const input = document.getElementById('files') as HTMLInputElement | null
       const inputBytes = input && input.files ? Array.from(input.files).reduce((a,f)=>a+(f.size||0),0) : 0
@@ -623,9 +595,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const sources: File[] = [...filesInputList, ...externalFiles]
       const allFiles: File[] = []
       for (const f of sources) {
-        if (isImageFile(f)) {
-          try { const p = await generatePreview(f); if (p) allFiles.push(p) } catch {}
-        }
         allFiles.push(f)
       }
       const totalBytesAll = allFiles.reduce((a, f) => a + (f.size || 0), 0)
@@ -642,7 +611,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           const xhr = new XMLHttpRequest()
           let url = '/api/media'
           let fd: FormData | null = null
-          const isThumbName = (file.name || '').startsWith('__thumb__')
           if (file.size >= RAW_THRESHOLD_BYTES) {
             const params = new URLSearchParams()
             params.set('raw', '1')
@@ -655,7 +623,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               params.set('date', date)
             }
             if (desc) params.set('description', desc)
-            if (isThumbName) params.set('thumb', '1')
             url = `/api/media?${params.toString()}`
             xhr.open('POST', url)
           } else {
@@ -695,8 +662,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           if (!f || !f.name || f.size === 0) continue
           await uploadOne(f)
         }
-        const isThumb = (n: string) => n.startsWith('__thumb__')
-        const originals = sources.map(f => f.name).filter(n => !!n && !isThumb(n))
+        const originals = sources.map(f => f.name).filter(n => !!n)
         const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
         const name = (document.getElementById('eventName') as HTMLInputElement | null)?.value || ''
         const date = (document.getElementById('date') as HTMLInputElement | null)?.value || ''

@@ -25,7 +25,7 @@ function getExt(name: string): string {
 
 function isAllowedFile(filename: string): boolean {
   const ext = getExt(filename)
-  const images = ['.jpg', '.jpeg', '.png', '.webp', '.gif']
+  const images = ['.jpg', '.jpeg', '.png', '.gif']
   const videos = ['.mp4', '.webm', '.ogg']
   return images.includes(ext) || videos.includes(ext)
 }
@@ -42,7 +42,6 @@ function contentTypeFor(name: string): string {
   const ext = getExt(name)
   if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
   if (ext === '.png') return 'image/png'
-  if (ext === '.webp') return 'image/webp'
   if (ext === '.gif') return 'image/gif'
   if (ext === '.mp4') return 'video/mp4'
   if (ext === '.webm') return 'video/webm'
@@ -77,7 +76,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         if (seg) folders.add(seg)
       }
 
-      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string; thumbUrl?: string }> }> = []
+      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
       for (const folder of folders) {
         let meta: Meta | null = null
         try {
@@ -88,21 +87,11 @@ export const GET: APIRoute = async ({ request, locals }) => {
           }
         } catch {}
         const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
-        const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
-        const thumbSet = new Set<string>((thumbsList.objects || []).map((o: any) => (o.key as string).split('/').pop() || ''))
         const files = (filesList.objects || [])
           .map((o: any) => o.key as string)
           .map((k: string) => k.split('/').pop() || '')
           .filter((name: string) => isAllowedFile(name))
-          .map((name: string) => {
-            const url = `/media/${folder}/${name}`
-            const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(name)
-            if (!isImg) return { name, url }
-            const base = name.replace(/\.[^/.]+$/, '')
-            const tname = `${base}.webp`
-            const thumbUrl = thumbSet.has(tname) ? `/media/${folder}/_thumbs/${tname}` : undefined
-            return thumbUrl ? { name, url, thumbUrl } : { name, url }
-          })
+          .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
         events.push({ folder, meta, files })
       }
 
@@ -123,21 +112,11 @@ export const GET: APIRoute = async ({ request, locals }) => {
         }
       } catch {}
       const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
-      const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
-      const thumbSet = new Set<string>((thumbsList.objects || []).map((o: any) => (o.key as string).split('/').pop() || ''))
       const files = (filesList.objects || [])
         .map((o: any) => o.key as string)
         .map((k: string) => k.split('/').pop() || '')
         .filter((name: string) => isAllowedFile(name))
-        .map((name: string) => {
-          const url = `/media/${folder}/${name}`
-          const isImg = /\.(jpg|jpeg|png|webp|gif)$/i.test(name)
-          if (!isImg) return { name, url }
-          const base = name.replace(/\.[^/.]+$/, '')
-          const tname = `${base}.webp`
-          const thumbUrl = thumbSet.has(tname) ? `/media/${folder}/_thumbs/${tname}` : undefined
-          return thumbUrl ? { name, url, thumbUrl } : { name, url }
-        })
+        .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
       return new Response(JSON.stringify({ folder, meta, files }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
@@ -304,8 +283,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
 
       const safe = sanitizeFilename(filename)
-      const isThumb = url.searchParams.get('thumb') === '1'
-      const key = isThumb ? `${prefix}${folder}/_thumbs/${safe}` : `${prefix}${folder}/${safe}`
+      const key = `${prefix}${folder}/${safe}`
       const body = request.body
       if (!body) {
         return new Response(JSON.stringify({ error: 'missing body' }), { status: 400 })
@@ -381,11 +359,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(JSON.stringify({ error: 'Dimensione totale oltre il limite di 1GB' }), { status: 413 })
     }
     for (const [safe, f] of unique) {
-      const isThumb = safe.startsWith('__thumb__')
-      const dest = isThumb ? safe.replace(/^__thumb__-?/, '') : safe
-      const key = isThumb ? `${prefix}${folder}/_thumbs/${dest}` : `${prefix}${folder}/${dest}`
+      const dest = safe
+      const key = `${prefix}${folder}/${dest}`
       const body: any = (f as any).stream ? (f as any).stream() : await f.arrayBuffer()
-      const ct = isThumb ? 'image/webp' : contentTypeFor(dest)
+      const ct = contentTypeFor(dest)
       await bucket.put(key, body, { httpMetadata: { contentType: ct } })
       savedFiles.push(dest)
     }
@@ -398,5 +375,43 @@ export const POST: APIRoute = async ({ request, locals }) => {
     })
   } catch {
     return new Response(JSON.stringify({ error: 'upload failed' }), { status: 500 })
+  }
+}
+
+export const DELETE: APIRoute = async ({ request, locals }) => {
+  try {
+    const url = new URL(request.url)
+    const purge = url.searchParams.get('purge')
+    if (purge !== 'webp') {
+      return new Response(JSON.stringify({ error: 'invalid purge' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
+    const bucket = getBucket(locals)
+    if (!bucket) {
+      return new Response(JSON.stringify({ error: 'storage unavailable' }), { status: 503 })
+    }
+    const prefix = 'media/'
+    const listed = await bucket.list({ prefix })
+    const objs = Array.from(listed.objects || [])
+    let deleted = 0
+    for (const obj of objs) {
+      const key = String((obj as any).key || '')
+      if (!key) continue
+      const lower = key.toLowerCase()
+      if (lower.endsWith('.webp') || lower.includes('/_thumbs/')) {
+        try {
+          await bucket.delete(key)
+          deleted++
+        } catch {}
+      }
+    }
+    return new Response(JSON.stringify({ ok: true, deleted }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  } catch {
+    return new Response(JSON.stringify({ error: 'purge failed' }), { status: 500 })
   }
 }
