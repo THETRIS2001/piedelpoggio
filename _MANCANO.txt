@@ -4,7 +4,7 @@ Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento
 
 Responsivness: tag pagine di dimensioni diverse (es eventi vs terremoto)
 
-Meteo non combacia
+Meteo non combacia (problema di google)
 
 Non carica video grandi.
 Compressione anteprime
@@ -12,6 +12,6 @@ Compressione anteprime
 __________________________________________________
 
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
-npm run dev -- --port 4324 
+npm run dev -- --port 4324
 lo trovi su:
 http://localhost:4321/
