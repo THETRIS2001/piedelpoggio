@@ -258,6 +258,9 @@ if (meta?.date) {
         const orig = el.getAttribute('data-original') || ''
         const low = cfLowRes(orig)
         el.setAttribute('src', low)
+        el.addEventListener('load', () => {
+          try { console.log('low:natural', (el as HTMLImageElement).naturalWidth, (el as HTMLImageElement).naturalHeight) } catch {}
+        })
         el.addEventListener('error', () => {
           try { (el.parentElement)?.remove() } catch {}
           try {

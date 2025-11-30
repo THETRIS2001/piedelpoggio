@@ -249,6 +249,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
             img.onerror = () => { try { cell.remove() } catch {} }
+            img.addEventListener('load', () => {
+              try { console.log('low:natural', img.naturalWidth, img.naturalHeight) } catch {}
+            })
             cell.appendChild(img)
             try {
               const host = location.hostname

@@ -19,15 +19,15 @@ export const GET: APIRoute = async ({ request }) => {
     const f = (u.searchParams.get('f') || 'auto').toLowerCase()
     const fit = (u.searchParams.get('fit') || 'scale-down') as any
     const originSrc = absUrl(request, src)
-    const res = await fetch(originSrc, {
-      cf: { image: { width: w, quality: q, format: f as any, fit } }
-    })
+    const res = await fetch(originSrc, { cache: 'no-store' })
     if (!res.ok) {
       return new Response('Not found', { status: 404 })
     }
-    const headers = new Headers(res.headers)
+    const headers = new Headers()
     headers.set('Cache-Control', 'public, max-age=3600')
-    return new Response(res.body, { status: 200, headers })
+    const ct = res.headers.get('content-type') || 'image/jpeg'
+    headers.set('Content-Type', ct)
+    return new Response(res.body, { status: 200, headers, cf: { image: { width: w, quality: q, format: f as any, fit } } })
   } catch {
     return new Response('Not found', { status: 404 })
   }
