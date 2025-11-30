@@ -257,24 +257,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               } catch {}
             })
             cell.appendChild(img)
-            try {
-              const host = location.hostname
-              const origin = location.origin
-              const orig = f.url.startsWith('/') ? origin + f.url : f.url
-              console.groupCollapsed('cf-image')
-              console.log('host', host)
-              console.log('orig', orig)
-              console.log('low', low)
-              fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(() => console.log('orig:error'))
-              fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(() => console.log('low:error'))
-              fetch(low, { method: 'GET', cache: 'no-store' })
-                .then(r => {
-                  const hdr = r.headers.get('cf-resized')
-                  console.log('low:cf-resized', hdr || '(none)')
-                })
-                .catch(() => console.log('low:cf-resized:error'))
-              console.groupEnd()
-            } catch {}
           }
           cover.appendChild(cell)
         })
@@ -344,7 +326,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     function cfLowRes(url) {
       if (!url) return url
       const path = url.startsWith('/') ? url : '/' + url
-      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=auto${path}`
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
 
     async function downloadFolderZip(folder, files) {

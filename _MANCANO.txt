@@ -7,7 +7,6 @@ Responsivness: tag pagine di dimensioni diverse (es eventi vs terremoto)
 Meteo non combacia (problema di google)
 
 Non carica video grandi.
-Compressione anteprime
 
 __________________________________________________
 

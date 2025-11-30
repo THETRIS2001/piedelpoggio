@@ -92,14 +92,10 @@ const Masonry: React.FC<MasonryProps> = ({
   );
 
   const [containerRef, { width }] = useMeasure();
-  const [imagesReady, setImagesReady] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 
-  useEffect(() => {
-    preloadImages(items.map(i => i.img)).then(() => setImagesReady(true));
-  }, [items]);
 
   const grid = useMemo(() => {
     if (!width) return [];
@@ -131,10 +127,8 @@ const Masonry: React.FC<MasonryProps> = ({
   }, [columns, items, width]);
 
   useEffect(() => {
-    if (imagesReady && !mounted) {
-      setMounted(true);
-    }
-  }, [imagesReady, mounted]);
+    setMounted(true);
+  }, []);
 
   const handleMouseEnter = (item: MasonryItem) => {
     // CSS hover effects will handle the animations

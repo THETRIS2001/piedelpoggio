@@ -87,7 +87,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={`/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=auto${f.url}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
+                  <img src={`/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${f.url}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
                 )}
               </div>
             ))}
@@ -249,7 +249,7 @@ if (meta?.date) {
     function cfLowRes(url) {
       if (!url) return url
       const path = url.startsWith('/') ? url : '/' + url
-      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=auto${path}`
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
     document.querySelectorAll('#gallery img').forEach((el) => {
       try {
@@ -266,15 +266,6 @@ if (meta?.date) {
         })
         el.addEventListener('error', () => {
           try { (el.parentElement)?.remove() } catch {}
-          try {
-            console.groupCollapsed('cf-image')
-            console.log('host', location.hostname)
-            console.log('orig', orig)
-            console.log('low', low)
-            fetch(orig, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('orig:status', r.status)).catch(() => console.log('orig:error'))
-            fetch(low, { method: 'HEAD', cache: 'no-store' }).then(r => console.log('low:status', r.status)).catch(() => console.log('low:error'))
-            console.groupEnd()
-          } catch {}
         })
       } catch {}
     })
