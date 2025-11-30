@@ -91,7 +91,7 @@ const Masonry: React.FC<MasonryProps> = ({
   source = 'static',
   limit = 12
 }) => {
-  const [itemsData, setItemsData] = useState<MasonryItem[]>(items || [])
+  const [itemsData, setItemsData] = useState<MasonryItem[]>(source === 'media' ? [] : (items || []))
   const getRandomHeight = () => {
     const heights = [260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520]
     return heights[Math.floor(Math.random() * heights.length)]
