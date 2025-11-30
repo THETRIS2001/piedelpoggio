@@ -1,1 +1,0 @@
-{"eventName":"Galleria Test Settembre","date":"2025-09-10","description":"Prova visualizzazione: foto dalla home (7–12)."}
