@@ -87,7 +87,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={`/api/image?w=500&q=80&f=auto&src=${encodeURIComponent(f.url)}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src={`/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=auto${f.url}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
                 )}
               </div>
             ))}
@@ -248,10 +248,8 @@ if (meta?.date) {
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
     function cfLowRes(url) {
       if (!url) return url
-      const origin = (location && location.origin) || ''
-      const abs = url.startsWith('/') ? origin + url : url
-      const usrc = encodeURIComponent(abs)
-      return `/api/image?w=500&q=80&f=auto&src=${usrc}`
+      const path = url.startsWith('/') ? url : '/' + url
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=auto${path}`
     }
     document.querySelectorAll('#gallery img').forEach((el) => {
       try {
@@ -259,7 +257,12 @@ if (meta?.date) {
         const low = cfLowRes(orig)
         el.setAttribute('src', low)
         el.addEventListener('load', () => {
-          try { console.log('low:natural', (el as HTMLImageElement).naturalWidth, (el as HTMLImageElement).naturalHeight) } catch {}
+          try {
+            const iw = (el as HTMLImageElement).naturalWidth
+            const ih = (el as HTMLImageElement).naturalHeight
+            console.log('low:natural', iw, ih)
+            if (iw > 550) { (el.parentElement)?.remove() } else { (el as HTMLImageElement).style.visibility = 'visible' }
+          } catch {}
         })
         el.addEventListener('error', () => {
           try { (el.parentElement)?.remove() } catch {}

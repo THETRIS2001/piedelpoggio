@@ -248,9 +248,13 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
+            img.style.visibility = 'hidden'
             img.onerror = () => { try { cell.remove() } catch {} }
             img.addEventListener('load', () => {
-              try { console.log('low:natural', img.naturalWidth, img.naturalHeight) } catch {}
+              try {
+                console.log('low:natural', img.naturalWidth, img.naturalHeight)
+                if (img.naturalWidth > 550) { cell.remove() } else { img.style.visibility = 'visible' }
+              } catch {}
             })
             cell.appendChild(img)
             try {
@@ -339,10 +343,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     }
     function cfLowRes(url) {
       if (!url) return url
-      const origin = (location && location.origin) || ''
-      const abs = url.startsWith('/') ? origin + url : url
-      const usrc = encodeURIComponent(abs)
-      return `/api/image?w=500&q=80&f=auto&src=${usrc}`
+      const path = url.startsWith('/') ? url : '/' + url
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=auto${path}`
     }
 
     async function downloadFolderZip(folder, files) {
