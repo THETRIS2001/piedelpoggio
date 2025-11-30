@@ -560,7 +560,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         filesInputCount: filesInput && filesInput.files ? filesInput.files.length : 0,
         externalFilesCount: externalFiles.length
       })
-      if (!filesInput || !filesInput.files || filesInput.files.length === 0) {
+      const hasAnyFiles = !!(filesInput && filesInput.files && filesInput.files.length > 0) || externalFiles.length > 0
+      if (!hasAnyFiles) {
         if (statusEl) {
           statusEl.textContent = 'Seleziona almeno un file'
           statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
