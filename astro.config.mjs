@@ -7,7 +7,7 @@ import cloudflare from '@astrojs/cloudflare';
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react(), sitemap()],
-  site: 'https://piedelpoggio-site.pages.dev',
+  site: 'https://piedelpoggio.org',
   output: 'server',
   adapter: cloudflare(),
   build: {
