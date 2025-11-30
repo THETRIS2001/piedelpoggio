@@ -7,9 +7,10 @@ interface LightboxProps {
   imageSrc: string;
   imageAlt: string;
   onClose: () => void;
+  folderHref?: string;
 }
 
-const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose }) => {
+const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose, folderHref }) => {
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -67,6 +68,14 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
           }}
           onClick={onClose}
         />
+        {folderHref && (
+          <a
+            href={folderHref}
+            className="lightbox-cta"
+          >
+            Apri galleria
+          </a>
+        )}
       </div>
     </div>
   );

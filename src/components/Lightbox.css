@@ -27,6 +27,19 @@
   animation: scaleIn 0.3s ease-in-out;
 }
 
+.lightbox-cta {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  background: linear-gradient(135deg, #FF2400, #E01E00);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
 .lightbox-close {
   display: none;
 }
