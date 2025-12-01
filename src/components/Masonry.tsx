@@ -108,16 +108,7 @@ const Masonry: React.FC<MasonryProps> = ({
         const res = await fetch('/api/media?list=events')
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
-        const photos: MasonryItem[] = []
-        const isLarge = async (src: string) => {
-          try {
-            const r = await fetch(src, { method: 'HEAD', cache: 'no-store' })
-            const cl = Number(r.headers.get('content-length') || '0')
-            return cl > 1024 * 1024
-          } catch {
-            return false
-          }
-        }
+        const candidates: MasonryItem[] = []
         for (const ev of events) {
           const folder = String(ev.folder || '')
           const files = Array.isArray(ev.files) ? ev.files : []
@@ -125,13 +116,25 @@ const Masonry: React.FC<MasonryProps> = ({
             const name = String(f.name || '')
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
             const orig = String(f.url || '')
-            const useLow = await isLarge(orig)
-            const img = useLow ? cfLowRes(orig) : orig
-            photos.push({ id: `${folder}/${name}`, img, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
+            const img = cfLowRes(orig)
+            candidates.push({ id: `${folder}/${name}`, img, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
           }
         }
-        const shuffled = photos.sort(() => Math.random() - 0.5)
-        setItemsData(shuffled.slice(0, Math.max(1, limit)))
+        const shuffled = candidates.sort(() => Math.random() - 0.5)
+        const initial = shuffled.slice(0, Math.max(1, limit))
+        setItemsData(initial)
+        const updated = await Promise.all(initial.map(async (it) => {
+          try {
+            const r = await fetch(it.orig || it.url, { method: 'HEAD', cache: 'no-store' })
+            const cl = Number(r.headers.get('content-length') || '0')
+            const useLow = cl > 1024 * 1024
+            const img = useLow ? cfLowRes(it.orig || it.url) : (it.orig || it.url)
+            return { ...it, img }
+          } catch {
+            return it
+          }
+        }))
+        setItemsData(updated)
       } catch {}
     })()
   }, [source, limit])
