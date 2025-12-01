@@ -8,7 +8,16 @@ Meteo non combacia (problema di google)
 
 Non carica video grandi.
 
-NELLA SHERMATA HOME SOLO DA ANTEPRIME PRENDE (OPPURE DA FILE MENO DI 1MB) e coerenza colori se clicco celle inserimento
+Non mostra cartelle anche se hanno meta, e alcune non ce l'hanno invece
+
+
+poesia aggiungi
+http://www.piedelpoggio.it/home7.htm
+
+testimonianze
+http://www.piedelpoggio.it/home6.htm
+
+video aggiungi: https://www.youtube.com/@eziopaciucci6765/videos
 __________________________________________________
 
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
@@ -81,21 +90,3 @@ Cima di monte 2016
 Croce Terminillo 2016	
 Presentazione libro Eppure Li Tengo	
 Vin brule e tombola
-
-
-
-
-
-
-
-
-
-
-
-poesia aggiungi
-http://www.piedelpoggio.it/home7.htm
-
-testimonianze
-http://www.piedelpoggio.it/home6.htm
-
-video aggiungi: https://www.youtube.com/@eziopaciucci6765/videos

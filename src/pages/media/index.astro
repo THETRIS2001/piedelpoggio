@@ -576,7 +576,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const dateBtn = document.getElementById('sortDateBtn') as HTMLButtonElement | null
       const dirIcon = document.getElementById('sortDirIcon') as SVGElement | null
       const knob = document.getElementById('sortKnob') as HTMLDivElement | null
-      if (nameBtn) nameBtn.textContent = order === 'asc' ? 'A–Z' : 'Z–A'
+      if (nameBtn) nameBtn.textContent = order === 'asc' ? 'Z–A' : 'A–Z'
       if (nameBtn && dateBtn) {
         nameBtn.setAttribute('aria-pressed', String(field === 'name'))
         dateBtn.setAttribute('aria-pressed', String(field === 'date'))
