@@ -14,7 +14,7 @@ export default defineConfig({
     format: 'directory'
   },
   vite: {
-    cacheDir: '.vite-cache-astro',
+    cacheDir: '.vite-cache-astro-dev',
     optimizeDeps: {
       include: ['react', 'react-dom', 'motion', 'motion/react', 'gsap']
     },

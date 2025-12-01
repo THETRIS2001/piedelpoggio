@@ -51,17 +51,17 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               <div class="text-xs font-semibold text-white mb-1">Data Fine</div>
               <input id="dateTo" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
             </div>
-            <div class="flex items-center justify-center min-w-0 overflow-hidden">
+            <div class="flex items-end justify-start min-w-0 overflow-hidden self-end">
               <input id="sortField" type="hidden" value="date" />
               <input id="sortOrder" type="hidden" value="desc" />
-              <div id="sortSwitch" class="relative w-24 h-8 rounded-full border border-white bg-white/90 shadow-sm">
-                <div id="sortKnob" class="absolute top-0 left-0 w-12 h-8 bg-red-600 text-white flex items-center justify-center rounded-full transition-all duration-200"></div>
-                <button id="sortNameBtn" type="button" class="absolute inset-y-0 left-0 w-12 text-xs font-semibold text-[#E01E00] hover:bg-blue-50 hover:text-blue-700">A–Z</button>
-                <button id="sortDateBtn" type="button" class="absolute inset-y-0 right-0 w-12 text-[#E01E00] hover:bg-blue-50 hover:text-blue-700">
+              <div id="sortSwitch" class="relative w-24 h-8 rounded-full border border-white shadow-sm overflow-hidden" style="background: linear-gradient(180deg, #fafafa 0%, #e9e9e9 100%); box-shadow: inset 0 2px 6px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.6);">
+                <div id="sortKnob" class="absolute top-0 left-0 w-12 h-8 text-white flex items-center justify-center rounded-full transition-all duration-200" style="background: linear-gradient(180deg, #ff5533 0%, #c31a00 100%); box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);"></div>
+                <button id="sortNameBtn" type="button" class="absolute inset-y-0 left-0 w-12 text-xs font-semibold leading-none text-[#E01E00] focus:outline-none">A–Z</button>
+                <button id="sortDateBtn" type="button" class="absolute inset-y-0 right-0 w-12 leading-none text-[#E01E00] focus:outline-none">
                   <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </button>
               </div>
-              <button id="sortDirBtn" type="button" class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white hover:bg-blue-50 hover:text-blue-700" title="Direzione">
+              <button id="sortDirBtn" type="button" class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white focus:outline-none" title="Direzione">
                 <svg id="sortDirIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
               </button>
             </div>
@@ -576,16 +576,17 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const dateBtn = document.getElementById('sortDateBtn') as HTMLButtonElement | null
       const dirIcon = document.getElementById('sortDirIcon') as SVGElement | null
       const knob = document.getElementById('sortKnob') as HTMLDivElement | null
+      if (nameBtn) nameBtn.textContent = order === 'asc' ? 'A–Z' : 'Z–A'
       if (nameBtn && dateBtn) {
         nameBtn.setAttribute('aria-pressed', String(field === 'name'))
         dateBtn.setAttribute('aria-pressed', String(field === 'date'))
         if (field === 'name') {
-          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-xs font-semibold text-white'
-          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-[#E01E00] hover:bg-blue-50 hover:text-blue-700'
+          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-xs font-semibold text-white focus:outline-none'
+          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-[#E01E00] focus:outline-none'
           if (knob) knob.style.left = '0'
         } else {
-          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-xs font-semibold text-white'
-          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-[#E01E00] hover:bg-blue-50 hover:text-blue-700'
+          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-xs font-semibold text-white focus:outline-none'
+          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-[#E01E00] focus:outline-none'
           if (knob) knob.style.left = '50%'
         }
       }
@@ -937,5 +938,11 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
   <style>
     input[type="date"]{width:100%;max-width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none}
     #dateFrom,#dateTo,#date{width:100%;max-width:100%;box-sizing:border-box}
+    #sortSwitch button{outline:none;box-shadow:none;-webkit-tap-highlight-color:transparent;border-radius:9999px;appearance:none;-webkit-appearance:none}
+    #sortSwitch button:focus{outline:none!important;box-shadow:none!important}
+    #sortSwitch button::-moz-focus-inner{border:0}
+    #sortSwitch button:-moz-focusring{outline:none}
+    #sortDirBtn{outline:none;box-shadow:none;-webkit-tap-highlight-color:transparent;border-radius:9999px;appearance:none;-webkit-appearance:none}
+    #sortDirBtn:focus{outline:none!important;box-shadow:none!important}
   </style>
 </DefaultLayout>
