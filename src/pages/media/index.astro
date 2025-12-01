@@ -253,37 +253,42 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
         const cover = document.createElement('div')
         cover.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
-        ;(ev.files || []).slice(0,3).forEach(f => {
-          const isVideo = /\.(mp4|webm|ogg)$/i.test(f.name)
-          const cell = document.createElement('div')
-          cell.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
-          if (isVideo) {
-            const v = document.createElement('video')
-            v.src = f.url
-            v.className = 'w-full h-full object-cover'
-            v.muted = true
-            v.autoplay = true
-            v.loop = true
-            cell.appendChild(v)
-          } else {
-            const img = document.createElement('img')
-            const low = cfLowRes(f.url)
-            img.src = low
-            img.alt = ev.meta?.eventName || f.name
-            img.loading = 'lazy'
-            img.className = 'w-full h-full object-cover'
-            img.style.visibility = 'hidden'
-            img.onerror = () => { try { cell.remove() } catch {} }
-            img.addEventListener('load', () => {
-              try {
-                console.log('low:natural', img.naturalWidth, img.naturalHeight)
-                if (img.naturalWidth > 550) { cell.remove() } else { img.style.visibility = 'visible' }
-              } catch {}
-            })
-            cell.appendChild(img)
-          }
-          cover.appendChild(cell)
-        })
+          ;(ev.files || []).slice(0,3).forEach(f => {
+            const isVideo = /\.(mp4|webm|ogg)$/i.test(f.name)
+            const cell = document.createElement('div')
+            cell.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
+            if (isVideo) {
+              const v = document.createElement('video')
+              v.src = f.url
+              v.className = 'w-full h-full object-cover'
+              v.muted = true
+              v.autoplay = true
+              v.loop = true
+              cell.appendChild(v)
+            } else {
+              const img = document.createElement('img')
+              img.alt = ev.meta?.eventName || f.name
+              img.loading = 'lazy'
+              img.className = 'w-full h-full object-cover'
+              img.style.visibility = 'hidden'
+              img.onerror = () => { try { cell.remove() } catch {} }
+              ;(async () => {
+                let useLow = false
+                try {
+                  const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+                  const cl = Number(r.headers.get('content-length') || '0')
+                  useLow = cl > 1024 * 1024
+                } catch {}
+                const src = useLow ? cfLowRes(f.url) : f.url
+                img.src = src
+              })()
+              img.addEventListener('load', () => {
+                try { img.style.visibility = 'visible' } catch {}
+              })
+              cell.appendChild(img)
+            }
+            cover.appendChild(cell)
+          })
         const info = document.createElement('div')
         info.className = 'p-3 flex flex-col flex-1'
         const title = document.createElement('div')

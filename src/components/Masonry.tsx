@@ -109,6 +109,15 @@ const Masonry: React.FC<MasonryProps> = ({
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
         const photos: MasonryItem[] = []
+        const isLarge = async (src: string) => {
+          try {
+            const r = await fetch(src, { method: 'HEAD', cache: 'no-store' })
+            const cl = Number(r.headers.get('content-length') || '0')
+            return cl > 1024 * 1024
+          } catch {
+            return false
+          }
+        }
         for (const ev of events) {
           const folder = String(ev.folder || '')
           const files = Array.isArray(ev.files) ? ev.files : []
@@ -116,8 +125,9 @@ const Masonry: React.FC<MasonryProps> = ({
             const name = String(f.name || '')
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
             const orig = String(f.url || '')
-            const low = cfLowRes(orig)
-            photos.push({ id: `${folder}/${name}`, img: low, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
+            const useLow = await isLarge(orig)
+            const img = useLow ? cfLowRes(orig) : orig
+            photos.push({ id: `${folder}/${name}`, img, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
           }
         }
         const shuffled = photos.sort(() => Math.random() - 0.5)
