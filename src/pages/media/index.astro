@@ -269,20 +269,16 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             const thumb = (f.thumb || '')
             const sizeBytes = Number((f.sizeBytes || 0))
             const ONE_MB = 1048576
-            const src = thumb ? thumb : (sizeBytes > 0 && sizeBytes <= ONE_MB ? f.url : '')
-            if (src) {
-              const img = document.createElement('img')
-              img.src = src
-              img.alt = ev.meta?.eventName || f.name
-              img.loading = 'lazy'
-              img.className = 'w-full h-full object-cover'
-              img.style.visibility = 'hidden'
-              img.onerror = () => { try { cell.remove() } catch {} }
-              img.addEventListener('load', () => { try { img.style.visibility = 'visible' } catch {} })
-              cell.appendChild(img)
-            } else {
-              cell.className = 'aspect-square rounded-lg overflow-hidden bg-white'
-            }
+            const src = thumb ? thumb : (sizeBytes > 0 && sizeBytes <= ONE_MB ? f.url : cfLowRes(f.url))
+            const img = document.createElement('img')
+            img.src = src
+            img.alt = ev.meta?.eventName || f.name
+            img.loading = 'lazy'
+            img.className = 'w-full h-full object-cover'
+            img.style.visibility = 'hidden'
+            img.onerror = () => { try { cell.remove() } catch {} }
+            img.addEventListener('load', () => { try { img.style.visibility = 'visible' } catch {} })
+            cell.appendChild(img)
           }
           cover.appendChild(cell)
         })
