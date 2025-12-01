@@ -8,14 +8,16 @@ Meteo non combacia (problema di google)
 
 Non carica video grandi.
 
-Non mostra cartelle anche se hanno meta, e alcune non ce l'hanno invece
+Pagina poesie-canzoni visivamente tutta da sistemare
 
+Non mostra cartelle anche se hanno meta, e alcune non ce l'hanno invece
+mi aumentano le foto trasformate anche se ho aperto cartelle con solo foto da 200kb a foto
 
 poesia aggiungi
-http://www.piedelpoggio.it/home7.html
+http://www.piedelpoggio.it/home7.htm
 
 testimonianze
-http://www.piedelpoggio.it/home6.html
+http://www.piedelpoggio.it/home6.htm
 
 video aggiungi: https://www.youtube.com/@eziopaciucci6765/videos
 __________________________________________________
