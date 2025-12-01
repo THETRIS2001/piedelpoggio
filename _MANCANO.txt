@@ -8,9 +8,94 @@ Meteo non combacia (problema di google)
 
 Non carica video grandi.
 
+NELLA SHERMATA HOME SOLO DA ANTEPRIME PRENDE (OPPURE DA FILE MENO DI 1MB)
 __________________________________________________
 
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
 npm run dev -- --port 4324
 lo trovi su:
 http://localhost:4321/
+
+
+
+
+
+
+
+
+cambio 2008
+decoupage 2007
+terminillo 2007
+vallezza 2009
+campo 2009
+fettuccine 2010
+spett 2010
+ballando sotto le stelle 2011
+pulizia torre del lupo
+Angoli fioriti 2011
+Spettacolo 2011
+musica e dintorni 2008
+spettacolo 2009
+Caccia al tesoro 2011
+palio 2012
+miss piedelpoggio
+Biscotti 2012
+Crocetta 2012 parziale
+Terminillo 2012 parziale
+Cima di monte 2012 parziale
+Carbonaie e Cargare
+Sfusellati 2012
+Scorcio 2012
+La piazzetta
+tombola
+Torre Lupo
+Rio fuggio 2013 parziale
+Gnocchi bambini 2013
+Dep. corona 2013
+Emanuele Morgese 2013
+Torre fuscello 2013
+maiolica 2013
+maltagliati 2013
+Tombola 2014
+Befana 2014
+torre restaurata
+Gnocchi 2015
+Giochi gioventu 2015
+fonte Stefano 2015
+Macchia Porana 2015
+Terminillo 2015
+Cena 2015
+Gita Fermo Torre di Palme 2015
+Deposizione 2015
+Maltagliati 2015	
+Mercatino 2015	
+Inaugurazione Oratorio		
+Giochi gioventu 2016
+Mercatino 2016
+Fonte Stefano	
+Ballando sotto le stelle	
+Burraco 2014	
+Pulizia campo 2016	
+Ciclisti 2016	
+Cima di monte 2016
+Croce Terminillo 2016	
+Presentazione libro Eppure Li Tengo	
+Vin brule e tombola
+
+
+
+
+
+
+
+
+
+
+
+poesia aggiungi
+http://www.piedelpoggio.it/home7.htm
+
+testimonianze
+http://www.piedelpoggio.it/home6.htm
+
+video aggiungi: https://www.youtube.com/@eziopaciucci6765/videos

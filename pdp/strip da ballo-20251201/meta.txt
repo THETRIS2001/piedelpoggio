@@ -1,0 +1,5 @@
+﻿{
+    "eventName":  "strip da ballo",
+    "date":  "2025-12-01",
+    "description":  ""
+}

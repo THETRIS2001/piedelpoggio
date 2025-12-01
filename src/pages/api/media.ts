@@ -76,7 +76,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         if (seg) folders.add(seg)
       }
 
-      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
+      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string; thumb?: string }> }> = []
       for (const folder of folders) {
         let meta: Meta | null = null
         try {
@@ -87,11 +87,32 @@ export const GET: APIRoute = async ({ request, locals }) => {
           }
         } catch {}
         const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+        const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
+        const thumbNames = new Set<string>(
+          Array.from(thumbsList.objects || [])
+            .map((o: any) => o.key as string)
+            .map((k: string) => k.split('/').pop() || '')
+        )
         const files = (filesList.objects || [])
           .map((o: any) => o.key as string)
           .map((k: string) => k.split('/').pop() || '')
           .filter((name: string) => isAllowedFile(name))
-          .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+          .map((name: string) => {
+            const i = name.lastIndexOf('.')
+            const base = i >= 0 ? name.slice(0, i) : name
+            const candidates = [
+              name,
+              `${name}.webp`,
+              `${base}.webp`,
+              `${base}.jpg`,
+              `${base}.jpeg`,
+              `${base}.png`,
+              `${base}.gif`
+            ]
+            const t = candidates.find(c => thumbNames.has(c))
+            const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
+            return { name, url: `/media/${folder}/${name}`, thumb }
+          })
         events.push({ folder, meta, files })
       }
 
@@ -112,11 +133,32 @@ export const GET: APIRoute = async ({ request, locals }) => {
         }
       } catch {}
       const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+      const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
+      const thumbNames = new Set<string>(
+        Array.from(thumbsList.objects || [])
+          .map((o: any) => o.key as string)
+          .map((k: string) => k.split('/').pop() || '')
+      )
       const files = (filesList.objects || [])
         .map((o: any) => o.key as string)
         .map((k: string) => k.split('/').pop() || '')
         .filter((name: string) => isAllowedFile(name))
-        .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+        .map((name: string) => {
+          const i = name.lastIndexOf('.')
+          const base = i >= 0 ? name.slice(0, i) : name
+          const candidates = [
+            name,
+            `${name}.webp`,
+            `${base}.webp`,
+            `${base}.jpg`,
+            `${base}.jpeg`,
+            `${base}.png`,
+            `${base}.gif`
+          ]
+          const t = candidates.find(c => thumbNames.has(c))
+          const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
+          return { name, url: `/media/${folder}/${name}`, thumb }
+        })
       return new Response(JSON.stringify({ folder, meta, files }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
@@ -264,6 +306,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
             meta = JSON.parse(txt)
           }
         } catch {}
+        if (!meta && eventName && date) {
+          const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+          if (dateRegex.test(date)) {
+            meta = { eventName, date, description }
+            await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+          }
+        }
         if (meta && typeof description !== 'undefined') {
           meta = { ...meta, description }
           await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
@@ -325,6 +374,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
           meta = JSON.parse(txt)
         }
       } catch {}
+      if (!meta && eventName && date) {
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+        if (dateRegex.test(date)) {
+          meta = { eventName, date, description }
+          await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+        }
+      }
       if (meta && typeof description !== 'undefined') {
         meta = { ...meta, description }
         await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })

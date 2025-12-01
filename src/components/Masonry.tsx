@@ -96,11 +96,6 @@ const Masonry: React.FC<MasonryProps> = ({
     const heights = [260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520]
     return heights[Math.floor(Math.random() * heights.length)]
   }
-  const cfLowRes = (url: string) => {
-    if (!url) return url
-    const path = url.startsWith('/') ? url : '/' + url
-    return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
-  }
   useEffect(() => {
     if (source !== 'media') return
     ;(async () => {
@@ -115,9 +110,10 @@ const Masonry: React.FC<MasonryProps> = ({
           for (const f of files) {
             const name = String(f.name || '')
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
+            const thumb = String((f as any).thumb || '')
+            if (!thumb) continue
             const orig = String(f.url || '')
-            const low = cfLowRes(orig)
-            photos.push({ id: `${folder}/${name}`, img: low, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
+            photos.push({ id: `${folder}/${name}`, img: thumb, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
           }
         }
         const shuffled = photos.sort(() => Math.random() - 0.5)

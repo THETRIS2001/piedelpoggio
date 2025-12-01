@@ -1,0 +1,5 @@
+﻿{
+    "eventName":  "Abiti da sposa",
+    "date":  "2025-12-01",
+    "description":  ""
+}
