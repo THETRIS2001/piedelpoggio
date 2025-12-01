@@ -267,19 +267,16 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             cell.appendChild(v)
           } else {
             const img = document.createElement('img')
-            const low = cfLowRes(f.url)
-            img.src = low
+            const thumb = (f.thumb || '')
+            const sizeBytes = Number((f.sizeBytes || 0))
+            const src = thumb ? thumb : (sizeBytes > 0 && sizeBytes <= 1000000 ? f.url : cfLowRes(f.url))
+            img.src = src
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
             img.style.visibility = 'hidden'
             img.onerror = () => { try { cell.remove() } catch {} }
-            img.addEventListener('load', () => {
-              try {
-                console.log('low:natural', img.naturalWidth, img.naturalHeight)
-                if (img.naturalWidth > 550) { cell.remove() } else { img.style.visibility = 'visible' }
-              } catch {}
-            })
+            img.addEventListener('load', () => { try { img.style.visibility = 'visible' } catch {} })
             cell.appendChild(img)
           }
           cover.appendChild(cell)

@@ -8,7 +8,7 @@ Meteo non combacia (problema di google)
 
 Non carica video grandi.
 
-NELLA SHERMATA HOME SOLO DA ANTEPRIME PRENDE (OPPURE DA FILE MENO DI 1MB)
+NELLA SHERMATA HOME SOLO DA ANTEPRIME PRENDE (OPPURE DA FILE MENO DI 1MB) e coerenza colori se clicco celle inserimento
 __________________________________________________
 
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue

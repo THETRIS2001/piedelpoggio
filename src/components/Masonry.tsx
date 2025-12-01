@@ -104,15 +104,21 @@ const Masonry: React.FC<MasonryProps> = ({
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
         const photos: MasonryItem[] = []
+        let totalAll = 0
+        let countThumb = 0
+        let countSmall = 0
         for (const ev of events) {
           const folder = String(ev.folder || '')
           const files = Array.isArray(ev.files) ? ev.files : []
           for (const f of files) {
             const name = String(f.name || '')
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
+            totalAll++
             const thumb = String((f as any).thumb || '')
             const orig = String(f.url || '')
             const sizeBytes = Number((f as any).sizeBytes || 0)
+            if (thumb) countThumb++
+            if (sizeBytes > 0 && sizeBytes <= 1000000) countSmall++
             if (thumb) {
               photos.push({ id: `${folder}/${name}`, img: thumb, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
             } else if (sizeBytes > 0 && sizeBytes <= 1000000) {
@@ -121,7 +127,9 @@ const Masonry: React.FC<MasonryProps> = ({
           }
         }
         const shuffled = photos.sort(() => Math.random() - 0.5)
-        setItemsData(shuffled.slice(0, Math.max(1, limit)))
+        const selected = shuffled.slice(0, Math.max(1, limit))
+        setItemsData(selected)
+        try { console.log(`estratte ${selected.length} immagini tra ${totalAll} totali di cui ${countThumb} con anteprima disponibile e ${countSmall} con peso minore di 1mb`) } catch {}
       } catch {}
     })()
   }, [source, limit])
