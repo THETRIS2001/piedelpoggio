@@ -276,8 +276,12 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             img.loading = 'lazy'
             img.className = 'w-full h-full object-cover'
             img.style.visibility = 'hidden'
-            img.onerror = () => { try { cell.remove() } catch {} }
+            img.onerror = () => { try { cell.className = 'aspect-square rounded-lg overflow-hidden bg-white' } catch {} }
             img.addEventListener('load', () => { try { img.style.visibility = 'visible' } catch {} })
+            try {
+              const chosen = thumb ? 'thumb' : (sizeBytes > 0 && sizeBytes <= ONE_MB ? 'orig' : 'cf')
+              console.log(`[cover] ${f.name} size=${sizeBytes} srcType=${chosen}`)
+            } catch {}
             cell.appendChild(img)
           }
           cover.appendChild(cell)

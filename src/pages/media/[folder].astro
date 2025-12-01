@@ -282,7 +282,7 @@ if (meta?.date) {
     document.querySelectorAll('#gallery img').forEach((el) => {
       try {
         el.addEventListener('load', () => { try { (el as HTMLImageElement).style.visibility = 'visible' } catch {} })
-        el.addEventListener('error', () => { try { (el.parentElement)?.remove() } catch {} })
+        el.addEventListener('error', () => { try { (el.parentElement as HTMLElement).className = 'rounded-lg overflow-hidden bg-white' } catch {} })
       } catch {}
     })
   </script>
