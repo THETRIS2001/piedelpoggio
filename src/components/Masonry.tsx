@@ -104,6 +104,7 @@ const Masonry: React.FC<MasonryProps> = ({
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
         const photos: MasonryItem[] = []
+        const ONE_MB = 1048576
         let totalAll = 0
         let countThumb = 0
         let countSmall = 0
@@ -118,10 +119,10 @@ const Masonry: React.FC<MasonryProps> = ({
             const orig = String(f.url || '')
             const sizeBytes = Number((f as any).sizeBytes || 0)
             if (thumb) countThumb++
-            if (sizeBytes > 0 && sizeBytes <= 1000000) countSmall++
+            if (sizeBytes > 0 && sizeBytes <= ONE_MB) countSmall++
             if (thumb) {
               photos.push({ id: `${folder}/${name}`, img: thumb, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
-            } else if (sizeBytes > 0 && sizeBytes <= 1000000) {
+            } else if (sizeBytes > 0 && sizeBytes <= ONE_MB) {
               photos.push({ id: `${folder}/${name}`, img: orig, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
             }
           }

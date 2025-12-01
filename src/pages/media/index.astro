@@ -269,7 +269,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             const img = document.createElement('img')
             const thumb = (f.thumb || '')
             const sizeBytes = Number((f.sizeBytes || 0))
-            const src = thumb ? thumb : (sizeBytes > 0 && sizeBytes <= 1000000 ? f.url : cfLowRes(f.url))
+            const ONE_MB = 1048576
+            const src = thumb ? thumb : (sizeBytes > 0 && sizeBytes <= ONE_MB ? f.url : cfLowRes(f.url))
             img.src = src
             img.alt = ev.meta?.eventName || f.name
             img.loading = 'lazy'
