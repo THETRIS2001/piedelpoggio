@@ -11,7 +11,7 @@ const isAllowed = (name: string) => {
 }
 
 let meta: any = null
-let files: Array<{ name: string; url: string; isVideo: boolean; sizeBytes?: number; thumb?: string }> = []
+let files: Array<{ name: string; url: string; isVideo: boolean }> = []
 let formattedDate: string = ''
 
 try {
@@ -25,43 +25,15 @@ try {
       }
     } catch {}
     const listed = await bucket.list({ prefix: `media/${folder}/` })
-    const thumbs = await bucket.list({ prefix: `media/${folder}/_thumbs/` })
-    const thumbNames = new Set<string>(
-      Array.from(thumbs.objects || [])
-        .map((o: any) => o.key as string)
-        .map((k: string) => k.split('/').pop() || '')
-    )
-    const sizeByName = new Map<string, number>()
+    
     const names = (listed.objects || [])
       .map((o: any) => o.key as string)
       .map((k: string) => k.split('/').pop() || '')
       .filter((n: string) => isAllowed(n))
-    for (const obj of Array.from(listed.objects || [])) {
-      const key = String((obj as any).key || '')
-      if (!key || key.includes('/_thumbs/')) continue
-      const name = key.split('/').pop() || ''
-      if (!isAllowed(name)) continue
-      const sz = Number((obj as any).size || 0)
-      sizeByName.set(name, sz)
-    }
     files = names.map((n: string) => {
       const isVideo = /\.(mp4|webm|ogg)$/i.test(n)
       const url = `/media/${folder}/${n}`
-      const i = n.lastIndexOf('.')
-      const base = i >= 0 ? n.slice(0, i) : n
-      const candidates = [
-        n,
-        `${n}.webp`,
-        `${base}.webp`,
-        `${base}.jpg`,
-        `${base}.jpeg`,
-        `${base}.png`,
-        `${base}.gif`
-      ]
-      const t = candidates.find(c => thumbNames.has(c))
-      const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
-      const sizeBytes = sizeByName.get(n)
-      return { name: n, url, isVideo, sizeBytes, thumb }
+      return { name: n, url, isVideo }
     })
   }
 } catch {}
@@ -115,7 +87,7 @@ if (meta?.date) {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={(f.thumb ? f.thumb : ((f.sizeBytes || 0) > 0 && (f.sizeBytes || 0) <= 1048576 ? f.url : `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${f.url}`))} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
+                  <img src={`/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${f.url}`} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
                 )}
               </div>
             ))}
@@ -281,8 +253,20 @@ if (meta?.date) {
     }
     document.querySelectorAll('#gallery img').forEach((el) => {
       try {
-        el.addEventListener('load', () => { try { (el as HTMLImageElement).style.visibility = 'visible' } catch {} })
-        el.addEventListener('error', () => { try { (el.parentElement as HTMLElement).className = 'rounded-lg overflow-hidden bg-white' } catch {} })
+        const orig = el.getAttribute('data-original') || ''
+        const low = cfLowRes(orig)
+        el.setAttribute('src', low)
+        el.addEventListener('load', () => {
+          try {
+            const iw = (el as HTMLImageElement).naturalWidth
+            const ih = (el as HTMLImageElement).naturalHeight
+            console.log('low:natural', iw, ih)
+            if (iw > 550) { (el.parentElement)?.remove() } else { (el as HTMLImageElement).style.visibility = 'visible' }
+          } catch {}
+        })
+        el.addEventListener('error', () => {
+          try { (el.parentElement)?.remove() } catch {}
+        })
       } catch {}
     })
   </script>

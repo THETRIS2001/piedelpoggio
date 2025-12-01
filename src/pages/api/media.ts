@@ -76,7 +76,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         if (seg) folders.add(seg)
       }
 
-      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string; thumb?: string }> }> = []
+      const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
       for (const folder of folders) {
         let meta: Meta | null = null
         try {
@@ -87,40 +87,11 @@ export const GET: APIRoute = async ({ request, locals }) => {
           }
         } catch {}
         const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
-        const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
-        const thumbNames = new Set<string>(
-          Array.from(thumbsList.objects || [])
-            .map((o: any) => o.key as string)
-            .map((k: string) => k.split('/').pop() || '')
-        )
-        const sizeByName = new Map<string, number>()
-        for (const obj of Array.from(filesList.objects || [])) {
-          const key = String((obj as any).key || '')
-          if (!key || key.includes('/_thumbs/')) continue
-          const name = key.split('/').pop() || ''
-          if (!isAllowedFile(name)) continue
-          const sz = Number((obj as any).size || 0)
-          sizeByName.set(name, sz)
-        }
-        const files = Array.from(sizeByName.keys())
+        const files = (filesList.objects || [])
+          .map((o: any) => o.key as string)
+          .map((k: string) => k.split('/').pop() || '')
           .filter((name: string) => isAllowedFile(name))
-          .map((name: string) => {
-            const i = name.lastIndexOf('.')
-            const base = i >= 0 ? name.slice(0, i) : name
-            const candidates = [
-              name,
-              `${name}.webp`,
-              `${base}.webp`,
-              `${base}.jpg`,
-              `${base}.jpeg`,
-              `${base}.png`,
-              `${base}.gif`
-            ]
-            const t = candidates.find(c => thumbNames.has(c))
-            const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
-            const sizeBytes = sizeByName.get(name) || 0
-            return { name, url: `/media/${folder}/${name}`, thumb, sizeBytes }
-          })
+          .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
         events.push({ folder, meta, files })
       }
 
@@ -141,40 +112,11 @@ export const GET: APIRoute = async ({ request, locals }) => {
         }
       } catch {}
       const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
-      const thumbsList = await bucket.list({ prefix: `${prefix}${folder}/_thumbs/` })
-      const thumbNames = new Set<string>(
-        Array.from(thumbsList.objects || [])
-          .map((o: any) => o.key as string)
-          .map((k: string) => k.split('/').pop() || '')
-      )
-      const sizeByName = new Map<string, number>()
-      for (const obj of Array.from(filesList.objects || [])) {
-        const key = String((obj as any).key || '')
-        if (!key || key.includes('/_thumbs/')) continue
-        const name = key.split('/').pop() || ''
-        if (!isAllowedFile(name)) continue
-        const sz = Number((obj as any).size || 0)
-        sizeByName.set(name, sz)
-      }
-      const files = Array.from(sizeByName.keys())
+      const files = (filesList.objects || [])
+        .map((o: any) => o.key as string)
+        .map((k: string) => k.split('/').pop() || '')
         .filter((name: string) => isAllowedFile(name))
-        .map((name: string) => {
-          const i = name.lastIndexOf('.')
-          const base = i >= 0 ? name.slice(0, i) : name
-          const candidates = [
-            name,
-            `${name}.webp`,
-            `${base}.webp`,
-            `${base}.jpg`,
-            `${base}.jpeg`,
-            `${base}.png`,
-            `${base}.gif`
-          ]
-          const t = candidates.find(c => thumbNames.has(c))
-          const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
-          const sizeBytes = sizeByName.get(name) || 0
-          return { name, url: `/media/${folder}/${name}`, thumb, sizeBytes }
-        })
+        .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
       return new Response(JSON.stringify({ folder, meta, files }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
