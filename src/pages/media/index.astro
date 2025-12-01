@@ -38,36 +38,37 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
           <div class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6">
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end max-w-full">
-              <div class="min-w-0 overflow-hidden">
-                <div class="text-xs font-semibold text-white mb-1">Cerca Evento</div>
-                <input id="searchEvents" type="text" placeholder="Es. Festa di Agosto" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
-              </div>
-              <div class="min-w-0 overflow-hidden">
-                <div class="text-xs font-semibold text-white mb-1">Data Inizio</div>
-                <input id="dateFrom" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
-              </div>
-              <div class="min-w-0 overflow-hidden">
-                <div class="text-xs font-semibold text-white mb-1">Data Fine</div>
-                <input id="dateTo" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
-              </div>
-              <div class="flex items-end justify-end min-w-0 overflow-hidden">
-                <div class="flex items-center gap-2 mr-2">
-                  <input id="sortField" type="hidden" value="date" />
-                  <input id="sortOrder" type="hidden" value="desc" />
-                  <div class="inline-flex items-center rounded-full border border-white bg-white/90 shadow-sm">
-                    <button id="sortNameBtn" type="button" class="px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] hover:bg-red-50" title="Ordina per Nome (A–Z)">A–Z</button>
-                    <button id="sortDateBtn" type="button" class="px-2 py-1 rounded-full text-xs font-semibold bg-white/70 text-[#E01E00] hover:bg-red-50" title="Ordina per Data">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </button>
-                    <button id="sortDirBtn" type="button" class="px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] hover:bg-red-50" title="Direzione">
-                      <svg id="sortDirIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                  </div>
-                </div>
-                <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90">Reset</button>
-              </div>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end max-w-full">
+            <div class="min-w-0 overflow-hidden">
+              <div class="text-xs font-semibold text-white mb-1">Cerca Evento</div>
+              <input id="searchEvents" type="text" placeholder="Es. Festa di Agosto" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
             </div>
+            <div class="min-w-0 overflow-hidden">
+              <div class="text-xs font-semibold text-white mb-1">Data Inizio</div>
+              <input id="dateFrom" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+            </div>
+            <div class="min-w-0 overflow-hidden">
+              <div class="text-xs font-semibold text-white mb-1">Data Fine</div>
+              <input id="dateTo" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500" />
+            </div>
+            <div class="flex items-center justify-center min-w-0 overflow-hidden">
+              <input id="sortField" type="hidden" value="date" />
+              <input id="sortOrder" type="hidden" value="desc" />
+              <div id="sortSwitch" class="relative w-24 h-8 rounded-full border border-white bg-white/90 shadow-sm">
+                <div id="sortKnob" class="absolute top-0 left-0 w-12 h-8 bg-red-600 text-white flex items-center justify-center rounded-full transition-all duration-200"></div>
+                <button id="sortNameBtn" type="button" class="absolute inset-y-0 left-0 w-12 text-xs font-semibold text-[#E01E00] hover:bg-blue-50 hover:text-blue-700">A–Z</button>
+                <button id="sortDateBtn" type="button" class="absolute inset-y-0 right-0 w-12 text-[#E01E00] hover:bg-blue-50 hover:text-blue-700">
+                  <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+              <button id="sortDirBtn" type="button" class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white hover:bg-blue-50 hover:text-blue-700" title="Direzione">
+                <svg id="sortDirIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+            </div>
+            <div class="flex items-end justify-end min-w-0 overflow-hidden">
+              <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90">Reset</button>
+            </div>
+          </div>
             
           </div>
           <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-2"></div>
@@ -574,15 +575,18 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const nameBtn = document.getElementById('sortNameBtn') as HTMLButtonElement | null
       const dateBtn = document.getElementById('sortDateBtn') as HTMLButtonElement | null
       const dirIcon = document.getElementById('sortDirIcon') as SVGElement | null
+      const knob = document.getElementById('sortKnob') as HTMLDivElement | null
       if (nameBtn && dateBtn) {
         nameBtn.setAttribute('aria-pressed', String(field === 'name'))
         dateBtn.setAttribute('aria-pressed', String(field === 'date'))
         if (field === 'name') {
-          nameBtn.className = 'px-2 py-1 rounded-full text-xs font-semibold bg-red-600 text-white'
-          dateBtn.className = 'px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00]'
+          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-xs font-semibold text-white'
+          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-[#E01E00] hover:bg-blue-50 hover:text-blue-700'
+          if (knob) knob.style.left = '0'
         } else {
-          dateBtn.className = 'px-2 py-1 rounded-full text-xs font-semibold bg-red-600 text-white'
-          nameBtn.className = 'px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00]'
+          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-xs font-semibold text-white'
+          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-[#E01E00] hover:bg-blue-50 hover:text-blue-700'
+          if (knob) knob.style.left = '50%'
         }
       }
       if (dirIcon) {
