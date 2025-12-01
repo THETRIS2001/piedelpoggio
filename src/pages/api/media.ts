@@ -93,9 +93,16 @@ export const GET: APIRoute = async ({ request, locals }) => {
             .map((o: any) => o.key as string)
             .map((k: string) => k.split('/').pop() || '')
         )
-        const files = (filesList.objects || [])
-          .map((o: any) => o.key as string)
-          .map((k: string) => k.split('/').pop() || '')
+        const sizeByName = new Map<string, number>()
+        for (const obj of Array.from(filesList.objects || [])) {
+          const key = String((obj as any).key || '')
+          if (!key || key.includes('/_thumbs/')) continue
+          const name = key.split('/').pop() || ''
+          if (!isAllowedFile(name)) continue
+          const sz = Number((obj as any).size || 0)
+          sizeByName.set(name, sz)
+        }
+        const files = Array.from(sizeByName.keys())
           .filter((name: string) => isAllowedFile(name))
           .map((name: string) => {
             const i = name.lastIndexOf('.')
@@ -111,7 +118,8 @@ export const GET: APIRoute = async ({ request, locals }) => {
             ]
             const t = candidates.find(c => thumbNames.has(c))
             const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
-            return { name, url: `/media/${folder}/${name}`, thumb }
+            const sizeBytes = sizeByName.get(name) || 0
+            return { name, url: `/media/${folder}/${name}`, thumb, sizeBytes }
           })
         events.push({ folder, meta, files })
       }
@@ -139,9 +147,16 @@ export const GET: APIRoute = async ({ request, locals }) => {
           .map((o: any) => o.key as string)
           .map((k: string) => k.split('/').pop() || '')
       )
-      const files = (filesList.objects || [])
-        .map((o: any) => o.key as string)
-        .map((k: string) => k.split('/').pop() || '')
+      const sizeByName = new Map<string, number>()
+      for (const obj of Array.from(filesList.objects || [])) {
+        const key = String((obj as any).key || '')
+        if (!key || key.includes('/_thumbs/')) continue
+        const name = key.split('/').pop() || ''
+        if (!isAllowedFile(name)) continue
+        const sz = Number((obj as any).size || 0)
+        sizeByName.set(name, sz)
+      }
+      const files = Array.from(sizeByName.keys())
         .filter((name: string) => isAllowedFile(name))
         .map((name: string) => {
           const i = name.lastIndexOf('.')
@@ -157,7 +172,8 @@ export const GET: APIRoute = async ({ request, locals }) => {
           ]
           const t = candidates.find(c => thumbNames.has(c))
           const thumb = t ? `/media/${folder}/_thumbs/${t}` : undefined
-          return { name, url: `/media/${folder}/${name}`, thumb }
+          const sizeBytes = sizeByName.get(name) || 0
+          return { name, url: `/media/${folder}/${name}`, thumb, sizeBytes }
         })
       return new Response(JSON.stringify({ folder, meta, files }), {
         status: 200,

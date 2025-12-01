@@ -111,9 +111,13 @@ const Masonry: React.FC<MasonryProps> = ({
             const name = String(f.name || '')
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
             const thumb = String((f as any).thumb || '')
-            if (!thumb) continue
             const orig = String(f.url || '')
-            photos.push({ id: `${folder}/${name}`, img: thumb, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
+            const sizeBytes = Number((f as any).sizeBytes || 0)
+            if (thumb) {
+              photos.push({ id: `${folder}/${name}`, img: thumb, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
+            } else if (sizeBytes > 0 && sizeBytes <= 1000000) {
+              photos.push({ id: `${folder}/${name}`, img: orig, url: orig, height: getRandomHeight(), orig, folderHref: `/media/${folder}` })
+            }
           }
         }
         const shuffled = photos.sort(() => Math.random() - 0.5)
