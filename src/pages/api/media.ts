@@ -49,6 +49,28 @@ function contentTypeFor(name: string): string {
   return 'application/octet-stream'
 }
 
+async function listAll(bucket: any, options: any) {
+  let truncated = true
+  let cursor: string | undefined
+  const allObjects: any[] = []
+  const allPrefixes: Set<string> = new Set()
+
+  while (truncated) {
+    const res = await bucket.list({ ...options, cursor })
+    truncated = res.truncated
+    cursor = res.cursor
+    if (res.objects) {
+      for (const o of res.objects) allObjects.push(o)
+    }
+    if (res.delimitedPrefixes) {
+      for (const p of res.delimitedPrefixes) allPrefixes.add(p)
+    }
+    if (!cursor) break
+  }
+  
+  return { objects: allObjects, delimitedPrefixes: Array.from(allPrefixes) }
+}
+
 export const GET: APIRoute = async ({ request, locals }) => {
   try {
     const url = new URL(request.url)
@@ -66,7 +88,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const prefix = 'media/'
 
     if (listParam === 'events') {
-      const listed = await bucket.list({ prefix, delimiter: '/' })
+      const listed = await listAll(bucket, { prefix, delimiter: '/' })
       const folders = new Set<string>()
       
       // Use delimitedPrefixes to get folders directly
@@ -105,7 +127,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
         if (!meta || !meta.eventName || !meta.date) {
           continue
         }
-        const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+        const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
         const files = (filesList.objects || [])
           .map((o: any) => o.key as string)
           .map((k: string) => k.split('/').pop() || '')
@@ -132,7 +154,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
           meta = JSON.parse(cleanTxt)
         }
       } catch {}
-      const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+      const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
       const files = (filesList.objects || [])
         .map((o: any) => o.key as string)
         .map((k: string) => k.split('/').pop() || '')
@@ -214,7 +236,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       let files: string[] = Array.isArray(data?.files) ? data.files.map((x: any) => String(x)) : []
       if (files.length === 0) {
         try {
-          const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
+          const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
           files = (filesList.objects || [])
             .map((o: any) => o.key as string)
             .map((k: string) => k.split('/').pop() || '')
@@ -434,7 +456,7 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       return new Response(JSON.stringify({ error: 'storage unavailable' }), { status: 503 })
     }
     const prefix = 'media/'
-    const listed = await bucket.list({ prefix })
+    const listed = await listAll(bucket, { prefix })
     const objs = Array.from(listed.objects || [])
     let deleted = 0
     for (const obj of objs) {
