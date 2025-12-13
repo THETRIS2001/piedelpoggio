@@ -209,6 +209,16 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const t = String(text || '')
       return t.length > max ? t.slice(0, max) + '…' : t
     }
+    function humanize(folder) {
+      const s = String(folder || '')
+      const m = s.match(/^(.*)-(\d{8})$/)
+      const base = m ? m[1] : s
+      return base
+        .replace(/-/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/\b\w/g, c => c.toUpperCase())
+    }
     function formatDate(d) {
       const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
       const dt = new Date(d)
