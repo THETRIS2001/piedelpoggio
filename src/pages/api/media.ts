@@ -66,14 +66,28 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const prefix = 'media/'
 
     if (listParam === 'events') {
-      const listed = await bucket.list({ prefix })
+      const listed = await bucket.list({ prefix, delimiter: '/' })
       const folders = new Set<string>()
-      for (const obj of listed.objects || []) {
-        const key = obj.key || ''
-        if (!key.startsWith(prefix)) continue
-        const rest = key.slice(prefix.length)
-        const seg = rest.split('/')[0]
+      
+      // Use delimitedPrefixes to get folders directly
+      for (const p of listed.delimitedPrefixes || []) {
+        const rest = p.slice(prefix.length)
+        const seg = rest.replace(/\/$/, '')
         if (seg) folders.add(seg)
+      }
+      
+      // Fallback: if delimitedPrefixes is empty (shouldn't happen with delimiter='/'), check objects too
+      // just in case some files are at root level (though we want folders)
+      for (const obj of listed.objects || []) {
+         const key = obj.key || ''
+         if (!key.startsWith(prefix)) continue
+         const rest = key.slice(prefix.length)
+         const parts = rest.split('/')
+         // If it has parts > 1, the first part is a folder, but it should have been in delimitedPrefixes
+         // If parts == 1, it's a file in root media/, we ignore it for "folders" list
+         if (parts.length > 1) {
+             folders.add(parts[0])
+         }
       }
 
       const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
