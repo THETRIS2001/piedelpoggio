@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "deposizione corona e coro",
-    "date":  "2011-08-01",
-    "description":  ""
-}

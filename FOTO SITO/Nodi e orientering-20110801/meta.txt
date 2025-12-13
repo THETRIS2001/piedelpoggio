@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "Nodi e orientering",
-    "date":  "2011-08-01",
-    "description":  ""
-}

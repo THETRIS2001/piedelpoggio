@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "Presentazione ristampa pastoral siringa",
-    "date":  "2011-08-01",
-    "description":  ""
-}

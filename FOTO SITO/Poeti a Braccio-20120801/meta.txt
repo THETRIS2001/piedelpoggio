@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "Poeti a Braccio",
-    "date":  "2012-08-01",
-    "description":  ""
-}

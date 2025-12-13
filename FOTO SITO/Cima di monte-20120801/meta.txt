@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "Cima di monte",
-    "date":  "2012-08-01",
-    "description":  ""
-}

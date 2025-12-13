@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "Le erbe con il Prof. Sperati",
-    "date":  "2013-08-01",
-    "description":  ""
-}

@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "sfilata",
-    "date":  "2006-08-01",
-    "description":  ""
-}

@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "abiti da sera",
-    "date":  "2025-12-01",
-    "description":  ""
-}

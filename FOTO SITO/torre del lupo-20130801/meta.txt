@@ -1,5 +1,0 @@
-﻿{
-    "eventName":  "torre del lupo",
-    "date":  "2013-08-01",
-    "description":  ""
-}
