@@ -21,7 +21,8 @@ try {
       const m = await bucket.get(`media/${folder}/meta.txt`)
       if (m) {
         const txt = await m.text()
-        meta = JSON.parse(txt)
+        const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+        meta = JSON.parse(cleanTxt)
       }
     } catch {}
     const listed = await bucket.list({ prefix: `media/${folder}/` })

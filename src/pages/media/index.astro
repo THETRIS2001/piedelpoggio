@@ -807,6 +807,14 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
     })
     
+    function isDuplicateNewEvent(name, date) {
+      if (!name || !date) return false
+      const slug = clientCreateSlug(name)
+      const d = date.replace(/-/g, '')
+      const target = `${slug}-${d}`
+      return events.some(ev => ev.folder === target)
+    }
+
     function updateSubmitEnabled() {
       const input = document.getElementById('files') as HTMLInputElement | null
       const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
