@@ -81,10 +81,12 @@ export const GET: APIRoute = async ({ request, locals }) => {
         let meta: Meta | null = null
         try {
           const metaObj = await bucket.get(`${prefix}${folder}/meta.txt`)
-          if (metaObj) {
-            const txt = await metaObj.text()
-            meta = JSON.parse(txt)
-          }
+      if (metaObj) {
+        const txt = await metaObj.text()
+        // Remove BOM if present (code 65279 / 0xFEFF)
+        const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+        meta = JSON.parse(cleanTxt)
+      }
         } catch {}
         if (!meta || !meta.eventName || !meta.date) {
           continue
@@ -111,7 +113,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
         const metaObj = await bucket.get(`${prefix}${folder}/meta.txt`)
         if (metaObj) {
           const txt = await metaObj.text()
-          meta = JSON.parse(txt)
+          // Remove BOM if present (code 65279 / 0xFEFF)
+          const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+          meta = JSON.parse(cleanTxt)
         }
       } catch {}
       const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
@@ -184,7 +188,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
         const m = await bucket.get(`${prefix}${folder}/meta.txt`)
         if (m) {
           const txt = await m.text()
-          meta = JSON.parse(txt)
+          // Remove BOM if present (code 65279 / 0xFEFF)
+          const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+          meta = JSON.parse(cleanTxt)
         }
       } catch {}
       if (meta && typeof descriptionInput !== 'undefined') {
@@ -264,7 +270,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
           const metaObj = await bucket.get(metaKey)
           if (metaObj) {
             const txt = await metaObj.text()
-            meta = JSON.parse(txt)
+            // Remove BOM if present (code 65279 / 0xFEFF)
+            const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+            meta = JSON.parse(cleanTxt)
           }
         } catch {}
         if (!meta && eventName && date) {
@@ -332,7 +340,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
         const metaObj = await bucket.get(metaKey)
         if (metaObj) {
           const txt = await metaObj.text()
-          meta = JSON.parse(txt)
+          // Remove BOM if present (code 65279 / 0xFEFF)
+          const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+          meta = JSON.parse(cleanTxt)
         }
       } catch {}
       if (!meta && eventName && date) {

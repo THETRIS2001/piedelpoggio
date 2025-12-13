@@ -23,6 +23,7 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "astro": "^5.14.1",
+    "dotenv": "^17.2.3",
     "gsap": "^3.13.0",
     "leaflet": "^1.9.4",
     "motion": "^12.23.22",
