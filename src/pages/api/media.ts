@@ -86,6 +86,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
             meta = JSON.parse(txt)
           }
         } catch {}
+        if (!meta || !meta.eventName || !meta.date) {
+          continue
+        }
         const filesList = await bucket.list({ prefix: `${prefix}${folder}/` })
         const files = (filesList.objects || [])
           .map((o: any) => o.key as string)

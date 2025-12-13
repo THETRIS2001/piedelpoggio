@@ -163,12 +163,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-')
     }
-    function isDuplicateNewEvent(name, date) {
-      if (!name || !date) return false
-      const slug = clientCreateSlug(name)
-      const folder = `${slug}-${date.replace(/-/g, '')}`
-      return (events || []).some(ev => ev.folder === folder)
-    }
     async function loadEvents() {
       try {
         const res = await fetch('/api/media?list=events')
@@ -209,26 +203,17 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const t = String(text || '')
       return t.length > max ? t.slice(0, max) + '…' : t
     }
-    function humanize(folder) {
-      const s = String(folder || '')
-      const m = s.match(/^(.*)-(\d{8})$/)
-      const base = m ? m[1] : s
-      return base
-        .replace(/-/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .replace(/\b\w/g, c => c.toUpperCase())
-    }
     function formatDate(d) {
       const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
       const dt = new Date(d)
       return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`
     }
     function matchesFilters(ev) {
+      if (!ev.meta || !ev.meta.eventName || !ev.meta.date) return false
       const q = (document.getElementById('searchEvents')?.value || '').toLowerCase().trim()
       const df = document.getElementById('dateFrom')?.value || ''
       const dt = document.getElementById('dateTo')?.value || ''
-      const name = (ev.meta?.eventName || ev.folder || '').toLowerCase()
+      const name = String(ev.meta.eventName || '').toLowerCase()
       if (q && !name.includes(q)) return false
       const evDate = ev.meta?.date || ''
       if (df && evDate < df) return false
@@ -303,7 +288,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         info.className = 'p-3 flex flex-col flex-1'
         const title = document.createElement('div')
         title.className = 'font-semibold text-gray-900 text-base md:text-lg'
-        title.textContent = clamp(ev.meta?.eventName || humanize(ev.folder), 60)
+        title.textContent = clamp(ev.meta?.eventName || '', 60)
         const date = document.createElement('div')
         date.className = 'self-start w-fit inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5 mt-1'
         date.textContent = ev.meta?.date ? formatDate(ev.meta.date) : ''
@@ -483,7 +468,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     const existingHidden = document.getElementById('existingFolderHidden') as HTMLInputElement | null
     const changeExisting = document.getElementById('changeExisting') as HTMLButtonElement | null
     function labelFor(ev) {
-      const name = ev.meta?.eventName || humanize(ev.folder)
+      const name = ev.meta?.eventName || ''
       const d = ev.meta?.date ? ` — ${formatDate(ev.meta.date)}` : ''
       return name + d
     }
