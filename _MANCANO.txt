@@ -1,23 +1,20 @@
-VERIFICA CONTENUTI SE CORRETTI e soprattutto pagine eventi e notizie e bilancio
+SISTEMA CONTENUTI: e soprattutto pagine eventi e notizie e bilancio, pag info sito meno autoreferenziale.
 
-Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento: tag pagine di dimensioni diverse (es eventi vs terremoto)
-
-Responsivness
+SISTEMA ESTETICA:
+    - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento: tag pagine di dimensioni diverse (es eventi vs terremoto)
+    - Responsivness
+    - pag notizie ed eventi piu belle
 
 Meteo non combacia (problema di google)
 
 Sezione iban
 
 Pagina poesie-canzoni visivamente tutta da sistemare
-
-
-poesia aggiunto
-http://www.piedelpoggio.it/home7.htm
-
-testimonianze aggiunto
-http://www.piedelpoggio.it/home6.htm
+    - poesia aggiunto: http://www.piedelpoggio.it/home7.htm
+    - testimonianze aggiunto: http://www.piedelpoggio.it/home6.htm
 
 video aggiungi: https://www.youtube.com/@eziopaciucci6765/videos
+
 __________________________________________________
 
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
@@ -25,12 +22,7 @@ npm run dev -- --port 4324
 lo trovi su:
 http://localhost:4321/
 
-
-
-
-
-
-
+__________________________________________________
 
 cambio 2008
 decoupage 2007
