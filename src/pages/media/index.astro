@@ -345,11 +345,23 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                
                try {
                  const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
-                 const cl = Number(r.headers.get('content-length') || '0')
-                 useLow = cl > 1024 * 1024
+                 const val = r.headers.get('content-length')
+                 // Se non riusciamo a leggere la dimensione, assumiamo che sia grande (safe bet)
+                 // per garantire che venga trasformata come richiesto
+                 if (!val) {
+                   useLow = true
+                 } else {
+                   const cl = Number(val)
+                   // Se NaN o 0, consideriamo come grande per sicurezza
+                   if (isNaN(cl) || cl === 0) {
+                     useLow = true
+                   } else {
+                     useLow = cl > 1024 * 1024
+                   }
+                 }
                  weight = useLow ? 1 : 0 // 0 = Preferito (Originale), 1 = Costoso
                } catch {
-                 useLow = true // Fallback worst case
+                 useLow = true // Fallback worst case: assumiamo grande e trasformiamo
                  weight = 1
                }
                
@@ -390,16 +402,18 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                   img.alt = ev.meta?.eventName || f.name
                   img.loading = 'lazy'
                   img.className = 'w-full h-full object-cover'
+                  // Se useLow è true, FORZIAMO la trasformazione.
+                  // Se la trasformazione fallisce, l'immagine sarà broken (come richiesto: no fallback a originale)
                   const src = item.useLow ? cfLowRes(f.url) : f.url
                   img.src = src
                   slot.appendChild(img)
                }
              })
              
-             // Rimuovi slot vuoti se ce ne sono meno di 3
-             for(let i=selected.length; i<3; i++) {
-               const slot = container.children[i]
-               if(slot) slot.remove()
+             // Rimuovi slot vuoti in eccesso
+             // Usiamo un while loop per rimuovere in sicurezza gli elementi extra
+             while (container.children.length > selected.length) {
+               container.lastElementChild?.remove()
              }
           })()
 

@@ -184,12 +184,26 @@ const capitalize = (s: string) => {
       try {
         // 1. Controlliamo la dimensione del file originale (HEAD request è molto leggera)
         const res = await fetch(url, { method: 'HEAD' })
-        const size = Number(res.headers.get('content-length') || 0)
+        const val = res.headers.get('content-length')
+        
+        let useTransform = false
+
+        // Se non c'è content-length o è 0, assumiamo sia grande per sicurezza
+        if (!val) {
+          useTransform = true
+        } else {
+          const size = Number(val)
+          if (isNaN(size) || size === 0) {
+            useTransform = true
+          } else {
+            useTransform = size > 1024 * 1024
+          }
+        }
         
         // 2. Logica di decisione:
-        // Se > 1MB (1048576 bytes) -> Chiedi a Cloudflare di ridimensionare (CONSUMA QUOTA)
+        // Se > 1MB (1048576 bytes) o sconosciuto -> Chiedi a Cloudflare di ridimensionare
         // Se <= 1MB -> Usa originale (GRATIS, solo banda)
-        if (size > 1024 * 1024) {
+        if (useTransform) {
           const path = url.startsWith('/') ? url : '/' + url
           img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
         } else {
@@ -202,9 +216,11 @@ const capitalize = (s: string) => {
         if (img.complete) img.style.visibility = 'visible'
         
       } catch (e) {
-        // In caso di errore nel check, fallback all'originale
+        // In caso di errore nel check, assumiamo che serva la trasformazione
+        // NON facciamo fallback all'originale come richiesto esplicitamente
         console.error('Error checking image size', e)
-        img.src = url
+        const path = url.startsWith('/') ? url : '/' + url
+        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
         img.style.visibility = 'visible'
       }
     }
