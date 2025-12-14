@@ -90,6 +90,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const prefix = 'media/'
 
     if (listParam === 'events') {
+      const mode = url.searchParams.get('mode')
       const listed = await listAll(bucket, { prefix, delimiter: '/' })
       const folders = new Set<string>()
       
@@ -115,31 +116,44 @@ export const GET: APIRoute = async ({ request, locals }) => {
       }
 
       const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
-      for (const folder of folders) {
+      
+      // Fetch metadata in parallel
+      const folderList = Array.from(folders)
+      const results = await Promise.all(folderList.map(async (folder) => {
         let meta: Meta | null = null
         try {
           const metaObj = await bucket.get(`${prefix}${folder}/meta.txt`)
-      if (metaObj) {
-        const txt = await metaObj.text()
-        // Remove BOM if present (code 65279 / 0xFEFF)
-        const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
-        meta = JSON.parse(cleanTxt)
-      }
+          if (metaObj) {
+            const txt = await metaObj.text()
+            // Remove BOM if present (code 65279 / 0xFEFF)
+            const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+            meta = JSON.parse(cleanTxt)
+          }
         } catch {}
+        
         if (!meta || !meta.eventName || !meta.date) {
-          continue
+          return null
         }
-        const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
-        const files = (filesList.objects || [])
-          .filter((o: any) => isAllowedFile(o.key || ''))
-          .map((o: any) => {
-             const k = o.key as string
-             const name = k.split('/').pop() || ''
-             // Supporta sia 'size' che 'Size' per sicurezza
-             const size = o.size || o.Size || 0
-             return { name, url: `/media/${folder}/${name}`, size }
-          })
-        events.push({ folder, meta, files })
+
+        let files: any[] = []
+        if (mode !== 'meta') {
+            const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
+            files = (filesList.objects || [])
+            .filter((o: any) => isAllowedFile(o.key || ''))
+            .map((o: any) => {
+                const k = o.key as string
+                const name = k.split('/').pop() || ''
+                // Supporta sia 'size' che 'Size' per sicurezza
+                const size = o.size || o.Size || 0
+                return { name, url: `/media/${folder}/${name}`, size }
+            })
+        }
+        
+        return { folder, meta, files }
+      }))
+
+      for (const res of results) {
+        if (res) events.push(res)
       }
 
       return new Response(JSON.stringify({ events }), {

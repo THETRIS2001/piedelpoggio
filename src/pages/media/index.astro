@@ -252,9 +252,42 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-')
     }
+    async function loadFilesForEvents(list: EventData[]) {
+      const toLoad = list.filter(e => !e.files || e.files.length === 0)
+      const CONCURRENCY = 3
+      const queue = [...toLoad]
+      
+      const process: () => Promise<void> = async () => {
+          if (queue.length === 0) return
+          const ev = queue.shift()
+          if (!ev) return
+          
+          try {
+              const res = await fetch(`/api/media?folder=${ev.folder}`)
+              if (res.ok) {
+                  const data = await res.json()
+                  if (data && Array.isArray(data.files)) {
+                      ev.files = data.files
+                      updateCardImages(ev.folder, ev.files, ev.meta?.eventName || '')
+                  }
+              }
+          } catch (e) {
+              console.error('Failed to load files for', ev.folder)
+          }
+          
+          await process()
+      }
+      
+      const workers = []
+      for (let i = 0; i < CONCURRENCY; i++) {
+          workers.push(process())
+      }
+      await Promise.all(workers)
+    }
+
     async function loadEvents() {
       try {
-        const res = await fetch('/api/media?list=events')
+        const res = await fetch('/api/media?list=events&mode=meta')
         if (!res.ok) {
           console.error('loadEvents: response not ok', res.status)
           const grid = document.getElementById('eventsGrid')
@@ -280,6 +313,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         currentPage = 1
         renderEvents(events)
         renderComboSuggestions('')
+        
+        loadFilesForEvents(events)
       } catch (err) {
         console.error('loadEvents: fetch failed')
         const grid = document.getElementById('eventsGrid')
@@ -314,15 +349,16 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (dt && evDate > dt) return false
       return true
     }
-    function renderCard(grid: HTMLElement, ev: EventData) {
-        const card = document.createElement('div')
-        card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
-        const cover = document.createElement('div')
+    function buildImagesGrid(files: MediaFile[], eventName: string) {
         const container = document.createElement('div')
         container.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
 
-        const filesArr = Array.isArray(ev.files) ? ev.files : []
-        const photos = filesArr.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name))
+        if (!files || files.length === 0) {
+            container.innerHTML = '<div class="col-span-3 h-24 flex items-center justify-center text-gray-400 text-xs animate-pulse">Caricamento anteprime...</div>'
+            return container
+        }
+
+        const photos = files.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name))
         const firstTen = photos.slice(0, 10)
         const small = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 0 && Number((f.size as number | undefined) || 0) <= 1024 * 1024)
         const large = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 1024 * 1024)
@@ -347,7 +383,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
 
           const f = item.file
           const img = document.createElement('img')
-          img.alt = ev.meta?.eventName || f.name
+          img.alt = eventName || f.name
           img.loading = 'lazy'
           img.className = 'w-full h-full object-cover'
 
@@ -362,10 +398,38 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           })
 
           slot.appendChild(img)
-
           container.appendChild(slot)
         })
+        
+        return container
+    }
 
+    function updateCardImages(folder: string, files: MediaFile[], eventName: string) {
+        const card = document.querySelector(`div[data-folder="${folder}"]`)
+        if (!card) return
+        
+        const oldContainer = card.querySelector('.grid.grid-cols-3')
+        if (oldContainer && oldContainer.parentNode) {
+            const newContainer = buildImagesGrid(files, eventName)
+            oldContainer.parentNode.replaceChild(newContainer, oldContainer)
+        }
+        
+        const photosCount = files.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name)).length
+        const badge = Array.from(card.querySelectorAll('span')).find(s => s.textContent?.startsWith('Foto:'))
+        if (badge) {
+            badge.textContent = `Foto: ${photosCount}`
+        }
+    }
+
+    function renderCard(grid: HTMLElement, ev: EventData) {
+        const card = document.createElement('div')
+        card.dataset.folder = ev.folder
+        card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
+        const cover = document.createElement('div')
+        
+        const filesArr = Array.isArray(ev.files) ? ev.files : []
+        const container = buildImagesGrid(filesArr, ev.meta?.eventName || '')
+        
         cover.appendChild(container)
         cover.className = 'contents'
           
