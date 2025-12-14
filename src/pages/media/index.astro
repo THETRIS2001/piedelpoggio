@@ -70,6 +70,35 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           </div>
             
           </div>
+
+          <div class="flex items-center justify-between mt-2 mb-1" id="eventsPaginationBar">
+            <button
+              id="pagePrev"
+              type="button"
+              class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              aria-label="Pagina precedente"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+
+            <div id="pageInfo" class="text-xs font-medium text-gray-700">
+              Pagina 1 di 1
+            </div>
+
+            <button
+              id="pageNext"
+              type="button"
+              class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              aria-label="Pagina successiva"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+
           <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
             <!-- Skeleton Loading State -->
             <div class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item">
@@ -209,6 +238,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       meta?: EventMeta;
     }
 
+    const PAGE_SIZE = 12
+    let currentPage = 1
     let events: EventData[] = []
     let externalFiles: File[] = []
     function clientCreateSlug(text: string) {
@@ -246,6 +277,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           return
         }
         events = Array.isArray(data.events) ? data.events : []
+        currentPage = 1
         renderEvents(events)
         renderComboSuggestions('')
       } catch (err) {
@@ -413,18 +445,50 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         return effOrder === 'desc' ? -cmp : cmp
       })
 
+      const totalPages = filtered.length > 0 ? Math.ceil(filtered.length / PAGE_SIZE) : 0
+      if (totalPages === 0) {
+        const bar = document.getElementById('eventsPaginationBar')
+        const info = document.getElementById('pageInfo')
+        if (bar) bar.classList.add('hidden')
+        if (info) info.textContent = 'Nessun evento trovato'
+        grid.innerHTML = ''
+        return
+      }
+
+      if (currentPage < 1) currentPage = 1
+      if (currentPage > totalPages) currentPage = totalPages
+
+      const bar = document.getElementById('eventsPaginationBar')
+      const prev = document.getElementById('pagePrev') as HTMLButtonElement | null
+      const next = document.getElementById('pageNext') as HTMLButtonElement | null
+      const info = document.getElementById('pageInfo')
+
+      if (bar && prev && next && info) {
+        bar.classList.toggle('hidden', totalPages <= 1)
+        info.textContent = `Pagina ${currentPage} di ${totalPages}`
+
+        const canPrev = currentPage > 1
+        const canNext = currentPage < totalPages
+
+        prev.disabled = !canPrev
+        next.disabled = !canNext
+      }
+
+      const start = (currentPage - 1) * PAGE_SIZE
+      const pageItems = filtered.slice(start, start + PAGE_SIZE)
+
       let i = 0
       const renderNext = () => {
         if (!grid) return
-        if (i >= filtered.length) return
-        const ev = filtered[i++]
+        if (i >= pageItems.length) return
+        const ev = pageItems[i++]
         renderCard(grid, ev)
-        if (i < filtered.length) {
+        if (i < pageItems.length) {
           requestAnimationFrame(renderNext)
         }
       }
 
-      if (filtered.length > 0) {
+      if (pageItems.length > 0) {
         requestAnimationFrame(renderNext)
       }
     }
@@ -640,9 +704,18 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     document.getElementById('description')?.addEventListener('focus', () => { uploadMode = 'new'; updateUploadVisibility() })
     document.getElementById('eventName')?.addEventListener('input', () => updateSubmitEnabled())
     document.getElementById('date')?.addEventListener('input', () => updateSubmitEnabled())
-    document.getElementById('searchEvents')?.addEventListener('input', () => renderEvents(events))
-    document.getElementById('dateFrom')?.addEventListener('input', () => renderEvents(events))
-    document.getElementById('dateTo')?.addEventListener('input', () => renderEvents(events))
+    document.getElementById('searchEvents')?.addEventListener('input', () => {
+      currentPage = 1
+      renderEvents(events)
+    })
+    document.getElementById('dateFrom')?.addEventListener('input', () => {
+      currentPage = 1
+      renderEvents(events)
+    })
+    document.getElementById('dateTo')?.addEventListener('input', () => {
+      currentPage = 1
+      renderEvents(events)
+    })
     document.getElementById('clearFilter')?.addEventListener('click', () => {
       const s = document.getElementById('searchEvents') as HTMLInputElement | null
       const df = document.getElementById('dateFrom') as HTMLInputElement | null
@@ -650,10 +723,17 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (s) s.value = ''
       if (df) df.value = ''
       if (dt) dt.value = ''
+      currentPage = 1
       renderEvents(events)
     })
-    document.getElementById('sortField')?.addEventListener('change', () => renderEvents(events))
-    document.getElementById('sortOrder')?.addEventListener('change', () => renderEvents(events))
+    document.getElementById('sortField')?.addEventListener('change', () => {
+      currentPage = 1
+      renderEvents(events)
+    })
+    document.getElementById('sortOrder')?.addEventListener('change', () => {
+      currentPage = 1
+      renderEvents(events)
+    })
     function updateSortUI() {
       const field = (document.getElementById('sortField') as HTMLInputElement | null)?.value || 'date'
       const order = (document.getElementById('sortOrder') as HTMLInputElement | null)?.value || 'desc'
@@ -687,6 +767,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (sf) {
         sf.value = (sf.value === 'date') ? 'name' : 'date'
         updateSortUI()
+        currentPage = 1
         renderEvents(events)
       }
     })
@@ -694,6 +775,16 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const so = document.getElementById('sortOrder') as HTMLInputElement | null
       if (so) so.value = (so.value === 'asc') ? 'desc' : 'asc'
       updateSortUI()
+      currentPage = 1
+      renderEvents(events)
+    })
+    document.getElementById('pagePrev')?.addEventListener('click', () => {
+      if (currentPage <= 1) return
+      currentPage--
+      renderEvents(events)
+    })
+    document.getElementById('pageNext')?.addEventListener('click', () => {
+      currentPage++
       renderEvents(events)
     })
     const MAX_TOTAL_BYTES = 1024 * 1024 * 1024
