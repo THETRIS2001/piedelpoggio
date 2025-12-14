@@ -2,7 +2,7 @@
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
 ---
 
-<DefaultLayout title="FOTO E VIDEO" description="Galleria e caricamenti di immagini e video per eventi a Piedelpoggio">
+<DefaultLayout title="GALLERIA FOTO" description="Galleria e caricamenti di immagini per eventi a Piedelpoggio">
   <main class="bg-gradient-to-br from-primary-50/30 via-white to-secondary-50/20">
     <section class="relative overflow-hidden pt-12 md:pt-16">
       <div class="absolute inset-0 bg-gradient-to-b from-red-100/70 via-red-50/50 to-transparent"></div>
@@ -18,14 +18,13 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               </svg>
             </div>
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent">FOTO E VIDEO</span>
+              <span class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent">GALLERIA FOTO</span>
             </h1>
           </div>
           <div class="w-32 h-1.5 rounded-full mx-auto mb-8" style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"></div>
-          <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">Immagini e video organizzati per evento, con ricerca e filtri</p>
+          <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">Immagini organizzate per evento, con ricerca e filtri</p>
           <div class="flex flex-wrap justify-center gap-2 md:gap-3 mt-8 mb-6">
             <span class="px-3 py-1 text-xs md:text-sm font-medium text-red-700 bg-red-50 border border-red-200 shadow-sm rounded-full">Foto</span>
-            <span class="px-3 py-1 text-xs md:text-sm font-medium text-orange-700 bg-orange-50 border border-orange-200 shadow-sm rounded-full">Video</span>
             <span class="px-3 py-1 text-xs md:text-sm font-medium text-pink-700 bg-pink-50 border border-pink-200 shadow-sm rounded-full">Eventi</span>
           </div>
         </div>
@@ -156,11 +155,11 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               </div>
             </div>
           </div>
-            <input name="files" id="files" type="file" multiple accept="image/*,video/*,.bmp" autocomplete="off" class="sr-only" />
+            <input name="files" id="files" type="file" multiple accept="image/*,.bmp" autocomplete="off" class="sr-only" />
             <label class="block text-sm font-medium text-gray-700 mb-1">File <span class="text-red-600">*</span></label>
             <div id="dropzone" class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-8 text-center hover:bg-red-50">
               <div class="flex flex-col items-center justify-center gap-3">
-                <p class="text-sm text-gray-700">Trascina qui immagini e video oppure <button type="button" id="pickFiles" class="text-red-600 hover:text-red-700 underline">carica file</button></p>
+                <p class="text-sm text-gray-700">Trascina qui le immagini oppure <button type="button" id="pickFiles" class="text-red-600 hover:text-red-700 underline">carica file</button></p>
                 <div id="filesSummary" class="text-sm text-gray-600"></div>
               </div>
             </div>
