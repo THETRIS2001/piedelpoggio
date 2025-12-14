@@ -108,33 +108,17 @@ const Masonry: React.FC<MasonryProps> = ({
         const res = await fetch('/api/media?list=events')
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
-        const getBase = (n: string) => {
-          const i = n.lastIndexOf('.')
-          return i >= 0 ? n.slice(0, i) : n
-        }
-        const head = async (url: string) => {
+        
+        const contentLength = async (url: string) => {
           try {
             const r = await fetch(url, { method: 'HEAD', cache: 'no-store' })
-            return r
+            if (!r.ok) return 0
+            return Number(r.headers.get('content-length') || '0')
           } catch {
-            return null
+            return 0
           }
         }
-        const contentLength = async (url: string) => {
-          const r = await head(url)
-          if (!r) return 0
-          return Number(r.headers.get('content-length') || '0')
-        }
-        const findPreview = async (folder: string, name: string) => {
-          const base = getBase(name)
-          const p1 = `/media/${folder}/${base}.webp`
-          const r1 = await head(p1)
-          if (r1 && r1.ok) return p1
-          const p2 = `/media/${folder}/_thumbs/${base}.webp`
-          const r2 = await head(p2)
-          if (r2 && r2.ok) return p2
-          return null
-        }
+
         const filesPool: Array<{ folder: string; name: string; url: string }> = []
         for (const ev of events) {
           const folder = String(ev.folder || '')
@@ -148,18 +132,33 @@ const Masonry: React.FC<MasonryProps> = ({
         }
         const shuffled = filesPool.sort(() => Math.random() - 0.5)
         const out: MasonryItem[] = []
+        
+        // Limit checks to avoid too many HEAD requests if we can't find suitable images quickly
+        // But since we need to find images, we might have to check many.
+        let checkedCount = 0
+        const maxChecks = 50 // Avoid infinite loading if all images are huge
+        
         for (const it of shuffled) {
           if (out.length >= Math.max(1, limit)) break
+          if (checkedCount >= maxChecks) break
+          checkedCount++
+
+          // 1. Check size - if < 1MB use original (Free)
           const size = await contentLength(it.url)
-          if (size > 0 && size <= 1024 * 1024) {
-            out.push({ id: `${it.folder}/${it.name}`, img: it.url, url: it.url, height: getRandomHeight(), orig: it.url, folderHref: `/media/${it.folder}` })
+          if (size > 0 && size < 1024 * 1024) {
+            out.push({ 
+              id: `${it.folder}/${it.name}`, 
+              img: it.url, // Use original URL
+              url: it.url, 
+              height: getRandomHeight(), 
+              orig: it.url, 
+              folderHref: `/media/${it.folder}` 
+            })
             continue
           }
-          const preview = await findPreview(it.folder, it.name)
-          if (preview) {
-            out.push({ id: `${it.folder}/${it.name}`, img: preview, url: it.url, height: getRandomHeight(), orig: it.url, folderHref: `/media/${it.folder}` })
-            continue
-          }
+          
+          // 2. If > 1MB, we skip to save Cloudflare transformations quota.
+          // We do not fallback to cfLowRes because user wants to minimize calls.
         }
         setItemsData(out)
       } catch {}
