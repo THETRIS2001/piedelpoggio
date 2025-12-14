@@ -11,7 +11,7 @@ const isAllowed = (name: string) => {
 }
 
 let meta: any = null
-let files: Array<{ name: string; url: string; isVideo: boolean; thumbUrl?: string }> = []
+let files: Array<{ name: string; url: string; isVideo: boolean }> = []
 let formattedDate: string = ''
 
 async function listAll(bucket: any, options: any) {
@@ -51,34 +51,15 @@ try {
     // Use listAll instead of bucket.list to handle >1000 files
     const listed = await listAll(bucket, { prefix: `media/${folder}/` })
     
-    files = (listed.objects || [])
-      .filter((o: any) => {
-        const k = o.key as string
-        const n = k.split('/').pop() || ''
-        return isAllowed(n)
-      })
-      .map((o: any) => {
-        const k = o.key as string
-        const n = k.split('/').pop() || ''
-        const size = o.size || o.Size || 0
-        const isVideo = /\.(mp4|webm|ogg)$/i.test(n)
-        const url = `/media/${folder}/${n}`
-        
-        // Logica di trasformazione Server-Side
-        // Se > 1MB, usiamo Cloudflare Image Resizing
-        let useLow = !isVideo && size > 1024 * 1024
-        
-        // Se la size è 0 (impossibile determinare), assumiamo sia grande per sicurezza se è un'immagine
-        if (!isVideo && size === 0) useLow = true
-        
-        console.log(`[FolderSSR] File: ${n}, Size: ${size}, UseLow: ${useLow}`)
-
-        const thumbUrl = useLow 
-          ? `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${url}` 
-          : url
-          
-        return { name: n, url, isVideo, thumbUrl }
-      })
+    const names = (listed.objects || [])
+      .map((o: any) => o.key as string)
+      .map((k: string) => k.split('/').pop() || '')
+      .filter((n: string) => isAllowed(n))
+    files = names.map((n: string) => {
+      const isVideo = /\.(mp4|webm|ogg)$/i.test(n)
+      const url = `/media/${folder}/${n}`
+      return { name: n, url, isVideo }
+    })
   }
 } catch {}
 
@@ -136,7 +117,7 @@ const capitalize = (s: string) => {
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src={f.thumbUrl || f.url} data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} />
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
                 )}
               </div>
             ))}
@@ -180,6 +161,55 @@ const capitalize = (s: string) => {
     // Recuperiamo tutte le immagini della galleria
     const galleryImgs = document.querySelectorAll('#gallery img')
     const imgs: string[] = Array.from(galleryImgs).map(el => el.getAttribute('data-original') || '')
+    
+    // --- LAZY LOADING INTELLIGENTE ---
+    // Questo observer controlla quando un'immagine entra nello schermo.
+    // Solo allora controlla il peso e decide se chiedere la versione ridimensionata.
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target as HTMLImageElement
+          const url = img.getAttribute('data-original')
+          if (url) {
+            checkAndLoad(img, url)
+          }
+          imageObserver.unobserve(img)
+        }
+      })
+    })
+
+    galleryImgs.forEach(img => imageObserver.observe(img))
+
+    async function checkAndLoad(img: HTMLImageElement, url: string) {
+      try {
+        // 1. Controlliamo la dimensione del file originale (HEAD request è molto leggera)
+        const res = await fetch(url, { method: 'HEAD' })
+        const lenStr = res.headers.get('content-length')
+        const size = lenStr ? Number(lenStr) : 0
+        
+        // 2. Logica di decisione:
+        // Se > 1MB (1048576 bytes) o SCONOSCIUTO -> Chiedi a Cloudflare di ridimensionare
+        // Se <= 1MB -> Usa originale (GRATIS, solo banda)
+        if (!size || size > 1024 * 1024) {
+          const path = url.startsWith('/') ? url : '/' + url
+          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+        } else {
+          img.src = url
+        }
+        
+        // 3. Mostriamo l'immagine solo ora che abbiamo deciso la sorgente
+        img.onload = () => { img.style.visibility = 'visible' }
+        // Fallback immediato se è già in cache
+        if (img.complete) img.style.visibility = 'visible'
+        
+      } catch (e) {
+        // In caso di errore nel check, fallback all'originale
+        console.error('Error checking image size', e)
+        img.src = url
+        img.style.visibility = 'visible'
+      }
+    }
+    // ---------------------------------
     
     let current = 0
 
@@ -341,5 +371,13 @@ const capitalize = (s: string) => {
     }
 
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
+
+    function cfLowRes(url: string) {
+      if (!url) return url
+      const path = url.startsWith('/') ? url : '/' + url
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+    }
+
+
   </script>
 </DefaultLayout>

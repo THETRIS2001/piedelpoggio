@@ -343,29 +343,17 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                  continue
                }
                
-               // Usa la dimensione restituita dall'API se presente, altrimenti prova HEAD
-               let size = f.size || 0
-               if (size === 0) {
-                 try {
-                   const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
-                   size = Number(r.headers.get('content-length') || '0')
-                 } catch {
-                   size = 99999999 // Se fallisce, assumiamo sia pesante per forzare trasformazione
-                 }
+               try {
+                 const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+                 const lenStr = r.headers.get('content-length')
+                 const cl = lenStr ? Number(lenStr) : 0
+                 // Se non abbiamo content-length (cl=0) assumiamo sia grande per sicurezza
+                 useLow = !cl || cl > 1024 * 1024
+                 weight = useLow ? 1 : 0 // 0 = Preferito (Originale), 1 = Costoso
+               } catch {
+                 useLow = true // Fallback worst case
+                 weight = 1
                }
-
-               // Se dopo il check la size è ancora 0 (es. HEAD senza content-length), forziamo la trasformazione
-               // Meglio trasformare un file piccolo che scaricare 3MB inutilmente.
-               if (size === 0) size = 99999999
-               
-               useLow = size > 1024 * 1024
-               console.log(`[MediaPreview] File: ${f.name}, Size: ${size}, Transform: ${useLow}`)
-
-               weight = useLow ? 1 : 0
-             } catch {
-               useLow = true
-               weight = 1
-             }
                
                verified.push({ file: f, useLow, weight })
              }
