@@ -71,8 +71,13 @@ try {
         // Se la size è 0 (impossibile determinare), assumiamo sia grande per sicurezza se è un'immagine
         if (!isVideo && size === 0) useLow = true
         
+        // Costruiamo l'URL assoluto per il servizio di ridimensionamento
+        // Usiamo wsrv.nl perché Cloudflare Image Resizing ha problemi con i Worker/Pages su piano Free
+        // e potrebbe ritornare l'immagine originale se fallisce il ridimensionamento.
+        const fullUrl = new URL(url, Astro.url).href
+        
         const thumbUrl = useLow 
-          ? `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${url}` 
+          ? `https://wsrv.nl/?url=${encodeURIComponent(fullUrl)}&w=500&output=webp&q=80`
           : url
           
         return { name: n, url, isVideo, thumbUrl }

@@ -344,17 +344,19 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                }
                
                // Usa la dimensione restituita dall'API se presente, altrimenti prova HEAD
-               let size = f.size || 0
-               if (size === 0) {
-                 try {
-                   const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
-                   size = Number(r.headers.get('content-length') || '0')
-                 } catch {
-                   size = 99999999 // Se fallisce, assumiamo sia pesante per forzare trasformazione
-                 }
-               }
-               
-               useLow = size > 1024 * 1024
+        let size = f.size || 0
+        if (size === 0) {
+          try {
+            const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+            const cl = r.headers.get('content-length')
+            // Se c'è il header usa quello, altrimenti (es. CORS opaco) assumi sia grande
+            size = cl ? Number(cl) : 99999999
+          } catch {
+            size = 99999999 // Se fallisce, assumiamo sia pesante per forzare trasformazione
+          }
+        }
+        
+        useLow = size > 1024 * 1024
                weight = useLow ? 1 : 0
              } catch {
                useLow = true
@@ -480,8 +482,10 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     }
     function cfLowRes(url: string) {
       if (!url) return url
-      const path = url.startsWith('/') ? url : '/' + url
-      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+      // Usiamo wsrv.nl invece di Cloudflare Image Resizing per evitare problemi con i Worker
+      // e garantire che il ridimensionamento avvenga sempre.
+      const fullUrl = new URL(url, window.location.origin).href
+      return `https://wsrv.nl/?url=${encodeURIComponent(fullUrl)}&w=500&output=webp&q=80`
     }
 
     async function downloadFolderZip(folder: string, files: MediaFile[]) {
