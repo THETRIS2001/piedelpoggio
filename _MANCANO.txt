@@ -10,10 +10,8 @@ Non carica video grandi.
 
 Pagina poesie-canzoni visivamente tutta da sistemare
 
-Non mostra cartelle anche se hanno meta, e alcune non ce l'hanno invece
 mi aumentano le foto trasformate anche se ho aperto cartelle con solo foto da 200kb a foto
 
-se premo sulla freccetta nella pagina media deve passare da a-z a z-a
 
 poesia aggiunto
 http://www.piedelpoggio.it/home7.htm
