@@ -42,19 +42,6 @@ const useMeasure = () => {
   return [ref, size] as const;
 };
 
-const preloadImages = async (urls: string[]) => {
-  await Promise.all(
-    urls.map(
-      src =>
-        new Promise(resolve => {
-          const img = new Image();
-          img.src = src;
-          img.onload = img.onerror = () => resolve(undefined);
-        })
-    )
-  );
-};
-
 interface MasonryItem {
   id: string;
   img: string;
@@ -96,11 +83,7 @@ const Masonry: React.FC<MasonryProps> = ({
     const heights = [260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520]
     return heights[Math.floor(Math.random() * heights.length)]
   }
-  const cfLowRes = (url: string) => {
-    if (!url) return url
-    const path = url.startsWith('/') ? url : '/' + url
-    return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
-  }
+
   useEffect(() => {
     if (source !== 'media') return
     ;(async () => {
@@ -109,70 +92,49 @@ const Masonry: React.FC<MasonryProps> = ({
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
         
-        const contentLength = async (url: string) => {
-          try {
-            const r = await fetch(url, { method: 'HEAD', cache: 'no-store' })
-            if (!r.ok) return 0
-            return Number(r.headers.get('content-length') || '0')
-          } catch {
-            return 0
-          }
-        }
-
-        const filesPool: Array<{ folder: string; name: string; url: string }> = []
+        // Costruiamo il pool di file validi
+        const filesPool: Array<{ folder: string; name: string; url: string; size?: number }> = []
+        
         for (const ev of events) {
           const folder = String(ev.folder || '')
           const files = Array.isArray(ev.files) ? ev.files : []
           for (const f of files) {
             const name = String(f.name || '')
+            // Escludiamo video
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
-            const url = String(f.url || '')
-            filesPool.push({ folder, name, url })
+            
+            // FILTRO CRITICO: Solo immagini < 1MB
+            // Il server ora ci manda il size. Se non c'è size, per sicurezza scartiamo.
+            const size = Number(f.size || 0)
+            if (size > 0 && size < 1024 * 1024) {
+               filesPool.push({ 
+                 folder, 
+                 name, 
+                 url: String(f.url || ''), 
+                 size 
+               })
+            }
           }
         }
+        
+        // Ora abbiamo SOLO immagini sicure. Ne prendiamo random quante ne servono.
         const shuffled = filesPool.sort(() => Math.random() - 0.5)
-        const out: MasonryItem[] = []
-        
-        // Limit checks to avoid too many HEAD requests if we can't find suitable images quickly
-        // But since we need to find images, we might have to check many.
-        let checkedCount = 0
-        const maxChecks = 50 // Avoid infinite loading if all images are huge
-        
-        for (const it of shuffled) {
-          if (out.length >= Math.max(1, limit)) break
-          if (checkedCount >= maxChecks) break
-          checkedCount++
+        const selected = shuffled.slice(0, limit)
 
-          // 1. Check size - if < 1MB use original (Free)
-          const size = await contentLength(it.url)
-          if (size > 0 && size < 1024 * 1024) {
-            out.push({ 
-              id: `${it.folder}/${it.name}`, 
-              img: it.url, // Use original URL
-              url: it.url, 
-              height: getRandomHeight(), 
-              orig: it.url, 
-              folderHref: `/media/${it.folder}` 
-            })
-            continue
-          }
-          
-          // 2. If > 1MB, we use Cloudflare transformation (User explicitly requested to fix the empty space issue without fallback)
-          // This will consume quota, but it ensures the homepage is populated.
-          const optimizedUrl = cfLowRes(it.url)
-          out.push({ 
-             id: `${it.folder}/${it.name}`, 
-             img: optimizedUrl, 
-             url: it.url, 
-             height: getRandomHeight(), 
-             orig: it.url, 
-             folderHref: `/media/${it.folder}` 
-          })
-        }
+        const out: MasonryItem[] = selected.map(it => ({
+            id: `${it.folder}/${it.name}`, 
+            img: it.url, 
+            url: it.url, 
+            height: getRandomHeight(), 
+            orig: it.url, 
+            folderHref: `/media/${it.folder}` 
+        }))
+        
         setItemsData(out)
       } catch {}
     })()
   }, [source, limit])
+
   const columns = useMedia(
     ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
     [5, 4, 3, 2],

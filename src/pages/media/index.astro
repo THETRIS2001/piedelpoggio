@@ -432,11 +432,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         const badgePhoto = document.createElement('span')
         badgePhoto.className = 'inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5'
         badgePhoto.textContent = `Foto: ${photosCount}`
-        const badgeVideo = document.createElement('span')
-        badgeVideo.className = 'inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5'
-        badgeVideo.textContent = `Video: ${videosCount}`
         counts.appendChild(badgePhoto)
-        counts.appendChild(badgeVideo)
         info.appendChild(title)
         info.appendChild(date)
         info.appendChild(desc)
