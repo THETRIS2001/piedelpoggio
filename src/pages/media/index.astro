@@ -421,12 +421,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
               slot.appendChild(img)
               container.appendChild(slot)
             })
-            // Fill remaining slots if less than 3
-            for (let i = selected.length; i < 3; i++) {
-                 const slot = document.createElement('div')
-                 slot.className = 'aspect-square rounded-lg bg-gray-100' // Lighter gray for empty slots
-                 container.appendChild(slot)
-            }
+            // Removed filling of remaining slots with gray boxes as per user request
         }
         
         return container
