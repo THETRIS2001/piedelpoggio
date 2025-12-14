@@ -334,7 +334,14 @@ const capitalize = (s: string) => {
           try { img.style.visibility = 'visible' } catch {}
         }, { once: true })
         img.addEventListener('error', () => {
-          try { img.parentElement?.remove() } catch {}
+          try {
+            img.style.visibility = 'hidden'
+            img.style.display = 'none'
+            const parent = img.parentElement as HTMLElement | null
+            if (parent) {
+              parent.style.backgroundColor = '#e5e7eb'
+            }
+          } catch {}
         }, { once: true })
         img.src = src
         imageObserver.unobserve(img)
