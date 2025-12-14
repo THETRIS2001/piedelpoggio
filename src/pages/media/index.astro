@@ -375,7 +375,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         desc.textContent = ev.meta?.description ? ev.meta.description : ''
         desc.style.textAlign = 'justify'
         ;(desc as any).style.textJustify = 'inter-word'
-        const filesArr = (ev.files || [])
         const photosCount = filesArr.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name)).length
         const videosCount = filesArr.filter(f => /\.(mp4|webm|ogg)$/i.test(f.name)).length
         const counts = document.createElement('div')
