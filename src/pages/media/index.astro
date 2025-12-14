@@ -354,7 +354,12 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         container.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
 
         if (!files || files.length === 0) {
-            container.innerHTML = '<div class="col-span-3 h-24 flex items-center justify-center text-gray-400 text-xs animate-pulse">Caricamento anteprime...</div>'
+            // Render 3 gray placeholder boxes
+            for (let i = 0; i < 3; i++) {
+                const slot = document.createElement('div')
+                slot.className = 'aspect-square rounded-lg bg-gray-200 animate-pulse'
+                container.appendChild(slot)
+            }
             return container
         }
 
@@ -377,29 +382,51 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           }
         }
 
-        selected.forEach((item) => {
-          const slot = document.createElement('div')
-          slot.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
+        if (selected.length === 0) {
+           // If we have files but no suitable photos found (or all videos), show placeholders or icon
+           // But user asked for gray space while loading. 
+           // If we are here, it means we have the file list but maybe no photos?
+           // If photos array is empty, we should probably show a placeholder saying "No photos"
+           // But let's stick to the gray box if that's what happens.
+           // Actually if photos is empty, we might want to show at least one gray box or an icon.
+           // For now, if no photos selected, show empty gray boxes as well.
+           for (let i = 0; i < 3; i++) {
+                const slot = document.createElement('div')
+                slot.className = 'aspect-square rounded-lg bg-gray-200'
+                container.appendChild(slot)
+            }
+        } else {
+            selected.forEach((item) => {
+              const slot = document.createElement('div')
+              slot.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
 
-          const f = item.file
-          const img = document.createElement('img')
-          img.alt = eventName || f.name
-          img.loading = 'lazy'
-          img.className = 'w-full h-full object-cover'
+              const f = item.file
+              const img = document.createElement('img')
+              img.alt = eventName || f.name
+              img.loading = 'lazy'
+              img.className = 'w-full h-full object-cover transition-opacity duration-300 opacity-0' // Start invisible for fade-in
+              img.onload = () => { img.classList.remove('opacity-0') }
 
-          const src = item.transformed ? cfLowRes(f.url) : f.url
-          img.src = src
+              const src = item.transformed ? cfLowRes(f.url) : f.url
+              img.src = src
 
-          img.addEventListener('error', () => {
-            try {
-              slot.innerHTML = ''
-              slot.className = 'aspect-square rounded-lg bg-gray-200'
-            } catch {}
-          })
+              img.addEventListener('error', () => {
+                try {
+                  slot.innerHTML = ''
+                  slot.className = 'aspect-square rounded-lg bg-gray-200'
+                } catch {}
+              })
 
-          slot.appendChild(img)
-          container.appendChild(slot)
-        })
+              slot.appendChild(img)
+              container.appendChild(slot)
+            })
+            // Fill remaining slots if less than 3
+            for (let i = selected.length; i < 3; i++) {
+                 const slot = document.createElement('div')
+                 slot.className = 'aspect-square rounded-lg bg-gray-100' // Lighter gray for empty slots
+                 container.appendChild(slot)
+            }
+        }
         
         return container
     }
