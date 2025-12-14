@@ -1,4 +1,4 @@
-import "./chunk-V4OQ3NZ2.js";
+import "./chunk-G3PMV62Z.js";
 
 // node_modules/gsap/gsap-core.js
 function _assertThisInitialized(self) {
