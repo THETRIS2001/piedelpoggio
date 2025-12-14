@@ -1,33 +1,11 @@
-.masonry-grid {
-  column-count: 1;
-  column-gap: 1rem;
-}
-
-@media (min-width: 640px) {
-  .masonry-grid {
-    column-count: 2;
-  }
-}
-
-@media (min-width: 768px) {
-  .masonry-grid {
-    column-count: 3;
-  }
-}
-
-@media (min-width: 1024px) {
-  .masonry-grid {
-    column-count: 4;
-  }
-}
-
-@media (min-width: 1280px) {
-  .masonry-grid {
-    column-count: 5;
-  }
+.masonry-container {
+  width: 100%;
+  position: relative;
+  transition: height 0.3s ease;
 }
 
 .masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
+  position: absolute;
+  transition: all 0.5s ease-out;
+  /* Removed break-inside: avoid as it is for CSS columns */
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import './Masonry.css';
 import Lightbox from './Lightbox';
 
@@ -8,12 +8,27 @@ interface MasonryItem {
   url: string;
   orig?: string;
   folderHref?: string;
+  height?: number; // Added height property
 }
 
+// Restore all props to avoid breaking consumers, even if some are unused in this implementation
 interface MasonryProps {
   items?: MasonryItem[];
   source?: 'media' | 'static';
   limit?: number;
+  ease?: string;
+  duration?: number;
+  stagger?: number;
+  animateFrom?: string;
+  scaleOnHover?: boolean;
+  hoverScale?: number;
+  blurToFocus?: boolean;
+  colorShiftOnHover?: boolean;
+}
+
+const getRandomHeight = () => {
+  const heights = [260, 280, 290, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520, 550];
+  return heights[Math.floor(Math.random() * heights.length)];
 }
 
 const Masonry: React.FC<MasonryProps> = ({
@@ -26,6 +41,13 @@ const Masonry: React.FC<MasonryProps> = ({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
   const [selectedFolderHref, setSelectedFolderHref] = useState<string | undefined>(undefined)
+
+  // Layout state
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const [columns, setColumns] = useState(1);
+  // Store computed positions: { [itemId]: { top, left, width, height } }
+  const [positions, setPositions] = useState<Record<string, { top: number; left: number; width: number; height: number }>>({});
 
   useEffect(() => {
     if (source !== 'media') return
@@ -49,17 +71,10 @@ const Masonry: React.FC<MasonryProps> = ({
             // Ignora video
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
             
-            // CONTROLLO DIMENSIONE
-            // Il server ci deve passare la size. Se non c'è o è 0, assumiamo sia valida per sicurezza
-            // o la scartiamo? L'utente dice "ci sono al 100%".
-            // Se size > 1MB scartiamo. 
             const size = Number(f.size || 0)
             
-            // Logica semplificata: se abbiamo il size ed è > 1MB, SKIP.
-            // Se size è 0 o undefined (non rilevato), la includiamo (beneficio del dubbio)
-            // oppure la scartiamo se vogliamo essere rigidi.
-            // Dato il problema precedente, assumiamo che se size c'è, lo rispettiamo.
-            if (size > 1024 * 1024) continue;
+            // STRICT CHECK: Solo immagini valide e sotto 1MB
+            if (size <= 0 || size > 1024 * 1024) continue;
             
             validImages.push({
               folder,
@@ -80,7 +95,8 @@ const Masonry: React.FC<MasonryProps> = ({
             img: it.url, 
             url: it.url, 
             orig: it.url, 
-            folderHref: `/media/${it.folder}` 
+            folderHref: `/media/${it.folder}`,
+            height: getRandomHeight() // Assign random height for layout
         }))
         
         setItemsData(out)
@@ -93,6 +109,125 @@ const Masonry: React.FC<MasonryProps> = ({
 
     fetchData()
   }, [source, limit])
+
+  // Resize Observer to update column count
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const updateColumns = () => {
+      const width = window.innerWidth;
+      if (width >= 1280) setColumns(5); // xl
+      else if (width >= 1024) setColumns(4); // lg
+      else if (width >= 768) setColumns(3); // md
+      else if (width >= 640) setColumns(2); // sm
+      else setColumns(1);
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  // Calculate layout
+  useEffect(() => {
+    if (itemsData.length === 0 || !containerRef.current) return;
+
+    // We assume 100% width of container, divided by columns with some gap
+    // Actually, to replicate previous exact look, we need to know container width
+    const containerWidth = containerRef.current.offsetWidth;
+    const gap = 16; // 1rem = 16px
+    const totalGap = (columns - 1) * gap;
+    const columnWidth = (containerWidth - totalGap) / columns;
+
+    const colHeights = new Array(columns).fill(0);
+    const newPositions: Record<string, { top: number; left: number; width: number; height: number }> = {};
+
+    itemsData.forEach(item => {
+      // Find shortest column
+      const minHeight = Math.min(...colHeights);
+      const colIndex = colHeights.indexOf(minHeight);
+
+      const top = minHeight;
+      const left = colIndex * (columnWidth + gap);
+      const height = item.height || 200; // Fallback height
+
+      newPositions[item.id] = { top, left, width: columnWidth, height };
+      
+      // Update column height with item height + gap
+      colHeights[colIndex] += height + gap;
+    });
+
+    setPositions(newPositions);
+    setContainerHeight(Math.max(...colHeights));
+
+  }, [itemsData, columns]); // Recalculate when items or columns change
+
+  // Re-calculate on window resize (via container width change)
+  useEffect(() => {
+    const handleResize = () => {
+       // Force re-layout by toggling a state or relying on column change?
+       // Actually, column width depends on container width.
+       // We can just rely on the existing effect if we include window width dependency or rely on resize event
+       // But 'columns' state update might not happen if breakpoint doesn't change, yet width changes.
+       // So we need to listen to resize and force update.
+       // Simplest is to pass a key or just trigger update.
+       // Let's rely on setColumns for breakpoints, but for fluid width we need to re-run layout.
+       // We'll add a resize listener specifically for layout.
+       
+       // Actually, simpler:
+       if (containerRef.current && itemsData.length > 0) {
+          // Logic duplicated from above effect, or extract to function.
+          // For now, let's just accept that 'columns' change triggers layout. 
+          // If container width changes smoothly without breakpoint change, the layout might stretch or misalign 
+          // unless we re-calculate 'columnWidth'.
+          // So let's extract the layout logic.
+       }
+    };
+    
+    // Better: use a ResizeObserver on the container
+    const observer = new ResizeObserver(() => {
+        // Trigger layout update
+        // We can just update a counter state to force effect
+        setLayoutTick(t => t + 1);
+    });
+    
+    if (containerRef.current) {
+        observer.observe(containerRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+
+  const [layoutTick, setLayoutTick] = useState(0);
+
+  // Merged layout effect
+  useEffect(() => {
+    if (itemsData.length === 0 || !containerRef.current) return;
+
+    const containerWidth = containerRef.current.offsetWidth;
+    const gap = 16;
+    const totalGap = (columns - 1) * gap;
+    const columnWidth = (containerWidth - totalGap) / columns;
+
+    const colHeights = new Array(columns).fill(0);
+    const newPositions: Record<string, { top: number; left: number; width: number; height: number }> = {};
+
+    itemsData.forEach(item => {
+      const minHeight = Math.min(...colHeights);
+      const colIndex = colHeights.indexOf(minHeight);
+
+      const top = minHeight;
+      const left = colIndex * (columnWidth + gap);
+      const height = item.height || 300; 
+
+      newPositions[item.id] = { top, left, width: columnWidth, height };
+      colHeights[colIndex] += height + gap;
+    });
+
+    setPositions(newPositions);
+    setContainerHeight(Math.max(...colHeights));
+  }, [itemsData, columns, layoutTick]);
+
 
   const handleImageClick = (item: MasonryItem) => {
     const src = item.orig || item.img
@@ -107,13 +242,8 @@ const Masonry: React.FC<MasonryProps> = ({
   };
 
   if (loading) {
-    return (
-      <div className="masonry-grid">
-        {Array.from({ length: limit }).map((_, i) => (
-          <div key={i} className="masonry-item-skeleton animate-pulse bg-gray-200 rounded-xl mb-4" style={{ height: '300px' }}></div>
-        ))}
-      </div>
-    )
+     // Return empty container with min height to avoid collapse
+     return <div className="masonry-container relative w-full" style={{ minHeight: '200px' }}></div>
   }
 
   if (itemsData.length === 0) {
@@ -122,21 +252,36 @@ const Masonry: React.FC<MasonryProps> = ({
 
   return (
     <>
-      <div className="masonry-grid">
-        {itemsData.map((item) => (
-          <div 
-            key={item.id} 
-            className="masonry-item mb-4 break-inside-avoid"
-            onClick={() => handleImageClick(item)}
-          >
-            <img 
-              src={item.img} 
-              alt={item.id}
-              className="w-full h-auto rounded-xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-              loading="lazy"
-            />
-          </div>
-        ))}
+      <div 
+        ref={containerRef} 
+        className="masonry-container relative w-full" 
+        style={{ height: containerHeight }}
+      >
+        {itemsData.map((item) => {
+          const pos = positions[item.id];
+          if (!pos) return null; // Wait for layout
+
+          return (
+            <div 
+              key={item.id} 
+              className="masonry-item absolute rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              style={{
+                top: pos.top,
+                left: pos.left,
+                width: pos.width,
+                height: pos.height
+              }}
+              onClick={() => handleImageClick(item)}
+            >
+              <img 
+                src={item.img} 
+                alt={item.id}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          );
+        })}
       </div>
 
       <Lightbox
