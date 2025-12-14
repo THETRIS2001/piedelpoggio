@@ -314,20 +314,22 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
 
         const filesArr = Array.isArray(ev.files) ? ev.files : []
         const photos = filesArr.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name))
-        const videos = filesArr.filter(f => /\.(mp4|webm|ogg)$/i.test(f.name))
+        const firstTen = photos.slice(0, 10)
+        const small = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 0 && Number((f.size as number | undefined) || 0) <= 1024 * 1024)
+        const large = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 1024 * 1024)
 
-        const selected: Array<{ file: MediaFile; useLow: boolean }> = []
+        const selected: Array<{ file: MediaFile; transformed: boolean }> = []
 
-        for (const f of photos) {
+        for (const f of small) {
           if (selected.length >= 3) break
-          const size = Number((f.size as number | undefined) || 0)
-          const useLow = size > 1024 * 1024
-          selected.push({ file: f, useLow })
+          selected.push({ file: f, transformed: false })
         }
 
-        for (const f of videos) {
-          if (selected.length >= 3) break
-          selected.push({ file: f, useLow: false })
+        if (selected.length < 3 && small.length < 3) {
+          for (const f of large) {
+            if (selected.length >= 3) break
+            selected.push({ file: f, transformed: true })
+          }
         }
 
         selected.forEach((item) => {
@@ -335,25 +337,22 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           slot.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
 
           const f = item.file
-          const isVideo = /\.(mp4|webm|ogg)$/i.test(f.name)
+          const img = document.createElement('img')
+          img.alt = ev.meta?.eventName || f.name
+          img.loading = 'lazy'
+          img.className = 'w-full h-full object-cover'
 
-          if (isVideo) {
-            const v = document.createElement('video')
-            v.src = f.url
-            v.className = 'w-full h-full object-cover'
-            v.muted = true
-            v.autoplay = true
-            v.loop = true
-            slot.appendChild(v)
-          } else {
-            const img = document.createElement('img')
-            img.alt = ev.meta?.eventName || f.name
-            img.loading = 'lazy'
-            img.className = 'w-full h-full object-cover'
-            const src = item.useLow ? cfLowRes(f.url) : f.url
-            img.src = src
-            slot.appendChild(img)
-          }
+          const src = item.transformed ? cfLowRes(f.url) : f.url
+          img.src = src
+
+          img.addEventListener('error', () => {
+            try {
+              slot.innerHTML = ''
+              slot.className = 'aspect-square rounded-lg bg-gray-200'
+            } catch {}
+          })
+
+          slot.appendChild(img)
 
           container.appendChild(slot)
         })
@@ -422,6 +421,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     }
     function cfLowRes(url: string) {
       if (!url) return url
+      const lower = url.toLowerCase()
+      if (lower.endsWith('.bmp')) return url
       const path = url.startsWith('/') ? url : '/' + url
       return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }

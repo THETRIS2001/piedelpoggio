@@ -309,19 +309,14 @@ const capitalize = (s: string) => {
 
     function cfLowRes(url: string) {
       if (!url) return url
+      const lower = url.toLowerCase()
+      if (lower.endsWith('.bmp')) return url
       const path = url.startsWith('/') ? url : '/' + url
       return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
 
     const galleryImgs = document.querySelectorAll('#gallery img')
-    const imgs: string[] = Array.from(galleryImgs).map(el => {
-      const orig = el.getAttribute('data-original') || ''
-      const sizeAttr = el.getAttribute('data-size') || '0'
-      const size = Number(sizeAttr) || 0
-      if (!orig) return ''
-      if (size > 1024 * 1024) return cfLowRes(orig)
-      return orig
-    })
+    const imgs: string[] = Array.from(galleryImgs).map(el => el.getAttribute('data-original') || '')
 
     const imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

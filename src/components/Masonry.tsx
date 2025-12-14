@@ -79,14 +79,6 @@ const Masonry: React.FC<MasonryProps> = ({
   limit = 12
 }) => {
   const [itemsData, setItemsData] = useState<MasonryItem[]>(source === 'media' ? [] : (items || []))
-  
-  const cfLowRes = (url: string, size?: number) => {
-    if (!url) return url
-    const s = typeof size === 'number' ? size : 0
-    if (s <= 1024 * 1024) return url
-    const path = url.startsWith('/') ? url : '/' + url
-    return `/cdn-cgi/image/fit=scale-down,width=800,quality=80,format=webp${path}`
-  }
 
   const getRandomHeight = () => {
     const heights = [260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520]
@@ -112,13 +104,13 @@ const Masonry: React.FC<MasonryProps> = ({
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
             
             const size = Number(f.size || 0)
+            if (!size || size >= 1024 * 1024) continue
             const url = String(f.url || '')
-            const imgUrl = cfLowRes(url, size)
 
             validImages.push({
               id: `${folder}/${name}`,
-              img: imgUrl,
-              url,
+              img: url,
+              url: url,
               height: getRandomHeight(),
               orig: url,
               folderHref: `/media/${folder}`
