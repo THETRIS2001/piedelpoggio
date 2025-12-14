@@ -133,7 +133,9 @@ export const GET: APIRoute = async ({ request, locals }) => {
           .map((o: any) => {
              const k = o.key as string
              const name = k.split('/').pop() || ''
-             return { name, url: `/media/${folder}/${name}`, size: o.size }
+             // Supporta sia 'size' che 'Size' per sicurezza
+             const size = o.size || o.Size || 0
+             return { name, url: `/media/${folder}/${name}`, size }
           })
         events.push({ folder, meta, files })
       }
