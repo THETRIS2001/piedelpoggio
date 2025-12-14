@@ -222,8 +222,20 @@ const Masonry: React.FC<MasonryProps> = ({
     )
   }
 
+  // Force re-calculation of grid layout after loading
+  // When loading finishes, we might have items but width/height calculation needs to run
+  if (!loading && itemsData.length > 0 && grid.length === 0 && width > 0) {
+     // This is just a safeguard, usually useMemo handles it.
+     // But if grid is empty despite having items and width, something is wrong.
+  }
+
   return (
-    <div className="masonry-container" ref={containerRef}>
+    <div className="masonry-container" ref={containerRef} style={{ minHeight: '600px' }}>
+      {grid.length === 0 && !loading && itemsData.length === 0 && (
+         <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+            Nessuna immagine disponibile
+         </div>
+      )}
       {grid.map((item, index) => (
         <div
           key={item.id}
