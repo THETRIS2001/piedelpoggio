@@ -63,6 +63,13 @@ try {
   }
 } catch {}
 
+// Calcola la classe grid in base al numero di file
+const gridClass = files.length === 1 
+  ? 'grid-cols-1' 
+  : files.length === 2 
+    ? 'grid-cols-2' 
+    : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+
 if (meta?.date) {
   const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
   const dt = new Date(meta.date)
@@ -111,7 +118,7 @@ const capitalize = (s: string) => {
     <section class="pt-6 pb-16">
       <div class="container mx-auto px-4">
         <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-4 md:p-6">
-          <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          <div id="gallery" class={`grid ${gridClass} gap-3 md:gap-4`}>
             {files.map((f, idx) => (
               <div class="rounded-lg overflow-hidden bg-gray-100">
                 {f.isVideo ? (
@@ -183,27 +190,14 @@ const capitalize = (s: string) => {
     async function checkAndLoad(img: HTMLImageElement, url: string) {
       try {
         // 1. Controlliamo la dimensione del file originale (HEAD request è molto leggera)
-        const res = await fetch(url, { method: 'HEAD' })
-        const val = res.headers.get('content-length')
-        
-        let useTransform = false
-
-        // Se non c'è content-length o è 0, assumiamo sia grande per sicurezza
-        if (!val) {
-          useTransform = true
-        } else {
-          const size = Number(val)
-          if (isNaN(size) || size === 0) {
-            useTransform = true
-          } else {
-            useTransform = size > 1024 * 1024
-          }
-        }
+        // Aggiungiamo cache-bust per evitare problemi di cache
+        const res = await fetch(url + '?cache-bust=' + Date.now(), { method: 'HEAD' })
+        const size = Number(res.headers.get('content-length') || 0)
         
         // 2. Logica di decisione:
-        // Se > 1MB (1048576 bytes) o sconosciuto -> Chiedi a Cloudflare di ridimensionare
+        // Se > 1MB (1048576 bytes) -> Chiedi a Cloudflare di ridimensionare (CONSUMA QUOTA)
         // Se <= 1MB -> Usa originale (GRATIS, solo banda)
-        if (useTransform) {
+        if (size > 1024 * 1024) {
           const path = url.startsWith('/') ? url : '/' + url
           img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
         } else {
@@ -212,16 +206,17 @@ const capitalize = (s: string) => {
         
         // 3. Mostriamo l'immagine solo ora che abbiamo deciso la sorgente
         img.onload = () => { img.style.visibility = 'visible' }
-        // Fallback immediato se è già in cache
         if (img.complete) img.style.visibility = 'visible'
         
+        // 4. Se errore di caricamento, nascondi. NESSUN FALLBACK.
+        img.onerror = () => { 
+           img.style.display = 'none';
+        }
+
       } catch (e) {
-        // In caso di errore nel check, assumiamo che serva la trasformazione
-        // NON facciamo fallback all'originale come richiesto esplicitamente
+        // In caso di errore nel check, NESSUN FALLBACK.
         console.error('Error checking image size', e)
-        const path = url.startsWith('/') ? url : '/' + url
-        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
-        img.style.visibility = 'visible'
+        img.style.display = 'none'
       }
     }
     // ---------------------------------
@@ -386,32 +381,5 @@ const capitalize = (s: string) => {
     }
 
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
-
-    function cfLowRes(url: string) {
-      if (!url) return url
-      const path = url.startsWith('/') ? url : '/' + url
-      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
-    }
-
-    document.querySelectorAll('#gallery img').forEach(async (el) => {
-      try {
-        const orig = el.getAttribute('data-original') || ''
-        let useLow = false
-        try {
-          const r = await fetch(orig, { method: 'HEAD', cache: 'no-store' })
-          const cl = Number(r.headers.get('content-length') || '0')
-          useLow = cl > 1024 * 1024
-        } catch {}
-        
-        const src = useLow ? cfLowRes(orig) : orig
-        el.setAttribute('src', src)
-        el.addEventListener('load', () => {
-          try { (el as HTMLImageElement).style.visibility = 'visible' } catch {}
-        })
-        el.addEventListener('error', () => {
-          try { (el.parentElement)?.remove() } catch {}
-        })
-      } catch {}
-    })
   </script>
 </DefaultLayout>

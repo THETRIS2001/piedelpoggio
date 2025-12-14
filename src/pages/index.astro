@@ -76,12 +76,30 @@ const shuffledPhotos = shuffleArray(availablePhotos);
 const selectedPhotos = shuffledPhotos.slice(0, 12);
 
 // Dati per il componente Masonry - Foto locali di Piedelpoggio con effetto mosaico (selezione casuale)
-const masonryItems = selectedPhotos.map((photo, index) => ({
-  id: `${index + 1}`,
-  img: `/images/${photo.name}`,
-  url: "#",
-  height: getRandomHeight(),
-}));
+const masonryItems = selectedPhotos.map((photo, index) => {
+  const originalUrl = `/images/${photo.name}`;
+  let finalUrl = originalUrl;
+
+  try {
+    const filePath = path.join(process.cwd(), 'public', 'images', photo.name);
+    if (fs.existsSync(filePath)) {
+      const stats = fs.statSync(filePath);
+      // Se > 1MB, usa Cloudflare Transform
+      if (stats.size > 1024 * 1024) {
+        finalUrl = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${originalUrl}`;
+      }
+    }
+  } catch (e) {
+    console.error(`Error checking image size for ${photo.name}`, e);
+  }
+
+  return {
+    id: `${index + 1}`,
+    img: finalUrl,
+    url: "#",
+    height: getRandomHeight(),
+  };
+});
 ---
 
 <DefaultLayout title="Benvenuti a Piedelpoggio" description="Scopri il borgo medievale di Piedelpoggio, frazione di Leonessa nel cuore del Lazio. Storia, tradizioni e natura incontaminata.">
