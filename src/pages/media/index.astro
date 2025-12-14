@@ -151,9 +151,27 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
   </main>
 
   <script>
-    let events = []
+    interface MediaFile {
+      name: string;
+      url: string;
+      size?: number;
+    }
+
+    interface EventMeta {
+      eventName: string;
+      date: string;
+      description?: string;
+    }
+
+    interface EventData {
+      folder: string;
+      files: MediaFile[];
+      meta?: EventMeta;
+    }
+
+    let events: EventData[] = []
     let externalFiles: File[] = []
-    function clientCreateSlug(text) {
+    function clientCreateSlug(text: string) {
       return (text || '')
         .toLowerCase()
         .normalize('NFD')
@@ -199,20 +217,20 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         events = []
       }
     }
-    function clamp(text, max = 60) {
+    function clamp(text: string, max: number = 60) {
       const t = String(text || '')
       return t.length > max ? t.slice(0, max) + '…' : t
     }
-    function formatDate(d) {
+    function formatDate(d: string) {
       const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
       const dt = new Date(d)
       return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`
     }
-    function matchesFilters(ev) {
+    function matchesFilters(ev: EventData) {
       if (!ev.meta || !ev.meta.eventName || !ev.meta.date) return false
-      const q = (document.getElementById('searchEvents')?.value || '').toLowerCase().trim()
-      const df = document.getElementById('dateFrom')?.value || ''
-      const dt = document.getElementById('dateTo')?.value || ''
+      const q = (document.getElementById('searchEvents') as HTMLInputElement | null)?.value?.toLowerCase().trim() || ''
+      const df = (document.getElementById('dateFrom') as HTMLInputElement | null)?.value || ''
+      const dt = (document.getElementById('dateTo') as HTMLInputElement | null)?.value || ''
       const name = String(ev.meta.eventName || '').toLowerCase()
       if (q && !name.includes(q)) return false
       const evDate = ev.meta?.date || ''
@@ -220,7 +238,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (dt && evDate > dt) return false
       return true
     }
-    function renderEvents(list) {
+    function renderEvents(list: EventData[]) {
       const grid = document.getElementById('eventsGrid')
       if (!grid) return
       grid.innerHTML = ''
@@ -229,7 +247,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       const soEl = document.getElementById('sortOrder') as HTMLSelectElement | null
       const field = (sfEl?.value || 'date')
       const order = (soEl?.value || 'desc')
-      filtered.sort((a,b) => {
+      filtered.sort((a: EventData, b: EventData) => {
         let va = ''
         let vb = ''
         if (field === 'name') {
@@ -347,13 +365,13 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js'; s.onload = resolve; s.onerror = reject; document.head.appendChild(s) })
       return (window as any).fflate
     }
-    function cfLowRes(url) {
+    function cfLowRes(url: string) {
       if (!url) return url
       const path = url.startsWith('/') ? url : '/' + url
       return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
 
-    async function downloadFolderZip(folder, files) {
+    async function downloadFolderZip(folder: string, files: MediaFile[]) {
       try {
         const fflate = await ensureFflate()
         const overlay = document.createElement('div')
@@ -467,12 +485,12 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     const comboBox = document.getElementById('comboSuggestions')
     const existingHidden = document.getElementById('existingFolderHidden') as HTMLInputElement | null
     const changeExisting = document.getElementById('changeExisting') as HTMLButtonElement | null
-    function labelFor(ev) {
+    function labelFor(ev: EventData) {
       const name = ev.meta?.eventName || ''
       const d = ev.meta?.date ? ` — ${formatDate(ev.meta.date)}` : ''
       return name + d
     }
-    function renderComboSuggestions(q) {
+    function renderComboSuggestions(q: string) {
       if (!comboBox) return
       const list = (events || [])
         .filter(ev => {
@@ -612,7 +630,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       renderEvents(events)
     })
     const MAX_TOTAL_BYTES = 1024 * 1024 * 1024
-    function formatBytes(b) {
+    function formatBytes(b: number) {
       const u = ['B','KB','MB','GB']
       let i = 0
       let v = b
@@ -807,7 +825,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
     })
     
-    function isDuplicateNewEvent(name, date) {
+    function isDuplicateNewEvent(name: string, date: string) {
       if (!name || !date) return false
       const slug = clientCreateSlug(name)
       const d = date.replace(/-/g, '')
@@ -903,7 +921,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     const infoTitle = document.getElementById('infoTitle')
     const infoBody = document.getElementById('infoBody')
     const infoClose = document.getElementById('infoClose')
-    function openInfo(key) {
+    function openInfo(key: string | null) {
       if (!infoModal || !infoTitle || !infoBody) return
       if (key === 'event' || key === 'files') {
         infoTitle.textContent = 'Come organizzare i caricamenti'

@@ -14,6 +14,28 @@ let meta: any = null
 let files: Array<{ name: string; url: string; isVideo: boolean }> = []
 let formattedDate: string = ''
 
+async function listAll(bucket: any, options: any) {
+  let truncated = true
+  let cursor: string | undefined
+  const allObjects: any[] = []
+  const allPrefixes: Set<string> = new Set()
+
+  while (truncated) {
+    const res = await bucket.list({ ...options, cursor })
+    truncated = res.truncated
+    cursor = res.cursor
+    if (res.objects) {
+      for (const o of res.objects) allObjects.push(o)
+    }
+    if (res.delimitedPrefixes) {
+      for (const p of res.delimitedPrefixes) allPrefixes.add(p)
+    }
+    if (!cursor) break
+  }
+
+  return { objects: allObjects, delimitedPrefixes: Array.from(allPrefixes) }
+}
+
 try {
   const bucket = (Astro.locals as any)?.runtime?.env?.MEDIA_BUCKET
   if (bucket) {
@@ -25,7 +47,9 @@ try {
         meta = JSON.parse(cleanTxt)
       }
     } catch {}
-    const listed = await bucket.list({ prefix: `media/${folder}/` })
+    
+    // Use listAll instead of bucket.list to handle >1000 files
+    const listed = await listAll(bucket, { prefix: `media/${folder}/` })
     
     const names = (listed.objects || [])
       .map((o: any) => o.key as string)
@@ -75,7 +99,7 @@ if (meta?.date) {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           <span>Torna indietro</span>
         </a>
-        <button id="downloadFolder" type="button" class="inline-flex items-center gap-2 ml-2 px-3 py-1.5 rounded-lg border border-red-600 text-red-700 bg-white/70 hover:bg-red-50">Scarica cartella</button>
+        <button id="downloadFolder" type="button" data-folder={folder} class="inline-flex items-center gap-2 ml-2 px-3 py-1.5 rounded-lg border border-red-600 text-red-700 bg-white/70 hover:bg-red-50">Scarica cartella</button>
       </div>
     </div>
 
@@ -109,6 +133,11 @@ if (meta?.date) {
   </main>
 
   <script>
+    // 1. Definiamo le interfacce per window (per fflate)
+    interface WindowWithFflate extends Window {
+      fflate?: any;
+    }
+
     document.getElementById('backLink')?.addEventListener('click', (e) => {
       e.preventDefault()
       if (history.length > 1) {
@@ -118,14 +147,21 @@ if (meta?.date) {
       }
     })
 
-    const imgs = Array.from(document.querySelectorAll('#gallery img')).map(el => el.getAttribute('data-original'))
-    const lb = document.getElementById('lightbox')
-    const lbImg = document.getElementById('lightboxImg')
-    const prevBtn = document.getElementById('prevBtn')
-    const nextBtn = document.getElementById('nextBtn')
+    // Recuperiamo gli elementi con il casting corretto (risolve "possibly null")
+    const lb = document.getElementById('lightbox') as HTMLDivElement | null
+    const lbImg = document.getElementById('lightboxImg') as HTMLImageElement | null
+    const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement | null
+    const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement | null
+    
+    // Recuperiamo tutte le immagini della galleria
+    const galleryImgs = document.querySelectorAll('#gallery img')
+    const imgs: string[] = Array.from(galleryImgs).map(el => el.getAttribute('data-original') || '')
+    
     let current = 0
 
-    const setSizeForSrc = (src) => {
+    // Risolve: Parameter 'src' implicitly has an 'any' type
+    const setSizeForSrc = (src: string) => {
+      if (!lbImg) return
       const temp = new Image()
       temp.onload = () => {
         const maxW = window.innerWidth * 0.8
@@ -139,88 +175,120 @@ if (meta?.date) {
       temp.src = src
     }
 
-    const showIndex = (idx) => {
+    // Risolve: Parameter 'idx' implicitly has an 'any' type
+    const showIndex = (idx: number) => {
+      if (!lb || !lbImg) return
       current = idx
-      const src = imgs[current]!
-      lbImg.setAttribute('src', src)
-      setSizeForSrc(src)
-      lb.classList.remove('hidden')
-      lb.classList.add('flex')
-      document.body.style.overflow = 'hidden'
+      const src = imgs[current]
+      if (src) {
+        lbImg.src = src
+        setSizeForSrc(src)
+        lb.classList.remove('hidden')
+        lb.classList.add('flex')
+        document.body.style.overflow = 'hidden'
+      }
     }
 
-    document.querySelectorAll('#gallery img').forEach((el) => {
+    galleryImgs.forEach((el) => {
       el.addEventListener('click', (e) => {
-        const idx = Number((e.currentTarget).getAttribute('data-idx'))
+        const target = e.currentTarget as HTMLElement
+        const idx = Number(target.getAttribute('data-idx'))
         showIndex(idx)
       })
     })
 
     const close = () => {
+      if (!lb) return
       lb.classList.add('hidden')
       lb.classList.remove('flex')
       document.body.style.overflow = 'unset'
     }
-    lb.addEventListener('click', close)
+
+    lb?.addEventListener('click', close)
+    
     document.addEventListener('keydown', (e) => {
-      if (lb.classList.contains('hidden')) return
+      if (!lb || lb.classList.contains('hidden')) return
       if (e.key === 'Escape') close()
       if (e.key === 'ArrowLeft') { showIndex((current - 1 + imgs.length) % imgs.length) }
       if (e.key === 'ArrowRight') { showIndex((current + 1) % imgs.length) }
     })
+
     prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); showIndex((current - 1 + imgs.length) % imgs.length) })
     nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); showIndex((current + 1) % imgs.length) })
 
     window.addEventListener('resize', () => {
-      if (lb.classList.contains('hidden')) return
+      if (!lb || !lbImg || lb.classList.contains('hidden')) return
       const src = lbImg.getAttribute('src')
       if (src) setSizeForSrc(src)
     })
+
     async function ensureFflate() {
-      const g = (window as any)
+      const g = window as WindowWithFflate
       if (g.fflate) return g.fflate
-      await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js'; s.onload = resolve; s.onerror = reject; document.head.appendChild(s) })
-      return (window as any).fflate
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s)
+      })
+      return g.fflate
     }
+
     async function downloadAll() {
+      // Risolve: Cannot find name 'folder'
+      // Recuperiamo la cartella dall'attributo data-folder del pulsante
+      const btn = document.getElementById('downloadFolder')
+      const folderName = btn?.getAttribute('data-folder') || 'download'
+
       try {
         const fflate = await ensureFflate()
         const overlay = document.createElement('div')
         overlay.className = 'fixed inset-0 bg-black/40 z-50 flex items-center justify-center'
+        
         const card = document.createElement('div')
         card.className = 'bg-white rounded-xl p-4 w-80 text-center shadow-lg'
+        
         const title = document.createElement('div')
         title.className = 'text-sm font-semibold text-gray-800'
         title.textContent = 'Preparazione download — non chiudere la pagina'
+        
         const barBox = document.createElement('div')
         barBox.className = 'w-full bg-gray-200 rounded-full h-2 mt-3 overflow-hidden'
+        
         const bar = document.createElement('div')
         bar.className = 'bg-red-600 h-2 rounded-full'
         bar.style.width = '0%'
+        
         const pct = document.createElement('div')
         pct.className = 'text-xs text-gray-700 mt-2'
         pct.textContent = '0%'
+        
         barBox.appendChild(bar)
         card.appendChild(title)
         card.appendChild(barBox)
         card.appendChild(pct)
         overlay.appendChild(card)
         document.body.appendChild(overlay)
+        
         const imgs = Array.from(document.querySelectorAll('#gallery img')).map(el => ({ name: el.getAttribute('alt') || 'file', url: el.getAttribute('data-original') || '' }))
         const vids = Array.from(document.querySelectorAll('#gallery video')).map(el => {
           const url = el.getAttribute('src') || ''
           const name = url.split('/').pop() || 'video'
           return { name, url }
         })
+        
         const all = [...imgs, ...vids].filter(it => it.url)
         const list = all.filter(it => {
           const n = (it.name || '').toLowerCase()
           const u = (it.url || '').toLowerCase()
           return !(n.endsWith('.webp') || u.endsWith('.webp'))
         })
+        
         let loaded = 0
         const total = list.length
         const map: any = {}
+        
         for (const it of list) {
           const res = await fetch(it.url)
           const ab = await res.arrayBuffer()
@@ -231,12 +299,13 @@ if (meta?.date) {
           bar.style.width = percent + '%'
           pct.textContent = percent + '%'
         }
+        
         const zip = fflate.zipSync(map, { level: 0 })
         const blob = new Blob([zip], { type: 'application/zip' })
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
         a.href = url
-        a.download = `${folder}.zip`
+        a.download = `${folderName}.zip`
         document.body.appendChild(a)
         a.click()
         URL.revokeObjectURL(url)
@@ -246,12 +315,15 @@ if (meta?.date) {
         alert('Errore nel preparare il download')
       }
     }
+
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
-    function cfLowRes(url) {
+
+    function cfLowRes(url: string) {
       if (!url) return url
       const path = url.startsWith('/') ? url : '/' + url
       return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
+
     document.querySelectorAll('#gallery img').forEach(async (el) => {
       try {
         const orig = el.getAttribute('data-original') || ''
@@ -261,6 +333,7 @@ if (meta?.date) {
           const cl = Number(r.headers.get('content-length') || '0')
           useLow = cl > 1024 * 1024
         } catch {}
+        
         const src = useLow ? cfLowRes(orig) : orig
         el.setAttribute('src', src)
         el.addEventListener('load', () => {
