@@ -156,8 +156,8 @@ body {
 
 /* Enhanced Text Selection */
 ::selection {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3));
-  color: #1f2937;
+  background-color: rgba(224, 30, 0, 0.2);
+  color: inherit;
 }
 
 /* Enhanced Focus Styles */
