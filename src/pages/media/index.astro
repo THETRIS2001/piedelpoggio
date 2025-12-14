@@ -282,30 +282,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (dt && evDate > dt) return false
       return true
     }
-    function renderEvents(list: EventData[]) {
-      const grid = document.getElementById('eventsGrid')
-      if (!grid) return
-      grid.innerHTML = ''
-      const filtered = list.filter(matchesFilters)
-      const sfEl = document.getElementById('sortField') as HTMLSelectElement | null
-      const soEl = document.getElementById('sortOrder') as HTMLSelectElement | null
-      const field = (sfEl?.value || 'date')
-      const order = (soEl?.value || 'desc')
-      filtered.sort((a: EventData, b: EventData) => {
-        let va = ''
-        let vb = ''
-        if (field === 'name') {
-          va = (a.meta?.eventName || a.folder || '').toLowerCase()
-          vb = (b.meta?.eventName || b.folder || '').toLowerCase()
-        } else {
-          va = a.meta?.date || ''
-          vb = b.meta?.date || ''
-        }
-        const cmp = va.localeCompare(vb)
-        const effOrder = field === 'name' ? (order === 'desc' ? 'asc' : 'desc') : order
-        return effOrder === 'desc' ? -cmp : cmp
-      })
-      filtered.forEach(ev => {
+    function renderCard(grid: HTMLElement, ev: EventData) {
         const card = document.createElement('div')
         card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
         const cover = document.createElement('div')
@@ -409,9 +386,47 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         info.appendChild(actions)
         card.appendChild(cover)
         card.appendChild(info)
-        
         grid.appendChild(card)
+    }
+
+    function renderEvents(list: EventData[]) {
+      const grid = document.getElementById('eventsGrid')
+      if (!grid) return
+      grid.innerHTML = ''
+      const filtered = list.filter(matchesFilters)
+      const sfEl = document.getElementById('sortField') as HTMLSelectElement | null
+      const soEl = document.getElementById('sortOrder') as HTMLSelectElement | null
+      const field = (sfEl?.value || 'date')
+      const order = (soEl?.value || 'desc')
+      filtered.sort((a: EventData, b: EventData) => {
+        let va = ''
+        let vb = ''
+        if (field === 'name') {
+          va = (a.meta?.eventName || a.folder || '').toLowerCase()
+          vb = (b.meta?.eventName || b.folder || '').toLowerCase()
+        } else {
+          va = a.meta?.date || ''
+          vb = b.meta?.date || ''
+        }
+        const cmp = va.localeCompare(vb)
+        const effOrder = field === 'name' ? (order === 'desc' ? 'asc' : 'desc') : order
+        return effOrder === 'desc' ? -cmp : cmp
       })
+
+      let i = 0
+      const renderNext = () => {
+        if (!grid) return
+        if (i >= filtered.length) return
+        const ev = filtered[i++]
+        renderCard(grid, ev)
+        if (i < filtered.length) {
+          requestAnimationFrame(renderNext)
+        }
+      }
+
+      if (filtered.length > 0) {
+        requestAnimationFrame(renderNext)
+      }
     }
     async function ensureFflate() {
       const g = (window as any)
