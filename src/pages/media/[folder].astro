@@ -194,7 +194,7 @@ const capitalize = (s: string) => {
         // Se <= 1MB -> Usa originale (GRATIS, solo banda)
         if (!size || size > 1024 * 1024) {
           const path = url.startsWith('/') ? url : '/' + url
-          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${location.origin}${path}`
         } else {
           img.src = url
         }
@@ -215,7 +215,7 @@ const capitalize = (s: string) => {
         // NON fallback all'originale per richiesta utente.
         console.error('Error checking image size, forcing transform', e)
         const path = url.startsWith('/') ? url : '/' + url
-        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${location.origin}${path}`
         
         img.onload = () => { img.style.visibility = 'visible' }
         img.onerror = () => { 
