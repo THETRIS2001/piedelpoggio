@@ -157,8 +157,17 @@ const Masonry: React.FC<MasonryProps> = ({
             continue
           }
           
-          // 2. If > 1MB, we skip to save Cloudflare transformations quota.
-          // We do not fallback to cfLowRes because user wants to minimize calls.
+          // 2. If > 1MB, we use Cloudflare transformation (User explicitly requested to fix the empty space issue without fallback)
+          // This will consume quota, but it ensures the homepage is populated.
+          const optimizedUrl = cfLowRes(it.url)
+          out.push({ 
+             id: `${it.folder}/${it.name}`, 
+             img: optimizedUrl, 
+             url: it.url, 
+             height: getRandomHeight(), 
+             orig: it.url, 
+             folderHref: `/media/${it.folder}` 
+          })
         }
         setItemsData(out)
       } catch {}
