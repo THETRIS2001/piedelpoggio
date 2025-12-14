@@ -1,5 +1,287 @@
 ---
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
+
+type VideoItem = 
+  | { type: 'youtube'; id: string; title: string; params?: string; src?: never }
+  | { type: 'r2'; src: string; title: string; id?: never; params?: never };
+
+const piedelpoggioVideos: VideoItem[] = [
+  {
+    type: 'youtube',
+    id: 'o5aT_IRUZQw',
+    title: 'Ripresa Aerea',
+    params: 't=1s'
+  },
+  {
+    type: 'youtube',
+    id: 'uCusK9YDWsg',
+    title: 'Ripresa Aerea dintorni innevati'
+  },
+  {
+    type: 'youtube',
+    id: '9Nf5yItDOW4',
+    title: 'Presepe di Piedelpoggio',
+    params: 't=1s'
+  },
+  {
+    type: 'r2',
+    src: 'https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/deposizione-corona-piedelpoggio.mp4#t=0.5',
+    title: 'Deposizione Corona'
+  },
+  {
+    type: 'youtube',
+    id: 'WhGKGI3w444',
+    title: 'Presepe'
+  },
+  {
+    type: 'youtube',
+    id: 'e6bBeBgOo90',
+    title: 'Processione'
+  },
+  {
+    type: 'youtube',
+    id: '1O-Msg6-8w8',
+    title: 'Processione'
+  },
+  {
+    type: 'youtube',
+    id: 'raNY-qjfC0o',
+    title: 'Piedelpoggio'
+  },
+  {
+    type: 'youtube',
+    id: 'Lqx51iud3S8',
+    title: 'Piedelpoggio Estate 2014',
+    params: 't=2s'
+  },
+  {
+    type: 'youtube',
+    id: 'KAhvGAP3X2g',
+    title: 'Piedelpoggio Gita 2013'
+  }
+];
+
+const zoneLimitrofeVideos: VideoItem[] = [
+  {
+    type: 'youtube',
+    id: 'jl-zfnjAnHM',
+    title: 'In volo sopra la Crocetta'
+  },
+  {
+    type: 'youtube',
+    id: 'yHd0XOSO5_Q',
+    title: 'Monte Tilia'
+  },
+  {
+    type: 'youtube',
+    id: 'NMCRVxzEVRA',
+    title: 'Leonessa e la torre Angioina',
+    params: 'start=2'
+  },
+  {
+    type: 'youtube',
+    id: 'zI1skL3iL04',
+    title: 'Leonessa',
+    params: 'start=1'
+  },
+  {
+    type: 'youtube',
+    id: '_UhJcNnsvGw',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: '7AilWodzmvA',
+    title: 'Leonessa',
+    params: 't=8s'
+  },
+  {
+    type: 'youtube',
+    id: '6lnc2vX_gt4',
+    title: 'Leonessa',
+    params: 't=1s'
+  },
+  {
+    type: 'youtube',
+    id: '-Bm0LhSdaMM',
+    title: 'Leonessa e Dintorni innevati'
+  },
+  {
+    type: 'youtube',
+    id: '2yrBcjuXB1o',
+    title: 'Paesaggio Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: '6wrh-uOIUEA',
+    title: 'Leonessa anni 60-70'
+  },
+  {
+    type: 'youtube',
+    id: '_izbsbf-pQY',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'QJTJ3uDNWzA',
+    title: 'Leonessa',
+    params: 'start=50'
+  },
+  {
+    type: 'youtube',
+    id: '8yJphzYlmgs',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'gfLL3bp_-CQ',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'XCym2QyoylY',
+    title: 'Crocetta'
+  },
+  {
+    type: 'youtube',
+    id: '3EA1X5awmHw',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'uXvb3Zw51v8',
+    title: 'Albaneto'
+  },
+  {
+    type: 'youtube',
+    id: '4uCgesq-l1Q',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'x3ySuZiHTz4',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: '3S6b95izRk4',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: '-GxmLh5NvMo',
+    title: 'Leonessa Sagra Patata TGR'
+  },
+  {
+    type: 'youtube',
+    id: 'RGVFjdztX8M',
+    title: 'Leonessa',
+    params: 'start=291'
+  },
+  {
+    type: 'youtube',
+    id: '5Lq8gjApNtY',
+    title: 'Leonessa Cammino San Benedetto'
+  },
+  {
+    type: 'youtube',
+    id: 'aTD9smiJdQE',
+    title: 'Leonessa Sagra della Patata'
+  },
+  {
+    type: 'youtube',
+    id: '8uHF2lNV4iA',
+    title: 'Leonessa e Campo Stella'
+  },
+  {
+    type: 'youtube',
+    id: 'TiMLkC36DCU',
+    title: 'Leonessa Cerimonia 25 Aprile'
+  },
+  {
+    type: 'youtube',
+    id: 'igaFZZb3Qfk',
+    title: 'Leonessa e Campo stella'
+  },
+  {
+    type: 'youtube',
+    id: '8Kbq3GvUi20',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'Pem_TOuc5uw',
+    title: 'Leonessa Poeti A Braccio 1972'
+  },
+  {
+    type: 'youtube',
+    id: '6YftYXVs9uQ',
+    title: 'Palio del Velluto'
+  },
+  {
+    type: 'youtube',
+    id: 'YvHkeIaW-I0',
+    title: 'Leonessa Neve 6/03/2010'
+  },
+  {
+    type: 'youtube',
+    id: 'AiS2QTmD4kw',
+    title: 'Leonessa Processione di San Giuseppe 3'
+  },
+  {
+    type: 'youtube',
+    id: 'qmG-LhN0cDc',
+    title: 'Villa Bigioni'
+  },
+  {
+    type: 'youtube',
+    id: 'pj-wlLg1U38',
+    title: 'Leonessa Storia'
+  },
+
+  {
+    type: 'youtube',
+    id: 'cvyoDWwpBAw',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'UAyQ6NmaY4o',
+    title: 'Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'va8Joewi5YY',
+    title: 'Ostaria de Poggio 2016'
+  },
+  {
+    type: 'youtube',
+    id: 'BOWis-fZjG4',
+    title: 'Ostaria de Poggio 2014'
+  },
+  {
+    type: 'youtube',
+    id: 'LWeDwGbeGIY',
+    title: 'Carnevale a Leonessa'
+  },
+  {
+    type: 'youtube',
+    id: 'zJ-K367zles',
+    title: 'Sagra della patata 2015'
+  },
+  {
+    type: 'youtube',
+    id: 'lN3LRvST3Gc',
+    title: 'Leonessa in maschera 2013'
+  },
+  {
+    type: 'youtube',
+    id: 'a56xdWUIznk',
+    title: 'Leonessa a Natale 2013'
+  }
+];
+
+
 ---
 
 <DefaultLayout 
@@ -13,8 +295,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
       <div class="absolute inset-0 bg-gradient-to-b from-purple-200/80 via-purple-100/60 to-transparent"></div>
       
       <!-- Decorative elements -->
-      
-      
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-40" style="background: radial-gradient(circle, rgba(219, 39, 119, 0.12) 0%, rgba(219, 39, 119, 0.04) 60%, transparent 100%);"></div>
       
       <div class="relative z-10 container mx-auto px-4 text-center">
@@ -41,324 +321,154 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
 
     <!-- Video Section -->
     <section class="pt-4 pb-6 sm:pb-16 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-6xl mx-auto space-y-12">
+      <div class="max-w-7xl mx-auto space-y-12">
         
         <!-- Riprese Aeree - Box con ombra -->
         <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300">
-          <div class="p-6 md:p-12">
+          <div class="p-6">
             <div class="flex items-center space-x-4 mb-8">
               <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Riprese di Piedelpoggio</h2>
+              <h2 class="text-xl sm:text-3xl font-bold text-gray-900">Riprese di Piedelpoggio</h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:p-12">
-              <!-- Video 1 -->
-              <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-                <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                  <video 
-                    controls 
-                    class="w-full h-full object-cover"
-                    preload="metadata"
-                  >
-                    <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/ripresa-aerea-2.mp4#t=0.5" type="video/mp4">
-                    Il tuo browser non supporta il tag video.
-                  </video>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {piedelpoggioVideos.map((video) => (
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+                  <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
+                    {video.type === 'youtube' ? (
+                      <div 
+                        class="w-full h-full cursor-pointer group relative js-youtube-placeholder"
+                        data-video-id={video.id}
+                        data-video-params={video.params}
+                      >
+                        <img 
+                          src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          alt={video.title}
+                          loading="lazy"
+                        />
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors duration-300">
+                          <img 
+                            src="/assets/icons/Youtube_logo.png" 
+                            alt="Play Video" 
+                            class="w-20 h-auto shadow-lg transform group-hover:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <video 
+                        controls 
+                        class="w-full h-full object-cover"
+                        preload="metadata"
+                      >
+                        <source src={video.src} type="video/mp4" />
+                        Il tuo browser non supporta il tag video.
+                      </video>
+                    )}
+                  </div>
+                  <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">{video.title}</h3>
+                  </div>
                 </div>
-                <div class="p-4 md:p-6">
-                  <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Ripresa Aerea</h3>
-                  <p class="text-gray-600 leading-relaxed text-sm md:text-lg">
-                    Prospettiva aerea che cattura ulteriori dettagli del borgo 
-                    e delle montagne che lo circondano.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Video 2 -->
-              <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-                <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                  <video 
-                    controls 
-                    class="w-full h-full object-cover"
-                    preload="metadata"
-                  >
-                    <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/ripresa-aerea-1.mp4#t=0.5" type="video/mp4">
-                    Il tuo browser non supporta il tag video.
-                  </video>
-                </div>
-                <div class="p-4 md:p-6">
-                  <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Ripresa Aerea dintorni innevati</h3>
-                  <p class="text-gray-600 leading-relaxed text-sm md:text-lg">
-                    Vista panoramica dall'alto di Piedelpoggio e del territorio circostante, 
-                    mostrando la bellezza del paesaggio appenninico innevato.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Video 3 - Presepe -->
-              <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-                <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                  <video 
-                    controls 
-                    class="w-full h-full object-cover"
-                    preload="metadata"
-                  >
-                    <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/presepe-piedelpoggio.mp4#t=0.5" type="video/mp4">
-                    Il tuo browser non supporta il tag video.
-                  </video>
-                </div>
-                <div class="p-4 md:p-6">
-                  <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Presepe di Piedelpoggio</h3>
-                  <p class="text-gray-600 leading-relaxed text-sm md:text-lg">
-                    Il tradizionale presepe di Piedelpoggio, una delle manifestazioni più sentite 
-                    della comunità durante il periodo natalizio.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Video 4 - Deposizione Corona -->
-              <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-                <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                  <video 
-                    controls 
-                    class="w-full h-full object-cover"
-                    preload="metadata"
-                  >
-                    <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/deposizione-corona-piedelpoggio.mp4#t=0.5" type="video/mp4">
-                    Il tuo browser non supporta il tag video.
-                  </video>
-                </div>
-                <div class="p-4 md:p-6">
-                  <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Deposizione Corona</h3>
-                  <p class="text-gray-600 leading-relaxed text-sm md:text-lg">
-                    Cerimonia di deposizione della corona, momento solenne che testimonia 
-                    le tradizioni e la memoria storica della comunità di Piedelpoggio.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
 
         <!-- Riprese Zone Limitrofe - Box con ombra -->
         <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300">
-          <div class="p-6 md:p-12">
+          <div class="p-6">
             <div class="flex items-center space-x-4 mb-8">
               <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Riprese Zone Limitrofe</h2>
+              <h2 class="text-xl sm:text-3xl font-bold text-gray-900">Riprese Zone Limitrofe</h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:p-12">
-             <!-- Video 1: In volo sopra la Crocetta -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/In volo sopra la Crocetta.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">In volo sopra la Crocetta</h3>
-               </div>
-             </div>
-
-             <!-- Video 2: Monte Tilia -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Monte Tilia.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6"md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Monte Tilia</h3>
-               </div>
-             </div>
-
-             <!-- Video 3: Leonessa e la torre Angioina -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Leonessa e la torre Angioina.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Leonessa e la torre Angioina</h3>
-               </div>
-             </div>
-
-             <!-- Video 4: Leonessa -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Leonessa.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Leonessa</h3>
-               </div>
-             </div>
-
-             <!-- Video 5: Leonessa 1 -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Leonessa 1.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Leonessa 1</h3>
-               </div>
-             </div>
-
-             <!-- Video 6: Leonessa 2 -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Leonessa 2.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Leonessa 2</h3>
-               </div>
-             </div>
-
-             <!-- Video 7: Leonessa 3 -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Leonessa 3.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Leonessa 3</h3>
-               </div>
-             </div>
-
-             <!-- Video 8: Leonessa e Dintorni innevati-->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Leonessa e Dintorni.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Leonessa e Dintorni innevati</h3>
-               </div>
-             </div>
-
-             <!-- Video 9: Paesaggio Leonessa -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <video 
-                   controls 
-                   class="w-full h-full object-cover"
-                   preload="metadata"
-                 >
-                   <source src="https://pub-a12c5c3cdccf45e5b98c647ffc712dfe.r2.dev/videos-for-r2/Paesaggio Leonessa.mp4#t=0.5" type="video/mp4">
-                   Il tuo browser non supporta il tag video.
-                 </video>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Paesaggio Leonessa</h3>
-               </div>
-             </div>
-             <!-- Video 10: Presepe Piedelpoggio (YouTube) -->
-             <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
-               <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
-                 <iframe 
-                   class="w-full h-full"
-                   src="https://www.youtube.com/embed/WhGKGI3w444" 
-                   title="Presepe Piedelpoggio"
-                   frameborder="0" 
-                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                   allowfullscreen
-                 ></iframe>
-               </div>
-               <div class="p-4 md:p-6">
-                 <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">Presepe Piedelpoggio (YouTube)</h3>
-               </div>
-             </div>
-           </div>
-        </div>
-        </div>
-
-        <!-- Canale YouTube Ezio Paciucci -->
-        <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300">
-          <div class="p-6 md:p-12 text-center">
-            <div class="flex flex-col items-center justify-center space-y-6">
-              <div class="w-16 h-16 sm:w-20 sm:h-20 bg-red-600 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform duration-300">
-                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-              </div>
-              
-              <div class="space-y-4 max-w-2xl">
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Altri Video del Territorio</h2>
-                <p class="text-gray-600 text-lg sm:text-xl leading-relaxed">
-                  Puoi trovare altri video relativi al territorio ed eventi sul canale YouTube di Ezio Paciucci.
-                </p>
-                <a 
-                  href="https://www.youtube.com/@eziopaciucci6765/videos" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-full transition-colors duration-300 shadow-md hover:shadow-lg mt-4 group"
-                >
-                  <span>Visita il Canale</span>
-                  <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                  </svg>
-                </a>
-              </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {zoneLimitrofeVideos.map((video) => (
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+                  <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
+                    {video.type === 'youtube' ? (
+                      <div 
+                        class="w-full h-full cursor-pointer group relative js-youtube-placeholder"
+                        data-video-id={video.id}
+                        data-video-params={video.params}
+                      >
+                        <img 
+                          src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          alt={video.title}
+                          loading="lazy"
+                        />
+                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors duration-300">
+                          <img 
+                            src="/assets/icons/Youtube_logo.png" 
+                            alt="Play Video" 
+                            class="w-20 h-auto shadow-lg transform group-hover:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <video 
+                        controls 
+                        class="w-full h-full object-cover"
+                        preload="metadata"
+                      >
+                        <source src={video.src} type="video/mp4" />
+                        Il tuo browser non supporta il tag video.
+                      </video>
+                    )}
+                  </div>
+                  <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-0">{video.title}</h3>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const placeholders = document.querySelectorAll('.js-youtube-placeholder');
+      placeholders.forEach(placeholder => {
+        placeholder.addEventListener('click', () => {
+          // Type casting for HTMLElement to access dataset
+          const element = placeholder as HTMLElement;
+          const videoId = element.dataset.videoId;
+          const videoParams = element.dataset.videoParams || '';
+          
+          if (!videoId) return;
+
+          const iframe = document.createElement('iframe');
+          iframe.className = 'w-full h-full';
+          
+          let src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          if (videoParams) {
+            src += `&${videoParams}`;
+          }
+          
+          iframe.src = src;
+          iframe.title = 'YouTube video player';
+          iframe.frameBorder = '0';
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          iframe.allowFullscreen = true;
+          
+          element.innerHTML = '';
+          element.appendChild(iframe);
+          element.classList.remove('cursor-pointer', 'group', 'js-youtube-placeholder');
+        });
+      });
+    });
+  </script>
 </DefaultLayout>
