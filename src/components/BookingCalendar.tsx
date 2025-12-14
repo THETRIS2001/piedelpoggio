@@ -100,10 +100,18 @@ const CalendarHeader: React.FC<{ month: number; year: number; onPrev: () => void
 };
 
 const BookingCalendar: React.FC = () => {
-  const now = new Date();
+  const [isClient, setIsClient] = useState(false);
+  const now = useMemo(() => new Date(), []);
+  
   const [visibleMonth, setVisibleMonth] = useState(now.getMonth());
   const [visibleYear, setVisibleYear] = useState(now.getFullYear());
-  const [selectedDate, setSelectedDate] = useState<string>(toDateKey(now));
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  
+  useEffect(() => {
+    setIsClient(true);
+    setSelectedDate(toDateKey(new Date()));
+  }, []);
+
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
@@ -120,6 +128,8 @@ const BookingCalendar: React.FC = () => {
     title: ''
   });
   const [formErrors, setFormErrors] = useState<{ name?: string; phone?: string }>({});
+
+  if (!isClient) return null; // Avoid hydration mismatch by rendering nothing on server
 
   // Fetch dati prenotazioni
   const loadBookings = async () => {
@@ -297,10 +307,19 @@ const BookingCalendar: React.FC = () => {
         setFormData({ customerName: '', customerPhone: '', title: '' });
         await loadBookings(); // Ricarica le prenotazioni
       } else {
-        showMessage('error', result.error || 'Errore nella creazione della prenotazione');
+        // Chiudi la modale anche in caso di errore, per mostrare il messaggio
+        setShowBookingForm(false);
+        const errorMsg = result.error || 'Errore nella creazione della prenotazione';
+        showMessage('error', errorMsg);
+        
+        // Se è un errore 500, assicuriamoci che l'utente capisca che qualcosa è andato storto lato server
+        if (response.status === 500) {
+           console.error('Server error during booking:', result);
+        }
       }
     } catch (error) {
-      showMessage('error', 'Errore di connessione');
+      setShowBookingForm(false);
+      showMessage('error', 'Errore di connessione o del server. Riprova più tardi.');
     } finally {
       setIsLoading(false);
     }
