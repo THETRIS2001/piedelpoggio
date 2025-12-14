@@ -269,43 +269,108 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         const card = document.createElement('div')
         card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
         const cover = document.createElement('div')
-        cover.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
-          ;(ev.files || []).slice(0,3).forEach(f => {
-            const isVideo = /\.(mp4|webm|ogg)$/i.test(f.name)
-            const cell = document.createElement('div')
-            cell.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
-            if (isVideo) {
-              const v = document.createElement('video')
-              v.src = f.url
-              v.className = 'w-full h-full object-cover'
-              v.muted = true
-              v.autoplay = true
-              v.loop = true
-              cell.appendChild(v)
-            } else {
-              const img = document.createElement('img')
-              img.alt = ev.meta?.eventName || f.name
-              img.loading = 'lazy'
-              img.className = 'w-full h-full object-cover'
-              img.style.visibility = 'hidden'
-              img.onerror = () => { try { cell.remove() } catch {} }
-              ;(async () => {
-                let useLow = false
-                try {
-                  const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
-                  const cl = Number(r.headers.get('content-length') || '0')
-                  useLow = cl > 1024 * 1024
-                } catch {}
-                const src = useLow ? cfLowRes(f.url) : f.url
-                img.src = src
-              })()
-              img.addEventListener('load', () => {
-                try { img.style.visibility = 'visible' } catch {}
-              })
-              cell.appendChild(img)
-            }
-            cover.appendChild(cell)
-          })
+          // --- LOGICA DI SELEZIONE ANTEPRIME INTELLIGENTE ---
+          // 1. Cerchiamo se ci sono file < 1MB per evitare trasformazioni
+          // Poiché non conosciamo la dimensione a priori lato client senza HEAD,
+          // e non possiamo fare HEAD su 1000 file, usiamo una strategia ibrida:
+          // Prendiamo i primi 10 file, controlliamo i pesi, e scegliamo i migliori 3.
+          
+          const candidates = (ev.files || []).slice(0, 10) // Controlliamo i primi 10
+          const container = document.createElement('div')
+          container.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
+          
+          // Placeholder slots
+          for(let i=0; i<3; i++) {
+             const cell = document.createElement('div')
+             cell.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200 animate-pulse'
+             cell.id = `slot-${i}`
+             container.appendChild(cell)
+          }
+          
+          ;(async () => {
+             // Troviamo i migliori 3
+             const verified: Array<{file: MediaFile, useLow: boolean, weight: number}> = []
+             
+             for (const f of candidates) {
+               if (verified.length >= 3) break // Abbiamo già 3 "economici"?
+               
+               let useLow = false
+               let weight = 0
+               
+               // Se è video, lo prendiamo subito (non ha trasformazione img)
+               if (/\.(mp4|webm|ogg)$/i.test(f.name)) {
+                 verified.push({ file: f, useLow: false, weight: 0 })
+                 continue
+               }
+               
+               try {
+                 const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+                 const cl = Number(r.headers.get('content-length') || '0')
+                 useLow = cl > 1024 * 1024
+                 weight = useLow ? 1 : 0 // 0 = Preferito (Originale), 1 = Costoso
+               } catch {
+                 useLow = true // Fallback worst case
+                 weight = 1
+               }
+               
+               verified.push({ file: f, useLow, weight })
+             }
+             
+             // Ordiniamo per peso (prima i gratis/video, poi quelli costosi)
+             verified.sort((a, b) => a.weight - b.weight)
+             const selected = verified.slice(0, 3)
+             
+             // Se non ne abbiamo trovati nemmeno 3 nei primi 10, riempiamo con i primi disponibili (anche se costosi)
+             if (selected.length < 3) {
+                const remaining = (ev.files || []).filter(f => !selected.find(s => s.file === f)).slice(0, 3 - selected.length)
+                remaining.forEach(f => selected.push({ file: f, useLow: true, weight: 1 }))
+             }
+
+             // Renderizziamo nei placeholder
+             selected.forEach((item, idx) => {
+               const slot = container.children[idx] as HTMLElement
+               if (!slot) return
+               
+               slot.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200' // Rimuovi pulse
+               slot.innerHTML = '' // Pulisci
+               
+               const f = item.file
+               const isVideo = /\.(mp4|webm|ogg)$/i.test(f.name)
+               
+               if (isVideo) {
+                  const v = document.createElement('video')
+                  v.src = f.url
+                  v.className = 'w-full h-full object-cover'
+                  v.muted = true
+                  v.autoplay = true
+                  v.loop = true
+                  slot.appendChild(v)
+               } else {
+                  const img = document.createElement('img')
+                  img.alt = ev.meta?.eventName || f.name
+                  img.loading = 'lazy'
+                  img.className = 'w-full h-full object-cover'
+                  const src = item.useLow ? cfLowRes(f.url) : f.url
+                  img.src = src
+                  slot.appendChild(img)
+               }
+             })
+             
+             // Rimuovi slot vuoti se ce ne sono meno di 3
+             for(let i=selected.length; i<3; i++) {
+               const slot = container.children[i]
+               if(slot) slot.remove()
+             }
+          })()
+
+          cover.appendChild(container)
+          // Rimuoviamo il vecchio ciclo diretto e usiamo il container gestito dall'async
+          // Nota: Ho dovuto adattare la struttura perché prima 'cover' ERA il grid container.
+          // Ora 'cover' contiene il grid container.
+          // Correggiamo la struttura:
+          cover.className = 'contents' // Cover diventa trasparente, il container dentro fa da griglia
+          
+          card.appendChild(cover)
         const info = document.createElement('div')
         info.className = 'p-3 flex flex-col flex-1'
         const title = document.createElement('div')
