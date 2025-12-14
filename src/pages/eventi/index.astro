@@ -7,6 +7,23 @@ import Card from '../../components/Card.astro';
 import { SITE_CONFIG } from '../../utils/config';
 import { getAllEventsOrdered, getUpcomingEvents, getPastEvents } from '../../utils/events';
 import { isUpcoming } from '../../utils/date';
+import fs from 'node:fs';
+import path from 'node:path';
+
+function getCustomImage(type: 'news' | 'event', slug: string) {
+  const folderName = type === 'news' ? 'Notizie Immagini' : 'Eventi Immagini';
+  const baseDir = path.join(process.cwd(), 'public', 'documents', folderName);
+  const extensions = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+  
+  for (const ext of extensions) {
+    const filename = `${slug}.${ext}`;
+    if (fs.existsSync(path.join(baseDir, filename))) {
+      return `/documents/${encodeURIComponent(folderName)}/${filename}`;
+    }
+  }
+  
+  return `/documents/${encodeURIComponent(folderName)}/${slug}.jpg`;
+}
 
 // Usa le utility condivise per caricare gli eventi
 const upcomingEvents = await getUpcomingEvents();
@@ -15,29 +32,6 @@ const allEvents = await getAllEventsOrdered();
 
 const itemsPerPage = SITE_CONFIG.collections.events.perPage;
 
-// Immagini della galleria per gli eventi
-const galleryImages = [
-  "/images/1.jpg",
-  "/images/2.jpg", 
-  "/images/3.jpg",
-  "/images/4.jpg",
-  "/images/5.jpg",
-  "/images/6.jpg",
-  "/images/7.jpg",
-  "/images/8.jpg",
-  "/images/9.jpg",
-  "/images/10.jpg",
-  "/images/11.jpg",
-  "/images/12.jpg",
-  "/images/13.jpg",
-  "/images/14.jpg",
-  "/images/15.jpg",
-  "/images/16.jpg",
-  "/images/17.jpg",
-  "/images/18.jpg",
-  "/images/19.jpg",
-  "/images/20.jpg"
-];
 ---
 
 <DefaultLayout title="Eventi - Piedelpoggio" description="Tutti gli eventi e le manifestazioni di Piedelpoggio, borgo medievale nel cuore del Lazio.">
@@ -293,17 +287,17 @@ const galleryImages = [
         </div>
         
         <!-- Lista Eventi -->
-        <div class="max-w-6xl mx-auto" id="eventsContainer">
+        <div class="max-w-6xl mx-auto" id="eventsContainer" data-items-per-page={itemsPerPage}>
           {allEvents.length > 0 ? (
             <div class="space-y-6" id="eventsList">
-              {allEvents.slice(0, itemsPerPage).map((item, index) => {
+              {allEvents.map((item, index) => {
                 const isUpcomingEvent = isUpcoming(item.data.startsAt);
                 return (
                   <div class="event-item bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]" data-date={item.data.startsAt}>
                     <div class="md:flex md:h-64">
                       <div class="md:w-1/3">
                         <img 
-                          src={item.data.cover || galleryImages[index % galleryImages.length]} 
+                          src={getCustomImage('event', item.slug)} 
                           alt={item.data.title}
                           class={`w-full h-48 md:h-full object-cover ${!isUpcomingEvent ? 'grayscale' : ''}`}
                         />
@@ -326,7 +320,7 @@ const galleryImages = [
                              {item.data.title}
                            </h3>
                            <p class="text-gray-600 mb-4 leading-relaxed">
-                             {item.data.summary || 'Scopri tutti i dettagli di questo evento speciale di Piedelpoggio.'}
+                             {item.data.description || 'Scopri tutti i dettagli di questo evento speciale di Piedelpoggio.'}
                            </p>
                         </div>
                         <div>
@@ -346,6 +340,9 @@ const galleryImages = [
                   </div>
                 );
               })}
+              
+              <!-- Paginazione Client-Side -->
+              <div id="paginationControls" class="flex justify-center mt-12"></div>
             </div>
           ) : (
             <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft p-12 border border-gray-200 text-center" id="noEventsMessage">
@@ -371,67 +368,86 @@ const galleryImages = [
   </main>
 
   <script>
-    // Funzionalità di filtro per data
+    // Funzionalità di filtro e paginazione per eventi
     document.addEventListener('DOMContentLoaded', function() {
-      const dateFromInput = document.getElementById('dateFrom');
-      const dateToInput = document.getElementById('dateTo');
-      const eventTypeSelect = document.getElementById('eventType');
+      const dateFromInput = document.getElementById('dateFrom') as HTMLInputElement;
+      const dateToInput = document.getElementById('dateTo') as HTMLInputElement;
+      const eventTypeSelect = document.getElementById('eventType') as HTMLSelectElement;
       const applyFilterBtn = document.getElementById('applyFilter');
       const clearFilterBtn = document.getElementById('clearFilter');
       const clearAllFiltersBtn = document.getElementById('clearAllFilters');
       const eventsList = document.getElementById('eventsList');
       const eventsContainer = document.getElementById('eventsContainer');
       const noEventsMessage = document.getElementById('noEventsMessage');
+      const paginationControls = document.getElementById('paginationControls');
 
-      let allEventItems = [];
+      // Configurazione paginazione
+      const itemsPerPage = eventsContainer ? parseInt(eventsContainer.dataset.itemsPerPage || '6') : 6;
+      let currentPage = 1;
+      let allEventItems: HTMLElement[] = [];
+      let filteredItems: HTMLElement[] = [];
 
       // Salva tutti gli elementi evento all'avvio
       if (eventsList) {
-        allEventItems = Array.from(eventsList.querySelectorAll('.event-item'));
+        allEventItems = Array.from(eventsList.querySelectorAll('.event-item')) as HTMLElement[];
+        filteredItems = [...allEventItems];
       }
 
-      function filterEvents() {
-        const dateFrom = dateFromInput?.value ? new Date(dateFromInput.value) : null;
-        const dateTo = dateToInput?.value ? new Date(dateToInput.value) : null;
-        const eventType = eventTypeSelect?.value || 'all';
-
-        if (!eventsList || allEventItems.length === 0) return;
-
-        let visibleCount = 0;
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        allEventItems.forEach(item => {
-          const eventDate = new Date(item.dataset.date);
-          const isUpcoming = eventDate >= today;
-          let shouldShow = true;
-
-          // Filtro per data
-          if (dateFrom && eventDate < dateFrom) {
-            shouldShow = false;
-          }
-          if (dateTo && eventDate > dateTo) {
-            shouldShow = false;
-          }
-
-          // Filtro per tipo di evento
-          if (eventType === 'upcoming' && !isUpcoming) {
-            shouldShow = false;
-          }
-          if (eventType === 'past' && isUpcoming) {
-            shouldShow = false;
-          }
-
-          if (shouldShow) {
-            item.style.display = 'block';
-            visibleCount++;
+      function updatePagination() {
+        if (!paginationControls) return;
+        
+        const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+        paginationControls.innerHTML = '';
+        
+        if (totalPages <= 1) return;
+        
+        const container = document.createElement('div');
+        container.className = 'flex space-x-2';
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('span');
+          btn.textContent = i.toString();
+          
+          if (i === currentPage) {
+            btn.className = 'px-4 py-2 text-white rounded-lg shadow-sm cursor-default';
+            btn.style.backgroundColor = '#FF2400';
           } else {
-            item.style.display = 'none';
+            btn.className = 'px-4 py-2 bg-gray-200 text-gray-600 rounded-lg hover:bg-gray-300 cursor-pointer transition-colors';
+            btn.onclick = () => {
+              currentPage = i;
+              renderEvents();
+              window.scrollTo({ top: document.querySelector('.hero-section')?.clientHeight || 0, behavior: 'smooth' });
+            };
           }
+          
+          container.appendChild(btn);
+        }
+        
+        paginationControls.appendChild(container);
+      }
+
+      function renderEvents() {
+        // 1. Nascondi tutti
+        allEventItems.forEach(item => {
+          item.style.display = 'none';
         });
 
-        // Mostra/nascondi messaggio "nessun evento"
-        if (visibleCount === 0) {
+        // 2. Calcola indici per la pagina corrente
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const visibleItems = filteredItems.slice(startIndex, endIndex);
+
+        // 3. Mostra solo quelli della pagina corrente
+        visibleItems.forEach(item => {
+          item.style.display = 'block';
+          item.style.animation = 'fadeIn 0.5s ease-in-out';
+        });
+
+        // 4. Aggiorna UI paginazione
+        updatePagination();
+
+        // 5. Gestione messaggio "Nessun evento"
+        if (filteredItems.length === 0) {
           if (eventsList) eventsList.style.display = 'none';
           if (noEventsMessage) noEventsMessage.style.display = 'block';
         } else {
@@ -440,17 +456,46 @@ const galleryImages = [
         }
       }
 
+      function filterEvents() {
+        const dateFrom = dateFromInput?.value ? new Date(dateFromInput.value) : null;
+        const dateTo = dateToInput?.value ? new Date(dateToInput.value) : null;
+        const eventType = eventTypeSelect?.value || 'all';
+
+        if (allEventItems.length === 0) return;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        filteredItems = allEventItems.filter(item => {
+          const dateStr = item.dataset.date;
+          if (!dateStr) return false;
+          
+          const eventDate = new Date(dateStr);
+          const isUpcoming = eventDate >= today;
+          
+          // Filtro per data
+          if (dateFrom && eventDate < dateFrom) return false;
+          if (dateTo && eventDate > dateTo) return false;
+
+          // Filtro per tipo di evento
+          if (eventType === 'upcoming' && !isUpcoming) return false;
+          if (eventType === 'past' && isUpcoming) return false;
+
+          return true;
+        });
+
+        currentPage = 1; // Reset alla prima pagina
+        renderEvents();
+      }
+
       function clearFilters() {
         if (dateFromInput) dateFromInput.value = '';
         if (dateToInput) dateToInput.value = '';
         if (eventTypeSelect) eventTypeSelect.value = 'all';
         
-        allEventItems.forEach(item => {
-          item.style.display = 'block';
-        });
-
-        if (eventsList) eventsList.style.display = 'block';
-        if (noEventsMessage) noEventsMessage.style.display = 'none';
+        filteredItems = [...allEventItems];
+        currentPage = 1;
+        renderEvents();
       }
 
       // Event listeners
@@ -459,9 +504,12 @@ const galleryImages = [
       clearAllFiltersBtn?.addEventListener('click', clearFilters);
       eventTypeSelect?.addEventListener('change', filterEvents);
 
-      // Filtro automatico quando cambiano le date
-      dateFromInput?.addEventListener('change', filterEvents);
-      dateToInput?.addEventListener('change', filterEvents);
+      // Filtro automatico quando cambiano le date (opzionale)
+      // dateFromInput?.addEventListener('change', filterEvents);
+      // dateToInput?.addEventListener('change', filterEvents);
+
+      // Inizializzazione
+      renderEvents();
     });
   </script>
 </DefaultLayout>

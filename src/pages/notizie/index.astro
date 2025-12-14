@@ -5,40 +5,29 @@ import { getCollection } from 'astro:content';
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
 import Card from '../../components/Card.astro';
 import { SITE_CONFIG } from '../../utils/config';
+import fs from 'node:fs';
+import path from 'node:path';
+
+function getCustomImage(type: 'news' | 'event', slug: string) {
+  const folderName = type === 'news' ? 'Notizie Immagini' : 'Eventi Immagini';
+  const baseDir = path.join(process.cwd(), 'public', 'documents', folderName);
+  const extensions = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+  
+  for (const ext of extensions) {
+    const filename = `${slug}.${ext}`;
+    if (fs.existsSync(path.join(baseDir, filename))) {
+      return `/documents/${encodeURIComponent(folderName)}/${filename}`;
+    }
+  }
+  
+  return `/documents/${encodeURIComponent(folderName)}/${slug}.jpg`;
+}
 
 const news = await getCollection('news', ({ data }) => data.published);
 const sortedNews = news.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-
-// Paginazione semplice
-const currentPage = 1;
 const itemsPerPage = SITE_CONFIG.collections.news.perPage;
-const totalPages = Math.ceil(sortedNews.length / itemsPerPage);
-const paginatedNews = sortedNews.slice(0, itemsPerPage);
-
-// Immagini della galleria per le notizie
-const galleryImages = [
-  "/images/1.jpg",
-  "/images/2.jpg", 
-  "/images/3.jpg",
-  "/images/4.jpg",
-  "/images/5.jpg",
-  "/images/6.jpg",
-  "/images/7.jpg",
-  "/images/8.jpg",
-  "/images/9.jpg",
-  "/images/10.jpg",
-  "/images/11.jpg",
-  "/images/12.jpg",
-  "/images/13.jpg",
-  "/images/14.jpg",
-  "/images/15.jpg",
-  "/images/16.jpg",
-  "/images/17.jpg",
-  "/images/18.jpg",
-  "/images/19.jpg",
-  "/images/20.jpg"
-];
 ---
+
 
 <DefaultLayout title="Notizie - Piedelpoggio" description="Tutte le notizie e gli aggiornamenti da Piedelpoggio, borgo medievale nel cuore del Lazio.">
   <main class=" bg-gradient-to-br from-pink-50/30 via-white to-purple-50/20 pt-4 pb-16">
@@ -145,15 +134,15 @@ const galleryImages = [
         </div>
         
         <!-- Lista Notizie -->
-        <div class="max-w-6xl mx-auto" id="newsContainer">
-          {paginatedNews.length > 0 ? (
+        <div class="max-w-6xl mx-auto" id="newsContainer" data-items-per-page={itemsPerPage}>
+          {sortedNews.length > 0 ? (
             <div class="space-y-6" id="newsList">
-              {paginatedNews.map((item, index) => (
+              {sortedNews.map((item, index) => (
                 <div class="news-item bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]" data-date={item.data.date}>
                   <div class="md:flex md:h-64">
                     <div class="md:w-1/3">
                       <img 
-                        src={item.data.cover || galleryImages[index % galleryImages.length]} 
+                        src={getCustomImage('news', item.slug)} 
                         alt={item.data.title}
                         class="w-full h-48 md:h-full object-cover"
                       />
@@ -196,19 +185,8 @@ const galleryImages = [
                 </div>
               ))}
               
-              <!-- Paginazione -->
-              {totalPages > 1 && (
-                <div class="flex justify-center mt-12">
-                  <div class="flex space-x-2">
-                    <span class="px-4 py-2 text-white rounded-lg shadow-sm" style="background-color: #30D5C8;">1</span>
-                    {Array.from({ length: totalPages - 1 }, (_, i) => (
-                      <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-lg hover:bg-gray-300 cursor-pointer transition-colors">
-                        {i + 2}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <!-- Paginazione Client-Side -->
+              <div id="paginationControls" class="flex justify-center mt-12"></div>
             </div>
           ) : (
             <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft p-12 border border-gray-200 text-center" id="noNewsMessage">
@@ -229,76 +207,127 @@ const galleryImages = [
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const dateFrom = document.getElementById('dateFrom');
-    const dateTo = document.getElementById('dateTo');
+    const dateFrom = document.getElementById('dateFrom') as HTMLInputElement;
+    const dateTo = document.getElementById('dateTo') as HTMLInputElement;
     const applyFilter = document.getElementById('applyFilter');
     const clearFilter = document.getElementById('clearFilter');
-    const newsItems = document.querySelectorAll('.news-item');
+    const newsItems = Array.from(document.querySelectorAll('.news-item')) as HTMLElement[];
     const noNewsMessage = document.getElementById('noNewsMessage');
+    const newsContainer = document.getElementById('newsContainer');
+    const paginationControls = document.getElementById('paginationControls');
     
-    function filterNews() {
-      const fromDate = dateFrom.value ? new Date(dateFrom.value) : null;
-      const toDate = dateTo.value ? new Date(dateTo.value) : null;
-      let visibleCount = 0;
+    // Configurazione paginazione
+    const itemsPerPage = newsContainer ? parseInt(newsContainer.dataset.itemsPerPage || '6') : 6;
+    let currentPage = 1;
+    let filteredItems = [...newsItems];
+
+    function updatePagination() {
+      if (!paginationControls) return;
       
-      newsItems.forEach(item => {
-        const itemDate = new Date(item.dataset.date);
-        let shouldShow = true;
+      const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+      paginationControls.innerHTML = '';
+      
+      if (totalPages <= 1) return;
+      
+      const container = document.createElement('div');
+      container.className = 'flex space-x-2';
+      
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('span');
+        btn.textContent = i.toString();
         
-        if (fromDate && itemDate < fromDate) {
-          shouldShow = false;
-        }
-        
-        if (toDate && itemDate > toDate) {
-          shouldShow = false;
-        }
-        
-        if (shouldShow) {
-          item.style.display = 'block';
-          item.style.animation = 'fadeIn 0.5s ease-in-out';
-          visibleCount++;
+        if (i === currentPage) {
+          btn.className = 'px-4 py-2 text-white rounded-lg shadow-sm cursor-default';
+          btn.style.backgroundColor = '#30D5C8';
         } else {
-          item.style.display = 'none';
+          btn.className = 'px-4 py-2 bg-gray-200 text-gray-600 rounded-lg hover:bg-gray-300 cursor-pointer transition-colors';
+          btn.onclick = () => {
+            currentPage = i;
+            renderNews();
+            window.scrollTo({ top: document.querySelector('.hero-section')?.clientHeight || 0, behavior: 'smooth' });
+          };
         }
-      });
-      
-      // Mostra/nascondi messaggio "nessuna notizia"
-      if (visibleCount === 0 && (fromDate || toDate)) {
-        if (noNewsMessage) {
-          noNewsMessage.style.display = 'block';
-          noNewsMessage.querySelector('h3').textContent = 'Nessuna notizia trovata';
-          noNewsMessage.querySelector('p').textContent = 'Non ci sono notizie nel periodo selezionato. Prova a modificare i filtri.';
-        }
-      } else if (noNewsMessage) {
-        noNewsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+        
+        container.appendChild(btn);
       }
+      
+      paginationControls.appendChild(container);
     }
     
-    function clearFilters() {
-      dateFrom.value = '';
-      dateTo.value = '';
-      
+    function renderNews() {
+      // 1. Nascondi tutti
       newsItems.forEach(item => {
+        item.style.display = 'none';
+      });
+
+      // 2. Calcola indici per la pagina corrente
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const visibleItems = filteredItems.slice(startIndex, endIndex);
+
+      // 3. Mostra solo quelli della pagina corrente
+      visibleItems.forEach(item => {
         item.style.display = 'block';
         item.style.animation = 'fadeIn 0.5s ease-in-out';
       });
-      
-      if (noNewsMessage) {
-        noNewsMessage.style.display = newsItems.length === 0 ? 'block' : 'none';
-        if (newsItems.length === 0) {
-          noNewsMessage.querySelector('h3').textContent = 'Nessuna notizia disponibile';
-          noNewsMessage.querySelector('p').textContent = 'Le notizie verranno pubblicate qui non appena disponibili.';
+
+      // 4. Aggiorna UI paginazione
+      updatePagination();
+
+      // 5. Gestione messaggio "Nessuna notizia"
+      if (filteredItems.length === 0) {
+        if (noNewsMessage) {
+          noNewsMessage.style.display = 'block';
+          const h3 = noNewsMessage.querySelector('h3');
+          const p = noNewsMessage.querySelector('p');
+          if (h3) h3.textContent = 'Nessuna notizia trovata';
+          if (p) p.textContent = 'Non ci sono notizie nel periodo selezionato. Prova a modificare i filtri.';
+        }
+      } else {
+        if (noNewsMessage) {
+          noNewsMessage.style.display = 'none';
         }
       }
     }
     
-    // Event listeners
-    applyFilter.addEventListener('click', filterNews);
-    clearFilter.addEventListener('click', clearFilters);
+    function filterNews() {
+      const fromDate = dateFrom?.value ? new Date(dateFrom.value) : null;
+      const toDate = dateTo?.value ? new Date(dateTo.value) : null;
+      
+      filteredItems = newsItems.filter(item => {
+        const dateStr = item.dataset.date;
+        if (!dateStr) return false;
+        const itemDate = new Date(dateStr);
+        
+        if (fromDate && itemDate < fromDate) return false;
+        if (toDate && itemDate > toDate) return false;
+        
+        return true;
+      });
+
+      currentPage = 1; // Reset alla prima pagina quando si filtra
+      renderNews();
+    }
     
-    // Filtro automatico quando si cambiano le date
-    dateFrom.addEventListener('change', filterNews);
-    dateTo.addEventListener('change', filterNews);
+    function clearFilters() {
+      if (dateFrom) dateFrom.value = '';
+      if (dateTo) dateTo.value = '';
+      
+      filteredItems = [...newsItems];
+      currentPage = 1;
+      renderNews();
+    }
+    
+    // Event listeners
+    applyFilter?.addEventListener('click', filterNews);
+    clearFilter?.addEventListener('click', clearFilters);
+    
+    // Filtro automatico opzionale (commentato per evitare troppi refresh, decommentare se desiderato)
+    // dateFrom?.addEventListener('change', filterNews);
+    // dateTo?.addEventListener('change', filterNews);
+
+    // Inizializzazione
+    renderNews();
   });
 </script>
 

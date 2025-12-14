@@ -8,12 +8,8 @@ Meteo non combacia (problema di google)
 
 Sezione iban
 
-Non carica video grandi tramite upload
-
 Pagina poesie-canzoni visivamente tutta da sistemare
 
-mi aumentano le foto trasformate anche se ho aperto cartelle con solo foto da 200kb a foto:
-analizza bene il codice e voglio che mi dici con assoluta precisione in che occasione vengono generate delle anteprime ridimensionate usando transform di cloudflare
 
 poesia aggiunto
 http://www.piedelpoggio.it/home7.htm

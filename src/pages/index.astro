@@ -10,6 +10,24 @@ import WeatherWidget from '../components/WeatherWidget.tsx';
 import TextType from '../components/TextType.tsx';
 import { SITE_CONFIG } from '../utils/config';
 import { getUpcomingEvents } from '../utils/events';
+import fs from 'node:fs';
+import path from 'node:path';
+
+function getCustomImage(type: 'news' | 'event', slug: string) {
+  const folderName = type === 'news' ? 'Notizie Immagini' : 'Eventi Immagini';
+  const baseDir = path.join(process.cwd(), 'public', 'documents', folderName);
+  const extensions = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+  
+  for (const ext of extensions) {
+    const filename = `${slug}.${ext}`;
+    if (fs.existsSync(path.join(baseDir, filename))) {
+      return `/documents/${encodeURIComponent(folderName)}/${filename}`;
+    }
+  }
+  
+  // Nessun fallback: restituisce il percorso atteso (default .jpg) anche se non esiste
+  return `/documents/${encodeURIComponent(folderName)}/${slug}.jpg`;
+}
 
 // Recupera i contenuti per la homepage
 const news = await getCollection('news', ({ data }) => data.published);
@@ -22,29 +40,6 @@ const allNews = news.sort((a, b) => new Date(b.data.date).getTime() - new Date(a
 // Mostra TUTTI gli eventi futuri disponibili, senza limiti artificiali
 const allUpcomingEvents = await getUpcomingEvents();
 
-// Immagini della galleria per gli eventi (stessa lista della pagina eventi)
-const galleryImages = [
-  "/images/1.jpg",
-  "/images/2.jpg", 
-  "/images/3.jpg",
-  "/images/4.jpg",
-  "/images/5.jpg",
-  "/images/6.jpg",
-  "/images/7.jpg",
-  "/images/8.jpg",
-  "/images/9.jpg",
-  "/images/10.jpg",
-  "/images/11.jpg",
-  "/images/12.jpg",
-  "/images/13.jpg",
-  "/images/14.jpg",
-  "/images/15.jpg",
-  "/images/16.jpg",
-  "/images/17.jpg",
-  "/images/18.jpg",
-  "/images/19.jpg",
-  "/images/20.jpg"
-];
 const availablePhotos = [
   { name: "1.jpg", extension: "jpg" },
   { name: "2.jpg", extension: "jpg" },
@@ -245,7 +240,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
                       href={`/notizie/${item.slug}`}
                       date={item.data.date}
                       category="Notizie"
-                      image={item.data.cover || masonryItems[index % masonryItems.length].img}
+                      image={getCustomImage('news', item.slug)}
                     />
                   </div>
                 </div>
@@ -345,7 +340,7 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
                         href={`/eventi/${item.slug}`}
                         date={item.data.startsAt}
                         category="Eventi"
-                        image={item.data.cover || galleryImages[index % galleryImages.length]}
+                        image={getCustomImage('event', item.slug)}
                       />
                     </div>
                   </div>
@@ -391,9 +386,9 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const carousel = document.getElementById('news-carousel');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
+    const carousel = document.getElementById('news-carousel') as HTMLElement;
+    const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+    const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
     const dots = document.querySelectorAll('.indicator');
     
     // Verifica che tutti gli elementi esistano
@@ -428,7 +423,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       nextBtn.disabled = currentIndex >= currentMaxIndex;
       
       // Aggiorna gli indicatori - solo quelli visibili dovrebbero essere evidenziati
-      dots.forEach((dot, index) => {
+      dots.forEach((d, index) => {
+        const dot = d as HTMLElement;
         if (index >= currentIndex && index < currentIndex + currentItemsVisible) {
           dot.style.background = 'linear-gradient(135deg, #0ea5e9, #0284c7)';
           dot.style.opacity = '1';
@@ -520,7 +516,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       isDragging = true;
       startX = e.clientX;
       const transform = carousel.style.transform;
-      startTransform = transform ? parseFloat(transform.match(/-?\d+\.?\d*/)) || 0 : 0;
+      const match = transform ? transform.match(/-?\d+\.?\d*/) : null;
+      startTransform = match ? parseFloat(match[0]) : 0;
       carousel.style.cursor = 'grabbing';
       e.preventDefault();
     });
@@ -561,7 +558,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
     carousel.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
       const transform = carousel.style.transform;
-      startTransform = transform ? parseFloat(transform.match(/-?\d+\.?\d*/)) || 0 : 0;
+      const match = transform ? transform.match(/-?\d+\.?\d*/) : null;
+      startTransform = match ? parseFloat(match[0]) : 0;
     }, { passive: true });
     
     carousel.addEventListener('touchmove', (e) => {
@@ -597,13 +595,15 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       const cardContainers = document.querySelectorAll('.news-card-container .animate-slide-up');
       
       // Reset delle altezze per calcolare quelle naturali
-      cardContainers.forEach(container => {
+      cardContainers.forEach(c => {
+        const container = c as HTMLElement;
         container.style.height = 'auto';
       });
       
       // Calcola l'altezza massima
       let maxHeight = 0;
-      cardContainers.forEach(container => {
+      cardContainers.forEach(c => {
+        const container = c as HTMLElement;
         const height = container.offsetHeight;
         if (height > maxHeight) {
           maxHeight = height;
@@ -611,7 +611,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       });
       
       // Applica l'altezza massima a tutti i contenitori
-      cardContainers.forEach(container => {
+      cardContainers.forEach(c => {
+        const container = c as HTMLElement;
         container.style.height = maxHeight + 'px';
       });
     }
@@ -644,9 +645,9 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
 
   // JavaScript per il carosello degli eventi
   document.addEventListener('DOMContentLoaded', function() {
-    const eventsCarousel = document.getElementById('events-carousel');
-    const eventsPrevBtn = document.getElementById('events-prev-btn');
-    const eventsNextBtn = document.getElementById('events-next-btn');
+    const eventsCarousel = document.getElementById('events-carousel') as HTMLElement;
+    const eventsPrevBtn = document.getElementById('events-prev-btn') as HTMLButtonElement;
+    const eventsNextBtn = document.getElementById('events-next-btn') as HTMLButtonElement;
     const eventsDots = document.querySelectorAll('.events-indicator');
     
     // Verifica che tutti gli elementi esistano
@@ -681,7 +682,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       eventsNextBtn.disabled = eventsCurrentIndex >= currentMaxIndex;
       
       // Aggiorna gli indicatori - solo quelli visibili dovrebbero essere evidenziati
-      eventsDots.forEach((dot, index) => {
+      eventsDots.forEach((d, index) => {
+        const dot = d as HTMLElement;
         if (index >= eventsCurrentIndex && index < eventsCurrentIndex + currentItemsVisible) {
           dot.style.background = 'linear-gradient(135deg, #0ea5e9, #0284c7)';
           dot.style.opacity = '1';
@@ -773,7 +775,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       eventsIsDragging = true;
       eventsStartX = e.clientX;
       const transform = eventsCarousel.style.transform;
-      eventsStartTransform = transform ? parseFloat(transform.match(/-?\d+\.?\d*/)) || 0 : 0;
+      const match = transform ? transform.match(/-?\d+\.?\d*/) : null;
+      eventsStartTransform = match ? parseFloat(match[0]) : 0;
       eventsCarousel.style.cursor = 'grabbing';
       e.preventDefault();
     });
@@ -814,7 +817,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
     eventsCarousel.addEventListener('touchstart', (e) => {
       eventsStartX = e.touches[0].clientX;
       const transform = eventsCarousel.style.transform;
-      eventsStartTransform = transform ? parseFloat(transform.match(/-?\d+\.?\d*/)) || 0 : 0;
+      const match = transform ? transform.match(/-?\d+\.?\d*/) : null;
+      eventsStartTransform = match ? parseFloat(match[0]) : 0;
     }, { passive: true });
     
     eventsCarousel.addEventListener('touchmove', (e) => {
@@ -850,13 +854,15 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       const cardContainers = document.querySelectorAll('.events-card-container .animate-slide-up');
       
       // Reset delle altezze per calcolare quelle naturali
-      cardContainers.forEach(container => {
+      cardContainers.forEach(c => {
+        const container = c as HTMLElement;
         container.style.height = 'auto';
       });
       
       // Calcola l'altezza massima
       let maxHeight = 0;
-      cardContainers.forEach(container => {
+      cardContainers.forEach(c => {
+        const container = c as HTMLElement;
         const height = container.offsetHeight;
         if (height > maxHeight) {
           maxHeight = height;
@@ -864,7 +870,8 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
       });
       
       // Applica l'altezza massima a tutti i contenitori
-      cardContainers.forEach(container => {
+      cardContainers.forEach(c => {
+        const container = c as HTMLElement;
         container.style.height = maxHeight + 'px';
       });
     }
