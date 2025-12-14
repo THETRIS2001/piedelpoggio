@@ -25,7 +25,7 @@ function getExt(name: string): string {
 
 function isAllowedFile(filename: string): boolean {
   const ext = getExt(filename)
-  const images = ['.jpg', '.jpeg', '.png', '.gif']
+  const images = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
   const videos = ['.mp4', '.webm', '.ogg']
   return images.includes(ext) || videos.includes(ext)
 }
@@ -43,6 +43,8 @@ function contentTypeFor(name: string): string {
   if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
   if (ext === '.png') return 'image/png'
   if (ext === '.gif') return 'image/gif'
+  if (ext === '.bmp') return 'image/bmp'
+  if (ext === '.webp') return 'image/webp'
   if (ext === '.mp4') return 'video/mp4'
   if (ext === '.webm') return 'video/webm'
   if (ext === '.ogg') return 'video/ogg'
