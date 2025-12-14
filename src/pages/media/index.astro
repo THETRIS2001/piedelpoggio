@@ -365,7 +365,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
 
         const photos = files.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name))
         const firstTen = photos.slice(0, 10)
-        const small = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 0 && Number((f.size as number | undefined) || 0) <= 1024 * 1024)
+        // Include files with size 0 or unknown in 'small' (original url) to ensure they are displayed
+        const small = firstTen.filter(f => Number((f.size as number | undefined) || 0) <= 1024 * 1024)
         const large = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 1024 * 1024)
 
         const selected: Array<{ file: MediaFile; transformed: boolean }> = []

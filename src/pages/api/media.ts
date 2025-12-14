@@ -176,10 +176,13 @@ export const GET: APIRoute = async ({ request, locals }) => {
       } catch {}
       const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
       const files = (filesList.objects || [])
-        .map((o: any) => o.key as string)
-        .map((k: string) => k.split('/').pop() || '')
-        .filter((name: string) => isAllowedFile(name))
-        .map((name: string) => ({ name, url: `/media/${folder}/${name}` }))
+        .filter((o: any) => isAllowedFile(o.key || ''))
+        .map((o: any) => {
+          const k = o.key as string
+          const name = k.split('/').pop() || ''
+          const size = o.size || o.Size || 0
+          return { name, url: `/media/${folder}/${name}`, size }
+        })
       return new Response(JSON.stringify({ folder, meta, files }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
