@@ -1,4 +1,4 @@
-SISTEMA CONTENUTI: e soprattutto pagine eventi e notizie e bilancio, pag info sito meno autoreferenziale.
+SISTEMA CONTENUTI: soprattutto pagine eventi e notizie e bilancio, pag info sito meno autoreferenziale.
 
 SISTEMA ESTETICA:
     - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento: tag pagine di dimensioni diverse (es eventi vs terremoto)

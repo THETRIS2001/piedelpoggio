@@ -343,15 +343,23 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                  continue
                }
                
-               try {
-                 const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
-                 const cl = Number(r.headers.get('content-length') || '0')
-                 useLow = cl > 1024 * 1024
-                 weight = useLow ? 1 : 0 // 0 = Preferito (Originale), 1 = Costoso
-               } catch {
-                 useLow = true // Fallback worst case
-                 weight = 1
+               // Usa la dimensione restituita dall'API se presente, altrimenti prova HEAD
+               let size = f.size || 0
+               if (size === 0) {
+                 try {
+                   const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+                   size = Number(r.headers.get('content-length') || '0')
+                 } catch {
+                   size = 99999999 // Se fallisce, assumiamo sia pesante per forzare trasformazione
+                 }
                }
+               
+               useLow = size > 1024 * 1024
+               weight = useLow ? 1 : 0
+             } catch {
+               useLow = true
+               weight = 1
+             }
                
                verified.push({ file: f, useLow, weight })
              }
