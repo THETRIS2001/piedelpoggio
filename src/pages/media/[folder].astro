@@ -7,7 +7,7 @@ const folder = Astro.params.folder
 const isAllowed = (name: string) => {
   const i = name.lastIndexOf('.')
   const ext = i >= 0 ? name.slice(i).toLowerCase() : ''
-  return ['.jpg','.jpeg','.png','.gif','.mp4','.webm','.ogg'].includes(ext)
+  return ['.jpg','.jpeg','.png','.gif','.mp4','.webm','.ogg','.bmp'].includes(ext)
 }
 
 let meta: any = null
