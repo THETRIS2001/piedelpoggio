@@ -48,7 +48,7 @@ import PDFViewer from '../../components/PDFViewer.tsx';
           <div class="flex items-center space-x-4 mb-6">
             <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-600 to-orange-600 rounded-xl flex items-center justify-center">
               <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.657 0 3-1.343 3-3S13.657 2 12 2 9 3.343 9 5s1.343 3 3 3zm0 2c-3.314 0-6 1.791-6 4v1a1 1 0 001 1h10a1 1 0 001-1v-1c0-2.209-2.686-4-6-4zm0 6a3 3 0 100 6 3 3 0 000-6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5H11.5C8.462 5 6 7.239 6 10.5S8.462 16 11.5 16H15M8 10.5H14M8 13.5H14" />
               </svg>
             </div>
             <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Quota associativa Pro Loco</h2>
@@ -56,13 +56,26 @@ import PDFViewer from '../../components/PDFViewer.tsx';
           <p class="text-base md:text-lg text-gray-700 mb-4 text-justify">
             È possibile pagare la quota di iscrizione come soci alla Pro Loco Piedelpoggio tramite bonifico bancario, contribuendo così a sostenere le attività e gli eventi organizzati per la comunità.
           </p>
-          <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-5 mb-4">
-            <p class="text-sm md:text-base font-semibold text-gray-900 mb-1">
-              Intestazione: Pro Loco Piedelpoggio
-            </p>
-            <p class="text-sm md:text-base font-mono text-gray-900 tracking-wide">
-              IBAN: IT60X0542811101000000123456
-            </p>
+          <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
+                  Intestazione
+                </p>
+                <p class="text-base md:text-lg font-semibold text-gray-900">
+                  Pro Loco Piedelpoggio
+                </p>
+              </div>
+              <div class="hidden sm:block w-px h-12 bg-gradient-to-b from-amber-200 via-amber-300 to-orange-300"></div>
+              <div>
+                <p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
+                  IBAN
+                </p>
+                <p class="text-base md:text-lg font-mono font-semibold text-amber-900 tracking-wide break-all">
+                  IT60X0542811101000000123456
+                </p>
+              </div>
+            </div>
           </div>
           <p class="text-sm md:text-base text-gray-700 text-justify">
             Dopo aver effettuato il bonifico, vi chiediamo gentilmente di inviare una mail a
@@ -127,6 +140,7 @@ import PDFViewer from '../../components/PDFViewer.tsx';
                 </svg>
               </div>
               <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Marco Risa</h3>
+              <p class="text-sm md:text-base text-gray-700 mb-3">&nbsp;</p>
               <a href="tel:+393775353406" class="inline-flex items-center space-x-2 bg-secondary-600 text-white px-4 py-2 rounded-lg hover:bg-secondary-700 transition-colors duration-300">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
@@ -141,6 +155,7 @@ import PDFViewer from '../../components/PDFViewer.tsx';
                 </svg>
               </div>
               <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Paola Lalle</h3>
+              <p class="text-sm md:text-base text-gray-700 mb-3">&nbsp;</p>
               <a href="tel:+393472286414" class="inline-flex items-center space-x-2 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors duration-300">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
