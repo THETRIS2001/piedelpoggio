@@ -345,6 +345,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                
                try {
                  const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+                 if (!r.ok) throw new Error('HEAD failed')
                  const lenStr = r.headers.get('content-length')
                  const cl = lenStr ? Number(lenStr) : 0
                  // Se non abbiamo content-length (cl=0) assumiamo sia grande per sicurezza
@@ -392,6 +393,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                   img.alt = ev.meta?.eventName || f.name
                   img.loading = 'lazy'
                   img.className = 'w-full h-full object-cover'
+                  img.onerror = () => { img.style.display = 'none' }
                   const src = item.useLow ? cfLowRes(f.url) : f.url
                   img.src = src
                   slot.appendChild(img)

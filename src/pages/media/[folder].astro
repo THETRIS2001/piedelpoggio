@@ -184,6 +184,8 @@ const capitalize = (s: string) => {
       try {
         // 1. Controlliamo la dimensione del file originale (HEAD request è molto leggera)
         const res = await fetch(url, { method: 'HEAD' })
+        if (!res.ok) throw new Error(`HEAD failed: ${res.status}`)
+        
         const lenStr = res.headers.get('content-length')
         const size = lenStr ? Number(lenStr) : 0
         
@@ -199,14 +201,26 @@ const capitalize = (s: string) => {
         
         // 3. Mostriamo l'immagine solo ora che abbiamo deciso la sorgente
         img.onload = () => { img.style.visibility = 'visible' }
+        img.onerror = () => { 
+          // Se fallisce il caricamento (es. errore trasformazione), nascondiamo
+          img.style.visibility = 'hidden'
+          console.error('Failed to load image:', img.src)
+        }
+        
         // Fallback immediato se è già in cache
         if (img.complete) img.style.visibility = 'visible'
         
       } catch (e) {
-        // In caso di errore nel check, fallback all'originale
-        console.error('Error checking image size', e)
-        img.src = url
-        img.style.visibility = 'visible'
+        // In caso di errore nel check, FORZIAMO la trasformazione (assumiamo file grande/problematico)
+        // NON fallback all'originale per richiesta utente.
+        console.error('Error checking image size, forcing transform', e)
+        const path = url.startsWith('/') ? url : '/' + url
+        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+        
+        img.onload = () => { img.style.visibility = 'visible' }
+        img.onerror = () => { 
+          img.style.visibility = 'hidden' 
+        }
       }
     }
     // ---------------------------------
