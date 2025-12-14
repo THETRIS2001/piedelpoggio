@@ -335,11 +335,11 @@ const capitalize = (s: string) => {
         }, { once: true })
         img.addEventListener('error', () => {
           try {
-            img.style.visibility = 'hidden'
-            img.style.display = 'none'
             const parent = img.parentElement as HTMLElement | null
+            img.style.visibility = 'hidden'
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
             if (parent) {
-              parent.style.backgroundColor = '#e5e7eb'
+              parent.style.backgroundColor = '#d1d5db'
             }
           } catch {}
         }, { once: true })
