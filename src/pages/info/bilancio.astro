@@ -39,7 +39,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
     </section>
 
     <!-- Bilancio Corrente -->
-    <section class="mt-2 md:mt-16 py-4 px-4 sm:px-8 lg:px-8">
+    <section class="py-4 px-4 sm:px-8 lg:px-8">
       <div class="max-w-6xl mx-auto">
         <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12 mb-16">
           <div class="flex items-center space-x-4 mb-8">
@@ -528,9 +528,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
       // Aggiungi event listener per il pulsante anteprima 2024 (Desktop)
       const previewBtn2024 = document.getElementById('previewBtn2024');
       if (previewBtn2024) {
-        previewBtn2024.addEventListener('click', function() {
-          const imageSrc = this.getAttribute('data-image');
-          const title = this.getAttribute('data-title');
+        previewBtn2024.addEventListener('click', function(this: HTMLElement) {
+          const imageSrc = this.getAttribute('data-image') || '';
+          const title = this.getAttribute('data-title') || '';
           openPdfModal(imageSrc, title);
         });
       }
@@ -538,9 +538,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
       // Aggiungi event listener per il pulsante anteprima 2024 (Mobile)
       const previewBtn2024Mobile = document.getElementById('previewBtn2024Mobile');
       if (previewBtn2024Mobile) {
-        previewBtn2024Mobile.addEventListener('click', function() {
-          const imageSrc = this.getAttribute('data-image');
-          const title = this.getAttribute('data-title');
+        previewBtn2024Mobile.addEventListener('click', function(this: HTMLElement) {
+          const imageSrc = this.getAttribute('data-image') || '';
+          const title = this.getAttribute('data-title') || '';
           openPdfModal(imageSrc, title);
         });
       }
@@ -548,9 +548,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
       // Aggiungi event listener per il pulsante anteprima 2014
       const previewBtn2014 = document.getElementById('previewBtn2014');
       if (previewBtn2014) {
-        previewBtn2014.addEventListener('click', function() {
-          const imageSrc = this.getAttribute('data-image');
-          const title = this.getAttribute('data-title');
+        previewBtn2014.addEventListener('click', function(this: HTMLElement) {
+          const imageSrc = this.getAttribute('data-image') || '';
+          const title = this.getAttribute('data-title') || '';
           openPdfModal(imageSrc, title);
         });
       }
@@ -564,9 +564,9 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
       }
     });
 
-    function openPdfModal(imageSrc, title) {
+    function openPdfModal(imageSrc: string, title: string) {
       const modal = document.getElementById('pdfModal');
-      const modalImage = document.getElementById('modalImage');
+      const modalImage = document.getElementById('modalImage') as HTMLImageElement;
       
       if (modal && modalImage) {
         modalImage.src = imageSrc;

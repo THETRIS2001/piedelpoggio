@@ -116,22 +116,25 @@ const dipintiItems = [
     </section>
 
     <!-- Poesie Popolari -->
-    <section id="poesie" class="mt-2 md:mt-16 py-4 px-4 sm:px-8 lg:px-8">
+    <section id="poesie" class="mt-2 md:mt-6 py-4 px-4 sm:px-8 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
           <!-- Header cliccabile per Poesie -->
-          <div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleSection('poesie')">
+          <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-                  <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                   </svg>
                 </div>
-                <h2 class="text-1xl md:text-1xl sm:text-3xl font-bold text-gray-900">Poesie e Opere</h2>
+                <div>
+                  <h3 class="text-xl md:text-2xl font-bold text-gray-900">Poesie e Opere</h3>
+                  <p class="text-sm text-gray-500 mt-1">Un viaggio emozionante attraverso i versi dei poeti locali e le opere letterarie che raccontano la storia e l'anima di Piedelpoggio.</p>
+                </div>
               </div>
-              <div class="arrow-icon transition-transform duration-300" style="transform: rotate(0deg);">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="expand-icon transform transition-transform duration-300">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </div>
@@ -139,7 +142,7 @@ const dipintiItems = [
           </div>
 
           <!-- Contenuto collassabile per Poesie -->
-          <div class="p-6 mb-6 collapsible-body" id="poesie-content" style="display: none;">
+          <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
 
           <div class="space-y-12">
             <!-- La Pastoral Siringa -->
@@ -1004,22 +1007,25 @@ const dipintiItems = [
     </section>
 
     <!-- Tradizioni -->
-    <section id="tradizioni" class="mt-2 md:mt-16 py-4 px-4 sm:px-8 lg:px-8">
+    <section id="tradizioni" class="mt-2 md:mt-6 py-4 px-4 sm:px-8 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
           <!-- Header cliccabile per Tradizioni -->
-          <div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleSection('tradizioni')">
+          <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-                  <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                   </svg>
                 </div>
-                <h2 class="text-1xl md:text-1xl sm:text-3xl font-bold text-gray-900">Tradizioni Antiche</h2>
+                <div>
+                  <h3 class="text-xl md:text-2xl font-bold text-gray-900">Tradizioni Antiche</h3>
+                  <p class="text-sm text-gray-500 mt-1">Riti secolari, celebrazioni festive e usanze tramandate di generazione in generazione che mantengono viva l'identità della comunità.</p>
+                </div>
               </div>
-              <div class="arrow-icon transition-transform duration-300" style="transform: rotate(0deg);">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="expand-icon transform transition-transform duration-300">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </div>
@@ -1027,7 +1033,7 @@ const dipintiItems = [
           </div>
 
           <!-- Contenuto collassabile per Tradizioni -->
-          <div id="tradizioni-content" class="p-6 pb-6 collapsible-body overflow-hidden max-h-0">
+          <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
 
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Tradizione 1 -->
@@ -1147,22 +1153,25 @@ const dipintiItems = [
 
 
     <!-- Testimonianze -->
-    <section id="testimonianze" class="mt-2 md:mt-16 py-4 px-4 sm:px-8 lg:px-8">
+    <section id="testimonianze" class="mt-2 md:mt-6 py-4 px-4 sm:px-8 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
           <!-- Header cliccabile per Testimonianze -->
-          <div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleSection('testimonianze')">
+          <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-                  <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                   </svg>
                 </div>
-                <h2 class="text-1xl md:text-1xl sm:text-3xl font-bold text-gray-900">Testimonianze</h2>
+                <div>
+                  <h3 class="text-xl md:text-2xl font-bold text-gray-900">Testimonianze</h3>
+                  <p class="text-sm text-gray-500 mt-1">Racconti di vita quotidiana e ricordi preziosi che documentano la trasformazione del paese nel corso del tempo.</p>
+                </div>
               </div>
-              <div class="arrow-icon transition-transform duration-300" style="transform: rotate(0deg);">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="expand-icon transform transition-transform duration-300">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </div>
@@ -1170,7 +1179,7 @@ const dipintiItems = [
           </div>
 
           <!-- Contenuto collassabile per Testimonianze -->
-          <div class="p-6 mb-6 collapsible-body" id="testimonianze-content" style="display: none;">
+          <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
 
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Testimonianza 1 -->
@@ -1440,22 +1449,25 @@ const dipintiItems = [
     </section>
 
     <!-- Canzoni Popolari -->
-    <section id="canzoni" class="mt-2 md:mt-16 py-4 px-4 sm:px-8 lg:px-8">
+    <section id="canzoni" class="mt-2 md:mt-6 py-4 px-4 sm:px-8 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
           <!-- Header cliccabile per Canzoni -->
-          <div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleSection('canzoni')">
+          <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-                  <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3    2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                   </svg>
                 </div>
-                <h2 class="text-1xl md:text-1xl sm:text-3xl font-bold text-gray-900">Canzoni</h2>
+                <div>
+                  <h3 class="text-xl md:text-2xl font-bold text-gray-900">Canzoni</h3>
+                  <p class="text-sm text-gray-500 mt-1">Le melodie e i testi che hanno accompagnato momenti di festa e di lavoro, patrimonio immateriale della nostra cultura.</p>
+                </div>
               </div>
-              <div class="arrow-icon transition-transform duration-300" style="transform: rotate(0deg);">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="expand-icon transform transition-transform duration-300">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </div>
@@ -1463,7 +1475,7 @@ const dipintiItems = [
           </div>
 
           <!-- Contenuto collassabile per Canzoni -->
-          <div id="canzoni-content" class="p-6 collapsible-body overflow-hidden max-h-0">
+          <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
 
             <!-- Wrapper che separa uniformemente tutte le canzoni -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1754,14 +1766,14 @@ const dipintiItems = [
     </section>
 
     <!-- Sezione Arte - Dipinti di Fiorella Mincinesi -->
-    <section id="arte" class="mt-2 md:mt-16 mb-8 md:mb-16 py-4 px-4 sm:px-8 lg:px-8">
+    <section id="arte" class="mt-2 md:mt-6 mb-8 md:mb-16 py-4 px-4 sm:px-8 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
-          <div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleSection('arte')">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
+          <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-                  <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M15 8h.01" />
                     <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
@@ -1769,17 +1781,20 @@ const dipintiItems = [
                     <path d="M14 14l1 -1c.928 -.893 2.072 -.893 3 0l2.5 2.5" />
                   </svg>
                 </div>
-                <h2 class="text-1xl md:text-1xl sm:text-3xl font-bold text-gray-900">Arte</h2>
+                <div>
+                  <h3 class="text-xl md:text-2xl font-bold text-gray-900">Arte</h3>
+                  <p class="text-sm text-gray-500 mt-1">Una collezione di opere pittoriche che catturano l'essenza e la bellezza di Piedelpoggio attraverso gli occhi sensibili dell'artista locale Fiorella Mincinesi.</p>
+                </div>
               </div>
-              <div class="arrow-icon transition-transform duration-300" style="transform: rotate(0deg);">
-                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="expand-icon transform transition-transform duration-300">
+                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
               </div>
             </div>
           </div>
 
-          <div class="p-6 pb-6 collapsible-body" id="arte-content" style="display: none;">
+          <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
 
             <div class="mb-6">
               <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl p-6 md:p-12 mb-2">
@@ -1816,60 +1831,69 @@ const dipintiItems = [
   </main>
 
   <script is:inline>
-    function toggleSection(sectionId) {
-      const content = document.getElementById(sectionId + '-content');
-      const arrow = document.querySelector(`[onclick="toggleSection('${sectionId}')"] .arrow-icon`);
+    function toggleContent(header) {
+      const contentWrapper = header.parentElement;
+      const body = contentWrapper.querySelector('.collapsible-body');
+      const icon = header.querySelector('.expand-icon svg');
       
-      if (content.style.display === 'none' || content.style.display === '') {
-        content.style.display = 'block';
+      const isClosed = body.style.display === 'none' || body.style.display === '';
+      
+      if (isClosed) {
+        body.style.display = 'block';
+        body.style.opacity = '0';
+        body.style.transform = 'translateY(-10px)';
+        void body.offsetWidth; // Force reflow
         
-        // Per la sezione Arte, aspetta che il Masonry sia completamente caricato
-        if (sectionId === 'arte') {
-          // Rimuovi maxHeight per permettere al contenuto di espandersi naturalmente
-          content.style.maxHeight = 'none';
-          content.style.height = 'auto';
-          
-          // Aspetta un momento per il rendering del Masonry, poi imposta l'altezza corretta
-          setTimeout(() => {
-            const actualHeight = content.scrollHeight;
-            content.style.maxHeight = actualHeight + 'px';
-          }, 100);
-        } else {
-          content.style.maxHeight = content.scrollHeight + 'px';
-        }
+        body.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        icon.style.transition = 'transform 0.4s ease';
         
-        arrow.style.transform = 'rotate(180deg)';
+        body.style.opacity = '1';
+        body.style.transform = 'translateY(0)';
+        icon.style.transform = 'rotate(180deg)';
       } else {
-        content.style.maxHeight = '0px';
-        arrow.style.transform = 'rotate(0deg)';
+        body.style.opacity = '0';
+        body.style.transform = 'translateY(-10px)';
+        icon.style.transform = 'rotate(0deg)';
+        
         setTimeout(() => {
-          content.style.display = 'none';
-        }, 300);
+          body.style.display = 'none';
+        }, 400);
       }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
       // Inizializza tutte le sezioni come chiuse
-      const sections = ['poesie', 'tradizioni', 'testimonianze', 'canzoni', 'arte'];
-      sections.forEach(sectionId => {
-        const content = document.getElementById(sectionId + '-content');
-        const arrow = document.querySelector(`[onclick="toggleSection('${sectionId}')"] .arrow-icon`);
-        if (content) {
-          content.style.display = 'none';
-          content.style.maxHeight = '0px';
-        }
-        if (arrow) {
-          arrow.style.transform = 'rotate(0deg)';
-        }
+      const bodies = document.querySelectorAll('.collapsible-body');
+      const icons = document.querySelectorAll('.expand-icon svg');
+      
+      bodies.forEach(body => {
+        body.style.display = 'none';
+        body.style.opacity = '0';
       });
 
-      function scrollToSection(sectionId) {
-        const element = document.getElementById(sectionId);
+      icons.forEach(icon => {
+        icon.style.transform = 'rotate(0deg)';
+      });
+
+      // Gestione parametri URL per scroll automatico
+      const urlParams = new URLSearchParams(window.location.search);
+      const section = urlParams.get('section');
+      
+      if (section) {
+        const element = document.getElementById(section);
         if (element) {
-          element.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-          });
+          setTimeout(() => {
+            element.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+            
+            // Apri automaticamente la sezione
+            const header = element.querySelector('.collapsible-header');
+            if (header) {
+              toggleContent(header);
+            }
+          }, 500);
         }
       }
     });

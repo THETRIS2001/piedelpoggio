@@ -19,33 +19,50 @@ function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: numbe
   return R * c;
 }
 
+// Interfaccia per i dati delle webcam
+interface WebcamData {
+  id: string;
+  title: string;
+  description: string;
+  coordinates: string;
+  lat: number;
+  lng: number;
+  url: string;
+  isPiedelpoggio: boolean;
+  section: string;
+  distanceFromPiedelpoggio: number;
+  embeddable?: boolean;
+}
+
 // Dati centralizzati delle webcam
-const webcamData = [
+const webcamData: WebcamData[] = [
   {
     id: 'leonessa-sud',
-    title: 'Leonessa › Sud',
+    title: 'Piedelpoggio',
     description: 'Vista panoramica verso sud del territorio di Leonessa e Piedelpoggio.',
     coordinates: '42.557, 12.995',
     lat: 42.557,
     lng: 12.995,
     url: 'https://webcams.windy.com/webcams/public/embed/player/1695219662/day?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2OTUyMTk2NjIsInVzZXJfdHlwZSI6MSwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyxub3JtYWwsZnVsbCxwYW5vcmFtYSIsImlhdCI6MTc2MDExMzE3MiwiZXhwIjoxNzYwMTk5NTcyfQ.ZzooJtWNUi1jeh4zq53_YskaR9I4jJm4xLYhjx2sOxI&autoPlay=1#',
     isPiedelpoggio: true,
-    section: 'piedelpoggio'
+    section: 'piedelpoggio',
+    distanceFromPiedelpoggio: 0
   },
   {
     id: 'leonessa-nord',
-    title: 'Leonessa › Nord: Piedelpoggio',
+    title: 'Piedelpoggio Parcheggio',
     description: 'Vista diretta su Piedelpoggio e Colle Forcella a 1188m di altitudine.',
     coordinates: '42.556, 12.994',
     lat: 42.556,
     lng: 12.994,
     url: 'https://webcams.windy.com/webcams/public/embed/player/1734173462/day?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE3MzQxNzM0NjIsInVzZXJfdHlwZSI6MSwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyxub3JtYWwsZnVsbCxwYW5vcmFtYSIsImlhdCI6MTc2MDExMzE3MiwiZXhwIjoxNzYwMTk5NTcyfQ.Rm7-sarDwKBrzFjLuPMXXaDPU6_hOXSWCeUtsY3XvbU&autoPlay=1#',
     isPiedelpoggio: true,
-    section: 'piedelpoggio'
+    section: 'piedelpoggio',
+    distanceFromPiedelpoggio: 0
   },
   {
     id: 'leonessa-sud-alt',
-    title: 'Leonessa › Sud (Vista Alternativa)',
+    title: 'Leonessa › Monte Cambio',
     description: 'Prospettiva alternativa del territorio verso sud con vista sui monti.',
     coordinates: '42.576, 13.003',
     lat: 42.576,
@@ -57,7 +74,7 @@ const webcamData = [
   },
   {
     id: 'fontenova',
-    title: 'Leonessa › Sud: Località Fontenova',
+    title: 'Fontenova',
     description: 'Vista panoramica dalla località Fontenova verso il territorio circostante.',
     coordinates: '42.496, 12.999',
     lat: 42.496,
@@ -69,19 +86,19 @@ const webcamData = [
   },
   {
     id: 'micigliano',
-    title: 'Micigliano: Rifugio Massimo Rinaldi - Monte Terminillo',
+    title: 'Rifugio Massimo Rinaldi - Terminillo',
     description: 'Vista dal rifugio Massimo Rinaldi sul Monte Terminillo verso le zone limitrofe.',
     coordinates: '42.467, 12.990',
     lat: 42.467,
     lng: 12.990,
-    url: 'https://webcams.windy.com/webcams/public/embed/player/1695978780/day?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3ZWJjYW1faWQiOjE2OTU5Nzg3ODAsInVzZXJfdHlwZSI6MSwiYXZhaWxhYmxlX3NpemVzIjoidGVhc2VyYmcsaWNvbix0aHVtYm5haWwscHJldmlldyxub3JtYWwsZnVsbCxwYW5vcmFtYSIsImlhdCI6MTc2MDExMzE3MiwiZXhwIjoxNzYwMTk5NTcyfQ.FeyYbvSLi2fc6K0FLhTcWsql8OPl4vvigzbGiDHinMY&autoPlay=1#',
+    url: 'https://webcams.windy.com/webcams/public/embed/player/1707128441/day?autoPlay=1',
     isPiedelpoggio: false,
     section: 'limitrofe',
     distanceFromPiedelpoggio: calculateDistance(PIEDELPOGGIO_LAT, PIEDELPOGGIO_LNG, 42.467, 12.990)
   },
   {
     id: 'poggio-bustone',
-    title: 'Poggio Bustone › West: QRZCB.IO',
+    title: 'Poggio Bustone Ovest',
     description: 'Vista occidentale da Poggio Bustone verso le zone limitrofe di Piedelpoggio.',
     coordinates: '42.496, 12.883',
     lat: 42.496,
@@ -93,7 +110,7 @@ const webcamData = [
   },
   {
     id: 'poggio-bustone-se',
-    title: 'Poggio Bustone › South-East: Rieti',
+    title: 'Poggio Bustone Sud-Est',
     description: 'Vista panoramica verso sud-est da Poggio Bustone con panorama su Rieti.',
     coordinates: '42.481, 12.852',
     lat: 42.481,
@@ -105,7 +122,7 @@ const webcamData = [
   },
   {
     id: 'rieti-west',
-    title: 'Rieti › West: Rieti Sotterranea',
+    title: 'Rieti',
     description: 'Vista occidentale dalla città di Rieti con panorama verso le zone montane.',
     coordinates: '42.403, 12.863',
     lat: 42.403,
@@ -114,8 +131,7 @@ const webcamData = [
     isPiedelpoggio: false,
     section: 'limitrofe',
     distanceFromPiedelpoggio: calculateDistance(PIEDELPOGGIO_LAT, PIEDELPOGGIO_LNG, 42.403, 12.863)
-  },
-  
+  }
 ];
 
 // Filtra webcam per sezione e ordina per distanza
@@ -163,12 +179,12 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
     </section>
 
     <!-- Webcam Section -->
-    <section class="pt-4 pb-6 sm:pb-16 px-4 sm:px-6 lg:px-8">
+    <section class="py-6 px-4 sm:px-6 lg:px-8">
       <div class="max-w-6xl mx-auto space-y-12">
         
         <!-- Webcam di Piedelpoggio - Box con ombra -->
         <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300">
-          <div class="p-6 md:p-12">
+          <div class="p-8">
             <div class="flex items-center space-x-4 mb-4 md:mb-8">
               <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,19 +194,18 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
               <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Webcam di Piedelpoggio</h2>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:p-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {piedelpoggioCams.map((webcam) => (
                 <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
                   <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
                     <iframe 
                       src={webcam.url}
-                      class="w-full h-full"
-                      frameborder="0"
+                      class="w-full h-full border-0"
                       allowfullscreen
                       title={`Webcam ${webcam.title}`}
                     ></iframe>
                   </div>
-                  <div class="p-4 md:p-6">
+                  <div class="p-4 md:p-8">
                     <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">{webcam.title}</h3>
                     <p class="text-gray-600 leading-relaxed mb-3">
                       {webcam.description}
@@ -207,7 +222,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
 
         <!-- Webcam Zone Limitrofe - Box con ombra -->
         <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300">
-          <div class="p-6 md:p-12">
+          <div class="p-8">
             <div class="flex items-center space-x-4 mb-4 md:mb-8">
               <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,19 +232,18 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
               <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Webcam Zone Limitrofe</h2>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:p-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {limitrofeCams.map((webcam) => (
                 <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
                   <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
                     <iframe 
                       src={webcam.url}
-                      class="w-full h-full"
-                      frameborder="0"
+                      class="w-full h-full border-0"
                       allowfullscreen
                       title={`Webcam ${webcam.title}`}
                     ></iframe>
                   </div>
-                  <div class="p-4 md:p-6">
+                  <div class="p-4 md:p-8">
                     <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">{webcam.title}</h3>
                     <p class="text-gray-600 leading-relaxed mb-3">
                       {webcam.description}
@@ -253,9 +267,11 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
           </div>
         </div>
 
+
+
         <!-- Mappa Interattiva - Box con ombra -->
         <div class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300">
-          <div class="p-6 md:p-12">
+          <div class="p-8">
             <div class="flex items-center space-x-4 mb-4 md:mb-8">
               <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -277,8 +293,11 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
   <script type="application/json" id="webcam-data" set:html={JSON.stringify(webcamData)}></script>
 
   <script>
+    declare const L: any;
+    declare const google: any;
+
     // Funzione per aprire webcam a schermo intero
-    function openWebcam(url) {
+    function openWebcam(url: string) {
       window.open(url, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
     }
 
@@ -306,7 +325,10 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
 
     function initWebcamMap() {
       // Ottieni i dati webcam dall'array Astro serializzato
-      const webcamData = JSON.parse(document.getElementById('webcam-data').textContent);
+      const dataElement = document.getElementById('webcam-data');
+      if (!dataElement || !dataElement.textContent) return;
+      
+      const webcamData = JSON.parse(dataElement.textContent);
 
       // Coordinate centro mappa (media delle webcam)
       const centerLat = (42.557 + 42.556 + 42.576) / 3;
@@ -321,7 +343,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
       }).addTo(map);
 
       // Aggiungi marker per ogni webcam usando i dati centralizzati
-      webcamData.forEach((webcam, index) => {
+      webcamData.forEach((webcam: any, index: number) => {
         // Crea marker personalizzato per Piedelpoggio (rosso) o standard (blu) per le altre
         let marker;
         if (webcam.isPiedelpoggio) {
@@ -354,7 +376,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
         marker.bindPopup(popupContent);
         
         // Apri popup al click
-        marker.on('click', function() {
+        marker.on('click', function(this: any) {
           this.openPopup();
         });
       });
@@ -362,7 +384,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
 
     function initStreetView() {
       // Carica Google Maps API se non è già caricato
-      if (window.google && window.google.maps) {
+      if ((window as any).google && (window as any).google.maps) {
         createStreetView();
         return;
       }
@@ -377,7 +399,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
         if (container) {
           container.innerHTML = `
             <div class="flex items-center justify-center h-full">
-              <div class="text-center p-6 md:p-12">
+              <div class="text-center p-8 md:p-12">
                 <svg class="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
                 </svg>
@@ -406,7 +428,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
           location: { lat, lng },
           radius: 1000, // Raggio di ricerca in metri
           source: google.maps.StreetViewSource.OUTDOOR
-        }, (data, status) => {
+        }, (data: any, status: any) => {
           if (status === google.maps.StreetViewStatus.OK && data) {
             // Street View disponibile, inizializza il panorama
             const panorama = new google.maps.StreetViewPanorama(container, {
@@ -428,7 +450,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
             // Street View non disponibile, mostra messaggio
             container.innerHTML = `
               <div class="flex items-center justify-center h-full">
-                <div class="text-center p-6 md:p-12">
+                <div class="text-center p-8 md:p-12">
                   <svg class="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.562M15 6.306a7.962 7.962 0 00-6 0m6 0V5a2 2 0 00-2-2H9a2 2 0 00-2 2v1.306m6 0V7a2 2 0 012 2v4M9 6.306V7a2 2 0 00-2-2H5a2 2 0 00-2 2v4.294a7.962 7.962 0 002.176 5.468"/>
                   </svg>
@@ -442,7 +464,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
       } catch (err) {
         container.innerHTML = `
           <div class="flex items-center justify-center h-full">
-            <div class="text-center p-6 md:p-12">
+            <div class="text-center p-8 md:p-12">
               <svg class="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
@@ -456,8 +478,7 @@ const limitrofeCams = webcamData.filter(cam => cam.section === 'limitrofe').sort
     }
 
     // Rendi la funzione globale
-    window.openWebcam = openWebcam;
-
+    (window as any).openWebcam = openWebcam;
     
   </script>
 </DefaultLayout>

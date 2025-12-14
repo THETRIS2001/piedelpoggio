@@ -2,2122 +2,545 @@
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
 ---
 <DefaultLayout 
-	title="Università Agraria - Piedelpoggio" 
-	description="Scopri la storia e le attività dell'Università Agraria di Piedelpoggio, custode delle tradizioni agricole e forestali del territorio montano"
-	>
-	<main class=" bg-gradient-to-br from-purple-50/30 via-white to-pink-50/20">
-		<!-- Hero Section -->
-		<section class="hero-section">
-			<!-- Background with gradient -->
-			<div class="absolute inset-0 bg-gradient-to-b from-purple-100/60 via-purple-50/40 to-transparent"></div>
-			<!-- Decorative elements -->
-			<div class="relative z-10 container mx-auto px-4 text-center">
-				<div class="animate-fade-in">
-					<div class="flex items-center justify-center mb-8">
-						<div class="hidden md:flex w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6">
-							<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-							</svg>
-						</div>
-						<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-							<span class="bg-gradient-to-r from-purple-900 via-purple-700 to-pink-600 bg-clip-text text-transparent">
-							UNIVERSITÀ AGRARIA
-							</span>
-						</h1>
-					</div>
-					<div class="w-32 h-1.5 bg-gradient-to-r from-purple-500 via-purple-600 to-pink-500 rounded-full mx-auto mb-8"></div>
-					<p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">
-						Piedelpoggio - Custode delle tradizioni agricole e forestali del territorio montano
-					</p>
-				</div>
-			</div>
-		</section>
-		<!-- Content Section -->
-		<section class="pt-4 pb-6 sm:pb-16 px-4 sm:px-6 lg:px-8">
-			<div class="max-w-4xl mx-auto space-y-12">
-				<!-- Link al sito ufficiale - Compact Version -->
-				<div class="relative bg-gradient-to-r from-purple-50/50 via-white to-pink-50/50 backdrop-blur-sm rounded-xl shadow-lg border border-purple-100/30 p-4">
-					<div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-						<!-- Compact title and description -->
-						<div class="flex-1 text-center sm:text-left">
-							<h3 class="text-lg font-bold bg-gradient-to-r from-purple-700 to-pink-600 bg-clip-text text-transparent mb-1">
-								Sito Ufficiale
-							</h3>
-							<p class="text-sm text-gray-600">
-								Accedi al portale per consultare documenti ufficiali e delibere
-							</p>
-						</div>
-						<!-- Compact CTA Button -->
-						<div class="flex-shrink-0">
-							<a href="http://www.universitaagrariapiedelpoggio.it/" 
-								target="_blank" 
-								rel="noopener noreferrer"
-								class="group inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
-								<!-- Button content -->
-								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-								</svg>
-								<span>Visita</span>
-								<!-- Shine effect -->
-								<div class="absolute inset-0 -top-2 -bottom-2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-							</a>
-						</div>
-					</div>
-				</div>
-<div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-10 lg:p-12">
-    
-    <div class="flex items-center space-x-4 mb-8">
-        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-600 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-            </svg>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Storia dell'Università Agraria</h2>
-    </div>
-
-    <div class="space-y-6">
-
-        <p class="text-sm md:text-lg font-medium text-gray-800 text-justify leading-relaxed">
-            Costituita in Università Agraria nel 1929 insieme a quelle di S. Vito ed Albaneto, Piedelpoggio rappresenta ancora una delle realtà frazionali più vitali nell'ambito del Comune di Leonessa, vantando una lunga storia di autonomia nell'amministrazione del proprio territorio.
-        </p>
-
-        <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6">
-            <p class="text-sm md:text-lg text-gray-700 italic leading-relaxed">
-                Il termine università deriva da "universitas civium" vale a dire la totalità dei cittadini che costituiscono un comune e pertanto va inteso come sinonimo di quest'ultimo, cioè un insieme formato da famiglie e da individui che sottostanno ad un medesimo diritto societario uniformandosi ad esso come unico corpo politico ideale.
-            </p>
-        </div>
-
-        <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-            Per gli anni immediatamente successivi alla costituzione dell'Università agraria la scarsità di notizie e di documenti in gran parte distrutti dai tedeschi durante il conflitto mondiale, ha impedito una ricostruzione fedele della sua storia amministrativa, sebbene essa annoveri una lunga serie di interventi pubblici di notevole portata per le condizioni storiche in cui furono intrapresi. Nella sede dell'Amministrazione è conservato con cura l'unico registro delle deliberazioni scampato alla distruzione, risalente al 1944, mentre tutto il resto della documentazione è successivo al 1949.
-        </p>
-
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
-            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">L'Acquedotto - 1947</h3>
-            <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-                Al 19 luglio del 1947 risale la prima delibera riguardante la costruzione dell'acquedotto, opera motivata dall'estrema necessità per la vita degli uomini e degli animali, come fu dichiarato nelle premesse del documento, alla cui realizzazione parteciparono economicamente tutti gli abitanti della frazione. In seguito ad accordi precedenti l'Università Agraria di Piedelpoggio affidava al Comune di Leonessa l'incarico di far redigere il progetto per la costruzione dell'acquedotto Leonessa Piedelpoggio dal quale sarebbe derivato il tronco a sé stante per la frazione.
-            </p>
-        </div>
-
-        <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-            Nel 1950 l'Amministrazione, ancora in attesa della realizzazione del primo tronco dell'acquedotto comunale per l'alimentazione del proprio serbatoio, deliberò (delibera consiglio n. 10 del 14.08.1950) di revocare il precedente affidamento dei lavori al Comune (fatto con delibera n. 6 bis del 3.9.1947), e di eseguire in economia diretta i lavori di ricerca di sorgenti per l'integrazione idrica della frazione.
-        </p>
-
-        <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-            L'opera fu eseguita più tardi in seguito ad una indagine tecnica con la quale era stata rilevata la presenza di sorgenti denominate 'Fonte Monna' nei pressi della conduttura già esistente della frazione, la cui portata avrebbe integrato il fabbisogno idrico dell'abitato.
-        </p>
-
-        <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6">
-            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Sviluppo Sociale e Infrastrutturale</h3>
-            <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-                L'amministrazione di Piedelpoggio si occupò anche della manutenzione delle strade interne del paese che, intrapresa nel 1948, costituì per l'Amministrazione un'importante occasione per "lenire la disoccupazione locale", per la quale, "gli stessi cittadini si sono prodigati con entusiasmo prestando molte ore gratuite".
-            </p>
-        </div>
-
-        <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-            Nel 1949 essa provvedeva all'acquisto di uno stabile "da adibire ad uso scuola e che avrebbe fornito i locali per l'ufficio dell'Università stessa e per l'ufficio postale. L'acquisto dello stabile determinò una vera svolta nella vita sociale della frazione che da allora avrebbe potuto usufruire di servizi fondamentali per il suo sviluppo. Al 1950 risale infatti l'istituzione della 'ricevitoria postale' di Piedelpoggio per la quale l'Università agraria, si assunse il formale impegno di fornire i locali e l'arredamento 'senza limiti di tempo e gratuitamente'.
-        </p>
-
-        <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-            Negli anni '50 l'amministrazione si occupò anche della installazione di un impianto 'fonotelegrafico', della riparazione della fontana vecchia del paese risalente al 1660 e della costruzione di un abbeveratoio in località "Strada Riovalle".
-        </p>
-
-        <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-            Numerosi altri interventi furono effettuati nel paese nei primi anni Cinquanta, come la sistemazione della strada 'Riovalle Piedelpoggio', la pavimentazione interna del paese e il miglioramento dei pascoli montani, segno di una particolare vitalità che è andata gradualmente diminuendo nel tempo. La storia di Piedelpoggio ci dimostra quanto possa incidere nella vita economica e sociale di una frazione il forte senso di appartenenza al proprio territorio da parte dei suoi abitanti spesso posti di fronte alle difficoltà della sopravvivenza.
-        </p>
-
-        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6">
-            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-3">Progetto Macchia Grande - Obiettivo 5/b</h3>
-            <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify mb-4">
-                Una delle proposte più ambiziose dell'Università Agraria di Piedelpoggio degli ultimi anni è rappresentata dal progetto di avviamento ad alto fusto per il bosco in Loc. Macchia Grande, per la realizzazione del quale fu richiesto un finanziamento regionale regolato dall'Obiettivo 5/b.
-            </p>
-            
-            <div class="border-l-4 border-purple-300 pl-4">
-                <p class="text-sm md:text-lg italic text-gray-800 leading-relaxed">
-                    "Si rende noto a tutti i cittadini della frazione di Piedelpoggio che dopo quattro lunghi anni di impegno continuo per la realizzazione del progetto inerente all'Ob. 5b (in riferimento all'avviamento ad alto fusto del bosco denominato 'Macchia Grande') e nonostante i vari e molti contrasti interni e gli innumerevoli dubbi perfino tra gli stessi amministratori, ma con un valido appoggio dei funzionari della Regione Lazio, finalmente il giorno 3 dicembre 1999 (nella sede dell'Università Agraria) alla presenza del funzionario della Regione Dott. Claudio Benvenuti, si è proceduto all'apertura delle numerose buste pervenute, e successivamente alla aggiudicazione dell'appalto all'impresa vincitrice 'Palma Verde'."
-                </p>
-            </div>
-        </div>
-
-        <p class="text-sm md:text-lg font-medium text-gray-800 text-justify leading-relaxed">
-            Il lavoro di avviamento ad alto fusto dopo varie vicissitudini è terminato nel 2003 e si spera possa dare quanto prima i suoi frutti sia in termine di legnatico, quanto nello sfruttamento dei prodotti del sottobosco.
-        </p>
-
-    </div> </div>
-				
-				
-				<!-- Usi Civici -->
-				<div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12">
-					<div class="flex items-center space-x-4 mb-8">
-						<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center">
-							<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-							</svg>
-						</div>
-						<h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Usi Civici</h2>
-					</div>
-					<!-- Header della sezione -->
-					<div class="text-center mb-12">
-						<div class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl sm:rounded-2xl mb-6 shadow-lg">
-							<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-							</svg>
-						</div>
-						<h3 class="text-1xl sm:text-3xl font-bold text-gray-900 mb-4">Commissariato agli Usi Civici</h3>
-						<div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto mb-6 rounded-full"></div>
-						<p class="text-sm md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-							Lazio, Toscana e Umbria - Progetto di associazione consortile tra le Università Agrarie ricadenti nel territorio del comune di Leonessa
-						</p>
-					</div>
-<div class="space-y-12">
-
-    <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
-        <div class="flex items-center mb-4">
-            <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 flex-shrink-0"></div>
-            <h4 class="text-lg md:text-xl font-bold text-gray-900">Ordinanza del 2 marzo 1995</h4>
-        </div>
-        <div class="space-y-6">
-            <div class="bg-blue-50 rounded-xl p-6">
-                <p class="text-sm md:text-base font-semibold text-blue-800 mb-2">Commissario Dr. Franco Carletti</p>
-                <p class="text-sm md:text-base text-blue-700">Sentenza della Suprema Corte n. 46 del 1995</p>
-            </div>
-            <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-                Il Commissario per gli usi civici del Lazio, Toscana ed Umbria, avvalendosi dei ripristinati poteri di impulso processuale, nomina il Dr. Agr. For. Carlantonio Zanzucchi per approfondire il tentativo di conciliazione nella vertenza tra il Comune di Leonessa e la frazione di S. Clemente ed altre.
-            </p>
-            <div class="flex items-center text-sm md:text-base text-gray-600">
-                <svg class="w-5 h-5 mr-2 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                Roma - Via Sallustiana 10
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
-        <div class="flex items-center mb-4">
-            <div class="w-3 h-3 bg-indigo-500 rounded-full mr-3 flex-shrink-0"></div>
-            <h4 class="text-lg md:text-xl font-bold text-gray-900">Udienza del 19 febbraio 1997</h4>
-        </div>
-        <div class="space-y-6">
-            <p class="text-sm md:text-lg text-gray-700 leading-relaxed text-justify">
-                A seguito della dichiarata disponibilità del CTU ad espletare l'incarico, il Commissario conferma l'incarico e rinvia la formulazione dei quesiti ad una successiva udienza.
-            </p>
-            <div class="bg-indigo-50 rounded-xl p-6">
-                <div class="flex items-center text-sm md:text-base text-indigo-800 font-medium">
-                    <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0V6a2 2 0 012-2h4a2 2 0 012 2v1m-6 0h8m-8 0H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-2"/>
-                    </svg>
-                    Prossima udienza: 9 maggio 1997 - Casa Comunale di Leonessa
+    title="Università Agraria - Piedelpoggio | Analisi Completa" 
+    description="Analisi dettagliata della storia, del territorio e della gestione dell'Università Agraria di Piedelpoggio"
+>
+    <main class="bg-gradient-to-br from-purple-50/30 via-white to-pink-50/20 min-h-screen">
+        
+        <section class="hero-section relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-purple-100/60 via-purple-50/40 to-transparent"></div>
+            <div class="relative z-10 container mx-auto px-4 text-center py-16 md:py-24">
+                <div class="animate-fade-in">
+                    <div class="flex items-center justify-center mb-8">
+                        <div class="hidden md:flex w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl items-center justify-center shadow-xl mr-6">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                            <span class="bg-gradient-to-r from-purple-900 via-purple-700 to-pink-600 bg-clip-text text-transparent">
+                            UNIVERSITÀ AGRARIA
+                            </span>
+                        </h1>
+                    </div>
+                    <div class="w-32 h-1.5 bg-gradient-to-r from-purple-500 via-purple-600 to-pink-500 rounded-full mx-auto mb-8"></div>
+                    <p class="text-lg md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed font-medium">
+                        Piedelpoggio: Custode delle tradizioni agricole e forestali del territorio montano
+                    </p>
+                    
+                    <div class="mt-8 flex justify-center">
+                        <a href="http://www.universitaagrariapiedelpoggio.it/" target="_blank" rel="noopener noreferrer"
+                           class="group inline-flex items-center space-x-2 bg-white/80 backdrop-blur border border-purple-200 text-purple-700 px-8 py-3 rounded-full font-medium text-base shadow-sm hover:shadow-md transition-all duration-200">
+                            <span>Vai al Sito Ufficiale</span>
+                            <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
-        <div class="flex items-center mb-4">
-            <div class="w-3 h-3 bg-green-500 rounded-full mr-3 flex-shrink-0"></div>
-            <h4 class="text-lg md:text-xl font-bold text-gray-900">Udienza del 16 maggio 1997</h4>
-        </div>
-        <div class="bg-green-50 rounded-xl p-6">
-            <h5 class="text-lg font-bold text-green-800 mb-3">Incarico Assegnato</h5>
-            <p class="text-sm md:text-base text-green-700 italic text-justify leading-relaxed">
-                "Rilevare i problemi economici e gestionali che si presentano per le singole Università e illustrare nei particolari la proposta di associazione consortile adattandola alla situazione concreta"
-            </p>
-        </div>
-    </div>
-    
-    <div class="grid md:grid-cols-2 gap-6">
-        
-        <div class="bg-gray-50 rounded-xl p-6 shadow-lg border border-gray-200">
-            <h5 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Università Agrarie Coinvolte
-            </h5>
-            <ul class="space-y-2">
-                <li class="flex items-center text-sm md:text-base text-gray-700">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3 flex-shrink-0"></div>
-                    Pie del Poggio
-                </li>
-                <li class="flex items-center text-sm md:text-base text-gray-700">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3 flex-shrink-0"></div>
-                    Terzone S. Paolo
-                </li>
-                <li class="flex items-center text-sm md:text-base text-gray-700">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3 flex-shrink-0"></div>
-                    S. Vito S. Angelo
-                </li>
-                <li class="flex items-center text-sm md:text-base text-gray-700">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3 flex-shrink-0"></div>
-                    Albaneto
-                </li>
-                <li class="flex items-center text-sm md:text-base text-gray-700">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3 flex-shrink-0"></div>
-                    Terzone S. Pietro
-                </li>
-            </ul>
-        </div>
+        <section class="pb-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto space-y-8">
 
-        <div class="bg-amber-50 rounded-xl p-6 shadow-lg border border-amber-200">
-            <h5 class="text-lg font-bold text-amber-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                </svg>
-                Obiettivi
-            </h5>
-            <p class="text-sm md:text-base text-amber-700 leading-relaxed text-justify">
-                Conciliazione che salvaguardi i diritti di tutte le parti, stabilendo appartenenza e confini catastali delle proprietà controverse per permettere gestione separata futura senza ulteriori controversie.
-            </p>
-        </div>
-    </div>
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
+                    <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-gray-900">Storia e Opere Sociali</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Dalla fondazione del 1929 allo sviluppo infrastrutturale</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon transform transition-transform duration-300">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                        </div>
+                    </div>
 
-</div>
-					<!-- Sezione Contenuti Approfonditi -->
-					<div class="mt-16">
-						<div class="text-center mb-12">
-							<h3 class="text-1xl sm:text-3xl font-bold text-gray-900 mb-4">Documentazione e Studi</h3>
-							<div class="w-20 h-1 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto rounded-full"></div>
-						</div>
-						<div class="space-y-8 max-w-4xl mx-auto">
-							<!-- Contenuto 1: Ricerche Compiute -->
-							<div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
-								<div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
-									<div class="flex items-center justify-between">
-										<div class="flex items-center">
-											<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-												<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-												</svg>
-											</div>
-											<h3 class="text-1xl sm:text-3xl font-bold text-gray-900">Ricerche Compiute</h3>
-										</div>
-										<div class="expand-icon transition-transform duration-300">
-											<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-											</svg>
-										</div>
-									</div>
-								</div>
-								<div class="p-6 collapsible-body" style="display: none;">
-									<div class="mb-6">
-										<h5 class="font-bold text-gray-800 mb-3 flex items-center">
-											<svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-											</svg>
-											Indagini e Ricerche
-										</h5>
-										<p class="text-gray-600 text-sm leading-relaxed mb-4 text-justify">
-											A seguito dell'incarico ricevuto, sono state condotte ricerche storiche sui territori dei domini collettivi del Comune di Leonessa, consultando testi e istruttorie demaniali presso l'archivio del commissariato.
-										</p>
-									</div>
-									<div class="bg-blue-50 rounded-xl p-4 mb-6">
-										<h6 class="font-semibold text-blue-800 mb-3">Fonti Documentali Consultate</h6>
-										<ul class="space-y-2 text-sm">
-											<li class="flex items-start">
-												<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-												<span class="text-blue-700"><strong>Cav. Nunzio De Renzis:</strong> Sesti e Sestieri di Leonessa (luglio 1910)</span>
-											</li>
-											<li class="flex items-start">
-												<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-												<span class="text-blue-700"><strong>Agr. Vincenzo Schiavone:</strong> Reintegra demaniale (28/10/1927)</span>
-											</li>
-											<li class="flex items-start">
-												<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-												<span class="text-blue-700"><strong>Dr Agr. Leopoldo Fedi</strong> (27/11/1971)</span>
-											</li>
-											<li class="flex items-start">
-												<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-												<span class="text-blue-700"><strong>Avv. Letizia Vacca</strong> (19/5/1987)</span>
-											</li>
-										</ul>
-									</div>
-									<div class="grid md:grid-cols-2 gap-4 mb-6">
-										<div class="bg-blue-50 rounded-lg p-4">
-											<h6 class="font-semibold text-blue-800 mb-2 flex items-center">
-												<svg class="w-5 h-5 md:w-8 md:h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h4M9 7h6m-6 4h6m-6 4h6"/>
-												</svg>
-												Archivi Consultati
-											</h6>
-											<ul class="text-xs text-blue-700 space-y-1">
-												<li>• Archivio di Stato di Parma</li>
-												<li>• Fondo Farnesiano (1519-1731)</li>
-												<li>• Università Agraria di Piedelpoggio</li>
-											</ul>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-4">
-											<h6 class="font-semibold text-blue-800 mb-2 flex items-center">
-												<svg class="w-5 h-5 md:w-8 md:h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-												</svg>
-												Dati Acquisiti
-											</h6>
-											<ul class="text-xs text-blue-700 space-y-1">
-												<li>• Dati catastali informatizzati</li>
-												<li>• Mappe scala 1:10.000</li>
-												<li>• Tesi Dott. Gianna Petrongari</li>
-											</ul>
-										</div>
-									</div>
-									<div class="bg-blue-50 rounded-xl p-4 mb-4">
-										<h6 class="font-semibold text-blue-800 mb-3 flex items-center">
-											<svg class="w-5 h-5 md:w-8 md:h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0V6a2 2 0 012-2h4a2 2 0 012 2v1m-6 0h8m-8 0H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-2"/>
-											</svg>
-											Cronologia Incontri
-										</h6>
-										<div class="grid grid-cols-2 gap-2 text-xs text-blue-700">
-											<div>• 10/6/1997</div>
-											<div>• 14-15/4/1999</div>
-											<div>• 19-23/6/2000</div>
-											<div>• 15/11/2000</div>
-										</div>
-									</div>
-									<div class="bg-blue-50 rounded-lg p-4">
-										<h6 class="font-semibold text-blue-800 mb-2">Metodologia di Ricerca</h6>
-										<p class="text-xs text-blue-600 leading-relaxed text-justify">
-											Elaborazione di carta della utilizzazione reale del suolo su base aerofotogrammetrica (1991), 
-											con rilevamento delle formazioni forestali e aree pascolive per una valutazione più attendibile 
-											delle superfici e delle possibilità di sviluppo economico.
-										</p>
-									</div>
-								</div>
-							</div>
-							
-							<div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
-								<div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
-									<div class="flex items-center justify-between">
-										<div class="flex items-center min-w-0">
-											<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mr-4 shadow-lg flex-shrink-0">
-												<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-												</svg>
-											</div>
-											<h3 class="text-1xl sm:text-3xl font-bold text-gray-900">Inquadramento dei Domini Collettivi</h3>
-										</div>
-										<div class="expand-icon transition-transform duration-300 ml-4">
-											<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-											</svg>
-										</div>
-									</div>
-								</div>
-								<div class="collapsible-body" style="display: none;">
-									<div class="p-6 space-y-8">
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Distribuzione Territoriale</h5>
-											<p class="text-gray-700 text-sm md:text-base leading-relaxed text-justify">
-												Il territorio delle sei Università agrarie è situato lungo il perimetro sud-orientale del Comune di Leonessa, a corona dell'altipiano dove sono ubicati il capoluogo e le diverse frazioni e agglomerati rurali.
-											</p>
-											<div class="grid sm:grid-cols-2 gap-6">
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-2">Confini Orientali</h6>
-													<ul class="list-disc list-inside space-y-2 text-blue-700 text-sm md:text-base text-justify">
-														<li><strong>Terzone S. Pietro</strong> - confine con Cascia (PG, Umbria)</li>
-														<li><strong>Terzone S. Paolo</strong> - confine con Cittareale</li>
-														<li><strong>S. Angelo e S. Vito</strong> - domini collegati</li>
-													</ul>
-												</div>
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-2">Zone Separate</h6>
-													<ul class="list-disc list-inside space-y-2 text-blue-700 text-sm md:text-base text-justify">
-														<li><strong>Albaneto</strong> - confine con Posta</li>
-														<li><strong>Piedelpoggio</strong> - pendici Monte di Cambio</li>
-														<li>Estensione fino allo spartiacque della Vallonina</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Caratteristiche del Territorio</h5>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Caratteristiche Altimetriche</h6>
-												<p class="text-sm md:text-base text-blue-700 mb-2 text-justify">
-													<strong>Esposizione prevalente:</strong> Nord | 
-													<strong>Quota minima:</strong> 1.071 m | 
-													<strong>Quota massima:</strong> 2.084 m
-												</p>
-												<p class="text-sm text-blue-600 italic text-justify">
-													Da Terzone S. Pietro (strada per Trimezzo) al Monte di Cambio
-												</p>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Distribuzione Vegetazione</h6>
-												<ul class="list-disc list-inside space-y-2 text-blue-700 text-sm md:text-base text-justify">
-													<li><strong>Zone Pascolive:</strong> Ampie aree a pascolo alle quote più alte, particolarmente lungo il confine con Cittareale</li>
-													<li><strong>Formazioni Forestali:</strong> Si estendono fino in prossimità dei nuclei rurali di Terzone S. Pietro, S. Paolo, S. Angelo e S. Vito</li>
-													<li><strong>Albaneto e Piedelpoggio:</strong> Netta prevalenza del bosco e mancanza di vaste aree pascolive</li>
-												</ul>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Aspetto Paesaggistico</h5>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Prima Unità Paesaggistica</h6>
-												<p class="text-sm md:text-base text-blue-700 mb-2 text-justify">
-													<strong>Domini interessati:</strong> Terzone S. Pietro, Terzone S. Paolo, S. Angelo, S. Vito
-												</p>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													Caratterizzata da una <strong>morfologia di crinale non accentuata</strong> che consente di ammirare, anche a distanza, gli estesi pascoli conferendo al paesaggio una <em>magnitudine agreste e pastorale</em>.
-												</p>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Seconda Unità Paesaggistica</h6>
-												<p class="text-sm md:text-base text-blue-700 mb-2 text-justify">
-													<strong>Domini interessati:</strong> Albaneto, Piedelpoggio
-												</p>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													Caratterizzata dall'<strong>accentuata acclività dei versanti</strong> e dalla quasi uniforme copertura arborea, rappresenta una <em>unità paesaggistica prettamente forestale</em> con aspetto di ambiente selvaggio e forti connotazioni di naturalità diffusa.
-												</p>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Normativa Vincolistica</h5>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Legge 1497/39</h6>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													Zona sottoposta a normativa vincolistica che abbraccia tutto il territorio a sud della strada di scorrimento in Val Carpineto da Leonessa a Posta. Include buona parte dei domini di Albaneto e totalmente quelli di Piedelpoggio.
-												</p>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Legge 431/85</h6>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													Vincolo paesaggistico sul <strong>Colle di S. Venanzio</strong> da quota 1.032 m (strada Terzone-Trimezzo) fino alla sommità a quota 1.801 m. Estensione dal confine di Cittareale (Trimezzo) fino alla Forca di Fao (1.657 m).
-												</p>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Accessibilità</h5>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Viabilità di Accesso</h6>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													Tutte le frazioni con beni collettivi sono servite da <strong>adeguata viabilità di accesso</strong>.
-												</p>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Strade Forestali</h6>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													Solo <strong>Piedelpoggio</strong> e <strong>S. Angelo</strong> sono serviti da strade forestali percorribili con veicoli stradali.
-												</p>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-2">Viabilità Secondaria</h6>
-												<p class="text-sm md:text-base text-blue-700 text-justify">
-													<strong>Carente</strong> la viabilità di esbosco: per lo più mulattiere dissestate e mancanti di manutenzione.
-												</p>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Situazione Demografica</h5>
-											<p class="text-sm md:text-base text-blue-700 leading-relaxed text-justify">
-												La situazione demografica non è dissimile da tanti altri nuclei rurali dell'Appennino centrale. L'<strong>esodo montano</strong> accentuatosi nei decenni 1960-1980 ha ridotto drasticamente la presenza della popolazione rurale, elevando il tasso di invecchiamento e riducendo il numero degli addetti del settore primario.
-											</p>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-3">Dati Censimento 1991 - Ufficio Anagrafe Comune di Leonessa</h6>
-												<div class="bg-white/70 rounded-lg p-4 border border-blue-200 space-y-2 text-sm md:text-base text-blue-700">
-													<div class="flex justify-between items-center">
-														<span><strong>Albaneto:</strong> 39 nuclei familiari</span>
-														<span class="font-medium">99 abitanti</span>
-													</div>
-													<div class="flex justify-between items-center">
-														<span><strong>Piedelpoggio:</strong> 50 nuclei familiari</span>
-														<span class="font-medium">89 abitanti</span>
-													</div>
-													<div class="flex justify-between items-center">
-														<span><strong>S. Angelo:</strong> 91 nuclei familiari</span>
-														<span class="font-medium">47 abitanti</span>
-													</div>
-													<div class="flex justify-between items-center">
-														<span><strong>S. Vito:</strong> 9 nuclei familiari</span>
-														<span class="font-medium">19 abitanti</span>
-													</div>
-													<div class="flex justify-between items-center">
-														<span><strong>Terzone S. Paolo:</strong> 43 nuclei familiari</span>
-														<span class="font-medium">122 abitanti</span>
-													</div>
-													<div class="flex justify-between items-center">
-														<span><strong>Terzone S. Pietro:</strong> 94 nuclei familiari</span>
-														<span class="font-medium">249 abitanti</span>
-													</div>
-													<div class="flex justify-between items-center pt-2 border-t border-blue-300 font-semibold">
-														<span><strong>TOTALE:</strong> 256 nuclei familiari</span>
-														<span>625 abitanti</span>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Organizzazione delle Università Agrarie</h5>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-3">Gestione Amministrativa</h6>
-												<div class="space-y-4 text-sm md:text-base text-blue-700 text-justify">
-													<p>
-														<strong>Albaneto</strong> è l'unica Università in gestione commissariale a causa delle divergenze tra 211 utenti sulla gestione dell'acquedotto frazionale.
-													</p>
-													<p>
-														Le altre <strong>cinque Università</strong> mantengono un'amministrazione regolare con scadenza quadriennale, assemblea annuale degli utenti e riunioni periodiche del comitato.
-													</p>
-												</div>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-3">Segreteria Amministrativa Unificata</h6>
-												<div class="space-y-4 text-sm md:text-base text-blue-700 text-justify">
-													<p>
-														Elemento positivo: tutte e sei le Università si servono di un'unica segreteria amministrativa che garantisce uniformità amministrativa e separazione delle entrate/uscite per ogni ente.
-													</p>
-													<p>
-														I servizi offerti includono la redazione del bilancio annuale e le deliberazioni del comitato.
-													</p>
-												</div>
-											</div>
-											<div>
-												<h6 class="font-semibold text-blue-800 mb-3">Regolamenti di Esercizio</h6>
-												<div class="space-y-4 text-sm md:text-base text-blue-700 text-justify">
-													<p>
-														Sono stati reperiti regolamenti storici di Albaneto (9/10/1945) e S. Vito (2/12/1952), entrambi ormai superati.
-													</p>
-													<p>
-														Su impulso della Regione Lazio sono stati approvati i regolamenti di Terzone S. Pietro, S. Angelo e lo statuto di S. Vito.
-													</p>
-													<p>
-														Le restanti Università hanno in corso l'approvazione della nuova versione dei regolamenti.
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="bg-blue-50 rounded-lg p-6 space-y-6">
-											<h5 class="font-bold text-blue-800 text-lg md:text-xl">Sesti e Possessi Contestati</h5>
-											<div class="space-y-6">
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Attribuzione ai Sesti Originari (De Renzis 1910)</h6>
-													<div class="space-y-3 text-sm md:text-base text-blue-700 text-justify">
-														<p><strong>Sesto di Terzone:</strong> Terzone S. Pietro, Terzone S. Paolo, S. Angelo</p>
-														<p><strong>Sesto di Croce:</strong> S. Vito</p>
-														<p><strong>Sesto di Piedelpoggio:</strong> Albaneto, Piedelpoggio</p>
-													</div>
-												</div>
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Intestazione Catastale Attuale</h6>
-													<div class="space-y-3 text-sm md:text-base text-blue-700 text-justify">
-														<p>
-															Nell'attuale intestazione catastale sono indicati altri ulteriori sesti, a volte riferiti a località sottofrazionali o nuclei abitati appartenenti all'Università.
-														</p>
-														<p>
-															Le intestazioni presenti includono il Comune di Leonessa per specifiche frazioni, località sottofrazionali e nuclei abitati dell'Università, con contestazioni indicate da parte di altre frazioni, privati e confinazioni controverse.
-														</p>
-													</div>
-												</div>
-											</div>
-											<hr class="border-blue-200/60">
-											<div>
-												<h6 class="font-semibold text-green-800 mb-3 flex items-center text-base md:text-lg">
-													<svg class="w-6 h-6 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-													</svg>
-													Senza Contestazioni
-												</h6>
-												<div class="pl-8">
-													<p class="text-sm md:text-base text-green-700 mb-2">
-														<strong>Confinazioni ben definite</strong> per:
-													</p>
-													<ul class="text-sm md:text-base text-green-600 space-y-1 list-disc list-inside">
-														<li>Terzone S. Paolo</li>
-														<li>Terzone S. Pietro</li>
-														<li>S. Angelo</li>
-														<li>S. Vito</li>
-													</ul>
-												</div>
-											</div>
-											<hr class="border-blue-200/60">
-											<div>
-												<h6 class="font-semibold text-yellow-800 mb-3 flex items-center text-base md:text-lg">
-													<svg class="w-6 h-6 mr-2 flex-shrink-0 text-yellow-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-													</svg>
-													Con Contestazioni
-												</h6>
-												<div class="pl-8">
-													<p class="text-sm md:text-base text-yellow-700 mb-2">
-														<strong>Terreni boschivi</strong> in godimento promiscuo o contestazione:
-													</p>
-													<ul class="text-sm md:text-base text-yellow-600 space-y-1 list-disc list-inside">
-														<li><strong>Albaneto</strong> (contestazioni presenti)</li>
-														<li><strong>Piedelpoggio</strong> (soprattutto)</li>
-													</ul>
-												</div>
-											</div>
-											<hr class="border-blue-200/60">
-											<div>
-												<div class="flex items-start">
-													<svg class="w-6 h-6 text-blue-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-													</svg>
-													<div class="space-y-4">
-														<div class="font-semibold text-blue-800 text-base md:text-lg">Difficoltà di Raffronto Catastale</div>
-														<p class="text-sm md:text-base text-blue-700 text-justify">
-															Risulta difficile rapportare i dati del <strong>nuovo Catasto terreni</strong> con quelli del <strong>vecchio catasto del regno borbonico</strong> (solo descrittivo, non cartografico).
-														</p>
-														<div class="text-sm text-blue-700">
-															<p class="mb-2 font-medium"><strong>Possibili riferimenti:</strong></p>
-															<ul classs="space-y-1 list-disc list-inside">
-																<li>Istruttore agronomo <strong>Vincenzo Schiavone</strong></li>
-																<li><strong>Leopoldo Fedi</strong> (per Piedelpoggio)</li>
-															</ul>
-														</div>
-														<div class="bg-white rounded-lg p-4 mt-3 border border-blue-200">
-															<p class="text-sm text-blue-800 text-justify italic">
-																<strong>Nota:</strong> Non è compito del presente progetto definire la consistenza dei beni collettivi e l'appartenenza dei terreni alle diverse frazioni. Si farà cenno solo come riferimento alle mappe del vigente Catasto terreni.
-															</p>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<!-- Contenuti 3-6 in colonna singola -->
-							<div class="space-y-8 max-w-4xl mx-auto mt-8">
-								<!-- Contenuto 3: Università Agraria di Piedelpoggio -->
-								<div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
-									<div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
-										<div class="flex items-center justify-between">
-											<div class="flex items-center">
-												<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-													<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-													</svg>
-												</div>
-												<h3 class="text-1xl sm:text-3xl font-bold text-gray-900">Università Agraria di Piedelpoggio</h3>
-											</div>
-											<div class="expand-icon transition-transform duration-300">
-												<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="p-6 collapsible-body" style="display: none;">
-										<!-- Dominio Maggiormente Contestato -->
-										<div class="bg-blue-50 rounded-xl p-6 mt-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Dominio Maggiormente Contestato
-											</h5>
-											<div class="space-y-4">
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Intestazione Catastale Attuale</h6>
-													<p class="text-blue-700 mb-2">
-														<strong>Superficie:</strong> Ha 372.71.10 - <strong>Partita:</strong> 1467
-													</p>
-													<p class="text-blue-700">
-														<strong>Intestazione:</strong> Comune di Leonessa per la frazione di Piedelpoggio
-													</p>
-												</div>
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Rivendicazioni dell'Ente</h6>
-													<p class="text-blue-700">
-														Il dominio collettivo è maggiormente oggetto di rivendica da parte dell'Ente esponenziale, nonostante l'amministrazione storica dell'Università agraria.
-													</p>
-												</div>
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Riconoscimento Storico</h6>
-													<p class="bg-blue-50 rounded-lg space-y-4 text-sm md:text-base text-justify">
-														Il dominio collettivo è stato amministrato dall'Università agraria come riconosciuto dal De Renzis nelle sue relazioni su "Sesti e Sestieri di Leonessa" dal 1910.
-													</p>
-													<p class="text-blue-700">
-														L'Università detiene numerosi documenti di secoli precedenti che attestano la sua autonomia amministrativa.
-													</p>
-												</div>
-											</div>
-										</div>
-										<!-- Istruttorie Demaniali -->
-										<div class="bg-blue-50 rounded-xl p-6 mt-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Istruttorie Demaniali Successive
-											</h5>
-											<p class="text-blue-700 mb-6">
-												<strong>Archivio:</strong> Tutte le istruttorie sono depositate presso il Commissariato agli usi civici di Roma, 
-												ma non risultano rese definitive da apposita sentenza commissariale.
-											</p>
-											<div class="space-y-6">
-												<!-- Istruttoria Schiavone 1927 -->
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">1. Dr. Agr. Vincenzo Schiavone (1927)</h6>
-													<div class="space-y-2 text-blue-700">
-														<p><strong>Ambito:</strong> Intero territorio del Comune di Leonessa</p>
-														<p><strong>Obiettivo:</strong> Descrivere il demanio civico appartenente ai Sestieri</p>
-														<p><strong>Finalità:</strong> Determinare frutti indebitamente percepiti e reintegra beni al Comune di Leonessa</p>
-														<p class="text-sm"><strong>Riferimento normativo:</strong> Ordinanza 20 agosto - 1 settembre 1921 del Regio Commissario agli usi civici dell'Aquila</p>
-													</div>
-												</div>
-												<!-- Istruttoria Chiaretti 1957 -->
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">2. Dr. Chiaretti (1957)</h6>
-													<div class="space-y-2 text-blue-700">
-														<p><strong>Ambito:</strong> Ville di S. Clemente e Vallimpuni</p>
-														<p><strong>Richiesta:</strong> Costituzione amministrazione separata</p>
-														<p><strong>Obiettivo:</strong> Accertare beni appartenenti alle ville secondo l'Art. 16 della legge 1766/1927</p>
-													</div>
-												</div>
-												<!-- Istruttoria Fedi 1971 -->
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">3. Dr. Leopoldo Fedi (27/11/1971) - Più Pertinente</h6>
-													<div class="space-y-3 text-blue-700">
-														<p><strong>Controversia:</strong> Università agraria di Piedelpoggio vs Comune di Leonessa per appartenenza beni, eventuale promiscuità e delimitazione confini</p>
-														<div>
-															<p class="font-semibold mb-2">Variazioni in Diminuzione:</p>
-															<p class="text-sm">Particella 90 del foglio 19-8: -Ha 7.37.60 (appartenenti a privati proprietari)</p>
-														</div>
-														<div>
-															<p class="font-semibold mb-2">Variazioni in Aumento:</p>
-															<ul class="text-sm space-y-1 ml-4">
-																<li>• Particelle 18 e 19 del foglio 126: +Ha 39.35.10 (Sesto di Prato Piccinino)</li>
-																<li>• Particella 40 del foglio 129: +Ha 50.03.10 (Sesto di Macchia Porana)</li>
-																<li>• Particella 67 del foglio 125: +Ha 1.91.00 (loc. S. Giuseppe)</li>
-															</ul>
-														</div>
-														<div class="bg-white rounded-lg p-4 mt-4">
-															<p class="font-semibold">Risultato delle Variazioni Fedi:</p>
-															<p>Superficie attuale: Ha 372.71.10 → Superficie con variazioni: Ha 457.62.70</p>
-															<p class="text-sm mt-2"><strong>Condizione:</strong> Semprechè tale istruttoria sia confermata da sentenza commissariale</p>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Rivendicazioni di Promiscuità -->
-										<div class="bg-blue-50 rounded-xl p-6 mt-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Rivendicazioni di Promiscuità
-											</h5>
-											<p class="text-blue-700 mb-6">
-												L'amministrazione dell'Università agraria di Piedelpoggio rivendica la promiscuità di uso 
-												su diversi territori, come accertato anche nella relazione del De Renzis.
-											</p>
-											<div class="space-y-4">
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Montagne di Cambio e Macchia Porana</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Estensione:</strong> Fino al fosso di Bagno</p>
-														<p><strong>Condivisione con:</strong> Abitanti del Sesto di Croce, frazionisti di S. Clemente e Vallimpuni</p>
-													</div>
-												</div>
-												<div>
-													<h6 class="font-semibold text-blue-800 mb-3">Territorio del Sesto di Prato Piccinino</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Promiscuità analoga</strong> sul restante territorio</p>
-														<p><strong>Condivisione con:</strong> Abitanti del Sesto di Corno</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Ripartizione per Qualità di Coltura -->
-										<div class="bg-blue-50 rounded-xl p-6 mt-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Ripartizione per Qualità di Coltura (Catasto)
-											</h5>
-											<div class="space-y-4">
-												<div class="grid grid-cols-3 gap-4 text-sm font-semibold text-blue-800 border-b border-blue-200 pb-2">
-													<div>Qualità di Coltura</div>
-													<div class="text-center">Superficie (Ha)</div>
-													<div class="text-center">Percentuale</div>
-												</div>
-												<div class="space-y-3 text-blue-700">
-													<div class="grid grid-cols-3 gap-4 text-sm">
-														<div>Pascolo</div>
-														<div class="text-center">15.05.40</div>
-														<div class="text-center">3.29%</div>
-													</div>
-													<div class="grid grid-cols-3 gap-4 text-sm">
-														<div>Incolto produttivo e fabbricati</div>
-														<div class="text-center">1.04.00</div>
-														<div class="text-center">0.23%</div>
-													</div>
-													<div class="grid grid-cols-3 gap-4 text-sm">
-														<div>Superficie boschiva</div>
-														<div class="text-center">16.09.40</div>
-														<div class="text-center">3.52%</div>
-													</div>
-													<div class="grid grid-cols-3 gap-4 text-sm">
-														<div>Superficie a bosco ceduo</div>
-														<div class="text-center">352.41.70</div>
-														<div class="text-center font-bold">77.01%</div>
-													</div>
-													<div class="grid grid-cols-3 gap-4 text-sm">
-														<div>Bosco alto fusto</div>
-														<div class="text-center">89.11.60</div>
-														<div class="text-center">19.47%</div>
-													</div>
-													<div class="grid grid-cols-3 gap-4 text-sm font-semibold border-t border-blue-200 pt-2">
-														<div>Totale superficie boschiva</div>
-														<div class="text-center">441.53.30</div>
-														<div class="text-center">96.48%</div>
-													</div>
-													<div class="grid grid-cols-3 gap-4 text-sm font-bold border-t-2 border-blue-300 pt-2">
-														<div>TOTALE ESTENSIONE</div>
-														<div class="text-center">457.62.70</div>
-														<div class="text-center">100.00%</div>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4 mt-6">
-													<h6 class="font-semibold text-blue-800 mb-2">Vocazione Forestale Prevalente</h6>
-													<p class="text-blue-700">
-														L'indagine cartografica condotta sulle C.T.R. conferma sostanzialmente 
-														la prevalente vocazione forestale del demanio civico.
-													</p>
-												</div>
-											</div>
-										</div>
-										<!-- Confronto Catasto vs C.T.R. -->
-										<div class="bg-blue-50 rounded-xl p-6 mt-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Confronto Catasto vs C.T.R.
-											</h5>
-											<div class="space-y-4">
-												<div class="grid grid-cols-4 gap-4 text-sm font-semibold text-blue-800 border-b border-blue-200 pb-2">
-													<div>Tipo</div>
-													<div class="text-center">Catasto (Ha)</div>
-													<div class="text-center">C.T.R. (Ha)</div>
-													<div class="text-center">Differenza</div>
-												</div>
-												<div class="space-y-3 text-blue-700">
-													<div class="grid grid-cols-4 gap-4 text-sm">
-														<div>Superficie pascoliva</div>
-														<div class="text-center">16.09.40</div>
-														<div class="text-center">24.17.40</div>
-														<div class="text-center text-green-600 font-semibold">+8.08.00</div>
-													</div>
-													<div class="grid grid-cols-4 gap-4 text-sm">
-														<div>Superficie boschiva</div>
-														<div class="text-center">441.53.30</div>
-														<div class="text-center">433.45.30</div>
-														<div class="text-center text-red-600 font-semibold">-8.08.00</div>
-													</div>
-													<div class="grid grid-cols-4 gap-4 text-sm font-semibold border-t border-blue-200 pt-2">
-														<div>Totale estensione</div>
-														<div class="text-center">457.62.70</div>
-														<div class="text-center">457.62.70</div>
-														<div class="text-center">-</div>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4 mt-6">
-													<h6 class="font-semibold text-blue-800 mb-2">Spiegazione della Differenza</h6>
-													<p class="text-blue-700">
-														La differenza è dovuta a mancata suddivisione tra bosco e pascolo 
-														in alcuni mappali assai estesi, in prossimità di Prato Pecoraro.
-													</p>
-												</div>
-											</div>
-										</div>
-										<!-- Descrizione Territoriale -->
-										<div class="mb-6">
-											<h5 class="font-bold text-blue-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-												</svg>
-												Descrizione del Territorio
-											</h5>
-											<div class="bg-blue-50 rounded-xl p-5 border border-blue-200">
-												<div class="grid md:grid-cols-2 gap-6">
-													<div class="bg-white rounded-lg p-4">
-														<h6 class="font-semibold text-blue-800 mb-3">Conformazione Generale</h6>
-														<ul class="text-sm text-blue-700 space-y-2">
-															<li class="flex items-start">
-																<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-																<span><strong>Forma:</strong> Unico corpo irregolarmente rettangolare</span>
-															</li>
-															<li class="flex items-start">
-																<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-																<span><strong>Versante:</strong> Settentrionale del Monte di Cambio</span>
-															</li>
-															<li class="flex items-start">
-																<div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-																<span><strong>Estensione:</strong> Fino a sud dell'abitato di Piedelpoggio</span>
-															</li>
-														</ul>
-													</div>
-													<div class="bg-white rounded-lg p-4">
-														<h6 class="font-semibold text-blue-800 mb-3">Quote Altimetriche</h6>
-														<div class="space-y-3">
-															<div class="flex justify-between items-center bg-blue-50 rounded-lg p-3">
-																<span class="font-medium text-sm">Colle Prato Pecoraro (Est):</span>
-																<span class="bg-blue-100 px-2 py-1 rounded text-xs">1817 m</span>
-															</div>
-															<div class="flex justify-between items-center bg-blue-50 rounded-lg p-3">
-																<span class="font-medium text-sm">Colle La Croce (Ovest):</span>
-																<span class="bg-blue-100 px-2 py-1 rounded text-xs">1626 m</span>
-															</div>
-															<div class="flex justify-between items-center bg-blue-50 rounded-lg p-3">
-																<span class="font-medium text-sm">Quota minima (Sud):</span>
-																<span class="bg-blue-100 px-2 py-1 rounded text-xs">1023 m</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4 mt-6">
-													<h6 class="font-semibold text-blue-800 mb-3">Confine Occidentale - Percorso Dettagliato</h6>
-													<div class="text-sm text-blue-700 space-y-2">
-														<p><strong>1. Località Laghetto</strong> (quota 1686) → <strong>2. Risalita</strong> con andamento a linee spezzate (quota 1712)</p>
-														<p><strong>3. Colle della Croce</strong> (quota 1626) - ubicazione <em>Eremo di S. Giuseppe</em></p>
-														<p><strong>4. Discesa</strong> lungo vecchia strada mulattiera dell'eremo</p>
-														<p><strong>5. Crinale spartiacque</strong> tra Sesto del poggio e Sesto della ripa</p>
-														<p><strong>6. Fosso di S. Cristoforo</strong> → <strong>7. Confine nord</strong> (linea retta)</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Confini Dettagliati -->
-										<div class="bg-blue-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Delimitazione Completa del Territorio
-											</h5>
-											<div class="space-y-6">
-												<!-- Confine Nord -->
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Confine Nord</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Partenza:</strong> Fosso di S. Cristoforo (ovest)</p>
-														<p><strong>Percorso:</strong> Strada vicinale Cannotella-Rocchetta</p>
-														<p><strong>Incrocio:</strong> Strada vicinale per Prato Piccinino</p>
-														<p><strong>Proseguimento:</strong> Linea spezzata verso est</p>
-														<p><strong>Arrivo:</strong> Piccolo rio oltre strada di Macchia Poiana</p>
-													</div>
-												</div>
-												<!-- Confine Est -->
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Confine Est</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Partenza:</strong> Piccolo rio (risalendo)</p>
-														<p><strong>Incrocio:</strong> Strada vicinale di Macchia Porana</p>
-														<p><strong>Punto chiave:</strong> Fonte di Macchia Porana (quota 1433)</p>
-														<p><strong>Spostamento:</strong> Verso ovest lungo strada di Fora dei Faggi</p>
-														<p><strong>Arrivo:</strong> Confine sud</p>
-													</div>
-												</div>
-												<!-- Confine Sud -->
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Confine Sud</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Partenza:</strong> Da est con linea retta</p>
-														<p><strong>Punto trigonometrico:</strong> Prato Pecoraro</p>
-														<p><strong>Andamento curvilineo:</strong> Verso Prato Piccinino (quota 1632)</p>
-														<p><strong>Proseguimento:</strong> Linea rettilinea fino alla località Laghetto</p>
-														<p><strong>Chiusura:</strong> Incrocio con confine ovest</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Amministrazione e Demografia -->
-										<div class="bg-blue-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Amministrazione e Demografia
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Organi di Governo</h6>
-													<div class="space-y-3 text-blue-700">
-														<p><strong>Consiglio:</strong> 4 membri - Riunioni circa 12 volte l'anno</p>
-														<p><strong>Assemblea degli Utenti:</strong> Convocazioni 1-2 volte l'anno</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Demografia</h6>
-													<div class="space-y-3 text-blue-700">
-														<p><strong>Frazione di Piedelpoggio:</strong> Include Villimmagine e Case Calore</p>
-														<p><strong>30 Famiglie</strong> - <strong>50 Abitanti</strong></p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Usi Civici e Attività Zootecniche -->
-										<div class="bg-blue-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Usi Civici e Attività Zootecniche
-											</h5>
-											<div class="space-y-6">
-												<!-- Usi Civici -->
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Usi Civici</h6>
-													<div class="space-y-3 text-blue-700">
-														<p><strong>Legnatico:</strong> 25-26 utenti attivi</p>
-														<p><strong>Pascolo:</strong> 3-4 utenti attivi</p>
-													</div>
-												</div>
-												<!-- Allevamento -->
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Patrimonio Zootecnico</h6>
-													<div class="space-y-3 text-blue-700">
-														<p><strong>150-180 Capi Bovini</strong></p>
-														<p><strong>30 Capi Ovini</strong></p>
-													</div>
-												</div>
-												<!-- Redditi -->
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Redditi</h6>
-													<div class="space-y-3 text-blue-700">
-														<p><strong>Affitto Pascoli:</strong> Contratto triennale ₤ 450.000</p>
-														<p><strong>Taglio Legna:</strong> Vendita commerciale via gara d'asta</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Gestione Forestale e Vincoli -->
-										<div class="bg-blue-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Gestione Forestale e Vincoli
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Progetti in Corso</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Conversione Forestale:</strong> Taglio di conversione dal ceduo ad alto fusto</p>
-														<p><strong>Finanziamento:</strong> Regione Lazio</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Vincoli e Limitazioni</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Vincolo Paesaggistico:</strong> Legge 1497/39 - Intera proprietà</p>
-														<p>Difficoltà per viabilità forestale e utilizzazioni commerciali</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Stato della Viabilità</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>✓ Viabilità di Arroccamento:</strong> Buona - Strada forestale per Eremo S. Giuseppe</p>
-														<p><strong>⚠ Viabilità di Esbosco:</strong> Carente alle quote medio-basse</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Infrastrutture e Servizi -->
-										<div class="bg-cyan-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-cyan-800 mb-6">
-												Infrastrutture e Servizi
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-cyan-800 mb-3">Approvvigionamento Idrico</h6>
-													<div class="text-cyan-700 space-y-2">
-														<p><strong>Realizzazione:</strong> Università Agraria - Gestione storica dell'infrastruttura</p>
-														<p><strong>Costo Manutenzione Annuale:</strong> ₤ 1.000.000 - 2.000.000</p>
-														<p><strong>Potenziamento Necessario:</strong> Captazione di 4 sorgenti aggiuntive</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Interventi Necessari</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Pascoli:</strong></p>
-														<ul class="ml-4 space-y-1">
-															<li>• Manutenzione punti di abbeverata</li>
-															<li>• Captazione nuova sorgente</li>
-															<li>• Opere di recinzione</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Risorse Naturali e Turismo -->
-										<div class="bg-blue-50 rounded-xl p-6 mb-6">
-											<h5 class="font-bold text-blue-800 mb-6">
-												Risorse Naturali e Turismo
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Prodotti del Sottobosco</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Raccolta Libera:</strong> Accesso consentito a tutti</p>
-														<p><strong>Produzione Tartufi:</strong> Contenuta ma presente</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Turismo</h6>
-													<div class="text-blue-700 space-y-2">
-														<p><strong>Turismo Estivo:</strong> 1.000 Unità Villeggianti - Notevole affluenza stagionale</p>
-														<p><strong>Turismo Invernale:</strong> 200 Unità Presenti - Presenza costante</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Potenziale Escursionistico</h6>
-													<div class="text-blue-700">
-														<p><strong>Itinerari Naturalistici ed Escursionistici:</strong> Possibilità notevoli per lo sviluppo di percorsi turistici e naturalistici</p>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- Contenuto 4: La Struttura per una Gestione Associata dei Domini Collettivi -->
-								<div class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden collapsible-content">
-									<div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
-										<div class="flex items-center justify-between">
-											<div class="flex items-center">
-												<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-													<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-													</svg>
-												</div>
-												<h3 class="text-1xl sm:text-3xl font-bold text-gray-900">La Struttura per una Gestione Associata dei Domini Collettivi</h3>
-											</div>
-											<div class="expand-icon transition-transform duration-300">
-												<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="p-6 collapsible-body" style="display: none;">
-										<!-- Evoluzione Normativa -->
-										<div class="bg-indigo-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-indigo-800 mb-6">
-												Evoluzione Normativa Storica
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-indigo-800 mb-3">R.D. 3267 del 30/12/1923</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>Articoli 139-155:</strong> Primo intervento per la gestione razionale dei beni agro-silvo-pastorali</p>
-														<p><strong>Contributo statale:</strong> Fino al 50% per personale tecnico e custodia</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-blue-800 mb-3">Legge 991 del 25/7/1952</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>"Legge della Montagna":</strong> Potenziamento del sostegno pubblico</p>
-														<p><strong>Contributo elevato:</strong> Fino al 75% delle spese</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-purple-800 mb-3">Legge 1766 del 16/6/1927</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>Riordino Usi Civici:</strong> Rinvio alle forme di gestione associata</p>
-														<p><strong>Strumento:</strong> Piano di assestamento forestale (R.D. 3267/1923 - Legge Serpieri)</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Principi Fondamentali -->
-										<div class="bg-slate-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-slate-800 mb-6">
-												Principi della Gestione Razionale
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-3">Dimensione Ottimale</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>Estensione Necessaria:</strong> Superficie molto più ampia dell'azienda agricola tradizionale</p>
-														<p><strong>Periodo Temporale:</strong> Gestione prolungata negli anni per il lento rientro finanziario</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-3">Strumenti di Pianificazione</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>Piano di Assestamento:</strong> Pianificazione silvo-pastorale razionale</p>
-														<p><strong>Piano Economico:</strong> Utilizzazioni in rapporto alle capacità produttive</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-3">Obiettivo di Sostenibilità</h6>
-													<div class="text-slate-700">
-														<p><strong>Fruibilità Intergenerazionale:</strong> Garantire la disponibilità del capitale legnoso e pascolivo anche per le generazioni future</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Strutture Associative -->
-										<div class="bg-slate-50 rounded-xl p-6 mb-8">
-											<h5 class="font-bold text-slate-800 mb-6">
-												Tipologie di Strutture Associative
-											</h5>
-											<div class="space-y-6">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-3">Azienda Speciale</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>Tipologie:</strong> Singola, Consorziale</p>
-														<p><strong>Amministrazione:</strong> Espressione delle popolazioni locali</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-3">Consorzio Forestale</h6>
-													<div class="text-slate-700 space-y-2">
-														<p><strong>Caratteristiche:</strong> Gestione associata multi-territoriale</p>
-														<p><strong>Supporto Tecnico:</strong> Esperti del settore (Laureati in Scienze Forestali)</p>
-													</div>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-3">Vantaggi della Gestione Associata</h6>
-													<div class="text-slate-700">
-														<p><strong>Consenso e Razionalità:</strong> Migliore consenso dei residenti nelle scelte gestionali + elemento di razionalità del personale tecnico e di custodia</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Continuità Legislativa -->
-										<div class="bg-slate-50 rounded-xl p-6 mb-6">
-											<h5 class="font-bold text-slate-800 mb-6">
-												Continuità Legislativa Post-1952
-											</h5>
-											<div class="bg-white rounded-lg p-4">
-												<div class="text-slate-700 space-y-2">
-													<p>• Leggi del 1° e 2° "Piano Verde"</p>
-													<p>• Legge 1102/1971</p>
-													<p>• Legge 984/1977 "Quadrifoglio"</p>
-													<p>• Legge 752/1986</p>
-													<p>• Piano Forestale Nazionale</p>
-													<p>• Legge 97/1994 "Zone Montane"</p>
-												</div>
-											</div>
-										</div>
-										<!-- Normative per Imprenditori -->
-										<div class="bg-slate-50 rounded-xl p-6 mb-6">
-											<h5 class="font-bold text-slate-800 mb-6">
-												Normative per il Riconoscimento Imprenditoriale
-											</h5>
-											<div class="space-y-4">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-2">a) Legge 97/1994 "Nuove disposizioni per le zone montane"</h6>
-													<p class="text-slate-700">
-														Art. 3 riconosce la <strong>personalità giuridica di diritto privato</strong> alle organizzazioni montane, 
-														tra cui le Università agrarie e le associazioni della legge 397 del 4/8/1897.
-													</p>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-2">b) Piano di Sviluppo Rurale Regione Lazio</h6>
-													<p class="text-slate-700">
-														Prevede benefici per l'<strong>associazionismo forestale</strong> con associazioni di proprietari privati 
-														di boschi, mediante domanda o decreto di riconoscimento dello stato di persona giuridica.
-													</p>
-												</div>
-											</div>
-										</div>
-										<!-- Consorzio Forestale - Struttura Preferibile -->
-										<div class="bg-slate-50 rounded-xl p-6 mb-6">
-											<h5 class="font-bold text-slate-800 mb-6">
-												Consorzio Forestale - Struttura Preferibile
-											</h5>
-											<div class="bg-white rounded-lg p-4 mb-4">
-												<p class="text-slate-700 mb-4">
-													Per le Università agrarie di Leonessa, il <strong>Consorzio Forestale</strong> è preferibile 
-													all'Azienda Speciale Consorziale per le seguenti motivazioni:
-												</p>
-											</div>
-											<div class="space-y-4">
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-2">a) Autonomia Amministrativa</h6>
-													<p class="text-slate-700">
-														L'adesione al Consorzio Forestale <strong>mantiene l'autonomia amministrativa</strong> 
-														ai singoli enti associati, liberi di gestire entrate ed uscite dalle risorse forestali e pascolive.
-													</p>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-2">b) Direzione Tecnica Comune</h6>
-													<p class="text-slate-700">
-														Condivisione della <strong>direzione tecnica</strong> e dell'eventuale azione di sorveglianza e custodia.
-													</p>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-2">c) Controllo Territoriale</h6>
-													<p class="text-slate-700">
-														Le iniziative associate e gli interventi nel territorio sono <strong>soggetti al benestare</strong> 
-														degli enti proprietari.
-													</p>
-												</div>
-												<div class="bg-white rounded-lg p-4">
-													<h6 class="font-semibold text-slate-800 mb-2">d) Gestione Utilizzazioni Boschive</h6>
-													<p class="text-slate-700">
-														Le utilizzazioni boschive sono <strong>gestite direttamente</strong> dalle singole Università agrarie, 
-														mentre la predisposizione degli atti tecnici e la sorveglianza competono alla Direzione tecnica.
-													</p>
-												</div>
-											</div>
-										</div>
-										<!-- Prospettive Future -->
-										<div class="bg-slate-50 rounded-xl p-6 mb-6">
-											<h5 class="font-bold text-slate-800 mb-6">
-												Evoluzione verso l'Azienda Speciale Consorziale
-											</h5>
-											<div class="bg-white rounded-lg p-4">
-												<p class="text-slate-700 mb-3">
-													<strong>Non si esclude a priori</strong> la costituzione dell'Azienda Speciale Consorziale 
-													in un periodo successivo, quando sia stato <strong>collaudato operativamente</strong> 
-													lo spirito associativo degli Enti associati.
-												</p>
-												<div class="mt-4">
-													<h6 class="font-semibold text-slate-800 mb-2">Modalità Operativa Futura</h6>
-													<p class="text-slate-700">
-														Nell'ipotesi di Azienda Speciale Consorziale, le <strong>utilizzazioni boschive</strong> 
-														e la <strong>gestione pascoli</strong> sarebbero attuate in tutte le fasi operative 
-														ed amministrative dall'Azienda Speciale, che verserebbe alle singole Università agrarie 
-														l'utile come differenza tra entrate ed uscite.
-													</p>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- Contenuto 5: Dominio Collettivo in Godimento Promiscuo -->
-								<div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
-									<div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
-										<div class="flex items-center justify-between">
-											<div class="flex items-center">
-												<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-													<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-													</svg>
-												</div>
-												<h3 class="text-1xl sm:text-3xl font-bold text-gray-900">Dominio Collettivo in Godimento Promiscuo</h3>
-											</div>
-											<div class="expand-icon transition-transform duration-300">
-												<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="p-6 collapsible-body" style="display: none;">
-										<!-- Introduzione -->
-										<div class="mb-8">
-											<div class="bg-teal-50 rounded-xl p-5 border border-teal-200">
-												<p class="text-teal-800 text-sm leading-relaxed">
-													Nel versante del <strong>Monte di Cambio</strong> e di <strong>Monte di Cambio</strong> esistono due distinti territori 
-													sui quali vengono esercitati i diritti civici da popolazioni appartenenti a frazioni diverse del Comune di Leonessa 
-													in <strong>godimento promiscuo</strong>.
-												</p>
-											</div>
-										</div>
-										<!-- Sesto di Macchia Porana -->
-										<div class="mb-8">
-											<h4 class="font-bold text-emerald-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-												</svg>
-												a) Sesto di Macchia Porana
-											</h4>
-											<div class="bg-emerald-50 rounded-xl p-5 border border-emerald-200">
-												<!-- Localizzazione -->
-												<div class="mb-4">
-													<h5 class="font-semibold text-emerald-800 mb-2">📍 Localizzazione</h5>
-													<p class="text-sm text-emerald-700 mb-3">
-														Si estende lungo le <strong>pendici settentrionali del Monte di Cambio</strong> ed è intercluso tra:
-													</p>
-													<div class="grid md:grid-cols-2 gap-3">
-														<div class="bg-white rounded-lg p-3 border border-emerald-200">
-															<p class="text-xs text-emerald-700">Domini collettivi della frazione di <strong>Albaneto</strong> (Sesto di Cambio)</p>
-														</div>
-														<div class="bg-white rounded-lg p-3 border border-emerald-200">
-															<p class="text-xs text-emerald-700">Domini di <strong>Piedelpoggio</strong> (Sesto di Macchia Porana)</p>
-														</div>
-													</div>
-												</div>
-												<!-- Dati Catastali -->
-												<div class="mb-4">
-													<h5 class="font-semibold text-emerald-800 mb-2">📋 Dati Catastali</h5>
-													<div class="bg-white rounded-lg p-4 border border-emerald-200">
-														<div class="grid md:grid-cols-2 gap-4">
-															<div>
-																<p class="text-sm text-emerald-700 mb-1"><strong>Partita:</strong> 8396</p>
-																<p class="text-sm text-emerald-700 mb-1"><strong>Intestato:</strong> Comune di Leonessa</p>
-																<p class="text-sm text-emerald-700"><strong>Superficie totale:</strong> 312.95.00 ha</p>
-															</div>
-															<div class="bg-emerald-100 rounded-lg p-3">
-																<p class="text-xs text-emerald-700 mb-1"><strong>Mappale 40:</strong> 50.03.10 ha</p>
-																<p class="text-xs text-emerald-600">Attribuito all'Università agraria di Piedelpoggio (perizia Fedi/Schiavone)</p>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- Uso del Suolo -->
-												<div class="mb-4">
-													<h5 class="font-semibold text-emerald-800 mb-2">🌿 Uso del Suolo</h5>
-													<div class="grid md:grid-cols-2 gap-4">
-														<div class="bg-white rounded-lg p-4 border border-emerald-200">
-															<div class="flex items-center justify-between mb-2">
-																<span class="text-sm font-medium text-emerald-800">Pascolo</span>
-																<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">26.28.30 ha</span>
-															</div>
-															<div class="w-full bg-emerald-200 rounded-full h-2">
-																<div class="bg-emerald-500 h-2 rounded-full" style="width: 8.4%"></div>
-															</div>
-														</div>
-														<div class="bg-white rounded-lg p-4 border border-emerald-200">
-															<div class="flex items-center justify-between mb-2">
-																<span class="text-sm font-medium text-emerald-800">Bosco Alto Fusto (Faggio)</span>
-																<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full">91.6%</span>
-															</div>
-															<div class="w-full bg-emerald-200 rounded-full h-2">
-																<div class="bg-emerald-600 h-2 rounded-full" style="width: 91.6%"></div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- Esercizio Uso Civico -->
-												<div>
-													<h5 class="font-semibold text-emerald-800 mb-2">👥 Esercizio dell'Uso Civico</h5>
-													<div class="bg-white rounded-lg p-4 border border-emerald-200">
-														<p class="text-sm text-emerald-700 mb-3">
-															L'esercizio dell'uso civico è effettuato in <strong>forma promiscua</strong> da:
-														</p>
-														<div class="space-y-2">
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
-																<span class="text-sm text-emerald-700">Abitanti delle frazioni di <strong>S. Clemente e Vallimpuni</strong> (originario Sesto della Croce)</span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
-																<span class="text-sm text-emerald-700">Abitanti di <strong>Piedelpoggio</strong> (parte occidentale fino al rio Bagno)</span>
-															</div>
-														</div>
-														<div class="mt-3 p-3 bg-emerald-100 rounded-lg">
-															<p class="text-xs text-emerald-600">
-																<strong>Nota:</strong> Dell'esistenza dell'uso promiscuo fa cenno anche l'istruttoria demaniale del Dr. De Renzis.
-															</p>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Sesto di Prato Piccinino -->
-										<div class="mb-8">
-											<h4 class="font-bold text-blue-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-												</svg>
-												b) Sesto di Prato Piccinino
-											</h4>
-											<div class="bg-blue-50 rounded-xl p-5 border border-blue-200">
-												<!-- Localizzazione e Dati Catastali -->
-												<div class="mb-4">
-													<h5 class="font-semibold text-blue-800 mb-2">📍 Localizzazione e Dati Catastali</h5>
-													<div class="bg-white rounded-lg p-4 border border-blue-200">
-														<p class="text-sm bg-blue-50 rounded-lg space-y-4 text-sm md:text-base text-justify">
-															Situato a <strong>monte del dominio collettivo</strong> dell'Università agraria di Piedelpoggio, 
-															si estende nel <strong>versante settentrionale di Monte di Cambio</strong>.
-														</p>
-														<div class="grid md:grid-cols-2 gap-4">
-															<div>
-																<p class="text-sm text-blue-700 mb-1"><strong>Partita:</strong> 8399</p>
-																<p class="text-sm text-blue-700 mb-1"><strong>Superficie totale:</strong> 164.59.80 ha</p>
-															</div>
-															<div class="bg-blue-100 rounded-lg p-3">
-																<p class="text-xs text-blue-700 mb-1"><strong>Mappali 18-19 (Foglio 126):</strong> 39.35.10 ha</p>
-																<p class="text-xs text-blue-600">Attribuiti all'U.A. di Piedelpoggio (perizia Fedi)</p>
-																<p class="text-xs text-blue-700 mt-1"><strong>Superficie restante:</strong> 125.24.70 ha</p>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- Suddivisione per Qualità di Coltura -->
-												<div class="mb-4">
-													<h5 class="font-semibold text-blue-800 mb-3">🌿 Suddivisione per Qualità di Coltura</h5>
-													<div class="bg-white rounded-lg p-4 border border-blue-200">
-														<div class="overflow-x-auto">
-															<table class="w-full text-sm">
-																<thead>
-																	<tr class="border-b border-blue-200">
-																		<th class="text-left py-2 text-blue-800 font-semibold">Tipologia</th>
-																		<th class="text-right py-2 text-blue-800 font-semibold">Superficie (ha)</th>
-																		<th class="text-right py-2 text-blue-800 font-semibold">Percentuale</th>
-																	</tr>
-																</thead>
-																<tbody class="text-blue-700">
-																	<tr class="border-b border-blue-100">
-																		<td class="py-2">Pascolo</td>
-																		<td class="text-right py-2">18.28.40</td>
-																		<td class="text-right py-2">11.11%</td>
-																	</tr>
-																	<tr class="border-b border-blue-100">
-																		<td class="py-2">Superficie pascoliva</td>
-																		<td class="text-right py-2">8.78.60</td>
-																		<td class="text-right py-2">5.34%</td>
-																	</tr>
-																	<tr class="border-b border-blue-100">
-																		<td class="py-2">Incolto produttivo</td>
-																		<td class="text-right py-2">5.05</td>
-																		<td class="text-right py-2">3.06%</td>
-																	</tr>
-																	<tr class="border-b border-blue-100">
-																		<td class="py-2">Incolto sterile</td>
-																		<td class="text-right py-2">0.04.80</td>
-																		<td class="text-right py-2">0.03%</td>
-																	</tr>
-																	<tr class="border-b border-blue-200 bg-blue-50">
-																		<td class="py-2 font-semibold">Tot. Superficie non boscata</td>
-																		<td class="text-right py-2 font-semibold">32.16.90</td>
-																		<td class="text-right py-2 font-semibold">19.54%</td>
-																	</tr>
-																	<tr class="border-b border-blue-100">
-																		<td class="py-2">Bosco ceduo</td>
-																		<td class="text-right py-2">0.06.40</td>
-																		<td class="text-right py-2">0.04%</td>
-																	</tr>
-																	<tr class="border-b border-blue-100">
-																		<td class="py-2">Bosco di alto fusto</td>
-																		<td class="text-right py-2">132.36.50</td>
-																		<td class="text-right py-2">80.42%</td>
-																	</tr>
-																	<tr class="border-b border-blue-200 bg-blue-50">
-																		<td class="py-2 font-semibold">Tot. Superficie boscata</td>
-																		<td class="text-right py-2 font-semibold">132.42.90</td>
-																		<td class="text-right py-2 font-semibold">80.46%</td>
-																	</tr>
-																	<tr class="bg-blue-100">
-																		<td class="py-2 font-bold">Totale complessivo</td>
-																		<td class="text-right py-2 font-bold">164.59.80</td>
-																		<td class="text-right py-2 font-bold">100.00%</td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
-												</div>
-												<!-- Caratteristiche del Territorio -->
-												<div class="mb-4">
-													<h5 class="font-semibold text-blue-800 mb-2">🌲 Caratteristiche del Territorio</h5>
-													<div class="bg-white rounded-lg p-4 border border-blue-200">
-														<div class="grid md:grid-cols-2 gap-4">
-															<div>
-																<p class="text-sm text-blue-700 mb-2">
-																	<strong>Prevalenza superficie boscata:</strong> 80.46%
-																</p>
-																<p class="text-sm text-blue-700">
-																	Boschi per il <strong>89% ad alto fusto di faggio</strong>
-																</p>
-															</div>
-															<div>
-																<p class="text-sm text-blue-700">
-																	<strong>Pascolo e prato:</strong> solo il 16.45%
-																</p>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- Esercizio Uso Civico -->
-												<div>
-													<h5 class="font-semibold text-blue-800 mb-2">👥 Esercizio dell'Uso Civico</h5>
-													<div class="bg-white rounded-lg p-4 border border-blue-200">
-														<p class="text-sm bg-blue-50 rounded-lg space-y-4 text-sm md:text-base text-justify">
-															L'esercizio dell'uso civico è effettuato in <strong>forma promiscua</strong> da:
-														</p>
-														<div class="grid md:grid-cols-2 gap-3">
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-																<span class="text-sm text-blue-700">Abitanti di <strong>Piedelpoggio</strong></span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-																<span class="text-sm text-blue-700">Abitanti del <strong>Sesto di Corno</strong></span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- Riepilogo Complessivo -->
-										<div class="mb-6">
-											<h4 class="font-bold text-purple-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-												</svg>
-												Riepilogo Superficie Demanio Civico in Godimento Promiscuo
-											</h4>
-											<div class="bg-purple-50 rounded-xl p-5 border border-purple-200">
-												<div class="bg-white rounded-lg p-4 border border-purple-200">
-													<div class="overflow-x-auto">
-														<table class="w-full text-sm">
-															<thead>
-																<tr class="border-b border-purple-200">
-																	<th class="text-left py-3 text-purple-800 font-semibold">Territorio</th>
-																	<th class="text-right py-3 text-purple-800 font-semibold">Attrib. U.A. Piedelpoggio</th>
-																	<th class="text-right py-3 text-purple-800 font-semibold">Superficie Restante</th>
-																	<th class="text-right py-3 text-purple-800 font-semibold">Totale Superficie</th>
-																</tr>
-															</thead>
-															<tbody class="text-purple-700">
-																<tr class="border-b border-purple-100">
-																	<td class="py-3 font-medium">Sesto di Macchia Porana</td>
-																	<td class="text-right py-3">50.03.10 ha</td>
-																	<td class="text-right py-3">262.91.90 ha</td>
-																	<td class="text-right py-3 font-semibold">312.95.00 ha</td>
-																</tr>
-																<tr class="border-b border-purple-100">
-																	<td class="py-3 font-medium">Sesto di Prato Piccinino</td>
-																	<td class="text-right py-3">39.35.10 ha</td>
-																	<td class="text-right py-3">125.24.70 ha</td>
-																	<td class="text-right py-3 font-semibold">164.59.80 ha</td>
-																</tr>
-																<tr class="bg-purple-100 border-b border-purple-200">
-																	<td class="py-3 font-bold">TOTALE</td>
-																	<td class="text-right py-3 font-bold">89.38.20 ha</td>
-																	<td class="text-right py-3 font-bold">388.16.60 ha</td>
-																	<td class="text-right py-3 font-bold">477.54.80 ha</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- Contenuto 6: Le Potenzialità delle Risorse dei Domini Collettivi -->
-								<div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden collapsible-content">
-									<div class="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
-										<div class="flex items-center justify-between">
-											<div class="flex items-center">
-												<div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
-													<svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-														<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-													</svg>
-												</div>
-												<h3 class="text-1xl sm:text-3xl font-bold text-gray-900">Le Potenzialità delle Risorse dei Domini Collettivi</h3>
-											</div>
-											<div class="expand-icon transition-transform duration-300">
-												<svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-												</svg>
-											</div>
-										</div>
-									</div>
-									<div class="p-6 space-y-6 collapsible-body" style="display: none;">
-										<!-- Introduzione -->
-										<div class="bg-white rounded-xl p-5 border border-green-200">
-											<p class="text-green-800 leading-relaxed">
-												Dalle indicazioni raccolte dai colloqui con gli amministratori delle Università agrarie e dai sopralluoghi compiuti sul territorio, 
-												si analizza lo stato attuale dell'utilizzo delle risorse e le possibilità di valorizzazione in rapporto alle loro potenzialità 
-												intrinseche ed estrinseche. L'analisi viene condotta per <strong>quattro categorie di risorse</strong>:
-											</p>
-											<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-												<div class="flex items-center p-3 bg-green-50 rounded-lg border border-green-200">
-													<div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
-													<span class="text-sm font-medium text-green-800">Risorse Forestali</span>
-												</div>
-												<div class="flex items-center p-3 bg-blue-50 rounded-lg border border-blue-200">
-													<div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
-													<span class="text-sm font-medium text-blue-800">Risorse Foraggere</span>
-												</div>
-												<div class="flex items-center p-3 bg-amber-50 rounded-lg border border-amber-200">
-													<div class="w-3 h-3 bg-amber-500 rounded-full mr-3"></div>
-													<span class="text-sm font-medium text-amber-800">Risorse del Sottobosco</span>
-												</div>
-												<div class="flex items-center p-3 bg-purple-50 rounded-lg border border-purple-200">
-													<div class="w-3 h-3 bg-purple-500 rounded-full mr-3"></div>
-													<span class="text-sm font-medium text-purple-800">Risorse Ambientali</span>
-												</div>
-											</div>
-										</div>
-										<!-- a) Risorse Forestali -->
-										<div class="bg-green-50 rounded-xl p-5 border border-green-200">
-											<h4 class="font-bold text-green-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-												</svg>
-												a) Risorse Forestali
-											</h4>
-											<!-- Dati Utilizzo Attuale -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-green-800 mb-3">📊 Utilizzo Attuale per Legnatico</h5>
-												<div class="bg-white rounded-lg p-4 border border-green-200">
-													<div class="grid md:grid-cols-3 gap-4">
-														<div class="text-center p-3 bg-green-50 rounded-lg">
-															<div class="text-1xl sm:text-3xl font-bold text-green-700">170</div>
-															<div class="text-sm text-green-600">Utenti totali</div>
-														</div>
-														<div class="text-center p-3 bg-green-50 rounded-lg">
-															<div class="text-1xl sm:text-3xl font-bold text-green-700">60</div>
-															<div class="text-sm text-green-600">Quintali/utente/anno</div>
-														</div>
-														<div class="text-center p-3 bg-green-50 rounded-lg">
-															<div class="text-1xl sm:text-3xl font-bold text-green-700">10.200</div>
-															<div class="text-sm text-green-600">Quintali totali/anno</div>
-														</div>
-													</div>
-													<div class="mt-3 text-center">
-														<span class="text-sm text-green-700">Superficie boscata: <strong>2.071,15 ha</strong> (C.T.R.)</span>
-													</div>
-												</div>
-											</div>
-											<!-- Calcolo Potenzialità -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-green-800 mb-3">🌲 Potenzialità Produttiva</h5>
-												<div class="bg-white rounded-lg p-4 border border-green-200">
-													<div class="space-y-3">
-														<div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-															<span class="text-green-700">Incremento medio annuo (30 qli/ha/anno):</span>
-															<span class="font-bold text-green-800">64.201 quintali</span>
-														</div>
-														<div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-															<span class="text-red-700">Utilizzo attuale:</span>
-															<span class="font-bold text-red-800">10.200 quintali</span>
-														</div>
-														<div class="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
-															<span class="text-amber-700">Accumulo biomassa:</span>
-															<span class="font-bold text-amber-800">54.001 quintali</span>
-														</div>
-														<div class="bg-blue-100 p-3 rounded-lg text-center">
-															<span class="text-blue-800">Utilizzo attuale: <strong>solo il 16%</strong> dell'incremento medio annuo</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- Necessità di Recupero -->
-											<div class="bg-amber-50 rounded-lg p-4 border border-amber-200">
-												<h5 class="font-semibold text-amber-800 mb-2">⚠️ Necessità di Intervento</h5>
-												<p class="text-amber-700 text-sm">
-													È necessario procedere al <strong>recupero della notevole biomassa</strong> accumulata in oltre un decennio 
-													di scarse utilizzazioni forestali, operando con <strong>avvedutezza e pianificazione specifica</strong> 
-													per ottenere gli obiettivi di sviluppo sostenibile.
-												</p>
-											</div>
-										</div>
-										<!-- b) Risorse Foraggere -->
-										<div class="bg-blue-50 rounded-xl p-5 border border-blue-200">
-											<h4 class="font-bold text-blue-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-												</svg>
-												b) Risorse Foraggere
-											</h4>
-											<!-- Bestiame Attuale -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-blue-800 mb-3">🐄 Bestiame nei Pascoli Collettivi</h5>
-												<div class="bg-white rounded-lg p-4 border border-blue-200">
-													<div class="grid md:grid-cols-3 gap-4 mb-4">
-														<div class="text-center p-3 bg-blue-50 rounded-lg">
-															<div class="text-1xl sm:text-3xl font-bold text-blue-700">275</div>
-															<div class="text-sm text-blue-600">Bovini</div>
-														</div>
-														<div class="text-center p-3 bg-blue-50 rounded-lg">
-															<div class="text-1xl sm:text-3xl font-bold text-blue-700">240</div>
-															<div class="text-sm text-blue-600">Equini</div>
-														</div>
-														<div class="text-center p-3 bg-blue-50 rounded-lg">
-															<div class="text-1xl sm:text-3xl font-bold text-blue-700">2.450</div>
-															<div class="text-sm text-blue-600">Ovini</div>
-														</div>
-													</div>
-													<div class="text-center bg-blue-100 p-3 rounded-lg">
-														<span class="text-blue-800">Superficie pascoliva totale: <strong>1.187 ha</strong></span>
-													</div>
-												</div>
-											</div>
-											<!-- Calcolo UBA -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-blue-800 mb-3">📊 Calcolo Carico Zootecnico (UBA)</h5>
-												<div class="bg-white rounded-lg p-4 border border-blue-200">
-													<div class="overflow-x-auto">
-														<table class="w-full text-sm">
-															<thead>
-																<tr class="border-b border-blue-200">
-																	<th class="text-left py-2 text-blue-800">Categoria</th>
-																	<th class="text-right py-2 text-blue-800">Capi</th>
-																	<th class="text-right py-2 text-blue-800">Coefficiente</th>
-																	<th class="text-right py-2 text-blue-800">UBA</th>
-																</tr>
-															</thead>
-															<tbody class="text-blue-700">
-																<tr class="border-b border-blue-100">
-																	<td class="py-2">Bovini > 2 anni</td>
-																	<td class="text-right py-2">137,5</td>
-																	<td class="text-right py-2">1,0</td>
-																	<td class="text-right py-2 font-semibold">137,5</td>
-																</tr>
-																<tr class="border-b border-blue-100">
-																	<td class="py-2">Bovini 6 mesi - 2 anni</td>
-																	<td class="text-right py-2">137,5</td>
-																	<td class="text-right py-2">0,6</td>
-																	<td class="text-right py-2 font-semibold">82,5</td>
-																</tr>
-																<tr class="border-b border-blue-100">
-																	<td class="py-2">Equini > 6 mesi</td>
-																	<td class="text-right py-2">240</td>
-																	<td class="text-right py-2">1,0</td>
-																	<td class="text-right py-2 font-semibold">240,0</td>
-																</tr>
-																<tr class="border-b border-blue-100">
-																	<td class="py-2">Pecore</td>
-																	<td class="text-right py-2">2.450</td>
-																	<td class="text-right py-2">0,15</td>
-																	<td class="text-right py-2 font-semibold">367,5</td>
-																</tr>
-																<tr class="bg-blue-100">
-																	<td class="py-2 font-bold">TOTALE UBA</td>
-																	<td class="text-right py-2"></td>
-																	<td class="text-right py-2"></td>
-																	<td class="text-right py-2 font-bold">827,5</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-											<!-- Carico Attuale vs Potenziale -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-blue-800 mb-3">⚖️ Confronto Carico Zootecnico</h5>
-												<div class="bg-white rounded-lg p-4 border border-blue-200">
-													<div class="grid md:grid-cols-2 gap-4">
-														<div class="p-3 bg-red-50 rounded-lg text-center">
-															<div class="text-xl font-bold text-red-700">0,83 UBA/ha</div>
-															<div class="text-sm text-red-600">Carico attuale</div>
-														</div>
-														<div class="p-3 bg-green-50 rounded-lg text-center">
-															<div class="text-xl font-bold text-green-700">1,4 UBA/ha</div>
-															<div class="text-sm text-green-600">Limite U.E. (Azione F/7)</div>
-														</div>
-													</div>
-													<div class="mt-3 p-3 bg-blue-100 rounded-lg text-center">
-														<span class="text-blue-800">I pascoli sono <strong>sottosfruttati</strong> rispetto al limite U.E.</span>
-													</div>
-												</div>
-											</div>
-											<!-- Potenziale di Incremento -->
-											<div class="bg-green-50 rounded-lg p-4 border border-green-200">
-												<h5 class="font-semibold text-green-800 mb-3">📈 Potenziale di Incremento</h5>
-												<div class="space-y-2">
-													<div class="flex justify-between items-center">
-														<span class="text-green-700">Capacità massima (1,4 UBA/ha):</span>
-														<span class="font-bold text-green-800">1.661,8 UBA</span>
-													</div>
-													<div class="flex justify-between items-center">
-														<span class="text-green-700">UBA attualmente pascolanti:</span>
-														<span class="font-bold text-green-800">827,5 UBA</span>
-													</div>
-													<div class="flex justify-between items-center p-2 bg-green-100 rounded">
-														<span class="text-green-700 font-semibold">Possibile incremento:</span>
-														<span class="font-bold text-green-800">834,3 UBA</span>
-													</div>
-													<div class="text-center text-sm text-green-700 mt-2">
-														È possibile <strong>raddoppiare il carico zootecnico</strong> rimanendo nella gestione a bassa intensità
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- c) Risorse del Sottobosco -->
-										<div class="bg-amber-50 rounded-xl p-5 border border-amber-200">
-											<h4 class="font-bold text-amber-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-												</svg>
-												c) Risorse del Sottobosco
-											</h4>
-											<!-- Tartufo -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-amber-800 mb-3">🍄 Tartuficoltura</h5>
-												<div class="bg-white rounded-lg p-4 border border-amber-200">
-													<div class="grid md:grid-cols-2 gap-4">
-														<div>
-															<h6 class="font-medium text-amber-800 mb-2">Situazione Attuale</h6>
-															<p class="text-sm text-amber-700 mb-2">
-																La risorsa più attivata è il <strong>tartufo</strong>, gestito attraverso:
-															</p>
-															<div class="flex items-center mb-2">
-																<div class="w-2 h-2 bg-amber-500 rounded-full mr-2"></div>
-																<span class="text-sm text-amber-700">Concessioni in affittanza dei boschi</span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-amber-500 rounded-full mr-2"></div>
-																<span class="text-sm text-amber-700">Associazioni di tartuficoltori</span>
-															</div>
-														</div>
-														<div>
-															<h6 class="font-medium text-amber-800 mb-2">Università Agrarie Coinvolte</h6>
-															<div class="space-y-1">
-																<div class="text-sm text-amber-700">• Terzone S. Pietro</div>
-																<div class="text-sm text-amber-700">• S. Angelo</div>
-																<div class="text-sm text-amber-700">• S. Vito</div>
-															</div>
-															<p class="text-xs text-amber-600 mt-2">
-																(Boschi a prevalenza di essenze quercine)
-															</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- Altre Risorse -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-amber-800 mb-3">🌿 Altre Risorse del Sottobosco</h5>
-												<div class="bg-white rounded-lg p-4 border border-amber-200">
-													<div class="mb-3">
-														<h6 class="font-medium text-red-800 mb-2">❌ Attualmente Non Valorizzate</h6>
-														<div class="grid md:grid-cols-2 gap-3">
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-																<span class="text-sm text-red-700">Funghi epigei</span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-																<span class="text-sm text-red-700">Bacche di ginepro</span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-																<span class="text-sm text-red-700">Rosa canina</span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-																<span class="text-sm text-red-700">Prugnolo</span>
-															</div>
-															<div class="flex items-center">
-																<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-																<span class="text-sm text-red-700">Piante officinali</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- Potenzialità Gentiana -->
-											<div class="bg-green-50 rounded-lg p-4 border border-green-200">
-												<h5 class="font-semibold text-green-800 mb-2">🌱 Potenzialità: Gentiana Lutea</h5>
-												<p class="text-sm text-green-700">
-													L'esistenza di <strong>aree pascolive con presenza di Gentiana lutea</strong> suggerisce la possibilità di:
-												</p>
-												<div class="mt-2 space-y-1">
-													<div class="flex items-center">
-														<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-														<span class="text-sm text-green-700">Sfruttamento mediante coltivazione specializzata</span>
-													</div>
-													<div class="flex items-center">
-														<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-														<span class="text-sm text-green-700">Riproduzione per seme</span>
-													</div>
-													<div class="flex items-center">
-														<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-														<span class="text-sm text-green-700">Tecniche colturali semplici</span>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- d) Risorse Ambientali -->
-										<div class="bg-purple-50 rounded-xl p-5 border border-purple-200">
-											<h4 class="font-bold text-purple-800 mb-4 flex items-center">
-												<svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-												</svg>
-												d) Risorse Ambientali
-											</h4>
-											<!-- Caratteristiche Ambientali -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-purple-800 mb-3">🏔️ Caratteristiche del Territorio</h5>
-												<div class="bg-white rounded-lg p-4 border border-purple-200">
-													<p class="text-purple-700 mb-3">
-														Le caratteristiche ambientali del territorio sono <strong>particolarmente interessanti</strong> 
-														sia sotto il profilo <strong>naturalistico</strong> che <strong>paesaggistico</strong>.
-													</p>
-													<div class="grid md:grid-cols-2 gap-3">
-														<div class="flex items-center p-2 bg-purple-50 rounded">
-															<div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-															<span class="text-sm text-purple-700">Valore naturalistico elevato</span>
-														</div>
-														<div class="flex items-center p-2 bg-purple-50 rounded">
-															<div class="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-															<span class="text-sm text-purple-700">Paesaggi di pregio</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- Situazione Attuale -->
-											<div class="mb-4">
-												<h5 class="font-semibold text-red-800 mb-3">❌ Situazione Attuale</h5>
-												<div class="bg-red-50 rounded-lg p-4 border border-red-200">
-													<p class="text-red-700 text-sm mb-2">
-														Le risorse ambientali <strong>non sono attualmente sfruttate</strong>, nonostante:
-													</p>
-													<div class="flex items-center">
-														<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-														<span class="text-sm text-red-700">Presenza di <strong>buon numero di turisti</strong> nel periodo estivo</span>
-													</div>
-												</div>
-											</div>
-											<!-- Potenzialità Turistiche -->
-											<div class="bg-green-50 rounded-lg p-4 border border-green-200">
-												<h5 class="font-semibold text-green-800 mb-3">🚀 Potenzialità di Sviluppo Turistico</h5>
-												<p class="text-green-700 text-sm mb-3">
-													I turisti estivi potrebbero diventare <strong>fruitori di tali risorse</strong> se opportunamente 
-													<strong>organizzate e divulgate</strong>:
-												</p>
-												<div class="grid md:grid-cols-2 gap-3">
-													<div class="space-y-2">
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Sentieri didattico-naturalistici</span>
-														</div>
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Percorsi escursionistici</span>
-														</div>
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Percorsi vita</span>
-														</div>
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Itinerari ricreativi</span>
-														</div>
-													</div>
-													<div class="space-y-2">
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Itinerari tematici</span>
-														</div>
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Ippoturismo</span>
-														</div>
-														<div class="flex items-center">
-															<div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-															<span class="text-sm text-green-700">Orienteering</span>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			</div>
-		</section>
-	</main>
-</DefaultLayout><script is:inline>
+                    <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
+                        <div class="space-y-8">
+                            
+                            <div class="prose max-w-none text-gray-700 text-justify">
+                                <p class="text-base leading-relaxed mb-4">
+                                    Costituita in Università Agraria nel <strong>1929</strong> insieme a quelle di S. Vito ed Albaneto, Piedelpoggio rappresenta una delle realtà frazionali più vitali del Comune di Leonessa. Nonostante la distruzione di gran parte dell'archivio durante il conflitto mondiale (l'unico registro sopravvissuto parte dal 1944), la storia dell'ente è segnata da interventi pubblici fondamentali.
+                                </p>
+                                <div class="bg-amber-50 p-4 rounded-lg border-l-4 border-amber-400">
+                                    <p class="text-sm italic text-amber-900">
+                                        Il termine "Università" deriva da "universitas civium", ovvero la totalità dei cittadini che costituiscono un corpo politico ideale per la gestione comune del territorio.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <hr class="border-gray-200">
+
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-800 mb-6">Cronologia delle Opere Pubbliche</h4>
+                                <div class="space-y-6">
+                                    
+                                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                                        <div class="flex flex-col">
+                                            <span class="text-blue-600 font-bold text-lg mb-2">1947 - 1950: L'Acquedotto</span>
+                                            <p class="text-base text-gray-700 text-justify">
+                                                Opera motivata dall'estrema necessità per uomini e animali. Inizialmente affidata al Comune, nel 1950 l'Università decise di procedere in <strong>economia diretta</strong>, captando le sorgenti "Fonte Monna". Un esempio di autonomia gestionale.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
+                                        <div class="flex flex-col">
+                                            <span class="text-green-600 font-bold text-lg mb-2">1948 - 1955: Sviluppo Sociale</span>
+                                            <ul class="list-disc list-inside text-base text-gray-700 space-y-2">
+                                                <li><strong>Manutenzione Strade (1948):</strong> Lavoro svolto dai cittadini per combattere la disoccupazione locale.</li>
+                                                <li><strong>Scuola e Posta (1949-1950):</strong> Acquisto di uno stabile per scuola, ufficio dell'Università e ricevitoria postale.</li>
+                                                <li><strong>Altre opere:</strong> Impianto fonotelegrafico, riparazione fontana del 1660, abbeveratoio "Strada Riovalle", pavimentazione interna.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+                                        <div class="flex flex-col">
+                                            <span class="text-purple-600 font-bold text-lg mb-2">1999 - 2003: Progetto "Macchia Grande"</span>
+                                            <p class="text-base text-gray-700 text-justify mb-3">
+                                                Progetto ambizioso (Obiettivo 5/b) per l'avviamento ad alto fusto del bosco. Dopo anni di impegno e contrasti interni, l'appalto fu assegnato alla ditta "Palma Verde" nel 1999 e i lavori conclusi nel 2003.
+                                            </p>
+                                            <p class="text-sm bg-purple-50 p-3 rounded text-purple-900 italic">
+                                                "Si spera possa dare quanto prima i suoi frutti sia in termine di legnatico, quanto nello sfruttamento dei prodotti del sottobosco."
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
+                    <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-gray-900">Il Territorio e i Domini Collettivi</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Inquadramento geografico e analisi catastale dei sesti</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon transform transition-transform duration-300">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
+                        <div class="space-y-8">
+
+                            <div class="bg-cyan-50 rounded-xl p-6 border border-cyan-100">
+                                <h4 class="text-lg font-bold text-cyan-900 mb-4">Caratteristiche Morfologiche</h4>
+                                <ul class="space-y-3 text-base text-gray-700">
+                                    <li class="flex items-start">
+                                        <span class="font-bold text-cyan-700 w-32 flex-shrink-0">Posizione:</span>
+                                        <span>Versante Settentrionale del Monte di Cambio.</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="font-bold text-cyan-700 w-32 flex-shrink-0">Altimetria:</span>
+                                        <span>Quota min: 1.071 m — Quota max: 2.084 m.</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="font-bold text-cyan-700 w-32 flex-shrink-0">Paesaggio:</span>
+                                        <span>Prettamente forestale con aspetto selvaggio e alta naturalità (differente dai pascoli aperti di Terzone).</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="font-bold text-cyan-700 w-32 flex-shrink-0">Vincoli:</span>
+                                        <span>Sottoposto a vincolo paesaggistico (Legge 1497/39 e Legge Galasso 431/85 sul Colle S. Venanzio).</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200">
+                                    <h4 class="font-bold text-gray-800">Delimitazione del Territorio</h4>
+                                </div>
+                                <div class="p-6">
+                                    <div class="grid gap-4">
+                                        <div class="pb-4 border-b border-gray-100">
+                                            <span class="block font-bold text-gray-900 mb-1">Confine NORD</span>
+                                            <span class="text-gray-600">Fosso di S. Cristoforo, Strada vicinale Cannotella-Rocchetta fino al piccolo rio oltre strada di Macchia Poiana.</span>
+                                        </div>
+                                        <div class="pb-4 border-b border-gray-100">
+                                            <span class="block font-bold text-gray-900 mb-1">Confine EST</span>
+                                            <span class="text-gray-600">Risalendo il rio fino alla Strada vicinale di Macchia Porana, Fonte di Macchia Porana (q. 1433).</span>
+                                        </div>
+                                        <div class="pb-4 border-b border-gray-100">
+                                            <span class="block font-bold text-gray-900 mb-1">Confine SUD</span>
+                                            <span class="text-gray-600">Prato Pecoraro, Prato Piccinino (q. 1632) fino alla località Laghetto.</span>
+                                        </div>
+                                        <div>
+                                            <span class="block font-bold text-gray-900 mb-1">Confine OVEST</span>
+                                            <span class="text-gray-600">Colle della Croce (Eremo S. Giuseppe), discesa lungo la vecchia mulattiera fino al Fosso S. Cristoforo.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-800 mb-4">Domini Collettivi in Godimento Promiscuo</h4>
+                                <p class="text-base text-gray-700 mb-6 text-justify">
+                                    Esistono territori gestiti promiscuamente con altre frazioni (S. Clemente, Vallimpuni, Corno). Le perizie storiche (Fedi, Schiavone) attribuiscono quote specifiche a Piedelpoggio.
+                                </p>
+
+                                <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                                    <table class="w-full text-base text-left text-gray-600">
+                                        <thead class="bg-blue-600 text-white uppercase text-sm">
+                                            <tr>
+                                                <th class="px-6 py-4">Territorio (Sesto)</th>
+                                                <th class="px-6 py-4 text-center">Sup. Totale</th>
+                                                <th class="px-6 py-4 text-center">Attrib. Piedelpoggio</th>
+                                                <th class="px-6 py-4">Note</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 bg-white">
+                                            <tr>
+                                                <td class="px-6 py-4 font-bold text-gray-900">Macchia Porana</td>
+                                                <td class="px-6 py-4 text-center">312.95.00 ha</td>
+                                                <td class="px-6 py-4 text-center font-bold text-blue-600">50.03.10 ha</td>
+                                                <td class="px-6 py-4 text-sm">Prevalenza Faggio Alto Fusto (91%)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-6 py-4 font-bold text-gray-900">Prato Piccinino</td>
+                                                <td class="px-6 py-4 text-center">164.59.80 ha</td>
+                                                <td class="px-6 py-4 text-center font-bold text-blue-600">39.35.10 ha</td>
+                                                <td class="px-6 py-4 text-sm">Bosco alto fusto (80%)</td>
+                                            </tr>
+                                            <tr class="bg-gray-50">
+                                                <td class="px-6 py-4 font-bold text-gray-900">TOTALE Attribuito</td>
+                                                <td class="px-6 py-4 text-center">-</td>
+                                                <td class="px-6 py-4 text-center font-bold text-gray-900 text-lg">89.38.20 ha</td>
+                                                <td class="px-6 py-4 text-sm italic">Secondo perizia Fedi (1971)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="bg-yellow-50 p-6 rounded-xl border-l-4 border-yellow-400">
+                                <h5 class="font-bold text-yellow-800 text-base mb-2">Nota sulle Discrepanze Catastali</h5>
+                                <p class="text-sm text-yellow-800 leading-relaxed">
+                                    Esiste una differenza tra i dati Catastali (441 ha boschivi) e quelli della Carta Tecnica Regionale (433 ha). Questo è dovuto alla mancata suddivisione precisa tra bosco e pascolo nei grandi mappali in prossimità di Prato Pecoraro. Inoltre, le attuali intestazioni catastali al Comune di Leonessa sono spesso oggetto di rivendicazione storica da parte dell'Università Agraria.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
+                    <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-gray-900">Usi Civici e Gestione</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Iter legale, sentenze e modelli associativi proposti</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon transform transition-transform duration-300">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
+                        <div class="space-y-8">
+                            
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-800 mb-4">Il Contenzioso e il Commissariato</h4>
+                                <div class="bg-white rounded-xl shadow-sm border border-indigo-100 p-6">
+                                    <ul class="space-y-6 border-l-2 border-indigo-200 pl-6 relative">
+                                        <li class="relative">
+                                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"></div>
+                                            <h5 class="font-bold text-gray-900">2 Marzo 1995: Ordinanza Commissariale</h5>
+                                            <p class="text-base text-gray-600 mt-1">Il Commissario Dr. Franco Carletti nomina il Dr. Agr. Zanzucchi per tentare la conciliazione nella vertenza tra Comune e Frazioni.</p>
+                                        </li>
+                                        <li class="relative">
+                                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"></div>
+                                            <h5 class="font-bold text-gray-900">16 Maggio 1997: Incarico Ufficiale</h5>
+                                            <p class="text-base text-gray-600 mt-1">Obiettivo: "Rilevare i problemi economici e gestionali e illustrare la proposta di associazione consortile".</p>
+                                        </li>
+                                        <li class="relative">
+                                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"></div>
+                                            <h5 class="font-bold text-gray-900">Obiettivi Finali</h5>
+                                            <p class="text-base text-gray-600 mt-1">Stabilire appartenenza e confini certi per permettere una gestione separata futura senza ulteriori controversie legali.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <hr class="border-gray-200">
+
+                            <div>
+                                <h4 class="text-lg font-bold text-gray-800 mb-4">Proposta Gestionale: Il Consorzio Forestale</h4>
+                                <p class="text-base text-gray-700 mb-4 text-justify">
+                                    Considerando le 6 Università coinvolte (Piedelpoggio, Terzone S.Paolo, Terzone S.Pietro, S.Vito, S.Angelo, Albaneto), il modello giuridico preferibile è risultato essere il <strong>Consorzio Forestale</strong> (rispetto all'Azienda Speciale).
+                                </p>
+                                
+                                <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                                    <h5 class="font-bold text-green-900 mb-3">Perché il Consorzio Forestale?</h5>
+                                    <ul class="space-y-3 text-base text-green-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                            <span><strong>Autonomia:</strong> Ogni Università mantiene la propria autonomia amministrativa su entrate e uscite.</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                            <span><strong>Economia di Scala:</strong> Condivisione della Direzione Tecnica e dei servizi di custodia (costi ridotti).</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                            <span><strong>Gestione Diretta:</strong> Le utilizzazioni boschive rimangono gestite dai singoli enti proprietari, col solo supporto tecnico del consorzio.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-100 p-5 rounded-lg">
+                                <span class="font-bold text-gray-700 text-sm block mb-2">Riferimenti Normativi Principali:</span>
+                                <p class="text-sm text-gray-600">
+                                    R.D. 3267/1923 (Legge Serpieri) • L. 1766/1927 (Usi Civici) • L. 991/1952 (Legge della Montagna) • L. 97/1994 (Zone Montane).
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content">
+                    <div class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header" onclick="toggleContent(this)">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold text-gray-900">Analisi Economica e Potenzialità</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Biomassa, zootecnia, sottobosco e turismo</p>
+                                </div>
+                            </div>
+                            <div class="expand-icon transform transition-transform duration-300">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50" style="display: none;">
+                        <div class="space-y-10">
+                            
+                            <div>
+                                <h4 class="flex items-center text-lg font-bold text-green-800 mb-4">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 text-green-600">A</span>
+                                    Risorse Forestali e Biomassa
+                                </h4>
+                                <div class="bg-white rounded-xl shadow-sm border border-green-100 p-6">
+                                    <p class="text-base text-gray-700 mb-6 text-justify">
+                                        L'analisi evidenzia un utilizzo attuale nettamente inferiore alla capacità produttiva. C'è un enorme potenziale di recupero della biomassa accumulata in decenni di scarso utilizzo.
+                                    </p>
+                                    
+                                    <div class="grid gap-4">
+                                        <div class="bg-green-50 p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4">
+                                            <div class="text-center md:text-left">
+                                                <span class="block text-sm text-green-700 font-semibold uppercase">Utenti Legnatico</span>
+                                                <span class="text-2xl font-bold text-green-900">170</span>
+                                            </div>
+                                            <div class="text-center md:text-left">
+                                                <span class="block text-sm text-green-700 font-semibold uppercase">Prelievo Medio</span>
+                                                <span class="text-2xl font-bold text-green-900">60 q.li</span>
+                                                <span class="text-xs text-green-600">per utente/anno</span>
+                                            </div>
+                                            <div class="text-center md:text-left">
+                                                <span class="block text-sm text-green-700 font-semibold uppercase">Totale Prelievo</span>
+                                                <span class="text-2xl font-bold text-green-900">10.200 q.li</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="border-t border-green-100 pt-4 mt-2">
+                                            <div class="flex justify-between items-center py-2">
+                                                <span class="text-gray-600">Incremento annuo possibile (30 qli/ha):</span>
+                                                <span class="font-bold text-gray-900">64.201 q.li</span>
+                                            </div>
+                                            <div class="flex justify-between items-center py-2">
+                                                <span class="text-gray-600">Prelievo Attuale:</span>
+                                                <span class="font-bold text-red-600">10.200 q.li</span>
+                                            </div>
+                                            <div class="bg-blue-50 p-3 rounded text-center mt-2">
+                                                <span class="text-blue-800 font-medium">Sfruttamento attuale: solo il <strong>16%</strong> dell'incremento annuo.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="flex items-center text-lg font-bold text-blue-800 mb-4">
+                                    <span class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 text-blue-600">B</span>
+                                    Risorse Zootecniche (Pascoli)
+                                </h4>
+                                <div class="bg-white rounded-xl shadow-sm border border-blue-100 overflow-hidden">
+                                    <div class="p-6">
+                                        <p class="text-base text-gray-700 mb-4">
+                                            I pascoli (1.187 ha totali) sono attualmente <strong>sottosfruttati</strong>. Analisi del carico zootecnico (UBA):
+                                        </p>
+                                        
+                                        <div class="overflow-x-auto mb-6">
+                                            <table class="w-full text-sm text-left">
+                                                <thead class="bg-blue-50 text-blue-900">
+                                                    <tr>
+                                                        <th class="px-4 py-2">Categoria</th>
+                                                        <th class="px-4 py-2 text-right">Capi</th>
+                                                        <th class="px-4 py-2 text-right">Coeff.</th>
+                                                        <th class="px-4 py-2 text-right">UBA Totali</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-blue-50 text-gray-700">
+                                                    <tr>
+                                                        <td class="px-4 py-2">Bovini > 2 anni</td>
+                                                        <td class="px-4 py-2 text-right">137,5</td>
+                                                        <td class="px-4 py-2 text-right">1,0</td>
+                                                        <td class="px-4 py-2 text-right">137,5</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-4 py-2">Bovini giovani</td>
+                                                        <td class="px-4 py-2 text-right">137,5</td>
+                                                        <td class="px-4 py-2 text-right">0,6</td>
+                                                        <td class="px-4 py-2 text-right">82,5</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-4 py-2">Equini</td>
+                                                        <td class="px-4 py-2 text-right">240</td>
+                                                        <td class="px-4 py-2 text-right">1,0</td>
+                                                        <td class="px-4 py-2 text-right">240,0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-4 py-2">Ovini (Pecore)</td>
+                                                        <td class="px-4 py-2 text-right">2.450</td>
+                                                        <td class="px-4 py-2 text-right">0,15</td>
+                                                        <td class="px-4 py-2 text-right">367,5</td>
+                                                    </tr>
+                                                    <tr class="bg-blue-100 font-bold text-blue-900">
+                                                        <td class="px-4 py-2">TOTALE</td>
+                                                        <td class="px-4 py-2 text-right">-</td>
+                                                        <td class="px-4 py-2 text-right">-</td>
+                                                        <td class="px-4 py-2 text-right">827,5</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 bg-gray-50 p-4 rounded-lg">
+                                            <div>
+                                                <span class="block text-sm text-gray-500">Carico Attuale</span>
+                                                <span class="text-xl font-bold text-gray-800">0,83 UBA/ha</span>
+                                            </div>
+                                            <div class="hidden sm:block text-gray-300">|</div>
+                                            <div>
+                                                <span class="block text-sm text-gray-500">Limite Sostenibile UE</span>
+                                                <span class="text-xl font-bold text-green-600">1,40 UBA/ha</span>
+                                            </div>
+                                            <div class="hidden sm:block text-gray-300">|</div>
+                                            <div class="text-right">
+                                                <span class="block text-sm text-gray-500">Potenziale</span>
+                                                <span class="text-sm font-bold text-blue-600">Possibile Raddoppio</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h4 class="flex items-center text-lg font-bold text-amber-800 mb-4">
+                                    <span class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-3 text-amber-600">C</span>
+                                    Sottobosco e Turismo
+                                </h4>
+                                <div class="bg-white rounded-xl shadow-sm border border-amber-100 p-6">
+                                    <div class="space-y-6">
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">Tartufi e Sottobosco</h5>
+                                            <p class="text-base text-gray-700 text-justify">
+                                                Attualmente l'unica risorsa organizzata è il <strong>tartufo</strong> (concessioni e associazioni nei boschi di quercia). Esiste un forte potenziale inespresso per funghi epigei, bacche di ginepro, rosa canina e la coltivazione di <em>Gentiana Lutea</em> nei pascoli.
+                                            </p>
+                                        </div>
+                                        <hr class="border-gray-100">
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 mb-2">Turismo e Ambiente</h5>
+                                            <p class="text-base text-gray-700 text-justify mb-3">
+                                                Nonostante la presenza di circa <strong>1.000 turisti estivi</strong> e 200 invernali, le risorse ambientali non sono sfruttate commercialmente.
+                                            </p>
+                                            <div class="bg-amber-50 rounded p-3">
+                                                <span class="font-semibold text-amber-900 text-sm block mb-1">Opportunità di sviluppo:</span>
+                                                <p class="text-sm text-amber-800">
+                                                    Creazione di sentieri didattici, percorsi vita, ippoturismo e orienteering, valorizzando l'alto pregio paesaggistico del Monte di Cambio.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+</DefaultLayout>
+
+<script is:inline>
 	function toggleContent(header) {
-	  const content = header.parentElement;
-	  const body = content.querySelector('.collapsible-body');
+	  const contentWrapper = header.parentElement;
+	  const body = contentWrapper.querySelector('.collapsible-body');
 	  const icon = header.querySelector('.expand-icon svg');
 	  
-	  if (body.style.display === 'none' || body.style.display === '') {
-	    // Espandi il contenuto
+	  const isClosed = body.style.display === 'none' || body.style.display === '';
+	  
+	  if (isClosed) {
+	    // Apertura
 	    body.style.display = 'block';
-	    icon.style.transform = 'rotate(180deg)';
-	    
-	    // Animazione smooth
+	    // Reset iniziale per animazione
 	    body.style.opacity = '0';
 	    body.style.transform = 'translateY(-10px)';
 	    
-	    setTimeout(() => {
-	      body.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-	      body.style.opacity = '1';
-	      body.style.transform = 'translateY(0)';
-	    }, 10);
+	    // Force reflow
+	    void body.offsetWidth;
+	    
+	    // Applica transizione
+	    body.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+	    icon.style.transition = 'transform 0.4s ease';
+	    
+	    body.style.opacity = '1';
+	    body.style.transform = 'translateY(0)';
+	    icon.style.transform = 'rotate(180deg)';
 	  } else {
-	    // Comprimi il contenuto
-	    body.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+	    // Chiusura
 	    body.style.opacity = '0';
 	    body.style.transform = 'translateY(-10px)';
 	    icon.style.transform = 'rotate(0deg)';
 	    
 	    setTimeout(() => {
 	      body.style.display = 'none';
-	      body.style.transition = '';
-	    }, 300);
+	    }, 400); // Attende la fine della transizione
 	  }
 	}
 	
-	// Inizializza tutti i contenuti come compressi
+	// Inizializzazione allo stato chiuso
 	document.addEventListener('DOMContentLoaded', function() {
 	  const allBodies = document.querySelectorAll('.collapsible-body');
 	  const allIcons = document.querySelectorAll('.expand-icon svg');
