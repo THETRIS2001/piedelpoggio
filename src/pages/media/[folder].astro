@@ -193,8 +193,8 @@ const capitalize = (s: string) => {
         // Se > 1MB (1048576 bytes) o SCONOSCIUTO -> Chiedi a Cloudflare di ridimensionare
         // Se <= 1MB -> Usa originale (GRATIS, solo banda)
         if (!size || size > 1024 * 1024) {
-          const path = url.startsWith('/') ? url : '/' + url
-          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${location.origin}${path}`
+          const full = new URL(url, window.location.origin).href
+          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${full}`
         } else {
           img.src = url
         }
@@ -214,8 +214,8 @@ const capitalize = (s: string) => {
         // In caso di errore nel check, FORZIAMO la trasformazione (assumiamo file grande/problematico)
         // NON fallback all'originale per richiesta utente.
         console.error('Error checking image size, forcing transform', e)
-        const path = url.startsWith('/') ? url : '/' + url
-        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${location.origin}${path}`
+        const full = new URL(url, window.location.origin).href
+        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${full}`
         
         img.onload = () => { img.style.visibility = 'visible' }
         img.onerror = () => { 

@@ -476,9 +476,13 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     }
     function cfLowRes(url: string) {
       if (!url) return url
-      const path = url.startsWith('/') ? url : '/' + url
-      // Use absolute URL to ensure Cloudflare can resolve the source even if served by a Function
-      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${location.origin}${path}`
+      // Costruiamo l'URL assoluto per Cloudflare
+      try {
+        const full = new URL(url, window.location.origin).href
+        return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${full}`
+      } catch (e) {
+        return url
+      }
     }
 
     async function downloadFolderZip(folder: string, files: MediaFile[]) {
