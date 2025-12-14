@@ -184,43 +184,28 @@ const capitalize = (s: string) => {
       try {
         // 1. Controlliamo la dimensione del file originale (HEAD request è molto leggera)
         const res = await fetch(url, { method: 'HEAD' })
-        if (!res.ok) throw new Error(`HEAD failed: ${res.status}`)
-        
-        const lenStr = res.headers.get('content-length')
-        const size = lenStr ? Number(lenStr) : 0
+        const size = Number(res.headers.get('content-length') || 0)
         
         // 2. Logica di decisione:
-        // Se > 1MB (1048576 bytes) o SCONOSCIUTO -> Chiedi a Cloudflare di ridimensionare
+        // Se > 1MB (1048576 bytes) -> Chiedi a Cloudflare di ridimensionare (CONSUMA QUOTA)
         // Se <= 1MB -> Usa originale (GRATIS, solo banda)
-        if (!size || size > 1024 * 1024) {
-          const full = new URL(url, window.location.origin).href
-          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${full}`
+        if (size > 1024 * 1024) {
+          const path = url.startsWith('/') ? url : '/' + url
+          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
         } else {
           img.src = url
         }
         
         // 3. Mostriamo l'immagine solo ora che abbiamo deciso la sorgente
         img.onload = () => { img.style.visibility = 'visible' }
-        img.onerror = () => { 
-          // Se fallisce il caricamento (es. errore trasformazione), nascondiamo
-          img.style.visibility = 'hidden'
-          console.error('Failed to load image:', img.src)
-        }
-        
         // Fallback immediato se è già in cache
         if (img.complete) img.style.visibility = 'visible'
         
       } catch (e) {
-        // In caso di errore nel check, FORZIAMO la trasformazione (assumiamo file grande/problematico)
-        // NON fallback all'originale per richiesta utente.
-        console.error('Error checking image size, forcing transform', e)
-        const full = new URL(url, window.location.origin).href
-        img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp/${full}`
-        
-        img.onload = () => { img.style.visibility = 'visible' }
-        img.onerror = () => { 
-          img.style.visibility = 'hidden' 
-        }
+        // In caso di errore nel check, fallback all'originale
+        console.error('Error checking image size', e)
+        img.src = url
+        img.style.visibility = 'visible'
       }
     }
     // ---------------------------------
@@ -392,6 +377,25 @@ const capitalize = (s: string) => {
       return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
 
-
+    document.querySelectorAll('#gallery img').forEach(async (el) => {
+      try {
+        const orig = el.getAttribute('data-original') || ''
+        let useLow = false
+        try {
+          const r = await fetch(orig, { method: 'HEAD', cache: 'no-store' })
+          const cl = Number(r.headers.get('content-length') || '0')
+          useLow = cl > 1024 * 1024
+        } catch {}
+        
+        const src = useLow ? cfLowRes(orig) : orig
+        el.setAttribute('src', src)
+        el.addEventListener('load', () => {
+          try { (el as HTMLImageElement).style.visibility = 'visible' } catch {}
+        })
+        el.addEventListener('error', () => {
+          try { (el.parentElement)?.remove() } catch {}
+        })
+      } catch {}
+    })
   </script>
 </DefaultLayout>
