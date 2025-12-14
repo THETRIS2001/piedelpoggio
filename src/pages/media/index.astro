@@ -344,19 +344,23 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                }
                
                // Usa la dimensione restituita dall'API se presente, altrimenti prova HEAD
-        let size = f.size || 0
-        if (size === 0) {
-          try {
-            const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
-            const cl = r.headers.get('content-length')
-            // Se c'è il header usa quello, altrimenti (es. CORS opaco) assumi sia grande
-            size = cl ? Number(cl) : 99999999
-          } catch {
-            size = 99999999 // Se fallisce, assumiamo sia pesante per forzare trasformazione
-          }
-        }
-        
-        useLow = size > 1024 * 1024
+               let size = f.size || 0
+               if (size === 0) {
+                 try {
+                   const r = await fetch(f.url, { method: 'HEAD', cache: 'no-store' })
+                   size = Number(r.headers.get('content-length') || '0')
+                 } catch {
+                   size = 99999999 // Se fallisce, assumiamo sia pesante per forzare trasformazione
+                 }
+               }
+
+               // Se dopo il check la size è ancora 0 (es. HEAD senza content-length), forziamo la trasformazione
+               // Meglio trasformare un file piccolo che scaricare 3MB inutilmente.
+               if (size === 0) size = 99999999
+               
+               useLow = size > 1024 * 1024
+               console.log(`[MediaPreview] File: ${f.name}, Size: ${size}, Transform: ${useLow}`)
+
                weight = useLow ? 1 : 0
              } catch {
                useLow = true
@@ -482,10 +486,8 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
     }
     function cfLowRes(url: string) {
       if (!url) return url
-      // Usiamo wsrv.nl invece di Cloudflare Image Resizing per evitare problemi con i Worker
-      // e garantire che il ridimensionamento avvenga sempre.
-      const fullUrl = new URL(url, window.location.origin).href
-      return `https://wsrv.nl/?url=${encodeURIComponent(fullUrl)}&w=500&output=webp&q=80`
+      const path = url.startsWith('/') ? url : '/' + url
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
     }
 
     async function downloadFolderZip(folder: string, files: MediaFile[]) {
