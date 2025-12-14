@@ -80,6 +80,14 @@ const Masonry: React.FC<MasonryProps> = ({
 }) => {
   const [itemsData, setItemsData] = useState<MasonryItem[]>(source === 'media' ? [] : (items || []))
   
+  const cfLowRes = (url: string, size?: number) => {
+    if (!url) return url
+    const s = typeof size === 'number' ? size : 0
+    if (s <= 1024 * 1024) return url
+    const path = url.startsWith('/') ? url : '/' + url
+    return `/cdn-cgi/image/fit=scale-down,width=800,quality=80,format=webp${path}`
+  }
+
   const getRandomHeight = () => {
     const heights = [260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520]
     return heights[Math.floor(Math.random() * heights.length)]
@@ -95,28 +103,26 @@ const Masonry: React.FC<MasonryProps> = ({
         
         const validImages: MasonryItem[] = []
 
-        // 1. Raccogli TUTTE le immagini valide (< 1MB) da TUTTI gli eventi
         for (const ev of events) {
           const folder = String(ev.folder || '')
           const files = Array.isArray(ev.files) ? ev.files : []
           
           for (const f of files) {
             const name = String(f.name || '')
-            // Skip video
             if (/\.(mp4|webm|ogg)$/i.test(name)) continue
             
-            // CRITERIO UNICO: SIZE < 1MB
             const size = Number(f.size || 0)
-            if (size > 0 && size < 1024 * 1024) {
-               validImages.push({
-                 id: `${folder}/${name}`,
-                 img: String(f.url || ''),
-                 url: String(f.url || ''),
-                 height: getRandomHeight(),
-                 orig: String(f.url || ''),
-                 folderHref: `/media/${folder}`
-               })
-            }
+            const url = String(f.url || '')
+            const imgUrl = cfLowRes(url, size)
+
+            validImages.push({
+              id: `${folder}/${name}`,
+              img: imgUrl,
+              url,
+              height: getRandomHeight(),
+              orig: url,
+              folderHref: `/media/${folder}`
+            })
           }
         }
 

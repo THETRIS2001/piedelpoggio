@@ -11,7 +11,7 @@ const isAllowed = (name: string) => {
 }
 
 let meta: any = null
-let files: Array<{ name: string; url: string; isVideo: boolean }> = []
+let files: Array<{ name: string; url: string; isVideo: boolean; size: number }> = []
 let formattedDate: string = ''
 
 async function listAll(bucket: any, options: any) {
@@ -48,27 +48,23 @@ try {
       }
     } catch {}
     
-    // Use listAll instead of bucket.list to handle >1000 files
     const listed = await listAll(bucket, { prefix: `media/${folder}/` })
-    
-    const names = (listed.objects || [])
-      .map((o: any) => o.key as string)
-      .map((k: string) => k.split('/').pop() || '')
-      .filter((n: string) => isAllowed(n))
-    files = names.map((n: string) => {
-      const isVideo = /\.(mp4|webm|ogg)$/i.test(n)
-      const url = `/media/${folder}/${n}`
-      return { name: n, url, isVideo }
-    })
+    files = (listed.objects || [])
+      .filter((o: any) => {
+        const key = String(o.key || '')
+        const name = key.split('/').pop() || ''
+        return isAllowed(name)
+      })
+      .map((o: any) => {
+        const key = String(o.key || '')
+        const name = key.split('/').pop() || ''
+        const isVideo = /\.(mp4|webm|ogg)$/i.test(name)
+        const size = Number((o.size as number | undefined) || (o.Size as number | undefined) || 0)
+        const url = `/media/${folder}/${name}`
+        return { name, url, isVideo, size }
+      })
   }
 } catch {}
-
-// Calcola la classe grid in base al numero di file
-const gridClass = files.length === 1 
-  ? 'grid-cols-1' 
-  : files.length === 2 
-    ? 'grid-cols-2' 
-    : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
 
 if (meta?.date) {
   const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
@@ -118,13 +114,13 @@ const capitalize = (s: string) => {
     <section class="pt-6 pb-16">
       <div class="container mx-auto px-4">
         <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-4 md:p-6">
-          <div id="gallery" class={`grid ${gridClass} gap-3 md:gap-4`}>
+          <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
             {files.map((f, idx) => (
               <div class="rounded-lg overflow-hidden bg-gray-100">
                 {f.isVideo ? (
                   <video src={f.url} class="w-full h-40 md:h-48 object-cover" controls></video>
                 ) : (
-                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original={f.url} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
+                  <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-original={f.url} data-size={f.size} alt={f.name} class="w-full h-40 md:h-48 object-cover cursor-pointer" loading="lazy" data-idx={idx} style="visibility:hidden" />
                 )}
               </div>
             ))}
@@ -145,7 +141,6 @@ const capitalize = (s: string) => {
   </main>
 
   <script>
-    // 1. Definiamo le interfacce per window (per fflate)
     interface WindowWithFflate extends Window {
       fflate?: any;
     }
@@ -159,71 +154,12 @@ const capitalize = (s: string) => {
       }
     })
 
-    // Recuperiamo gli elementi con il casting corretto (risolve "possibly null")
     const lb = document.getElementById('lightbox') as HTMLDivElement | null
     const lbImg = document.getElementById('lightboxImg') as HTMLImageElement | null
     const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement | null
     const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement | null
-    
-    // Recuperiamo tutte le immagini della galleria
-    const galleryImgs = document.querySelectorAll('#gallery img')
-    const imgs: string[] = Array.from(galleryImgs).map(el => el.getAttribute('data-original') || '')
-    
-    // --- LAZY LOADING INTELLIGENTE ---
-    // Questo observer controlla quando un'immagine entra nello schermo.
-    // Solo allora controlla il peso e decide se chiedere la versione ridimensionata.
-    const imageObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target as HTMLImageElement
-          const url = img.getAttribute('data-original')
-          if (url) {
-            checkAndLoad(img, url)
-          }
-          imageObserver.unobserve(img)
-        }
-      })
-    })
 
-    galleryImgs.forEach(img => imageObserver.observe(img))
-
-    async function checkAndLoad(img: HTMLImageElement, url: string) {
-      try {
-        // 1. Controlliamo la dimensione del file originale (HEAD request è molto leggera)
-        // Aggiungiamo cache-bust per evitare problemi di cache
-        const res = await fetch(url + '?cache-bust=' + Date.now(), { method: 'HEAD' })
-        const size = Number(res.headers.get('content-length') || 0)
-        
-        // 2. Logica di decisione:
-        // Se > 1MB (1048576 bytes) -> Chiedi a Cloudflare di ridimensionare (CONSUMA QUOTA)
-        // Se <= 1MB -> Usa originale (GRATIS, solo banda)
-        if (size > 1024 * 1024) {
-          const path = url.startsWith('/') ? url : '/' + url
-          img.src = `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
-        } else {
-          img.src = url
-        }
-        
-        // 3. Mostriamo l'immagine solo ora che abbiamo deciso la sorgente
-        img.onload = () => { img.style.visibility = 'visible' }
-        if (img.complete) img.style.visibility = 'visible'
-        
-        // 4. Se errore di caricamento, nascondi. NESSUN FALLBACK.
-        img.onerror = () => { 
-           img.style.display = 'none';
-        }
-
-      } catch (e) {
-        // In caso di errore nel check, NESSUN FALLBACK.
-        console.error('Error checking image size', e)
-        img.style.display = 'none'
-      }
-    }
-    // ---------------------------------
-    
     let current = 0
-
-    // Risolve: Parameter 'src' implicitly has an 'any' type
     const setSizeForSrc = (src: string) => {
       if (!lbImg) return
       const temp = new Image()
@@ -239,7 +175,6 @@ const capitalize = (s: string) => {
       temp.src = src
     }
 
-    // Risolve: Parameter 'idx' implicitly has an 'any' type
     const showIndex = (idx: number) => {
       if (!lb || !lbImg) return
       current = idx
@@ -252,14 +187,6 @@ const capitalize = (s: string) => {
         document.body.style.overflow = 'hidden'
       }
     }
-
-    galleryImgs.forEach((el) => {
-      el.addEventListener('click', (e) => {
-        const target = e.currentTarget as HTMLElement
-        const idx = Number(target.getAttribute('data-idx'))
-        showIndex(idx)
-      })
-    })
 
     const close = () => {
       if (!lb) return
@@ -300,8 +227,6 @@ const capitalize = (s: string) => {
     }
 
     async function downloadAll() {
-      // Risolve: Cannot find name 'folder'
-      // Recuperiamo la cartella dall'attributo data-folder del pulsante
       const btn = document.getElementById('downloadFolder')
       const folderName = btn?.getAttribute('data-folder') || 'download'
 
@@ -381,5 +306,54 @@ const capitalize = (s: string) => {
     }
 
     document.getElementById('downloadFolder')?.addEventListener('click', downloadAll)
+
+    function cfLowRes(url: string) {
+      if (!url) return url
+      const path = url.startsWith('/') ? url : '/' + url
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+    }
+
+    const galleryImgs = document.querySelectorAll('#gallery img')
+    const imgs: string[] = Array.from(galleryImgs).map(el => {
+      const orig = el.getAttribute('data-original') || ''
+      const sizeAttr = el.getAttribute('data-size') || '0'
+      const size = Number(sizeAttr) || 0
+      if (!orig) return ''
+      if (size > 1024 * 1024) return cfLowRes(orig)
+      return orig
+    })
+
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return
+        const img = entry.target as HTMLImageElement
+        const orig = img.getAttribute('data-original') || ''
+        const sizeAttr = img.getAttribute('data-size') || '0'
+        const size = Number(sizeAttr) || 0
+        if (!orig) {
+          imageObserver.unobserve(img)
+          return
+        }
+        const src = size > 1024 * 1024 ? cfLowRes(orig) : orig
+        img.addEventListener('load', () => {
+          try { img.style.visibility = 'visible' } catch {}
+        }, { once: true })
+        img.addEventListener('error', () => {
+          try { img.parentElement?.remove() } catch {}
+        }, { once: true })
+        img.src = src
+        imageObserver.unobserve(img)
+      })
+    })
+
+    galleryImgs.forEach((img, index) => {
+      imageObserver.observe(img)
+      img.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement
+        const idxAttr = target.getAttribute('data-idx')
+        const idx = idxAttr ? Number(idxAttr) : index
+        showIndex(idx)
+      })
+    })
   </script>
 </DefaultLayout>
