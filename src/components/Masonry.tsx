@@ -79,6 +79,8 @@ const Masonry: React.FC<MasonryProps> = ({
   limit = 12
 }) => {
   const [itemsData, setItemsData] = useState<MasonryItem[]>(source === 'media' ? [] : (items || []))
+  const [loading, setLoading] = useState(source === 'media')
+  
   const getRandomHeight = () => {
     const heights = [260, 280, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520]
     return heights[Math.floor(Math.random() * heights.length)]
@@ -88,6 +90,7 @@ const Masonry: React.FC<MasonryProps> = ({
     if (source !== 'media') return
     ;(async () => {
       try {
+        setLoading(true)
         const res = await fetch('/api/media?list=events')
         const data = await res.json()
         const events = Array.isArray(data.events) ? data.events : []
@@ -131,7 +134,10 @@ const Masonry: React.FC<MasonryProps> = ({
         }))
         
         setItemsData(out)
-      } catch {}
+      } catch {
+      } finally {
+        setLoading(false)
+      }
     })()
   }, [source, limit])
 
@@ -201,6 +207,20 @@ const Masonry: React.FC<MasonryProps> = ({
     setLightboxOpen(false);
     setSelectedImage(null);
   };
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-2 min-[600px]:grid-cols-3 min-[1000px]:grid-cols-4 min-[1500px]:grid-cols-5 gap-4 p-4">
+        {Array.from({ length: limit || 12 }).map((_, i) => (
+          <div 
+            key={i} 
+            className="animate-pulse bg-gray-200 rounded-lg" 
+            style={{ height: `${getRandomHeight()}px` }}
+          ></div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="masonry-container" ref={containerRef}>
