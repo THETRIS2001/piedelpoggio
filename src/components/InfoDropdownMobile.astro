@@ -203,9 +203,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const button = document.querySelector('.mobile-info-trigger');
-    const dropdown = document.querySelector('.mobile-dropdown-container');
-    const arrow = document.querySelector('.mobile-info-arrow');
+    // Aggiungiamo 'as HTMLElement' per accedere alla proprietà .style
+    const button = document.querySelector('.mobile-info-trigger') as HTMLElement | null;
+    const dropdown = document.querySelector('.mobile-dropdown-container') as HTMLElement | null;
+    const arrow = document.querySelector('.mobile-info-arrow') as HTMLElement | null;
+    
     let isOpen = false;
 
     if (!button || !dropdown || !arrow) return;
@@ -227,7 +229,10 @@
 
     // Chiudi quando si clicca fuori
     document.addEventListener('click', (e) => {
-      if (isOpen && !button.contains(e.target) && !dropdown.contains(e.target)) {
+      // Castiamo e.target a 'Node' perché 'EventTarget' è troppo generico per .contains()
+      const target = e.target as Node;
+      
+      if (isOpen && !button.contains(target) && !dropdown.contains(target)) {
         dropdown.style.display = 'none';
         arrow.style.transform = 'rotate(0deg)';
         button.setAttribute('aria-expanded', 'false');
