@@ -1,88 +1,88 @@
 {
-  "hash": "5d79d286",
-  "configHash": "8c01e9eb",
+  "hash": "9a09a195",
+  "configHash": "c6a77053",
   "lockfileHash": "5b5a4241",
-  "browserHash": "33d421d1",
+  "browserHash": "b46743aa",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "9348f4ee",
+      "fileHash": "72b62379",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "172123e0",
+      "fileHash": "98bd06f2",
       "needsInterop": true
     },
     "motion": {
       "src": "../../node_modules/motion/dist/es/index.mjs",
       "file": "motion.js",
-      "fileHash": "5009c031",
+      "fileHash": "01534f8a",
       "needsInterop": false
     },
     "motion/react": {
       "src": "../../node_modules/motion/dist/es/react.mjs",
       "file": "motion_react.js",
-      "fileHash": "93abb44e",
+      "fileHash": "71deb417",
       "needsInterop": false
     },
     "gsap": {
       "src": "../../node_modules/gsap/index.js",
       "file": "gsap.js",
-      "fileHash": "a03254da",
+      "fileHash": "20f60661",
       "needsInterop": false
     },
     "@astrojs/react/client.js": {
       "src": "../../node_modules/@astrojs/react/dist/client.js",
       "file": "@astrojs_react_client__js.js",
-      "fileHash": "f091e969",
+      "fileHash": "8ecaa98f",
       "needsInterop": false
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "9f5169d1",
+      "fileHash": "414b14be",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "86575c0e",
+      "fileHash": "82b426eb",
       "needsInterop": true
     },
     "astro > cssesc": {
       "src": "../../node_modules/cssesc/cssesc.js",
       "file": "astro___cssesc.js",
-      "fileHash": "51c3d062",
+      "fileHash": "729393c5",
       "needsInterop": true
     },
     "astro > aria-query": {
       "src": "../../node_modules/aria-query/lib/index.js",
       "file": "astro___aria-query.js",
-      "fileHash": "3db7a73d",
+      "fileHash": "1333d0b3",
       "needsInterop": true
     },
     "astro > axobject-query": {
       "src": "../../node_modules/axobject-query/lib/index.js",
       "file": "astro___axobject-query.js",
-      "fileHash": "f37ead4c",
+      "fileHash": "b33826b5",
       "needsInterop": true
     }
   },
   "chunks": {
-    "chunk-UHJV5OXI": {
-      "file": "chunk-UHJV5OXI.js"
+    "chunk-USKBIQNT": {
+      "file": "chunk-USKBIQNT.js"
     },
-    "chunk-OUWKCDPP": {
-      "file": "chunk-OUWKCDPP.js"
+    "chunk-WEJCELNV": {
+      "file": "chunk-WEJCELNV.js"
     },
-    "chunk-R5F65CVE": {
-      "file": "chunk-R5F65CVE.js"
+    "chunk-7S6GW7VR": {
+      "file": "chunk-7S6GW7VR.js"
     },
-    "chunk-4BPZ7PBZ": {
-      "file": "chunk-4BPZ7PBZ.js"
+    "chunk-UMBYCFDB": {
+      "file": "chunk-UMBYCFDB.js"
     },
     "chunk-G3PMV62Z": {
       "file": "chunk-G3PMV62Z.js"

@@ -37,7 +37,7 @@ var warning = () => {
 };
 var invariant = () => {
 };
-if (true) {
+if (false) {
   warning = (check, message, errorCode) => {
     if (!check && typeof console !== "undefined") {
       console.warn(formatErrorMessage(message, errorCode));
@@ -1349,7 +1349,7 @@ var JSAnimation = class extends WithPromise {
     const { type = keyframes, repeat = 0, repeatDelay = 0, repeatType, velocity = 0 } = options;
     let { keyframes: keyframes$1 } = options;
     const generatorFactory = type || keyframes;
-    if (generatorFactory !== keyframes) {
+    if (false) {
       invariant(keyframes$1.length <= 2, `Only two keyframes currently supported with spring and inertia animations. Trying to animate ${keyframes$1}`, "spring-two-frames");
     }
     if (generatorFactory !== keyframes && typeof keyframes$1[0] !== "number") {
@@ -3065,7 +3065,7 @@ var MotionValue = class {
    * @deprecated
    */
   onChange(subscription) {
-    if (true) {
+    if (false) {
       warnOnce(false, `value.onChange(callback) is deprecated. Switch to value.on("change", callback).`);
     }
     return this.on("change", subscription);
@@ -4444,7 +4444,7 @@ var VisualElement = class {
       initPrefersReducedMotion();
     }
     this.shouldReduceMotion = this.reducedMotionConfig === "never" ? false : this.reducedMotionConfig === "always" ? true : prefersReducedMotion.current;
-    if (true) {
+    if (false) {
       warnOnce(this.shouldReduceMotion !== true, "You have Reduced Motion enabled on your device. Animations may not appear as expected.", "reduced-motion-disabled");
     }
     (_a = this.parent) == null ? void 0 : _a.addChild(this);
@@ -6046,7 +6046,7 @@ function measure(container, target = container, info) {
   info.y.targetLength = target === container ? target.scrollHeight : target.clientHeight;
   info.x.containerLength = container.clientWidth;
   info.y.containerLength = container.clientHeight;
-  if (true) {
+  if (false) {
     if (container && target && target !== container) {
       warnOnce(getComputedStyle(container).position !== "static", "Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.");
     }
@@ -6483,4 +6483,4 @@ export {
   distance,
   distance2D
 };
-//# sourceMappingURL=chunk-UHJV5OXI.js.map
+//# sourceMappingURL=chunk-USKBIQNT.js.map
