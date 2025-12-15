@@ -14,7 +14,20 @@ function escapeHtml(input: string): string {
 
 export const GET: APIRoute = async ({ request, locals }) => {
   try {
-    const db = (locals as any).runtime.env.DB;
+    const db = (locals as any).runtime?.env?.DB;
+    if (!db) {
+      console.error('Database binding not found in locals.runtime.env.DB');
+      return new Response(JSON.stringify({ 
+        error: 'Database configuration error',
+        details: 'DB binding missing'
+      }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
     const url = new URL(request.url);
     const date = url.searchParams.get('date');
 
@@ -49,7 +62,18 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const db = (locals as any).runtime.env.DB;
+    const db = (locals as any).runtime?.env?.DB;
+    if (!db) {
+      return new Response(JSON.stringify({ 
+        error: 'Database configuration error',
+        details: 'DB binding missing'
+      }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
     const body = await request.json();
     
     // Validazione dei dati richiesti
@@ -176,7 +200,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
 export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
-    const db = (locals as any).runtime.env.DB;
+    const db = (locals as any).runtime?.env?.DB;
+    if (!db) {
+      return new Response(JSON.stringify({ 
+        error: 'Database configuration error',
+        details: 'DB binding missing'
+      }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
 
