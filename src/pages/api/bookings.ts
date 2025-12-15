@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-import { getRuntime } from '@astrojs/cloudflare/runtime';
 import { getBookings, createBooking, deleteBooking, checkBookingConflict, getBookingById, type Booking } from '../../lib/d1';
 
 export const prerender = false;
@@ -13,14 +12,7 @@ function escapeHtml(input: string): string {
     .replace(/'/g, '&#39;');
 }
 
-function resolveDb(request: Request, locals: any): { db: any; source: string; envKeys: string[] } {
-  try {
-    const runtime = getRuntime(request as any);
-    const env = (runtime as any)?.env || {};
-    if (env && (env as any).DB) {
-      return { db: (env as any).DB, source: 'getRuntime', envKeys: Object.keys(env) };
-    }
-  } catch {}
+function resolveDb(_request: Request, locals: any): { db: any; source: string; envKeys: string[] } {
   const runtimeLocals = locals?.runtime;
   const envLocals = runtimeLocals?.env || locals?.env || locals?.cloudflare?.env || {};
   if (envLocals && (envLocals as any).DB) {
