@@ -11,8 +11,11 @@ type Meta = {
 
 function getBucket(locals: any): any | null {
   try {
-    const env = locals?.runtime?.env as any
-    return env?.MEDIA_BUCKET || null
+    const runtimeEnv = locals?.runtime?.env as any
+    if (runtimeEnv?.MEDIA_BUCKET) return runtimeEnv.MEDIA_BUCKET
+    const directEnv = (locals?.env || locals?.cloudflare?.env) as any
+    if (directEnv?.MEDIA_BUCKET) return directEnv.MEDIA_BUCKET
+    return null
   } catch {
     return null
   }
