@@ -19,6 +19,11 @@ export default defineConfig({
   },
   vite: {
     cacheDir: '.vite-cache-astro-dev',
+    resolve: {
+      alias: {
+        'react-dom/server': 'react-dom/server.edge',
+      },
+    },
     optimizeDeps: {
       include: ['react', 'react-dom', 'motion', 'motion/react', 'gsap']
     },
