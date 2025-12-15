@@ -16,10 +16,16 @@ export const GET: APIRoute = async ({ request, locals }) => {
   try {
     const db = (locals as any).runtime?.env?.DB;
     if (!db) {
-      console.error('Database binding not found in locals.runtime.env.DB');
+      const debugInfo = {
+        localsKeys: Object.keys(locals || {}),
+        runtimeKeys: Object.keys((locals as any).runtime || {}),
+        envKeys: Object.keys((locals as any).runtime?.env || {}),
+      };
+      console.error('Database binding not found', debugInfo);
       return new Response(JSON.stringify({ 
         error: 'Database configuration error',
-        details: 'DB binding missing'
+        details: 'DB binding missing',
+        debug: debugInfo
       }), {
         status: 500,
         headers: {
@@ -64,9 +70,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const db = (locals as any).runtime?.env?.DB;
     if (!db) {
+      const debugInfo = {
+        localsKeys: Object.keys(locals || {}),
+        runtimeKeys: Object.keys((locals as any).runtime || {}),
+        envKeys: Object.keys((locals as any).runtime?.env || {}),
+      };
       return new Response(JSON.stringify({ 
         error: 'Database configuration error',
-        details: 'DB binding missing'
+        details: 'DB binding missing',
+        debug: debugInfo
       }), {
         status: 500,
         headers: {
