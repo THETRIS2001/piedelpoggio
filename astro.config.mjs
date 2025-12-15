@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import cloudflare from '@astrojs/cloudflare';
 
+// https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react(), sitemap()],
   site: 'https://piedelpoggio.org',
@@ -24,11 +25,6 @@ export default defineConfig({
     server: {
       hmr: {
         overlay: true
-      }
-    },
-    resolve: {
-      alias: {
-        'react-dom/server': 'react-dom/server.edge'
       }
     }
   }
