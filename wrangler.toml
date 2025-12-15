@@ -1,0 +1,7 @@
+name = "piedelpoggio-site"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB" # Available in your Worker on env.DB
+database_name = "piedelpoggio-db"
+database_id = "9ce447ca-e913-4470-800e-8f6f6faa08d0" # Run `npx wrangler d1 create piedelpoggio-db` to get this

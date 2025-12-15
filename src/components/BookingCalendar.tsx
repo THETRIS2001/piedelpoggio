@@ -101,15 +101,15 @@ const CalendarHeader: React.FC<{ month: number; year: number; onPrev: () => void
 
 const BookingCalendar: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
-  const now = useMemo(() => new Date(), []);
+  const now = new Date();
   
   const [visibleMonth, setVisibleMonth] = useState(now.getMonth());
   const [visibleYear, setVisibleYear] = useState(now.getFullYear());
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>(toDateKey(now));
   
   useEffect(() => {
     setIsClient(true);
-    setSelectedDate(toDateKey(new Date()));
+    // Aggiorniamo selectedDate solo se necessario, ma lasciamo un valore iniziale sensato per il SSR
   }, []);
 
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -129,7 +129,8 @@ const BookingCalendar: React.FC = () => {
   });
   const [formErrors, setFormErrors] = useState<{ name?: string; phone?: string }>({});
 
-  if (!isClient) return null; // Avoid hydration mismatch by rendering nothing on server
+  // Removed aggressive client-only check to allow SSR rendering
+  // if (!isClient) return null;
 
   // Fetch dati prenotazioni
   const loadBookings = async () => {
@@ -307,19 +308,27 @@ const BookingCalendar: React.FC = () => {
         setFormData({ customerName: '', customerPhone: '', title: '' });
         await loadBookings(); // Ricarica le prenotazioni
       } else {
-        // Chiudi la modale anche in caso di errore, per mostrare il messaggio
-        setShowBookingForm(false);
+        // NON chiudere la modale, così l'utente rimane nel contesto e vede l'errore
+        // setShowBookingForm(false); <-- RIMOSSO
+        
         const errorMsg = result.error || 'Errore nella creazione della prenotazione';
+        
+        // Mostriamo l'errore sia nel toast che (opzionalmente) dentro il form se volessimo
+        // Per ora usiamo il meccanismo showMessage esistente ma assicuriamoci che sia ben visibile
         showMessage('error', errorMsg);
         
-        // Se è un errore 500, assicuriamoci che l'utente capisca che qualcosa è andato storto lato server
+        // Se è un errore 500, logghiamo per debug
         if (response.status === 500) {
            console.error('Server error during booking:', result);
+           // Opzionale: rendere il messaggio più esplicito per l'utente
+           showMessage('error', 'Errore del server. Riprova più tardi o contatta l\'assistenza.');
         }
       }
     } catch (error) {
-      setShowBookingForm(false);
-      showMessage('error', 'Errore di connessione o del server. Riprova più tardi.');
+      // Anche qui NON chiudiamo la modale
+      // setShowBookingForm(false); <-- RIMOSSO
+      console.error('Network error:', error);
+      showMessage('error', 'Errore di connessione. Controlla la tua rete e riprova.');
     } finally {
       setIsLoading(false);
     }
@@ -527,56 +536,77 @@ const BookingCalendar: React.FC = () => {
         </div>
         <div>
           <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-800 mb-3">Dettagli prenotazione</h3>
-            <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Dettagli prenotazione
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div>
                 <label className="text-xs text-gray-600">Giorno</label>
-                <div className="mt-1 px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800">{selectedDate}</div>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => {
+                    const newDate = e.target.value;
+                    if (newDate) {
+                      setSelectedDate(newDate);
+                      const parts = newDate.split('-');
+                      if (parts.length === 3) {
+                        const y = parseInt(parts[0], 10);
+                        const m = parseInt(parts[1], 10) - 1;
+                        setVisibleMonth(m);
+                        setVisibleYear(y);
+                      }
+                    }
+                  }}
+                  className="mt-1 w-full px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
               </div>
-              <div className="grid grid-cols-2 gap-3 items-end">
-                <div>
-                  <label className="text-xs text-gray-600">Ora di inizio</label>
-                  <div className="relative">
-                    <select
-                      value={startTime}
-                      onChange={(e) => handleSelectStart(e.target.value)}
-                      className="mt-1 w-full px-3 py-2 pr-14 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
-                    >
-                      <option value="">Seleziona</option>
-                      {startOptions.map((s) => (
-                        <option key={`s-${s}`} value={s}>{removeSecondsFromTime(s)}</option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs text-gray-600">Ora di fine</label>
-                  <div className="relative">
-                    <select
-                      value={endTime}
-                      onChange={(e) => handleSelectEnd(e.target.value)}
-                      disabled={!startTime || endOptions.length === 0}
-                      className={`mt-1 w-full px-3 py-2 pr-14 rounded-lg focus:outline-none focus:ring-2 appearance-none ${(!startTime || endOptions.length === 0) ? 'bg-gray-100 text-gray-400 border-gray-200' : 'bg-white border border-gray-200 text-gray-800 focus:ring-primary-500'}`}
-                    >
-                      <option value="">Seleziona</option>
-                      {endOptions.map((e) => (
-                        <option key={`e-${e}`} value={e}>{removeSecondsFromTime(e)}</option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
-                      </svg>
-                    </div>
+              <div>
+                <label className="text-xs text-gray-600">Ora di inizio</label>
+                <div className="relative">
+                  <select
+                    value={startTime}
+                    onChange={(e) => handleSelectStart(e.target.value)}
+                    className="mt-1 w-full px-3 py-2 pr-14 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
+                  >
+                    <option value="">Seleziona</option>
+                    {startOptions.map((s) => (
+                      <option key={`s-${s}`} value={s}>{removeSecondsFromTime(s)}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+                    </svg>
                   </div>
                 </div>
               </div>
-              <div className="pt-2">
+              <div>
+                <label className="text-xs text-gray-600">Ora di fine</label>
+                <div className="relative">
+                  <select
+                    value={endTime}
+                    onChange={(e) => handleSelectEnd(e.target.value)}
+                    disabled={!startTime || endOptions.length === 0}
+                    className={`mt-1 w-full px-3 py-2 pr-14 rounded-lg focus:outline-none focus:ring-2 appearance-none ${(!startTime || endOptions.length === 0) ? 'bg-gray-100 text-gray-400 border-gray-200' : 'bg-white border border-gray-200 text-gray-800 focus:ring-primary-500'}`}
+                  >
+                    <option value="">Seleziona</option>
+                    {endOptions.map((e) => (
+                      <option key={`e-${e}`} value={e}>{removeSecondsFromTime(e)}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="pt-2">
                 {canBookSlot() ? (
                   <button
                     onClick={() => setShowBookingForm(true)}
@@ -630,13 +660,23 @@ const BookingCalendar: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
 
       {/* Form di prenotazione */}
       {showBookingForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Prenota il campo</h3>
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl transform transition-all">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Nuova Prenotazione</h3>
+            
+            {/* Alert errore dentro la modale per massima visibilità */}
+            {message && message.type === 'error' && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-start gap-2">
+                <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{message.text}</span>
+              </div>
+            )}
+            
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Nome <span className="text-red-600">*</span></label>

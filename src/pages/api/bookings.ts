@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getBookings, createBooking, deleteBooking, checkBookingConflict, getBookingById, type Booking } from '../../lib/supabase';
+import { getBookings, createBooking, deleteBooking, checkBookingConflict, getBookingById, type Booking } from '../../lib/d1';
 
 export const prerender = false;
 
@@ -12,12 +12,13 @@ function escapeHtml(input: string): string {
     .replace(/'/g, '&#39;');
 }
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ request, locals }) => {
   try {
+    const db = (locals as any).runtime.env.DB;
     const url = new URL(request.url);
     const date = url.searchParams.get('date');
 
-    const bookings = await getBookings();
+    const bookings = await getBookings(db);
     
     // Filtra per data se specificata
     const filteredBookings = date 
@@ -48,6 +49,7 @@ export const GET: APIRoute = async ({ request }) => {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    const db = (locals as any).runtime.env.DB;
     const body = await request.json();
     
     // Validazione dei dati richiesti
@@ -92,7 +94,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Controlla conflitti di orario
-    const hasConflict = await checkBookingConflict(body.date, body.start, body.end);
+    const hasConflict = await checkBookingConflict(db, body.date, body.start, body.end);
     if (hasConflict) {
       return new Response(JSON.stringify({ 
         error: 'Time slot conflict. This time is already booked.' 
@@ -105,7 +107,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Crea la prenotazione
-    const newBooking = await createBooking({
+    const newBooking = await createBooking(db, {
       date: body.date,
       start: body.start,
       end: body.end,
@@ -174,6 +176,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
 export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
+    const db = (locals as any).runtime.env.DB;
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
 
@@ -188,8 +191,8 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const booking = await getBookingById(id);
-    await deleteBooking(id);
+    const booking = await getBookingById(db, id);
+    await deleteBooking(db, id);
 
     try {
       if (booking) {
