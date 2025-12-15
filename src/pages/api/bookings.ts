@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { getRuntime } from '@astrojs/cloudflare/runtime';
 import { getBookings, createBooking, deleteBooking, checkBookingConflict, getBookingById, type Booking } from '../../lib/d1';
 
 export const prerender = false;
@@ -12,14 +13,31 @@ function escapeHtml(input: string): string {
     .replace(/'/g, '&#39;');
 }
 
+function resolveDb(request: Request, locals: any): { db: any; source: string; envKeys: string[] } {
+  try {
+    const runtime = getRuntime(request as any);
+    const env = (runtime as any)?.env || {};
+    if (env && (env as any).DB) {
+      return { db: (env as any).DB, source: 'getRuntime', envKeys: Object.keys(env) };
+    }
+  } catch {}
+  const runtimeLocals = locals?.runtime;
+  const envLocals = runtimeLocals?.env || locals?.env || locals?.cloudflare?.env || {};
+  if (envLocals && (envLocals as any).DB) {
+    return { db: (envLocals as any).DB, source: 'locals', envKeys: Object.keys(envLocals) };
+  }
+  return { db: null, source: 'none', envKeys: Object.keys(envLocals || {}) };
+}
+
 export const GET: APIRoute = async ({ request, locals }) => {
   try {
-    const db = (locals as any).runtime?.env?.DB;
+    const { db, source, envKeys } = resolveDb(request, locals);
     if (!db) {
-      console.error('Database binding not found in locals.runtime.env.DB');
       return new Response(JSON.stringify({ 
         error: 'Database configuration error',
-        details: 'DB binding missing'
+        details: 'DB binding missing',
+        source,
+        envKeys
       }), {
         status: 500,
         headers: {
@@ -62,11 +80,13 @@ export const GET: APIRoute = async ({ request, locals }) => {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const db = (locals as any).runtime?.env?.DB;
+    const { db, source, envKeys } = resolveDb(request, locals);
     if (!db) {
       return new Response(JSON.stringify({ 
         error: 'Database configuration error',
-        details: 'DB binding missing'
+        details: 'DB binding missing',
+        source,
+        envKeys
       }), {
         status: 500,
         headers: {
@@ -200,11 +220,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
 export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
-    const db = (locals as any).runtime?.env?.DB;
+    const { db, source, envKeys } = resolveDb(request, locals);
     if (!db) {
       return new Response(JSON.stringify({ 
         error: 'Database configuration error',
-        details: 'DB binding missing'
+        details: 'DB binding missing',
+        source,
+        envKeys
       }), {
         status: 500,
         headers: {
