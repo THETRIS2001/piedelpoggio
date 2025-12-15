@@ -547,6 +547,7 @@ const BookingCalendar: React.FC = () => {
                 <label className="text-xs text-gray-600">Giorno</label>
                 <input
                   type="date"
+                  min={toDateKey(new Date())}
                   value={selectedDate}
                   onChange={(e) => {
                     const newDate = e.target.value;
@@ -623,7 +624,7 @@ const BookingCalendar: React.FC = () => {
           </div>
         </div>
 
-        <div>
+        <div className="mt-6">
           <div className="p-4 bg-white rounded-xl border border-gray-200">
             <h4 className="text-sm font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
             {occupiedForDate.length === 0 ? (
