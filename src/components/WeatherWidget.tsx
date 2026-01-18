@@ -474,18 +474,31 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
         const now = new Date();
         const currentTime = now.getTime();
 
-        // Fetch hourly precipitation data da Google (per determinare il numero di ore)
+        // Fetch hourly precipitation data da Google (per determinare il numero di ore e i tempi)
         const hourlyPrecipResult = await fetchHourlyData();
-        const numHours = hourlyPrecipResult.precipitationData.length; // Usa lo stesso numero di ore delle precipitazioni
 
-        // Temperature orarie da Open-Meteo - limitate allo stesso numero di ore delle precipitazioni
-        const temperatureData = openMeteo.hourly.time.slice(0, numHours).map((timeStr, index) => {
-          const hourTime = new Date(timeStr);
-          const isPast = hourTime.getTime() < currentTime;
+        // Usa i timestamp delle precipitazioni come riferimento per le temperature
+        // In questo modo i due grafici sono perfettamente allineati
+        const temperatureData = hourlyPrecipResult.precipitationData.map((precipPoint) => {
+          // Trova l'ora corrispondente in Open-Meteo
+          const precipTime = new Date(precipPoint.time);
+          const precipHour = precipTime.getHours();
+          const precipDay = precipTime.toISOString().split('T')[0];
+
+          // Cerca il matching in Open-Meteo
+          const openMeteoIndex = openMeteo.hourly.time.findIndex(timeStr => {
+            const omTime = new Date(timeStr);
+            return omTime.getHours() === precipHour && timeStr.startsWith(precipDay);
+          });
+
+          const temperature = openMeteoIndex >= 0
+            ? openMeteo.hourly.temperature_2m[openMeteoIndex]
+            : 0;
+
           return {
-            time: timeStr,
-            temperature: openMeteo.hourly.temperature_2m[index],
-            isPast
+            time: precipPoint.time,
+            temperature,
+            isPast: precipPoint.isPast
           };
         });
 
