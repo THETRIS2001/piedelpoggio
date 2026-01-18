@@ -1,6 +1,3 @@
-// node_modules/framer-motion/dist/es/utils/is-browser.mjs
-var isBrowser = typeof window !== "undefined";
-
 // node_modules/motion-utils/dist/es/array.mjs
 function addUniqueItem(arr, item) {
   if (arr.indexOf(item) === -1)
@@ -40,7 +37,7 @@ var warning = () => {
 };
 var invariant = () => {
 };
-if (false) {
+if (true) {
   warning = (check, message, errorCode) => {
     if (!check && typeof console !== "undefined") {
       console.warn(formatErrorMessage(message, errorCode));
@@ -1352,7 +1349,7 @@ var JSAnimation = class extends WithPromise {
     const { type = keyframes, repeat = 0, repeatDelay = 0, repeatType, velocity = 0 } = options;
     let { keyframes: keyframes$1 } = options;
     const generatorFactory = type || keyframes;
-    if (false) {
+    if (generatorFactory !== keyframes) {
       invariant(keyframes$1.length <= 2, `Only two keyframes currently supported with spring and inertia animations. Trying to animate ${keyframes$1}`, "spring-two-frames");
     }
     if (generatorFactory !== keyframes && typeof keyframes$1[0] !== "number") {
@@ -3068,7 +3065,7 @@ var MotionValue = class {
    * @deprecated
    */
   onChange(subscription) {
-    if (false) {
+    if (true) {
       warnOnce(false, `value.onChange(callback) is deprecated. Switch to value.on("change", callback).`);
     }
     return this.on("change", subscription);
@@ -4196,59 +4193,8 @@ var cancelSync = stepsOrder.reduce((acc, key) => {
   return acc;
 }, {});
 
-// node_modules/framer-motion/dist/es/projection/styles/scale-correction.mjs
-var scaleCorrectors = {};
-function addScaleCorrector(correctors) {
-  for (const key in correctors) {
-    scaleCorrectors[key] = correctors[key];
-    if (isCSSVariableName(key)) {
-      scaleCorrectors[key].isCSSVariable = true;
-    }
-  }
-}
-
-// node_modules/framer-motion/dist/es/render/html/utils/build-transform.mjs
-var translateAlias2 = {
-  x: "translateX",
-  y: "translateY",
-  z: "translateZ",
-  transformPerspective: "perspective"
-};
-var numTransforms = transformPropOrder.length;
-function buildTransform2(latestValues, transform2, transformTemplate) {
-  let transformString = "";
-  let transformIsDefault = true;
-  for (let i = 0; i < numTransforms; i++) {
-    const key = transformPropOrder[i];
-    const value = latestValues[key];
-    if (value === void 0)
-      continue;
-    let valueIsDefault = true;
-    if (typeof value === "number") {
-      valueIsDefault = value === (key.startsWith("scale") ? 1 : 0);
-    } else {
-      valueIsDefault = parseFloat(value) === 0;
-    }
-    if (!valueIsDefault || transformTemplate) {
-      const valueAsType = getValueAsType(value, numberValueTypes[key]);
-      if (!valueIsDefault) {
-        transformIsDefault = false;
-        const transformName = translateAlias2[key] || key;
-        transformString += `${transformName}(${valueAsType}) `;
-      }
-      if (transformTemplate) {
-        transform2[key] = valueAsType;
-      }
-    }
-  }
-  transformString = transformString.trim();
-  if (transformTemplate) {
-    transformString = transformTemplate(transform2, transformIsDefault ? "" : transformString);
-  } else if (transformIsDefault) {
-    transformString = "none";
-  }
-  return transformString;
-}
+// node_modules/framer-motion/dist/es/render/store.mjs
+var visualElementStore = /* @__PURE__ */ new WeakMap();
 
 // node_modules/framer-motion/dist/es/render/dom/utils/camel-to-dash.mjs
 var camelToDash2 = (str) => str.replace(/([a-z])([A-Z])/gu, "$1-$2").toLowerCase();
@@ -4274,8 +4220,8 @@ var createBox = () => ({
   y: createAxis()
 });
 
-// node_modules/framer-motion/dist/es/render/store.mjs
-var visualElementStore = /* @__PURE__ */ new WeakMap();
+// node_modules/framer-motion/dist/es/utils/is-browser.mjs
+var isBrowser = typeof window !== "undefined";
 
 // node_modules/framer-motion/dist/es/motion/features/definitions.mjs
 var featureProps = {
@@ -4498,7 +4444,7 @@ var VisualElement = class {
       initPrefersReducedMotion();
     }
     this.shouldReduceMotion = this.reducedMotionConfig === "never" ? false : this.reducedMotionConfig === "always" ? true : prefersReducedMotion.current;
-    if (false) {
+    if (true) {
       warnOnce(this.shouldReduceMotion !== true, "You have Reduced Motion enabled on your device. Animations may not appear as expected.", "reduced-motion-disabled");
     }
     (_a = this.parent) == null ? void 0 : _a.addChild(this);
@@ -4771,369 +4717,58 @@ var VisualElement = class {
   }
 };
 
-// node_modules/framer-motion/dist/es/utils/distance.mjs
-var distance = (a, b) => Math.abs(a - b);
-function distance2D(a, b) {
-  const xDelta = distance(a.x, b.x);
-  const yDelta = distance(a.y, b.y);
-  return Math.sqrt(xDelta ** 2 + yDelta ** 2);
-}
-
-// node_modules/framer-motion/dist/es/utils/delay.mjs
-function delay(callback, timeout) {
-  const start2 = time.now();
-  const checkElapsed = ({ timestamp }) => {
-    const elapsed = timestamp - start2;
-    if (elapsed >= timeout) {
-      cancelFrame(checkElapsed);
-      callback(elapsed - timeout);
-    }
-  };
-  frame.setup(checkElapsed, true);
-  return () => cancelFrame(checkElapsed);
-}
-function delayInSeconds(callback, timeout) {
-  return delay(callback, secondsToMilliseconds(timeout));
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/info.mjs
-var maxElapsed2 = 50;
-var createAxisInfo = () => ({
-  current: 0,
-  offset: [],
-  progress: 0,
-  scrollLength: 0,
-  targetOffset: 0,
-  targetLength: 0,
-  containerLength: 0,
-  velocity: 0
-});
-var createScrollInfo = () => ({
-  time: 0,
-  x: createAxisInfo(),
-  y: createAxisInfo()
-});
-var keys = {
-  x: {
-    length: "Width",
-    position: "Left"
-  },
-  y: {
-    length: "Height",
-    position: "Top"
-  }
+// node_modules/framer-motion/dist/es/render/html/utils/build-transform.mjs
+var translateAlias2 = {
+  x: "translateX",
+  y: "translateY",
+  z: "translateZ",
+  transformPerspective: "perspective"
 };
-function updateAxisInfo(element, axisName, info, time2) {
-  const axis = info[axisName];
-  const { length, position } = keys[axisName];
-  const prev = axis.current;
-  const prevTime = info.time;
-  axis.current = element[`scroll${position}`];
-  axis.scrollLength = element[`scroll${length}`] - element[`client${length}`];
-  axis.offset.length = 0;
-  axis.offset[0] = 0;
-  axis.offset[1] = axis.scrollLength;
-  axis.progress = progress(0, axis.scrollLength, axis.current);
-  const elapsed = time2 - prevTime;
-  axis.velocity = elapsed > maxElapsed2 ? 0 : velocityPerSecond(axis.current - prev, elapsed);
-}
-function updateScrollInfo(element, info, time2) {
-  updateAxisInfo(element, "x", info, time2);
-  updateAxisInfo(element, "y", info, time2);
-  info.time = time2;
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/inset.mjs
-function calcInset(element, container) {
-  const inset = { x: 0, y: 0 };
-  let current2 = element;
-  while (current2 && current2 !== container) {
-    if (isHTMLElement(current2)) {
-      inset.x += current2.offsetLeft;
-      inset.y += current2.offsetTop;
-      current2 = current2.offsetParent;
-    } else if (current2.tagName === "svg") {
-      const svgBoundingBox = current2.getBoundingClientRect();
-      current2 = current2.parentElement;
-      const parentBoundingBox = current2.getBoundingClientRect();
-      inset.x += svgBoundingBox.left - parentBoundingBox.left;
-      inset.y += svgBoundingBox.top - parentBoundingBox.top;
-    } else if (current2 instanceof SVGGraphicsElement) {
-      const { x, y } = current2.getBBox();
-      inset.x += x;
-      inset.y += y;
-      let svg = null;
-      let parent = current2.parentNode;
-      while (!svg) {
-        if (parent.tagName === "svg") {
-          svg = parent;
-        }
-        parent = current2.parentNode;
-      }
-      current2 = svg;
+var numTransforms = transformPropOrder.length;
+function buildTransform2(latestValues, transform2, transformTemplate) {
+  let transformString = "";
+  let transformIsDefault = true;
+  for (let i = 0; i < numTransforms; i++) {
+    const key = transformPropOrder[i];
+    const value = latestValues[key];
+    if (value === void 0)
+      continue;
+    let valueIsDefault = true;
+    if (typeof value === "number") {
+      valueIsDefault = value === (key.startsWith("scale") ? 1 : 0);
     } else {
-      break;
+      valueIsDefault = parseFloat(value) === 0;
     }
-  }
-  return inset;
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/edge.mjs
-var namedEdges = {
-  start: 0,
-  center: 0.5,
-  end: 1
-};
-function resolveEdge(edge, length, inset = 0) {
-  let delta = 0;
-  if (edge in namedEdges) {
-    edge = namedEdges[edge];
-  }
-  if (typeof edge === "string") {
-    const asNumber2 = parseFloat(edge);
-    if (edge.endsWith("px")) {
-      delta = asNumber2;
-    } else if (edge.endsWith("%")) {
-      edge = asNumber2 / 100;
-    } else if (edge.endsWith("vw")) {
-      delta = asNumber2 / 100 * document.documentElement.clientWidth;
-    } else if (edge.endsWith("vh")) {
-      delta = asNumber2 / 100 * document.documentElement.clientHeight;
-    } else {
-      edge = asNumber2;
-    }
-  }
-  if (typeof edge === "number") {
-    delta = length * edge;
-  }
-  return inset + delta;
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/offset.mjs
-var defaultOffset2 = [0, 0];
-function resolveOffset(offset, containerLength, targetLength, targetInset) {
-  let offsetDefinition = Array.isArray(offset) ? offset : defaultOffset2;
-  let targetPoint = 0;
-  let containerPoint = 0;
-  if (typeof offset === "number") {
-    offsetDefinition = [offset, offset];
-  } else if (typeof offset === "string") {
-    offset = offset.trim();
-    if (offset.includes(" ")) {
-      offsetDefinition = offset.split(" ");
-    } else {
-      offsetDefinition = [offset, namedEdges[offset] ? offset : `0`];
-    }
-  }
-  targetPoint = resolveEdge(offsetDefinition[0], targetLength, targetInset);
-  containerPoint = resolveEdge(offsetDefinition[1], containerLength);
-  return targetPoint - containerPoint;
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/presets.mjs
-var ScrollOffset = {
-  Enter: [
-    [0, 1],
-    [1, 1]
-  ],
-  Exit: [
-    [0, 0],
-    [1, 0]
-  ],
-  Any: [
-    [1, 0],
-    [0, 1]
-  ],
-  All: [
-    [0, 0],
-    [1, 1]
-  ]
-};
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/index.mjs
-var point = { x: 0, y: 0 };
-function getTargetSize(target) {
-  return "getBBox" in target && target.tagName !== "svg" ? target.getBBox() : { width: target.clientWidth, height: target.clientHeight };
-}
-function resolveOffsets(container, info, options) {
-  const { offset: offsetDefinition = ScrollOffset.All } = options;
-  const { target = container, axis = "y" } = options;
-  const lengthLabel = axis === "y" ? "height" : "width";
-  const inset = target !== container ? calcInset(target, container) : point;
-  const targetSize = target === container ? { width: container.scrollWidth, height: container.scrollHeight } : getTargetSize(target);
-  const containerSize = {
-    width: container.clientWidth,
-    height: container.clientHeight
-  };
-  info[axis].offset.length = 0;
-  let hasChanged = !info[axis].interpolate;
-  const numOffsets = offsetDefinition.length;
-  for (let i = 0; i < numOffsets; i++) {
-    const offset = resolveOffset(offsetDefinition[i], containerSize[lengthLabel], targetSize[lengthLabel], inset[axis]);
-    if (!hasChanged && offset !== info[axis].interpolatorOffsets[i]) {
-      hasChanged = true;
-    }
-    info[axis].offset[i] = offset;
-  }
-  if (hasChanged) {
-    info[axis].interpolate = interpolate(info[axis].offset, defaultOffset(offsetDefinition), { clamp: false });
-    info[axis].interpolatorOffsets = [...info[axis].offset];
-  }
-  info[axis].progress = clamp(0, 1, info[axis].interpolate(info[axis].current));
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/on-scroll-handler.mjs
-function measure(container, target = container, info) {
-  info.x.targetOffset = 0;
-  info.y.targetOffset = 0;
-  if (target !== container) {
-    let node = target;
-    while (node && node !== container) {
-      info.x.targetOffset += node.offsetLeft;
-      info.y.targetOffset += node.offsetTop;
-      node = node.offsetParent;
-    }
-  }
-  info.x.targetLength = target === container ? target.scrollWidth : target.clientWidth;
-  info.y.targetLength = target === container ? target.scrollHeight : target.clientHeight;
-  info.x.containerLength = container.clientWidth;
-  info.y.containerLength = container.clientHeight;
-  if (false) {
-    if (container && target && target !== container) {
-      warnOnce(getComputedStyle(container).position !== "static", "Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.");
-    }
-  }
-}
-function createOnScrollHandler(element, onScroll, info, options = {}) {
-  return {
-    measure: (time2) => {
-      measure(element, options.target, info);
-      updateScrollInfo(element, info, time2);
-      if (options.offset || options.target) {
-        resolveOffsets(element, info, options);
+    if (!valueIsDefault || transformTemplate) {
+      const valueAsType = getValueAsType(value, numberValueTypes[key]);
+      if (!valueIsDefault) {
+        transformIsDefault = false;
+        const transformName = translateAlias2[key] || key;
+        transformString += `${transformName}(${valueAsType}) `;
       }
-    },
-    notify: () => onScroll(info)
-  };
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/track.mjs
-var scrollListeners = /* @__PURE__ */ new WeakMap();
-var resizeListeners = /* @__PURE__ */ new WeakMap();
-var onScrollHandlers = /* @__PURE__ */ new WeakMap();
-var getEventTarget = (element) => element === document.scrollingElement ? window : element;
-function scrollInfo(onScroll, { container = document.scrollingElement, ...options } = {}) {
-  if (!container)
-    return noop;
-  let containerHandlers = onScrollHandlers.get(container);
-  if (!containerHandlers) {
-    containerHandlers = /* @__PURE__ */ new Set();
-    onScrollHandlers.set(container, containerHandlers);
-  }
-  const info = createScrollInfo();
-  const containerHandler = createOnScrollHandler(container, onScroll, info, options);
-  containerHandlers.add(containerHandler);
-  if (!scrollListeners.has(container)) {
-    const measureAll = () => {
-      for (const handler of containerHandlers) {
-        handler.measure(frameData.timestamp);
+      if (transformTemplate) {
+        transform2[key] = valueAsType;
       }
-      frame.preUpdate(notifyAll2);
-    };
-    const notifyAll2 = () => {
-      for (const handler of containerHandlers) {
-        handler.notify();
-      }
-    };
-    const listener2 = () => frame.read(measureAll);
-    scrollListeners.set(container, listener2);
-    const target = getEventTarget(container);
-    window.addEventListener("resize", listener2, { passive: true });
-    if (container !== document.documentElement) {
-      resizeListeners.set(container, resize(container, listener2));
     }
-    target.addEventListener("scroll", listener2, { passive: true });
-    listener2();
   }
-  const listener = scrollListeners.get(container);
-  frame.read(listener, false, true);
-  return () => {
-    var _a;
-    cancelFrame(listener);
-    const currentHandlers = onScrollHandlers.get(container);
-    if (!currentHandlers)
-      return;
-    currentHandlers.delete(containerHandler);
-    if (currentHandlers.size)
-      return;
-    const scrollListener = scrollListeners.get(container);
-    scrollListeners.delete(container);
-    if (scrollListener) {
-      getEventTarget(container).removeEventListener("scroll", scrollListener);
-      (_a = resizeListeners.get(container)) == null ? void 0 : _a();
-      window.removeEventListener("resize", scrollListener);
+  transformString = transformString.trim();
+  if (transformTemplate) {
+    transformString = transformTemplate(transform2, transformIsDefault ? "" : transformString);
+  } else if (transformIsDefault) {
+    transformString = "none";
+  }
+  return transformString;
+}
+
+// node_modules/framer-motion/dist/es/projection/styles/scale-correction.mjs
+var scaleCorrectors = {};
+function addScaleCorrector(correctors) {
+  for (const key in correctors) {
+    scaleCorrectors[key] = correctors[key];
+    if (isCSSVariableName(key)) {
+      scaleCorrectors[key].isCSSVariable = true;
     }
-  };
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/utils/get-timeline.mjs
-var timelineCache = /* @__PURE__ */ new Map();
-function scrollTimelineFallback(options) {
-  const currentTime = { value: 0 };
-  const cancel = scrollInfo((info) => {
-    currentTime.value = info[options.axis].progress * 100;
-  }, options);
-  return { currentTime, cancel };
-}
-function getTimeline({ source, container, ...options }) {
-  const { axis } = options;
-  if (source)
-    container = source;
-  const containerCache = timelineCache.get(container) ?? /* @__PURE__ */ new Map();
-  timelineCache.set(container, containerCache);
-  const targetKey = options.target ?? "self";
-  const targetCache = containerCache.get(targetKey) ?? {};
-  const axisKey = axis + (options.offset ?? []).join(",");
-  if (!targetCache[axisKey]) {
-    targetCache[axisKey] = !options.target && supportsScrollTimeline() ? new ScrollTimeline({ source: container, axis }) : scrollTimelineFallback({ container, ...options });
   }
-  return targetCache[axisKey];
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/attach-animation.mjs
-function attachToAnimation(animation, options) {
-  const timeline = getTimeline(options);
-  return animation.attachTimeline({
-    timeline: options.target ? void 0 : timeline,
-    observe: (valueAnimation) => {
-      valueAnimation.pause();
-      return observeTimeline((progress2) => {
-        valueAnimation.time = valueAnimation.iterationDuration * progress2;
-      }, timeline);
-    }
-  });
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/attach-function.mjs
-function isOnScrollWithInfo(onScroll) {
-  return onScroll.length === 2;
-}
-function attachToFunction(onScroll, options) {
-  if (isOnScrollWithInfo(onScroll)) {
-    return scrollInfo((info) => {
-      onScroll(info[options.axis].progress, info);
-    }, options);
-  } else {
-    return observeTimeline(onScroll, getTimeline(options));
-  }
-}
-
-// node_modules/framer-motion/dist/es/render/dom/scroll/index.mjs
-function scroll(onScroll, { axis = "y", container = document.scrollingElement, ...options } = {}) {
-  if (!container)
-    return noop;
-  const optionsWithDefaults = { axis, container, ...options };
-  return typeof onScroll === "function" ? attachToFunction(onScroll, optionsWithDefaults) : attachToAnimation(onScroll, optionsWithDefaults);
 }
 
 // node_modules/framer-motion/dist/es/animation/utils/is-dom-keyframes.mjs
@@ -6209,6 +5844,346 @@ var createScopedWaapiAnimate = (scope) => {
 };
 var animateMini = createScopedWaapiAnimate();
 
+// node_modules/framer-motion/dist/es/render/dom/scroll/info.mjs
+var maxElapsed2 = 50;
+var createAxisInfo = () => ({
+  current: 0,
+  offset: [],
+  progress: 0,
+  scrollLength: 0,
+  targetOffset: 0,
+  targetLength: 0,
+  containerLength: 0,
+  velocity: 0
+});
+var createScrollInfo = () => ({
+  time: 0,
+  x: createAxisInfo(),
+  y: createAxisInfo()
+});
+var keys = {
+  x: {
+    length: "Width",
+    position: "Left"
+  },
+  y: {
+    length: "Height",
+    position: "Top"
+  }
+};
+function updateAxisInfo(element, axisName, info, time2) {
+  const axis = info[axisName];
+  const { length, position } = keys[axisName];
+  const prev = axis.current;
+  const prevTime = info.time;
+  axis.current = element[`scroll${position}`];
+  axis.scrollLength = element[`scroll${length}`] - element[`client${length}`];
+  axis.offset.length = 0;
+  axis.offset[0] = 0;
+  axis.offset[1] = axis.scrollLength;
+  axis.progress = progress(0, axis.scrollLength, axis.current);
+  const elapsed = time2 - prevTime;
+  axis.velocity = elapsed > maxElapsed2 ? 0 : velocityPerSecond(axis.current - prev, elapsed);
+}
+function updateScrollInfo(element, info, time2) {
+  updateAxisInfo(element, "x", info, time2);
+  updateAxisInfo(element, "y", info, time2);
+  info.time = time2;
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/inset.mjs
+function calcInset(element, container) {
+  const inset = { x: 0, y: 0 };
+  let current2 = element;
+  while (current2 && current2 !== container) {
+    if (isHTMLElement(current2)) {
+      inset.x += current2.offsetLeft;
+      inset.y += current2.offsetTop;
+      current2 = current2.offsetParent;
+    } else if (current2.tagName === "svg") {
+      const svgBoundingBox = current2.getBoundingClientRect();
+      current2 = current2.parentElement;
+      const parentBoundingBox = current2.getBoundingClientRect();
+      inset.x += svgBoundingBox.left - parentBoundingBox.left;
+      inset.y += svgBoundingBox.top - parentBoundingBox.top;
+    } else if (current2 instanceof SVGGraphicsElement) {
+      const { x, y } = current2.getBBox();
+      inset.x += x;
+      inset.y += y;
+      let svg = null;
+      let parent = current2.parentNode;
+      while (!svg) {
+        if (parent.tagName === "svg") {
+          svg = parent;
+        }
+        parent = current2.parentNode;
+      }
+      current2 = svg;
+    } else {
+      break;
+    }
+  }
+  return inset;
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/edge.mjs
+var namedEdges = {
+  start: 0,
+  center: 0.5,
+  end: 1
+};
+function resolveEdge(edge, length, inset = 0) {
+  let delta = 0;
+  if (edge in namedEdges) {
+    edge = namedEdges[edge];
+  }
+  if (typeof edge === "string") {
+    const asNumber2 = parseFloat(edge);
+    if (edge.endsWith("px")) {
+      delta = asNumber2;
+    } else if (edge.endsWith("%")) {
+      edge = asNumber2 / 100;
+    } else if (edge.endsWith("vw")) {
+      delta = asNumber2 / 100 * document.documentElement.clientWidth;
+    } else if (edge.endsWith("vh")) {
+      delta = asNumber2 / 100 * document.documentElement.clientHeight;
+    } else {
+      edge = asNumber2;
+    }
+  }
+  if (typeof edge === "number") {
+    delta = length * edge;
+  }
+  return inset + delta;
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/offset.mjs
+var defaultOffset2 = [0, 0];
+function resolveOffset(offset, containerLength, targetLength, targetInset) {
+  let offsetDefinition = Array.isArray(offset) ? offset : defaultOffset2;
+  let targetPoint = 0;
+  let containerPoint = 0;
+  if (typeof offset === "number") {
+    offsetDefinition = [offset, offset];
+  } else if (typeof offset === "string") {
+    offset = offset.trim();
+    if (offset.includes(" ")) {
+      offsetDefinition = offset.split(" ");
+    } else {
+      offsetDefinition = [offset, namedEdges[offset] ? offset : `0`];
+    }
+  }
+  targetPoint = resolveEdge(offsetDefinition[0], targetLength, targetInset);
+  containerPoint = resolveEdge(offsetDefinition[1], containerLength);
+  return targetPoint - containerPoint;
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/presets.mjs
+var ScrollOffset = {
+  Enter: [
+    [0, 1],
+    [1, 1]
+  ],
+  Exit: [
+    [0, 0],
+    [1, 0]
+  ],
+  Any: [
+    [1, 0],
+    [0, 1]
+  ],
+  All: [
+    [0, 0],
+    [1, 1]
+  ]
+};
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/offsets/index.mjs
+var point = { x: 0, y: 0 };
+function getTargetSize(target) {
+  return "getBBox" in target && target.tagName !== "svg" ? target.getBBox() : { width: target.clientWidth, height: target.clientHeight };
+}
+function resolveOffsets(container, info, options) {
+  const { offset: offsetDefinition = ScrollOffset.All } = options;
+  const { target = container, axis = "y" } = options;
+  const lengthLabel = axis === "y" ? "height" : "width";
+  const inset = target !== container ? calcInset(target, container) : point;
+  const targetSize = target === container ? { width: container.scrollWidth, height: container.scrollHeight } : getTargetSize(target);
+  const containerSize = {
+    width: container.clientWidth,
+    height: container.clientHeight
+  };
+  info[axis].offset.length = 0;
+  let hasChanged = !info[axis].interpolate;
+  const numOffsets = offsetDefinition.length;
+  for (let i = 0; i < numOffsets; i++) {
+    const offset = resolveOffset(offsetDefinition[i], containerSize[lengthLabel], targetSize[lengthLabel], inset[axis]);
+    if (!hasChanged && offset !== info[axis].interpolatorOffsets[i]) {
+      hasChanged = true;
+    }
+    info[axis].offset[i] = offset;
+  }
+  if (hasChanged) {
+    info[axis].interpolate = interpolate(info[axis].offset, defaultOffset(offsetDefinition), { clamp: false });
+    info[axis].interpolatorOffsets = [...info[axis].offset];
+  }
+  info[axis].progress = clamp(0, 1, info[axis].interpolate(info[axis].current));
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/on-scroll-handler.mjs
+function measure(container, target = container, info) {
+  info.x.targetOffset = 0;
+  info.y.targetOffset = 0;
+  if (target !== container) {
+    let node = target;
+    while (node && node !== container) {
+      info.x.targetOffset += node.offsetLeft;
+      info.y.targetOffset += node.offsetTop;
+      node = node.offsetParent;
+    }
+  }
+  info.x.targetLength = target === container ? target.scrollWidth : target.clientWidth;
+  info.y.targetLength = target === container ? target.scrollHeight : target.clientHeight;
+  info.x.containerLength = container.clientWidth;
+  info.y.containerLength = container.clientHeight;
+  if (true) {
+    if (container && target && target !== container) {
+      warnOnce(getComputedStyle(container).position !== "static", "Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.");
+    }
+  }
+}
+function createOnScrollHandler(element, onScroll, info, options = {}) {
+  return {
+    measure: (time2) => {
+      measure(element, options.target, info);
+      updateScrollInfo(element, info, time2);
+      if (options.offset || options.target) {
+        resolveOffsets(element, info, options);
+      }
+    },
+    notify: () => onScroll(info)
+  };
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/track.mjs
+var scrollListeners = /* @__PURE__ */ new WeakMap();
+var resizeListeners = /* @__PURE__ */ new WeakMap();
+var onScrollHandlers = /* @__PURE__ */ new WeakMap();
+var getEventTarget = (element) => element === document.scrollingElement ? window : element;
+function scrollInfo(onScroll, { container = document.scrollingElement, ...options } = {}) {
+  if (!container)
+    return noop;
+  let containerHandlers = onScrollHandlers.get(container);
+  if (!containerHandlers) {
+    containerHandlers = /* @__PURE__ */ new Set();
+    onScrollHandlers.set(container, containerHandlers);
+  }
+  const info = createScrollInfo();
+  const containerHandler = createOnScrollHandler(container, onScroll, info, options);
+  containerHandlers.add(containerHandler);
+  if (!scrollListeners.has(container)) {
+    const measureAll = () => {
+      for (const handler of containerHandlers) {
+        handler.measure(frameData.timestamp);
+      }
+      frame.preUpdate(notifyAll2);
+    };
+    const notifyAll2 = () => {
+      for (const handler of containerHandlers) {
+        handler.notify();
+      }
+    };
+    const listener2 = () => frame.read(measureAll);
+    scrollListeners.set(container, listener2);
+    const target = getEventTarget(container);
+    window.addEventListener("resize", listener2, { passive: true });
+    if (container !== document.documentElement) {
+      resizeListeners.set(container, resize(container, listener2));
+    }
+    target.addEventListener("scroll", listener2, { passive: true });
+    listener2();
+  }
+  const listener = scrollListeners.get(container);
+  frame.read(listener, false, true);
+  return () => {
+    var _a;
+    cancelFrame(listener);
+    const currentHandlers = onScrollHandlers.get(container);
+    if (!currentHandlers)
+      return;
+    currentHandlers.delete(containerHandler);
+    if (currentHandlers.size)
+      return;
+    const scrollListener = scrollListeners.get(container);
+    scrollListeners.delete(container);
+    if (scrollListener) {
+      getEventTarget(container).removeEventListener("scroll", scrollListener);
+      (_a = resizeListeners.get(container)) == null ? void 0 : _a();
+      window.removeEventListener("resize", scrollListener);
+    }
+  };
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/utils/get-timeline.mjs
+var timelineCache = /* @__PURE__ */ new Map();
+function scrollTimelineFallback(options) {
+  const currentTime = { value: 0 };
+  const cancel = scrollInfo((info) => {
+    currentTime.value = info[options.axis].progress * 100;
+  }, options);
+  return { currentTime, cancel };
+}
+function getTimeline({ source, container, ...options }) {
+  const { axis } = options;
+  if (source)
+    container = source;
+  const containerCache = timelineCache.get(container) ?? /* @__PURE__ */ new Map();
+  timelineCache.set(container, containerCache);
+  const targetKey = options.target ?? "self";
+  const targetCache = containerCache.get(targetKey) ?? {};
+  const axisKey = axis + (options.offset ?? []).join(",");
+  if (!targetCache[axisKey]) {
+    targetCache[axisKey] = !options.target && supportsScrollTimeline() ? new ScrollTimeline({ source: container, axis }) : scrollTimelineFallback({ container, ...options });
+  }
+  return targetCache[axisKey];
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/attach-animation.mjs
+function attachToAnimation(animation, options) {
+  const timeline = getTimeline(options);
+  return animation.attachTimeline({
+    timeline: options.target ? void 0 : timeline,
+    observe: (valueAnimation) => {
+      valueAnimation.pause();
+      return observeTimeline((progress2) => {
+        valueAnimation.time = valueAnimation.iterationDuration * progress2;
+      }, timeline);
+    }
+  });
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/attach-function.mjs
+function isOnScrollWithInfo(onScroll) {
+  return onScroll.length === 2;
+}
+function attachToFunction(onScroll, options) {
+  if (isOnScrollWithInfo(onScroll)) {
+    return scrollInfo((info) => {
+      onScroll(info[options.axis].progress, info);
+    }, options);
+  } else {
+    return observeTimeline(onScroll, getTimeline(options));
+  }
+}
+
+// node_modules/framer-motion/dist/es/render/dom/scroll/index.mjs
+function scroll(onScroll, { axis = "y", container = document.scrollingElement, ...options } = {}) {
+  if (!container)
+    return noop;
+  const optionsWithDefaults = { axis, container, ...options };
+  return typeof onScroll === "function" ? attachToFunction(onScroll, optionsWithDefaults) : attachToAnimation(onScroll, optionsWithDefaults);
+}
+
 // node_modules/framer-motion/dist/es/render/dom/viewport/index.mjs
 var thresholds = {
   some: 0,
@@ -6244,8 +6219,32 @@ function inView(elementOrSelector, onStart, { root, margin: rootMargin, amount =
   return () => observer2.disconnect();
 }
 
+// node_modules/framer-motion/dist/es/utils/delay.mjs
+function delay(callback, timeout) {
+  const start2 = time.now();
+  const checkElapsed = ({ timestamp }) => {
+    const elapsed = timestamp - start2;
+    if (elapsed >= timeout) {
+      cancelFrame(checkElapsed);
+      callback(elapsed - timeout);
+    }
+  };
+  frame.setup(checkElapsed, true);
+  return () => cancelFrame(checkElapsed);
+}
+function delayInSeconds(callback, timeout) {
+  return delay(callback, secondsToMilliseconds(timeout));
+}
+
+// node_modules/framer-motion/dist/es/utils/distance.mjs
+var distance = (a, b) => Math.abs(a - b);
+function distance2D(a, b) {
+  const xDelta = distance(a.x, b.x);
+  const yDelta = distance(a.y, b.y);
+  return Math.sqrt(xDelta ** 2 + yDelta ** 2);
+}
+
 export {
-  isBrowser,
   addUniqueItem,
   removeItem,
   moveItem,
@@ -6424,25 +6423,17 @@ export {
   animateView,
   sync,
   cancelSync,
-  featureDefinitions,
-  isAnimationControls,
-  isVariantLabel,
-  variantPriorityOrder,
-  variantProps,
-  isControllingVariants,
-  isVariantNode,
-  scaleCorrectors,
-  addScaleCorrector,
-  isForcedMotionValue,
-  buildTransform2 as buildTransform,
-  buildHTMLStyles,
-  buildSVGAttrs,
-  isSVGTag,
+  visualElementStore,
+  isKeyframesTarget,
   resolveVariantFromProps,
-  scrapeMotionValuesFromProps,
-  scrapeMotionValuesFromProps2,
+  resolveVariant,
+  setTarget,
+  addValueToWillChange,
   optimizedAppearDataId,
   optimizedAppearDataAttribute,
+  getOptimisedAppearId,
+  animateMotionValue,
+  animateTarget,
   convertBoundingBoxToBox,
   convertBoxToBoundingBox,
   hasScale,
@@ -6454,33 +6445,42 @@ export {
   translateAxis,
   transformBox,
   measurePageBox,
+  featureDefinitions,
   createDelta,
   createBox,
+  isBrowser,
   prefersReducedMotion,
   hasReducedMotionListener,
   initPrefersReducedMotion,
-  visualElementStore,
+  isAnimationControls,
+  isVariantLabel,
+  variantPriorityOrder,
+  variantProps,
+  isControllingVariants,
+  isVariantNode,
   VisualElement,
+  buildTransform2 as buildTransform,
+  buildHTMLStyles,
+  scaleCorrectors,
+  addScaleCorrector,
+  isForcedMotionValue,
+  scrapeMotionValuesFromProps,
   HTMLVisualElement,
+  buildSVGAttrs,
+  isSVGTag,
+  scrapeMotionValuesFromProps2,
   SVGVisualElement,
-  resolveVariant,
-  isKeyframesTarget,
-  setTarget,
-  addValueToWillChange,
-  getOptimisedAppearId,
-  animateMotionValue,
-  animateTarget,
-  distance,
-  distance2D,
   animateSingleValue,
-  delay,
-  delayInSeconds,
-  scrollInfo,
-  scroll,
   createScopedAnimate,
   animate,
   createScopedWaapiAnimate,
   animateMini,
-  inView
+  scrollInfo,
+  scroll,
+  inView,
+  delay,
+  delayInSeconds,
+  distance,
+  distance2D
 };
-//# sourceMappingURL=chunk-D3KVYS4X.js.map
+//# sourceMappingURL=chunk-UHJV5OXI.js.map
