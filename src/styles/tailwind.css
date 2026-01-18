@@ -50,22 +50,6 @@
   50% { transform: translateY(-5px); }
 }
 
-/* Carousel Indicators - Force perfect circles on all devices */
-.indicator,
-.events-indicator {
-  width: 12px !important;
-  height: 12px !important;
-  min-width: 12px !important;
-  min-height: 12px !important;
-  max-width: 12px !important;
-  max-height: 12px !important;
-  border-radius: 50% !important;
-  flex-shrink: 0 !important;
-  flex-grow: 0 !important;
-  aspect-ratio: 1 / 1 !important;
-  display: inline-block !important;
-  box-sizing: border-box !important;
-}
 
 @keyframes blink {
   0%, 50% { opacity: 1; }
