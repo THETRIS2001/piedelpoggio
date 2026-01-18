@@ -1,4 +1,7 @@
 import {
+  require_jsx_runtime
+} from "./chunk-UMBYCFDB.js";
+import {
   AsyncMotionValueAnimation,
   DOMKeyframesResolver,
   GroupAnimation,
@@ -235,13 +238,10 @@ import {
   warnOnce,
   warning,
   wrap
-} from "./chunk-UHJV5OXI.js";
-import {
-  require_jsx_runtime
-} from "./chunk-R5F65CVE.js";
+} from "./chunk-D3KVYS4X.js";
 import {
   require_react
-} from "./chunk-4BPZ7PBZ.js";
+} from "./chunk-7S6GW7VR.js";
 import {
   __commonJS,
   __export,
@@ -250,8 +250,8 @@ import {
 
 // optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion
 var require_is_prop_valid_framer_motion = __commonJS({
-  "optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion"() {
-    throw new Error(`Could not resolve "@emotion/is-prop-valid" imported by "framer-motion". Is it installed?`);
+  "optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion"(exports, module) {
+    module.exports = {};
   }
 });
 
@@ -525,7 +525,7 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
     setDiffedChildren(presentChildren);
     return null;
   }
-  if (mode === "wait" && renderedChildren.length > 1) {
+  if (false) {
     console.warn(`You're attempting to animate multiple children within AnimatePresence, but its mode is set to "wait". This will lead to odd visual behaviour.`);
   }
   const { forceRender } = (0, import_react10.useContext)(LayoutGroupContext);
@@ -1181,7 +1181,7 @@ function useLayoutId({ layoutId }) {
 }
 function useStrictMode(configAndProps, preloadedFeatures) {
   const isStrict = (0, import_react27.useContext)(LazyContext).strict;
-  if (preloadedFeatures && isStrict) {
+  if (false) {
     const strictMessage = "You have rendered a `motion` component within a `LazyMotion` component. This will break tree shaking. Import and render a `m` component instead.";
     configAndProps.ignoreStrict ? warning(false, strictMessage, "lazy-strict-mode") : invariant(false, strictMessage, "lazy-strict-mode");
   }
@@ -1207,7 +1207,7 @@ function createMotionProxy(preloadedFeatures, createVisualElement) {
     return createMotionComponent(Component3, options, preloadedFeatures, createVisualElement);
   };
   const deprecatedFactoryFunction = (Component3, options) => {
-    if (true) {
+    if (false) {
       warnOnce(false, "motion() is deprecated. Use motion.create() instead.");
     }
     return factory(Component3, options);
@@ -4221,7 +4221,7 @@ function useScroll({ container, target, ...options } = {}) {
 
 // node_modules/framer-motion/dist/es/value/scroll/use-element-scroll.mjs
 function useElementScroll(ref) {
-  if (true) {
+  if (false) {
     warnOnce(false, "useElementScroll is deprecated. Convert to useScroll({ container: ref }).");
   }
   return useScroll({ container: ref });
@@ -4229,7 +4229,7 @@ function useElementScroll(ref) {
 
 // node_modules/framer-motion/dist/es/value/scroll/use-viewport-scroll.mjs
 function useViewportScroll() {
-  if (true) {
+  if (false) {
     warnOnce(false, "useViewportScroll is deprecated. Convert to useScroll().");
   }
   return useScroll();
@@ -4393,7 +4393,7 @@ var import_react36 = __toESM(require_react(), 1);
 function useReducedMotion() {
   !hasReducedMotionListener.current && initPrefersReducedMotion();
   const [shouldReduceMotion] = (0, import_react36.useState)(prefersReducedMotion.current);
-  if (true) {
+  if (false) {
     warnOnce(shouldReduceMotion !== true, "You have Reduced Motion enabled on your device. Animations may not appear as expected.", "reduced-motion-disabled");
   }
   return shouldReduceMotion;

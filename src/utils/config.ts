@@ -5,33 +5,22 @@ export const SITE_CONFIG = {
   url: 'https://piedelpoggio.it',
   author: 'Comune di Leonessa',
   locale: 'it-IT',
-  
+
   // Coordinate del centro del paese per le mappe
   coordinates: {
     lat: 42.55, // Coordinate approssimative
     lon: 13.0,
     zoom: 14,
   },
-  
-  // Impostazioni per le collezioni
-  collections: {
-    news: {
-      perPage: 6,
-      showOnHome: 3,
-    },
-    events: {
-      perPage: 6,
-      showOnHome: 4,
-    },
-  },
-  
+
+
   // Social media e contatti
   social: {
     facebook: '',
     instagram: '',
     email: 'info@piedelpoggio.it',
   },
-  
+
   // Impostazioni mappe
   map: {
     defaultZoom: 14,
