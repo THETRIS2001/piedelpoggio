@@ -1,10 +1,8 @@
 ---
 export const prerender = true;
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
-import fs from 'fs';
-import path from 'path';
 
-const docsDir = path.join(process.cwd(), 'public', 'documents', 'proloco');
+import docsData from '../../data/docs-proloco.json';
 
 // Palette ciclica per colorare le card come in Parrocchia
 const colorPalette = [
@@ -18,34 +16,18 @@ const colorPalette = [
   { card: 'from-amber-50 to-yellow-100',  border: 'border-yellow-200', hoverText: 'group-hover:text-yellow-600', icon: 'bg-amber-600' },
 ];
 
-let docs = [] as Array<{ name: string; href: string; ext: string; dateISO: string; dateDisplay: string; classes: { card: string; border: string; hoverText: string; icon: string } }>;
-try {
-  const files = fs.readdirSync(docsDir);
-  docs = files
-    .filter((name) => !name.startsWith('.') && /\.(pdf|docx?|xlsx?|pptx?)$/i.test(name))
-    .map((name, idx) => {
-      const fullPath = path.join(docsDir, name);
-      const stats = fs.statSync(fullPath);
-      const extLower = (name.split('.')
-        .pop() || '')
-        .toLowerCase();
-      const palette = colorPalette[idx % colorPalette.length];
-      const classes = { card: palette.card, border: palette.border, hoverText: palette.hoverText, icon: palette.icon };
-      const date = stats.mtime;
-      return {
-        name: name.replace(/\.[^/.]+$/, ''),
-        href: `/documents/proloco/${name}`,
-        ext: (name.split('.').pop() || '').toUpperCase(),
-        dateISO: new Date(date).toISOString(),
-        dateDisplay: new Date(date).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }),
-        classes,
-      };
-    })
-    // Documenti più recenti prima
-    .sort((a, b) => new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime());
-} catch (err) {
-  docs = [];
-}
+const docs = docsData.map((doc, idx) => {
+  const palette = colorPalette[idx % colorPalette.length];
+  const classes = { card: palette.card, border: palette.border, hoverText: palette.hoverText, icon: palette.icon };
+  return {
+    name: doc.name,
+    href: `/documents/proloco/${doc.fileName}`,
+    ext: doc.ext,
+    dateISO: doc.dateISO,
+    dateDisplay: new Date(doc.dateISO).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+    classes,
+  };
+});
 ---
 
 <DefaultLayout 
