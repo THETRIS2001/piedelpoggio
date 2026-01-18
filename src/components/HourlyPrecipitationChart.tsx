@@ -23,8 +23,11 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
   }
 
   // Trova i valori max per scalare il grafico
-  const maxQuantity = Math.max(...data.map(d => d.quantity)) || 1;
-  const maxProbability = Math.max(...data.map(d => d.probability)) || 1;
+  const maxQuantity = Math.max(...data.map(d => d.quantity)) || 0;
+  const maxProbability = Math.max(...data.map(d => d.probability)) || 0;
+
+  // Verifica se non sono previste precipitazioni
+  const noPrecipitations = maxQuantity === 0;
 
   // Calcola la posizione dell'ora corrente
   const currentHour = new Date(currentTime).getHours();
@@ -33,17 +36,29 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
     return dataHour === currentHour;
   });
 
+  if (noPrecipitations) {
+    return (
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4 p-2 text-center">
+        <h3 className="text-black text-sm font-medium mb-2">Precipitazioni Orarie</h3>
+        <div className="flex flex-col items-center justify-center py-4 bg-blue-50/30 rounded-lg border border-blue-100/50">
+          <span className="text-2xl mb-1">☀️</span>
+          <p className="text-blue-700 text-xs font-medium">Non sono previste precipitazioni nelle prossime 24 ore</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4">
       <h3 className="text-black text-sm font-medium mb-6">Precipitazioni Orarie</h3>
-      
+
       <div className="relative w-full h-20 mb-4">
         {/* Container del grafico */}
         <div className="relative w-full h-full flex items-end justify-between px-2">
           {data.map((point, index) => {
             const barHeight = (point.quantity / maxQuantity) * 50; // 50px max height per le barre
             const isCurrentHour = index === currentIndex;
-            
+
             return (
               <div key={index} className="relative flex flex-col items-center justify-end flex-shrink-0" style={{ width: `${100 / data.length}%`, height: '100%' }}>
                 {/* Probabilità sopra la barra - mostra solo se quantity > 0 e ogni 3 ore per evitare sovrapposizioni */}
@@ -52,11 +67,11 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
                     {Math.round(point.probability)}%
                   </div>
                 )}
-                
+
                 {/* Barra quantità - più stretta per evitare sovrapposizioni */}
-                <div 
+                <div
                   className="w-2 sm:w-3 bg-cyan-300/60 rounded-t flex-shrink-0"
-                  style={{ 
+                  style={{
                     height: `${barHeight}px`,
                     transition: 'all 0.3s ease'
                   }}
@@ -65,11 +80,11 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
             );
           })}
         </div>
-        
+
         {/* Linea di base del grafico */}
         <div className="absolute bottom-0 left-2 right-2 h-px bg-white/20" />
       </div>
-      
+
       {/* Etichette orarie */}
       <div className="flex justify-between text-xs text-gray-600 px-2">
         {data.map((d, index) => (
