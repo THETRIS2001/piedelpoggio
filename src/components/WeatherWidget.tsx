@@ -474,8 +474,12 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
         const now = new Date();
         const currentTime = now.getTime();
 
-        // Temperature orarie da Open-Meteo
-        const temperatureData = openMeteo.hourly.time.map((timeStr, index) => {
+        // Fetch hourly precipitation data da Google (per determinare il numero di ore)
+        const hourlyPrecipResult = await fetchHourlyData();
+        const numHours = hourlyPrecipResult.precipitationData.length; // Usa lo stesso numero di ore delle precipitazioni
+
+        // Temperature orarie da Open-Meteo - limitate allo stesso numero di ore delle precipitazioni
+        const temperatureData = openMeteo.hourly.time.slice(0, numHours).map((timeStr, index) => {
           const hourTime = new Date(timeStr);
           const isPast = hourTime.getTime() < currentTime;
           return {
@@ -484,9 +488,6 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
             isPast
           };
         });
-
-        // Fetch hourly precipitation data da Google
-        const hourlyPrecipResult = await fetchHourlyData();
 
         setHourlyData({
           temperatureData,
@@ -553,7 +554,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
   console.log('WeatherWidget: Rendering dati meteo', { weather, openMeteoData });
 
   // Temperatura attuale da Open-Meteo
-  const currentTemp = Math.round(openMeteoData.current.temperature_2m);
+  const currentTemp = Math.floor(openMeteoData.current.temperature_2m);
   const currentIcon = getWeatherIcon(
     weather.currentConditions.weatherCondition.iconBaseUri,
     weather.currentConditions.weatherCondition.type
@@ -613,7 +614,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
             </div>
             <div className="flex items-center gap-1">
               <span className="text-blue-500 font-medium">Vento:</span>
-              <span>{Math.round(weather.currentConditions.wind.speed.value)} km/h</span>
+              <span>{Math.floor(weather.currentConditions.wind.speed.value)} km/h</span>
             </div>
             <div className="flex items-center gap-1">
               <span className="text-blue-500 font-medium">Precipitazioni:</span>
@@ -644,8 +645,8 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
             // Usa le temperature max/min da Open-Meteo
             const dateStr = `${forecast.displayDate.year}-${String(forecast.displayDate.month).padStart(2, '0')}-${String(forecast.displayDate.day).padStart(2, '0')}`;
             const openMeteoIndex = openMeteoData.daily.time.indexOf(dateStr);
-            const maxTemp = openMeteoIndex >= 0 ? Math.round(openMeteoData.daily.temperature_2m_max[openMeteoIndex]) : 0;
-            const minTemp = openMeteoIndex >= 0 ? Math.round(openMeteoData.daily.temperature_2m_min[openMeteoIndex]) : 0;
+            const maxTemp = openMeteoIndex >= 0 ? Math.floor(openMeteoData.daily.temperature_2m_max[openMeteoIndex]) : 0;
+            const minTemp = openMeteoIndex >= 0 ? Math.floor(openMeteoData.daily.temperature_2m_min[openMeteoIndex]) : 0;
 
             const icon = getWeatherIcon(
               forecast.daytimeForecast.weatherCondition.iconBaseUri,
