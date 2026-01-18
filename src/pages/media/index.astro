@@ -35,7 +35,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
+        <div id="eventsListSection" class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6" style="scroll-margin-top: 100px;">
           <div class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6">
           <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end max-w-full">
             <div class="min-w-0 overflow-hidden">
@@ -86,7 +86,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             </button>
 
             <div class="pagination-info flex flex-col items-center">
-              <span class="text-[10px] uppercase tracking-wider text-red-400 font-bold mb-0.5">Navigazione Pagine</span>
               <div class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner">
                 Pagina 1 di 1
               </div>
@@ -163,7 +162,6 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             </button>
 
             <div class="pagination-info flex flex-col items-center">
-              <span class="text-[10px] uppercase tracking-wider text-red-400 font-bold mb-0.5">Navigazione Pagine</span>
               <div class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner">
                 Pagina 1 di 1
               </div>
@@ -916,7 +914,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (currentPage <= 1) return
       currentPage--
       renderEvents(events)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      document.getElementById('eventsListSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
     const handleNext = () => {
       const filtered = events.filter(matchesFilters)
@@ -924,7 +922,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       if (currentPage >= totalPages) return
       currentPage++
       renderEvents(events)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      document.getElementById('eventsListSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
     document.getElementById('pagePrevTop')?.addEventListener('click', handlePrev)
