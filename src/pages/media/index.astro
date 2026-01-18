@@ -500,26 +500,30 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         const title = document.createElement('div')
         title.className = 'font-semibold text-gray-900 text-base md:text-lg'
         title.textContent = clamp(capitalize(ev.meta?.eventName || ''), 60)
+        const badges = document.createElement('div')
+        badges.className = 'flex items-center gap-2 mt-1 mb-2'
+        
         const date = document.createElement('div')
-        date.className = 'self-start w-fit inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5 mt-1'
+        date.className = 'inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5'
         date.textContent = ev.meta?.date ? formatDate(ev.meta.date) : ''
-        const desc = document.createElement('div')
-        desc.className = 'text-xs md:text-sm text-gray-700 mt-2 mb-2'
-        desc.textContent = ev.meta?.description ? ev.meta.description : ''
-        desc.style.textAlign = 'justify'
-        ;(desc as any).style.textJustify = 'inter-word'
+        badges.appendChild(date)
+
         const photosCount = filesArr.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name)).length
-        const videosCount = filesArr.filter(f => /\.(mp4|webm|ogg)$/i.test(f.name)).length
-        const counts = document.createElement('div')
-        counts.className = 'flex items-center gap-2 mt-1 mb-2'
         const badgePhoto = document.createElement('span')
         badgePhoto.className = 'inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5'
         badgePhoto.textContent = `Foto: ${photosCount}`
-        counts.appendChild(badgePhoto)
+        badges.appendChild(badgePhoto)
+
         info.appendChild(title)
-        info.appendChild(date)
+        info.appendChild(badges)
+        
+        const desc = document.createElement('div')
+        desc.className = 'text-xs md:text-sm text-gray-700 mb-2'
+        desc.textContent = ev.meta?.description ? ev.meta.description : ''
+        desc.style.textAlign = 'justify'
+        ;(desc as any).style.textJustify = 'inter-word'
         info.appendChild(desc)
-        info.appendChild(counts)
+
         const actions = document.createElement('div')
         actions.className = 'mt-3 flex items-center gap-2 mt-auto'
         const openLink = document.createElement('a')

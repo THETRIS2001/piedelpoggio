@@ -94,7 +94,10 @@ const capitalize = (s: string) => {
             </h1>
           </div>
           <div class="w-32 h-1.5 rounded-full mx-auto mb-6" style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"></div>
-          <div class="inline-flex items-center justify-center text-sm md:text-base font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-3 py-1 mx-auto w-fit">{formattedDate}</div>
+          <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
+            <div class="inline-flex items-center justify-center text-sm md:text-base font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-3 py-1 w-fit">{formattedDate}</div>
+            <div class="inline-flex items-center justify-center text-sm md:text-base font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-3 py-1 w-fit">Foto: {files.filter(f => !f.isVideo).length}</div>
+          </div>
           {meta?.description && (
             <p class="mt-6 mb-2 text-base md:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">{meta.description}</p>
           )}
