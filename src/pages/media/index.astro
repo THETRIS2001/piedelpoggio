@@ -71,30 +71,36 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
             
           </div>
 
-          <div class="flex items-center justify-between mt-2 mb-1" id="eventsPaginationBar">
+          <!-- Barra Paginazione Superiore -->
+          <div class="flex items-center justify-between mt-2 mb-4 bg-red-50/50 p-2 rounded-xl border border-red-100 shadow-sm transition-all duration-300" id="eventsPaginationBarTop">
             <button
-              id="pagePrev"
+              id="pagePrevTop"
               type="button"
-              class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              class="pagination-prev inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
               aria-label="Pagina precedente"
             >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
               </svg>
+              <span class="text-sm font-bold hidden sm:inline">Precedente</span>
             </button>
 
-            <div id="pageInfo" class="text-xs font-medium text-gray-700">
-              Pagina 1 di 1
+            <div class="pagination-info flex flex-col items-center">
+              <span class="text-[10px] uppercase tracking-wider text-red-400 font-bold mb-0.5">Navigazione Pagine</span>
+              <div class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner">
+                Pagina 1 di 1
+              </div>
             </div>
 
             <button
-              id="pageNext"
+              id="pageNextTop"
               type="button"
-              class="inline-flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+              class="pagination-next inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
               aria-label="Pagina successiva"
             >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              <span class="text-sm font-bold hidden sm:inline text-right">Successiva</span>
+              <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
               </svg>
             </button>
           </div>
@@ -140,6 +146,40 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
                 <div class="h-3 bg-gray-200 rounded w-5/6"></div>
               </div>
             </div>
+          </div>
+
+          <!-- Barra Paginazione Inferiore -->
+          <div class="flex items-center justify-between mt-8 bg-red-50/50 p-2 rounded-xl border border-red-100 shadow-sm transition-all duration-300" id="eventsPaginationBarBottom">
+            <button
+              id="pagePrevBottom"
+              type="button"
+              class="pagination-prev inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
+              aria-label="Pagina precedente"
+            >
+              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+              </svg>
+              <span class="text-sm font-bold hidden sm:inline">Precedente</span>
+            </button>
+
+            <div class="pagination-info flex flex-col items-center">
+              <span class="text-[10px] uppercase tracking-wider text-red-400 font-bold mb-0.5">Navigazione Pagine</span>
+              <div class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner">
+                Pagina 1 di 1
+              </div>
+            </div>
+
+            <button
+              id="pageNextBottom"
+              type="button"
+              class="pagination-next inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
+              aria-label="Pagina successiva"
+            >
+              <span class="text-sm font-bold hidden sm:inline text-right">Successiva</span>
+              <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -533,33 +573,39 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       })
 
       const totalPages = filtered.length > 0 ? Math.ceil(filtered.length / PAGE_SIZE) : 0
+      
+      // Funzione per aggiornare le barre di paginazione (top e bottom)
+      const updatePaginationBars = () => {
+        const bars = ['Top', 'Bottom']
+        bars.forEach(suffix => {
+          const bar = document.getElementById(`eventsPaginationBar${suffix}`)
+          const prev = document.getElementById(`pagePrev${suffix}`) as HTMLButtonElement | null
+          const next = document.getElementById(`pageNext${suffix}`) as HTMLButtonElement | null
+          const info = bar?.querySelector('.page-numbers-info')
+
+          if (bar) {
+            if (totalPages <= 1) {
+              bar.classList.add('hidden')
+            } else {
+              bar.classList.remove('hidden')
+              if (info) info.textContent = `Pagina ${currentPage} di ${totalPages}`
+              if (prev) prev.disabled = currentPage <= 1
+              if (next) next.disabled = currentPage >= totalPages
+            }
+          }
+        })
+      }
+
       if (totalPages === 0) {
-        const bar = document.getElementById('eventsPaginationBar')
-        const info = document.getElementById('pageInfo')
-        if (bar) bar.classList.add('hidden')
-        if (info) info.textContent = 'Nessun evento trovato'
-        grid.innerHTML = ''
+        updatePaginationBars()
+        grid.innerHTML = '<div class="col-span-full py-12 text-center"><p class="text-gray-500 font-medium">Nessun evento trovato corrispondente ai filtri</p></div>'
         return
       }
 
       if (currentPage < 1) currentPage = 1
       if (currentPage > totalPages) currentPage = totalPages
 
-      const bar = document.getElementById('eventsPaginationBar')
-      const prev = document.getElementById('pagePrev') as HTMLButtonElement | null
-      const next = document.getElementById('pageNext') as HTMLButtonElement | null
-      const info = document.getElementById('pageInfo')
-
-      if (bar && prev && next && info) {
-        bar.classList.toggle('hidden', totalPages <= 1)
-        info.textContent = `Pagina ${currentPage} di ${totalPages}`
-
-        const canPrev = currentPage > 1
-        const canNext = currentPage < totalPages
-
-        prev.disabled = !canPrev
-        next.disabled = !canNext
-      }
+      updatePaginationBars()
 
       const start = (currentPage - 1) * PAGE_SIZE
       const pageItems = filtered.slice(start, start + PAGE_SIZE)
@@ -865,15 +911,26 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       currentPage = 1
       renderEvents(events)
     })
-    document.getElementById('pagePrev')?.addEventListener('click', () => {
+    // Gestione click paginazione (Sia Top che Bottom)
+    const handlePrev = () => {
       if (currentPage <= 1) return
       currentPage--
       renderEvents(events)
-    })
-    document.getElementById('pageNext')?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    const handleNext = () => {
+      const filtered = events.filter(matchesFilters)
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
+      if (currentPage >= totalPages) return
       currentPage++
       renderEvents(events)
-    })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    document.getElementById('pagePrevTop')?.addEventListener('click', handlePrev)
+    document.getElementById('pageNextTop')?.addEventListener('click', handleNext)
+    document.getElementById('pagePrevBottom')?.addEventListener('click', handlePrev)
+    document.getElementById('pageNextBottom')?.addEventListener('click', handleNext)
     const MAX_TOTAL_BYTES = 1024 * 1024 * 1024
     function formatBytes(b: number) {
       const u = ['B','KB','MB','GB']
