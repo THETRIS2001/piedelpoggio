@@ -41,8 +41,7 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
       <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4 p-2 text-center">
         <h3 className="text-black text-sm font-medium mb-2">Precipitazioni Orarie</h3>
         <div className="flex flex-col items-center justify-center py-4 bg-blue-50/30 rounded-lg border border-blue-100/50">
-          <span className="text-2xl mb-1">☀️</span>
-          <p className="text-blue-700 text-xs font-medium">Non sono previste precipitazioni nelle prossime 24 ore</p>
+          <p className="text-blue-700 text-xl font-medium">Non sono previste precipitazioni nelle prossime 24 ore</p>
         </div>
       </div>
     );
