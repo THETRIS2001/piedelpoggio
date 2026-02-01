@@ -499,7 +499,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                       type="button"
                       id="pickFiles"
                       class="text-red-600 hover:text-red-700 underline"
-                      >carica file</button>
+                      >carica file</button
+                    >
                   </p>
                   <div id="filesSummary" class="text-sm text-gray-600"></div>
                 </div>
@@ -1326,6 +1327,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
     updateSortUI();
+    // Funzione per scroll affidabile indipendentemente da risoluzione/scaling
+    const scrollToSection = () => {
+      // Usa setTimeout per garantire che il DOM sia aggiornato prima dello scroll
+      setTimeout(() => {
+        const section = document.getElementById("eventsListSection");
+        const nav = document.querySelector("nav");
+        if (section) {
+          const navHeight = nav?.getBoundingClientRect().height || 80;
+          const sectionTop = section.offsetTop;
+          const scrollTarget = Math.max(0, sectionTop - navHeight - 20);
+          window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+        }
+      }, 50);
+    };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
         "sortField",
@@ -1346,18 +1361,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       currentPage = 1;
       renderEvents(events);
     });
-    // Funzione per scroll affidabile indipendentemente da risoluzione/scaling
-    const scrollToSection = () => {
-      const section = document.getElementById("eventsListSection");
-      const nav = document.querySelector("nav");
-      if (section) {
-        const navHeight = nav?.getBoundingClientRect().height || 80;
-        const offset =
-          section.getBoundingClientRect().top + window.scrollY - navHeight - 20;
-        window.scrollTo({ top: offset, behavior: "smooth" });
-      }
-    };
-
     // Gestione click paginazione (Sia Top che Bottom)
     const handlePrev = () => {
       if (currentPage <= 1) return;
