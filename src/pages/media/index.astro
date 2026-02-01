@@ -1329,17 +1329,16 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     updateSortUI();
     // Funzione per scroll affidabile indipendentemente da risoluzione/scaling
     const scrollToSection = () => {
-      // Usa setTimeout per garantire che il DOM sia aggiornato prima dello scroll
-      setTimeout(() => {
+      // Usa requestAnimationFrame per garantire che il DOM sia aggiornato
+      requestAnimationFrame(() => {
         const section = document.getElementById("eventsListSection");
-        const nav = document.querySelector("nav");
         if (section) {
-          const navHeight = nav?.getBoundingClientRect().height || 80;
-          const sectionTop = section.offsetTop;
-          const scrollTarget = Math.max(0, sectionTop - navHeight - 20);
-          window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+          const rect = section.getBoundingClientRect();
+          const absoluteTop = rect.top + window.pageYOffset;
+          // Scroll immediato senza smooth per evitare problemi
+          window.scrollTo(0, Math.max(0, absoluteTop - 100));
         }
-      }, 50);
+      });
     };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
