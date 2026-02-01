@@ -174,7 +174,7 @@ body {
 }
 
 .container-tight {
-  @apply w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  @apply w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
 }
 
 .container-narrow {
