@@ -1371,23 +1371,34 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       currentPage = 1;
       renderEvents(events);
     });
-    // Gestione click paginazione (Sia Top che Bottom)
-    const handlePrev = () => {
-      if (currentPage <= 1) return;
-      currentPage--;
-      // Prima scrolla, poi renderizza
-      scrollToTop();
-      setTimeout(() => renderEvents(events), 50);
-    };
-    const handleNext = () => {
+    // Gestione click paginazione con transizione fluida
+    const changePage = (delta: number) => {
       const filtered = events.filter(matchesFilters);
       const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-      if (currentPage >= totalPages) return;
-      currentPage++;
-      // Prima scrolla, poi renderizza
-      scrollToTop();
-      setTimeout(() => renderEvents(events), 50);
+      const newPage = currentPage + delta;
+      if (newPage < 1 || newPage > totalPages) return;
+
+      currentPage = newPage;
+      const grid = document.getElementById("eventsGrid");
+      if (grid) {
+        // Fade out
+        grid.style.opacity = "0";
+        grid.style.transition = "opacity 0.15s ease-out";
+        setTimeout(() => {
+          scrollToTop();
+          renderEvents(events);
+          // Fade in
+          requestAnimationFrame(() => {
+            grid.style.opacity = "1";
+          });
+        }, 150);
+      } else {
+        scrollToTop();
+        setTimeout(() => renderEvents(events), 50);
+      }
     };
+    const handlePrev = () => changePage(-1);
+    const handleNext = () => changePage(1);
 
     document
       .getElementById("pagePrevTop")
