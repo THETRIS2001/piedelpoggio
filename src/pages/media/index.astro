@@ -1334,31 +1334,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
     updateSortUI();
-    // Approccio universale: calcola posizione fissa al caricamento, poi usa sempre quella
-    // Questo bypassa tutti i problemi di calcolo dinamico su diverse risoluzioni
-    const getScrollTarget = () => {
-      const section = document.getElementById("eventsTop");
-      if (!section) return 0;
-      // Calcola la posizione assoluta dell'elemento nel documento
-      let top = 0;
-      let el: HTMLElement | null = section;
-      while (el) {
-        top += el.offsetTop;
-        el = el.offsetParent as HTMLElement | null;
-      }
-      // Sottrai 100px per la navbar
-      return Math.max(0, top - 100);
-    };
-
+    // Test semplice: scroll al top assoluto della pagina con delay
     const scrollToSection = () => {
-      // Doppio requestAnimationFrame per garantire che il rendering sia completo
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const target = getScrollTarget();
-          // Scroll diretto senza animazione
-          window.scrollTo(0, target);
-        });
-      });
+      // Delay lungo per garantire che tutto il rendering sia completato
+      setTimeout(() => {
+        // Scroll al top assoluto della pagina
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0; // Fallback per Safari
+      }, 200);
     };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
