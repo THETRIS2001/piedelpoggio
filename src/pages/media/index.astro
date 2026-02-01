@@ -1334,14 +1334,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
     updateSortUI();
-    // Test semplice: scroll al top assoluto della pagina con delay
-    const scrollToSection = () => {
-      // Delay lungo per garantire che tutto il rendering sia completato
-      setTimeout(() => {
-        // Scroll al top assoluto della pagina
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0; // Fallback per Safari
-      }, 200);
+    // Scroll istantaneo al top della pagina
+    const scrollToTop = () => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
@@ -1367,16 +1363,18 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     const handlePrev = () => {
       if (currentPage <= 1) return;
       currentPage--;
-      renderEvents(events);
-      scrollToSection();
+      // Prima scrolla, poi renderizza
+      scrollToTop();
+      setTimeout(() => renderEvents(events), 50);
     };
     const handleNext = () => {
       const filtered = events.filter(matchesFilters);
       const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
       if (currentPage >= totalPages) return;
       currentPage++;
-      renderEvents(events);
-      scrollToSection();
+      // Prima scrolla, poi renderizza
+      scrollToTop();
+      setTimeout(() => renderEvents(events), 50);
     };
 
     document
