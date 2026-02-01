@@ -26,8 +26,8 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
   const maxQuantity = Math.max(...data.map(d => d.quantity)) || 0;
   const maxProbability = Math.max(...data.map(d => d.probability)) || 0;
 
-  // Verifica se non sono previste precipitazioni
-  const noPrecipitations = maxQuantity === 0;
+  // Verifica se non sono previste precipitazioni (basato sia su quantità che probabilità)
+  const noPrecipitations = maxQuantity === 0 && maxProbability < 10;
 
   // Calcola la posizione dell'ora corrente
   const currentHour = new Date(currentTime).getHours();
@@ -41,7 +41,7 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
       <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4 p-2 text-center">
         <h3 className="text-black text-sm font-medium mb-2">Precipitazioni Orarie</h3>
         <div className="flex flex-col items-center justify-center py-4 bg-blue-50/30 rounded-lg border border-blue-100/50">
-          <p className="text-blue-700 text-xl font-medium">Non sono previste precipitazioni nelle prossime 24 ore</p>
+          <p className="text-blue-700 text-xl font-medium">Non sono previste precipitazioni significative nelle prossime 24 ore</p>
         </div>
       </div>
     );
@@ -55,21 +55,21 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
         {/* Container del grafico */}
         <div className="relative w-full h-full flex items-end justify-between px-2">
           {data.map((point, index) => {
-            const barHeight = (point.quantity / maxQuantity) * 50; // 50px max height per le barre
+            const barHeight = maxQuantity > 0 ? (point.quantity / maxQuantity) * 50 : 0; // 50px max height per le barre, evita divisione per zero
             const isCurrentHour = index === currentIndex;
 
             return (
               <div key={index} className="relative flex flex-col items-center justify-end flex-shrink-0" style={{ width: `${100 / data.length}%`, height: '100%' }}>
-                {/* Probabilità sopra la barra - mostra solo se quantity > 0 e ogni 3 ore per evitare sovrapposizioni */}
-                {point.quantity > 0 && (
-                  <div className={`text-xs text-gray-600 mb-1 font-medium absolute ${index % 3 !== 0 ? 'hidden sm:block' : ''}`} style={{ bottom: `${barHeight + 8}px`, left: '50%', transform: 'translateX(-50%)', fontSize: '10px' }}>
+                {/* Probabilità sopra la barra - mostra se probability > 0 e ogni 3 ore per evitare sovrapposizioni */}
+                {point.probability > 0 && (
+                  <div className={`text-xs text-blue-600 mb-1 font-bold absolute ${index % 3 !== 0 ? 'hidden sm:block' : ''}`} style={{ bottom: `${barHeight + 8}px`, left: '50%', transform: 'translateX(-50%)', fontSize: '10px' }}>
                     {Math.round(point.probability)}%
                   </div>
                 )}
 
                 {/* Barra quantità - più stretta per evitare sovrapposizioni */}
                 <div
-                  className="w-2 sm:w-3 bg-cyan-300/60 rounded-t flex-shrink-0"
+                  className={`w-2 sm:w-3 bg-cyan-400/70 rounded-t flex-shrink-0 ${point.quantity > 0 ? '' : 'h-0'}`}
                   style={{
                     height: `${barHeight}px`,
                     transition: 'all 0.3s ease'
