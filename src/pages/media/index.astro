@@ -1,252 +1,563 @@
 ---
-import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import DefaultLayout from "../../layouts/DefaultLayout.astro";
 ---
 
-<DefaultLayout title="GALLERIA FOTO" description="Galleria e caricamenti di immagini per eventi a Piedelpoggio">
-  <main class="bg-gradient-to-br from-primary-50/30 via-white to-secondary-50/20">
+<DefaultLayout
+  title="GALLERIA FOTO"
+  description="Galleria e caricamenti di immagini per eventi a Piedelpoggio"
+>
+  <main
+    class="bg-gradient-to-br from-primary-50/30 via-white to-secondary-50/20"
+  >
     <section class="relative overflow-hidden pt-12 md:pt-16">
-      <div class="absolute inset-0 bg-gradient-to-b from-red-100/70 via-red-50/50 to-transparent"></div>
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-40" style="background: radial-gradient(circle, rgba(255, 36, 0, 0.12) 0%, rgba(255, 36, 0, 0.04) 60%, transparent 100%);"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-red-100/70 via-red-50/50 to-transparent"
+      >
+      </div>
+      <div
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-40"
+        style="background: radial-gradient(circle, rgba(255, 36, 0, 0.12) 0%, rgba(255, 36, 0, 0.04) 60%, transparent 100%);"
+      >
+      </div>
       <div class="relative z-10 container mx-auto px-4 text-center">
         <div class="animate-fade-in">
           <div class="flex items-center justify-center mb-8">
-            <div class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6" style="background: linear-gradient(135deg, #FF2400, #E01E00);">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div
+              class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
+              style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+            >
+              <svg
+                class="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <circle cx="9" cy="9" r="2"></circle>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 16l-6-6-7 7"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 16l-6-6-7 7"></path>
               </svg>
             </div>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent">GALLERIA FOTO</span>
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+            >
+              <span
+                class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent"
+                >GALLERIA FOTO</span
+              >
             </h1>
           </div>
-          <div class="w-32 h-1.5 rounded-full mx-auto mb-8" style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"></div>
-          <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">Immagini organizzate per evento, con ricerca e filtri</p>
+          <div
+            class="w-32 h-1.5 rounded-full mx-auto mb-8"
+            style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"
+          >
+          </div>
+          <p
+            class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16"
+          >
+            Immagini organizzate per evento, con ricerca e filtri
+          </p>
         </div>
       </div>
     </section>
     <section class="pt-4 pb-16">
       <div class="container mx-auto px-4">
-        
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div id="eventsListSection" class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6" style="scroll-margin-top: 100px;">
-          <div class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6">
-          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end max-w-full">
-            <div class="min-w-0 overflow-hidden">
-              <div class="text-xs font-semibold text-white mb-1">Cerca Evento</div>
-              <input id="searchEvents" type="text" placeholder="Es. Festa di Agosto" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" />
-            </div>
-            <div class="min-w-0 overflow-hidden">
-              <div class="text-xs font-semibold text-white mb-1">Data Inizio</div>
-              <input id="dateFrom" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" />
-            </div>
-            <div class="min-w-0 overflow-hidden">
-              <div class="text-xs font-semibold text-white mb-1">Data Fine</div>
-              <input id="dateTo" type="date" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" />
-            </div>
-            <div class="flex items-end justify-start min-w-0 overflow-hidden self-end">
-              <input id="sortField" type="hidden" value="date" />
-              <input id="sortOrder" type="hidden" value="desc" />
-              <div id="sortSwitch" class="relative w-24 h-8 rounded-full border border-white shadow-sm overflow-hidden" style="background: linear-gradient(180deg, #fafafa 0%, #e9e9e9 100%); box-shadow: inset 0 2px 6px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.6);">
-                <div id="sortKnob" class="absolute top-0 left-0 w-12 h-8 text-white flex items-center justify-center rounded-full transition-all duration-200" style="background: linear-gradient(180deg, #ff5533 0%, #c31a00 100%); box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);"></div>
-                <button id="sortNameBtn" type="button" class="absolute inset-y-0 left-0 w-12 text-xs font-semibold leading-none text-[#E01E00] focus:outline-none">A–Z</button>
-                <button id="sortDateBtn" type="button" class="absolute inset-y-0 right-0 w-12 leading-none text-[#E01E00] focus:outline-none">
-                  <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </button>
-              </div>
-              <button id="sortDirBtn" type="button" class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white focus:outline-none" title="Direzione">
-                <svg id="sortDirIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </button>
-            </div>
-            <div class="flex items-end justify-end min-w-0 overflow-hidden">
-              <button id="clearFilter" type="button" class="px-4 py-2 rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90">Reset</button>
-            </div>
-          </div>
-            
-          </div>
-
-          <!-- Barra Paginazione Superiore -->
-          <div class="flex items-center justify-between mt-2 mb-4 bg-red-50/50 p-2 rounded-xl border border-red-100 shadow-sm transition-all duration-300" id="eventsPaginationBarTop">
-            <button
-              id="pagePrevTop"
-              type="button"
-              class="pagination-prev inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
-              aria-label="Pagina precedente"
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div
+            id="eventsListSection"
+            class="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6"
+            style="scroll-margin-top: 100px;"
+          >
+            <div
+              class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6"
             >
-              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-              </svg>
-              <span class="text-sm font-bold hidden sm:inline">Precedente</span>
-            </button>
-
-            <div class="pagination-info flex flex-col items-center">
-              <div class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner">
-                Pagina 1 di 1
-              </div>
-            </div>
-
-            <button
-              id="pageNextTop"
-              type="button"
-              class="pagination-next inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
-              aria-label="Pagina successiva"
-            >
-              <span class="text-sm font-bold hidden sm:inline text-right">Successiva</span>
-              <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </div>
-
-          <div id="eventsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
-            <!-- Skeleton Loading State -->
-            <div class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item">
-              <div class="grid grid-cols-3 gap-1 p-2 bg-gray-50">
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-              </div>
-              <div class="p-3 flex flex-col flex-1 space-y-3">
-                <div class="h-5 bg-gray-200 rounded w-3/4"></div>
-                <div class="h-4 bg-gray-200 rounded w-1/3"></div>
-                <div class="h-3 bg-gray-200 rounded w-full"></div>
-                <div class="h-3 bg-gray-200 rounded w-5/6"></div>
-              </div>
-            </div>
-            <div class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item hidden sm:flex">
-              <div class="grid grid-cols-3 gap-1 p-2 bg-gray-50">
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-              </div>
-              <div class="p-3 flex flex-col flex-1 space-y-3">
-                <div class="h-5 bg-gray-200 rounded w-3/4"></div>
-                <div class="h-4 bg-gray-200 rounded w-1/3"></div>
-                <div class="h-3 bg-gray-200 rounded w-full"></div>
-                <div class="h-3 bg-gray-200 rounded w-5/6"></div>
-              </div>
-            </div>
-            <div class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item hidden xl:flex">
-              <div class="grid grid-cols-3 gap-1 p-2 bg-gray-50">
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-                <div class="aspect-square rounded-lg bg-gray-200"></div>
-              </div>
-              <div class="p-3 flex flex-col flex-1 space-y-3">
-                <div class="h-5 bg-gray-200 rounded w-3/4"></div>
-                <div class="h-4 bg-gray-200 rounded w-1/3"></div>
-                <div class="h-3 bg-gray-200 rounded w-full"></div>
-                <div class="h-3 bg-gray-200 rounded w-5/6"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Barra Paginazione Inferiore -->
-          <div class="flex items-center justify-between mt-8 bg-red-50/50 p-2 rounded-xl border border-red-100 shadow-sm transition-all duration-300" id="eventsPaginationBarBottom">
-            <button
-              id="pagePrevBottom"
-              type="button"
-              class="pagination-prev inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
-              aria-label="Pagina precedente"
-            >
-              <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-              </svg>
-              <span class="text-sm font-bold hidden sm:inline">Precedente</span>
-            </button>
-
-            <div class="pagination-info flex flex-col items-center">
-              <div class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner">
-                Pagina 1 di 1
-              </div>
-            </div>
-
-            <button
-              id="pageNextBottom"
-              type="button"
-              class="pagination-next inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
-              aria-label="Pagina successiva"
-            >
-              <span class="text-sm font-bold hidden sm:inline text-right">Successiva</span>
-              <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Carica contenuti</h2>
-          <form id="uploadForm" class="space-y-4" autocomplete="off">
-          <div class="mb-4">
-            <div class="flex items-center gap-2 mb-3">
-              <button id="modeExisting" type="button" class="px-3 py-1.5 rounded-full text-sm font-medium text-white" style="background: linear-gradient(135deg, #FF2400, #E01E00);">Aggiungi a evento esistente</button>
-              <button id="modeNew" type="button" class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300">Crea nuovo evento</button>
-              <button type="button" aria-label="Info" class="ml-auto flex-shrink-0 w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50 flex items-center justify-center" data-info="event">
-                <span class="text-sm font-bold">i</span>
-              </button>
-            </div>
-            <div id="existingBox" class="mt-4 space-y-3">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Evento esistente <span class="text-red-600">*</span></label>
-              <div class="flex items-center gap-2">
-                <div class="relative flex-1">
-                  <input id="comboInput" type="text" placeholder="Seleziona evento esistente" autocomplete="off" autocapitalize="off" spellcheck="false" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" />
-                  <input id="existingFolderHidden" name="existingFolder" type="hidden" value="" />
-                  <div id="comboSuggestions" class="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-48 overflow-auto hidden z-50"></div>
-                </div>
-                <button id="changeExisting" type="button" class="hidden px-3 py-1.5 rounded-xl text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #FF2400, #E01E00);">Cambia</button>
-              </div>
-            </div>
-            <div id="newEventFields" class="hidden mt-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Evento <span class="text-red-600">*</span></label>
-                <input name="eventName" id="eventName" type="text" placeholder="Nome evento" maxlength="60" autocomplete="off" autocapitalize="off" spellcheck="false" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" required />
-                <div id="nameLimitMsg" class="text-xs text-red-600 mt-1"></div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 max-w-full">
+              <div
+                class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end max-w-full"
+              >
                 <div class="min-w-0 overflow-hidden">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Data evento <span class="text-red-600">*</span></label>
-                  <input name="date" id="date" type="date" autocomplete="off" class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" required />
+                  <div class="text-xs font-semibold text-white mb-1">
+                    Cerca Evento
+                  </div>
+                  <input
+                    id="searchEvents"
+                    type="text"
+                    placeholder="Es. Festa di Agosto"
+                    class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                  />
+                </div>
+                <div class="min-w-0 overflow-hidden">
+                  <div class="text-xs font-semibold text-white mb-1">
+                    Data Inizio
+                  </div>
+                  <input
+                    id="dateFrom"
+                    type="date"
+                    class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                  />
+                </div>
+                <div class="min-w-0 overflow-hidden">
+                  <div class="text-xs font-semibold text-white mb-1">
+                    Data Fine
+                  </div>
+                  <input
+                    id="dateTo"
+                    type="date"
+                    class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                  />
+                </div>
+                <div
+                  class="flex items-end justify-start min-w-0 overflow-hidden self-end"
+                >
+                  <input id="sortField" type="hidden" value="date" />
+                  <input id="sortOrder" type="hidden" value="desc" />
+                  <div
+                    id="sortSwitch"
+                    class="relative w-24 h-8 rounded-full border border-white shadow-sm overflow-hidden"
+                    style="background: linear-gradient(180deg, #fafafa 0%, #e9e9e9 100%); box-shadow: inset 0 2px 6px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.6);"
+                  >
+                    <div
+                      id="sortKnob"
+                      class="absolute top-0 left-0 w-12 h-8 text-white flex items-center justify-center rounded-full transition-all duration-200"
+                      style="background: linear-gradient(180deg, #ff5533 0%, #c31a00 100%); box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);"
+                    >
+                    </div>
+                    <button
+                      id="sortNameBtn"
+                      type="button"
+                      class="absolute inset-y-0 left-0 w-12 text-xs font-semibold leading-none text-[#E01E00] focus:outline-none"
+                      >A–Z</button
+                    >
+                    <button
+                      id="sortDateBtn"
+                      type="button"
+                      class="absolute inset-y-0 right-0 w-12 leading-none text-[#E01E00] focus:outline-none"
+                    >
+                      <svg
+                        class="w-4 h-4 mx-auto"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        ><path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path></svg
+                      >
+                    </button>
+                  </div>
+                  <button
+                    id="sortDirBtn"
+                    type="button"
+                    class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white focus:outline-none"
+                    title="Direzione"
+                  >
+                    <svg
+                      id="sortDirIcon"
+                      class="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      ><path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"></path></svg
+                    >
+                  </button>
+                </div>
+                <div class="flex items-end justify-end min-w-0 overflow-hidden">
+                  <button
+                    id="clearFilter"
+                    type="button"
+                    class="px-4 py-2 rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90"
+                    >Reset</button
+                  >
                 </div>
               </div>
-                <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Descrizione</label>
-                <textarea name="description" id="description" rows="3" maxlength="200" autocomplete="off" autocapitalize="off" spellcheck="false" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500" placeholder="Descrizione dell'evento"></textarea>
-                <div id="descLimitMsg" class="text-xs text-red-600 mt-1"></div>
+            </div>
+
+            <!-- Barra Paginazione Superiore -->
+            <div
+              class="flex items-center justify-between mt-2 mb-4 bg-red-50/50 p-2 rounded-xl border border-red-100 shadow-sm transition-all duration-300"
+              id="eventsPaginationBarTop"
+            >
+              <button
+                id="pagePrevTop"
+                type="button"
+                class="pagination-prev inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
+                aria-label="Pagina precedente"
+              >
+                <svg
+                  class="w-5 h-5 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                    d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="text-sm font-bold hidden sm:inline"
+                  >Precedente</span
+                >
+              </button>
+
+              <div class="pagination-info flex flex-col items-center">
+                <div
+                  class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner"
+                >
+                  Pagina 1 di 1
+                </div>
               </div>
+
+              <button
+                id="pageNextTop"
+                type="button"
+                class="pagination-next inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
+                aria-label="Pagina successiva"
+              >
+                <span class="text-sm font-bold hidden sm:inline text-right"
+                  >Successiva</span
+                >
+                <svg
+                  class="w-5 h-5 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                    d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div
+              id="eventsGrid"
+              class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-2"
+            >
+              <!-- Skeleton Loading State -->
+              <div
+                class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item"
+              >
+                <div class="grid grid-cols-3 gap-1 p-2 bg-gray-50">
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                </div>
+                <div class="p-3 flex flex-col flex-1 space-y-3">
+                  <div class="h-5 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                  <div class="h-3 bg-gray-200 rounded w-full"></div>
+                  <div class="h-3 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              </div>
+              <div
+                class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item hidden sm:flex"
+              >
+                <div class="grid grid-cols-3 gap-1 p-2 bg-gray-50">
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                </div>
+                <div class="p-3 flex flex-col flex-1 space-y-3">
+                  <div class="h-5 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                  <div class="h-3 bg-gray-200 rounded w-full"></div>
+                  <div class="h-3 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              </div>
+              <div
+                class="animate-pulse rounded-xl border border-gray-200 bg-white/70 overflow-hidden h-full flex flex-col skeleton-item hidden xl:flex"
+              >
+                <div class="grid grid-cols-3 gap-1 p-2 bg-gray-50">
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                  <div class="aspect-square rounded-lg bg-gray-200"></div>
+                </div>
+                <div class="p-3 flex flex-col flex-1 space-y-3">
+                  <div class="h-5 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                  <div class="h-3 bg-gray-200 rounded w-full"></div>
+                  <div class="h-3 bg-gray-200 rounded w-5/6"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Barra Paginazione Inferiore -->
+            <div
+              class="flex items-center justify-between mt-8 bg-red-50/50 p-2 rounded-xl border border-red-100 shadow-sm transition-all duration-300"
+              id="eventsPaginationBarBottom"
+            >
+              <button
+                id="pagePrevBottom"
+                type="button"
+                class="pagination-prev inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
+                aria-label="Pagina precedente"
+              >
+                <svg
+                  class="w-5 h-5 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                    d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span class="text-sm font-bold hidden sm:inline"
+                  >Precedente</span
+                >
+              </button>
+
+              <div class="pagination-info flex flex-col items-center">
+                <div
+                  class="page-numbers-info text-sm font-black text-red-700 bg-white px-4 py-1 rounded-full border border-red-200 shadow-inner"
+                >
+                  Pagina 1 di 1
+                </div>
+              </div>
+
+              <button
+                id="pageNextBottom"
+                type="button"
+                class="pagination-next inline-flex items-center justify-center px-4 py-2 rounded-lg border border-red-400 text-red-700 bg-white hover:bg-red-600 hover:text-white transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group shadow-sm"
+                aria-label="Pagina successiva"
+              >
+                <span class="text-sm font-bold hidden sm:inline text-right"
+                  >Successiva</span
+                >
+                <svg
+                  class="w-5 h-5 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.5"
+                    d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
             </div>
           </div>
-            <input name="files" id="files" type="file" multiple accept="image/*,.bmp" autocomplete="off" class="sr-only" />
-            <label class="block text-sm font-medium text-gray-700 mb-1">File <span class="text-red-600">*</span></label>
-            <div id="dropzone" class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-8 text-center hover:bg-red-50">
-              <div class="flex flex-col items-center justify-center gap-3">
-                <p class="text-sm text-gray-700">Trascina qui le immagini oppure <button type="button" id="pickFiles" class="text-red-600 hover:text-red-700 underline">carica file</button></p>
-                <div id="filesSummary" class="text-sm text-gray-600"></div>
+
+          <div
+            class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 md:p-6"
+          >
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">
+              Carica contenuti
+            </h2>
+            <form id="uploadForm" class="space-y-4" autocomplete="off">
+              <div class="mb-4">
+                <div class="flex items-center gap-2 mb-3">
+                  <button
+                    id="modeExisting"
+                    type="button"
+                    class="px-3 py-1.5 rounded-full text-sm font-medium text-white"
+                    style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                    >Aggiungi a evento esistente</button
+                  >
+                  <button
+                    id="modeNew"
+                    type="button"
+                    class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300"
+                    >Crea nuovo evento</button
+                  >
+                  <button
+                    type="button"
+                    aria-label="Info"
+                    class="ml-auto flex-shrink-0 w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50 flex items-center justify-center"
+                    data-info="event"
+                  >
+                    <span class="text-sm font-bold">i</span>
+                  </button>
+                </div>
+                <div id="existingBox" class="mt-4 space-y-3">
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >Evento esistente <span class="text-red-600">*</span></label
+                  >
+                  <div class="flex items-center gap-2">
+                    <div class="relative flex-1">
+                      <input
+                        id="comboInput"
+                        type="text"
+                        placeholder="Seleziona evento esistente"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                      />
+                      <input
+                        id="existingFolderHidden"
+                        name="existingFolder"
+                        type="hidden"
+                        value=""
+                      />
+                      <div
+                        id="comboSuggestions"
+                        class="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-48 overflow-auto hidden z-50"
+                      >
+                      </div>
+                    </div>
+                    <button
+                      id="changeExisting"
+                      type="button"
+                      class="hidden px-3 py-1.5 rounded-xl text-sm font-semibold text-white shadow-md hover:shadow-lg transition-all duration-300"
+                      style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                      >Cambia</button
+                    >
+                  </div>
+                </div>
+                <div id="newEventFields" class="hidden mt-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Evento <span class="text-red-600">*</span></label
+                    >
+                    <input
+                      name="eventName"
+                      id="eventName"
+                      type="text"
+                      placeholder="Nome evento"
+                      maxlength="60"
+                      autocomplete="off"
+                      autocapitalize="off"
+                      spellcheck="false"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                      required
+                    />
+                    <div id="nameLimitMsg" class="text-xs text-red-600 mt-1">
+                    </div>
+                  </div>
+                  <div
+                    class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 max-w-full"
+                  >
+                    <div class="min-w-0 overflow-hidden">
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Data evento <span class="text-red-600">*</span></label
+                      >
+                      <input
+                        name="date"
+                        id="date"
+                        type="date"
+                        autocomplete="off"
+                        class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Descrizione</label
+                    >
+                    <textarea
+                      name="description"
+                      id="description"
+                      rows="3"
+                      maxlength="200"
+                      autocomplete="off"
+                      autocapitalize="off"
+                      spellcheck="false"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                      placeholder="Descrizione dell'evento"></textarea>
+                    <div id="descLimitMsg" class="text-xs text-red-600 mt-1">
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="text-xs text-gray-600 mt-2">Limite caricamento: <span class="font-semibold">1GB</span> totali</div>
-            <div id="sizeLimitMsg" class="text-xs text-gray-600 mt-1"></div>
-            <div id="uploadStatus" class="hidden text-sm font-medium rounded-xl border px-3 py-2 mt-2"></div>
-            <div id="uploadProgress" class="hidden mt-3">
-              <div class="text-xs text-gray-700 mb-1" id="uploadNote">Caricamento in corso — non chiudere la pagina</div>
-              <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <div id="uploadBar" class="bg-red-600 h-2 rounded-full" style="width:0%"></div>
+              <input
+                name="files"
+                id="files"
+                type="file"
+                multiple
+                accept="image/*,.bmp"
+                autocomplete="off"
+                class="sr-only"
+              />
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >File <span class="text-red-600">*</span></label
+              >
+              <div
+                id="dropzone"
+                class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-8 text-center hover:bg-red-50"
+              >
+                <div class="flex flex-col items-center justify-center gap-3">
+                  <p class="text-sm text-gray-700">
+                    Trascina qui le immagini oppure <button
+                      type="button"
+                      id="pickFiles"
+                      class="text-red-600 hover:text-red-700 underline"
+                      >carica file</button>
+                  </p>
+                  <div id="filesSummary" class="text-sm text-gray-600"></div>
+                </div>
               </div>
-              <div id="uploadPercent" class="text-xs text-gray-700 mt-1">0%</div>
-            </div>
-            <button id="submitBtn" type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #FF2400, #E01E00);" disabled>Invia</button>
-          </form>
+              <div class="text-xs text-gray-600 mt-2">
+                Limite caricamento: <span class="font-semibold">1GB</span> totali
+              </div>
+              <div id="sizeLimitMsg" class="text-xs text-gray-600 mt-1"></div>
+              <div
+                id="uploadStatus"
+                class="hidden text-sm font-medium rounded-xl border px-3 py-2 mt-2"
+              >
+              </div>
+              <div id="uploadProgress" class="hidden mt-3">
+                <div class="text-xs text-gray-700 mb-1" id="uploadNote">
+                  Caricamento in corso — non chiudere la pagina
+                </div>
+                <div
+                  class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
+                >
+                  <div
+                    id="uploadBar"
+                    class="bg-red-600 h-2 rounded-full"
+                    style="width:0%"
+                  >
+                  </div>
+                </div>
+                <div id="uploadPercent" class="text-xs text-gray-700 mt-1">
+                  0%
+                </div>
+              </div>
+              <button
+                id="submitBtn"
+                type="submit"
+                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                disabled>Invia</button
+              >
+            </form>
+          </div>
         </div>
-      </div>
       </div>
     </section>
-    <div id="infoModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-      <div class="bg-white rounded-2xl shadow-xl w-[92%] max-w-md p-5 border border-red-200">
+    <div
+      id="infoModal"
+      class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50"
+    >
+      <div
+        class="bg-white rounded-2xl shadow-xl w-[92%] max-w-md p-5 border border-red-200"
+      >
         <div class="flex items-center justify-between mb-3">
-          <div id="infoTitle" class="text-base font-semibold text-gray-900"></div>
-          <button id="infoClose" class="inline-flex items-center justify-center w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50">✕</button>
+          <div id="infoTitle" class="text-base font-semibold text-gray-900">
+          </div>
+          <button
+            id="infoClose"
+            class="inline-flex items-center justify-center w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50"
+            >✕</button
+          >
         </div>
         <div id="infoBody" class="text-sm text-gray-700 leading-relaxed"></div>
       </div>
@@ -272,880 +583,1145 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
       meta?: EventMeta;
     }
 
-    const PAGE_SIZE = 12
-    let currentPage = 1
-    let events: EventData[] = []
-    let externalFiles: File[] = []
+    const PAGE_SIZE = 12;
+    let currentPage = 1;
+    let events: EventData[] = [];
+    let externalFiles: File[] = [];
     function clientCreateSlug(text: string) {
-      return (text || '')
+      return (text || "")
         .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9\s-]/g, '')
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s-]/g, "")
         .trim()
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
     }
     async function loadFilesForEvents(list: EventData[]) {
-      const toLoad = list.filter(e => !e.files || e.files.length === 0)
-      const CONCURRENCY = 3
-      const queue = [...toLoad]
-      
+      const toLoad = list.filter((e) => !e.files || e.files.length === 0);
+      const CONCURRENCY = 3;
+      const queue = [...toLoad];
+
       const process: () => Promise<void> = async () => {
-          if (queue.length === 0) return
-          const ev = queue.shift()
-          if (!ev) return
-          
-          try {
-              const res = await fetch(`/api/media?folder=${ev.folder}`)
-              if (res.ok) {
-                  const data = await res.json()
-                  if (data && Array.isArray(data.files)) {
-                      ev.files = data.files
-                      updateCardImages(ev.folder, ev.files, ev.meta?.eventName || '')
-                  }
-              }
-          } catch (e) {
-              console.error('Failed to load files for', ev.folder)
+        if (queue.length === 0) return;
+        const ev = queue.shift();
+        if (!ev) return;
+
+        try {
+          const res = await fetch(`/api/media?folder=${ev.folder}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && Array.isArray(data.files)) {
+              ev.files = data.files;
+              updateCardImages(ev.folder, ev.files, ev.meta?.eventName || "");
+            }
           }
-          
-          await process()
-      }
-      
-      const workers = []
+        } catch (e) {
+          console.error("Failed to load files for", ev.folder);
+        }
+
+        await process();
+      };
+
+      const workers = [];
       for (let i = 0; i < CONCURRENCY; i++) {
-          workers.push(process())
+        workers.push(process());
       }
-      await Promise.all(workers)
+      await Promise.all(workers);
     }
 
     async function loadEvents() {
       try {
-        const res = await fetch('/api/media?list=events&mode=meta')
+        const res = await fetch("/api/media?list=events&mode=meta");
         if (!res.ok) {
-          console.error('loadEvents: response not ok', res.status)
-          const grid = document.getElementById('eventsGrid')
+          console.error("loadEvents: response not ok", res.status);
+          const grid = document.getElementById("eventsGrid");
           if (grid) {
-            grid.innerHTML = '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Errore nel caricamento degli eventi</div>'
+            grid.innerHTML =
+              '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Errore nel caricamento degli eventi</div>';
           }
-          events = []
-          return
+          events = [];
+          return;
         }
-        let data
+        let data;
         try {
-          data = await res.json()
+          data = await res.json();
         } catch (e) {
-          console.error('loadEvents: json parse error')
-          const grid = document.getElementById('eventsGrid')
+          console.error("loadEvents: json parse error");
+          const grid = document.getElementById("eventsGrid");
           if (grid) {
-            grid.innerHTML = '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Dati non validi ricevuti</div>'
+            grid.innerHTML =
+              '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Dati non validi ricevuti</div>';
           }
-          events = []
-          return
+          events = [];
+          return;
         }
-        events = Array.isArray(data.events) ? data.events : []
-        currentPage = 1
-        renderEvents(events)
-        renderComboSuggestions('')
-        
-        loadFilesForEvents(events)
+        events = Array.isArray(data.events) ? data.events : [];
+        currentPage = 1;
+        renderEvents(events);
+        renderComboSuggestions("");
+
+        loadFilesForEvents(events);
       } catch (err) {
-        console.error('loadEvents: fetch failed')
-        const grid = document.getElementById('eventsGrid')
+        console.error("loadEvents: fetch failed");
+        const grid = document.getElementById("eventsGrid");
         if (grid) {
-          grid.innerHTML = '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Impossibile contattare il server</div>'
+          grid.innerHTML =
+            '<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">Impossibile contattare il server</div>';
         }
-        events = []
+        events = [];
       }
     }
     function clamp(text: string, max: number = 60) {
-      const t = String(text || '')
-      return t.length > max ? t.slice(0, max) + '…' : t
+      const t = String(text || "");
+      return t.length > max ? t.slice(0, max) + "…" : t;
     }
     function capitalize(text: string) {
-      if (!text) return text
-      return text.charAt(0).toUpperCase() + text.slice(1)
+      if (!text) return text;
+      return text.charAt(0).toUpperCase() + text.slice(1);
     }
     function formatDate(d: string) {
-      const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre']
-      const dt = new Date(d)
-      return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`
+      const months = [
+        "Gennaio",
+        "Febbraio",
+        "Marzo",
+        "Aprile",
+        "Maggio",
+        "Giugno",
+        "Luglio",
+        "Agosto",
+        "Settembre",
+        "Ottobre",
+        "Novembre",
+        "Dicembre",
+      ];
+      const dt = new Date(d);
+      return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
     }
     function matchesFilters(ev: EventData) {
-      if (!ev.meta || !ev.meta.eventName || !ev.meta.date) return false
-      const q = (document.getElementById('searchEvents') as HTMLInputElement | null)?.value?.toLowerCase().trim() || ''
-      const df = (document.getElementById('dateFrom') as HTMLInputElement | null)?.value || ''
-      const dt = (document.getElementById('dateTo') as HTMLInputElement | null)?.value || ''
-      const name = String(ev.meta.eventName || '').toLowerCase()
-      if (q && !name.includes(q)) return false
-      const evDate = ev.meta?.date || ''
-      if (df && evDate < df) return false
-      if (dt && evDate > dt) return false
-      return true
+      if (!ev.meta || !ev.meta.eventName || !ev.meta.date) return false;
+      const q =
+        (
+          document.getElementById("searchEvents") as HTMLInputElement | null
+        )?.value
+          ?.toLowerCase()
+          .trim() || "";
+      const df =
+        (document.getElementById("dateFrom") as HTMLInputElement | null)
+          ?.value || "";
+      const dt =
+        (document.getElementById("dateTo") as HTMLInputElement | null)?.value ||
+        "";
+      const name = String(ev.meta.eventName || "").toLowerCase();
+      if (q && !name.includes(q)) return false;
+      const evDate = ev.meta?.date || "";
+      if (df && evDate < df) return false;
+      if (dt && evDate > dt) return false;
+      return true;
     }
     function buildImagesGrid(files: MediaFile[], eventName: string) {
-        const container = document.createElement('div')
-        container.className = 'grid grid-cols-3 gap-1 p-2 bg-gray-50'
+      const container = document.createElement("div");
+      container.className = "grid grid-cols-3 gap-1 p-2 bg-gray-50";
 
-        if (!files || files.length === 0) {
-            // Render 3 gray placeholder boxes
-            for (let i = 0; i < 3; i++) {
-                const slot = document.createElement('div')
-                slot.className = 'aspect-square rounded-lg bg-gray-200 animate-pulse'
-                container.appendChild(slot)
-            }
-            return container
+      if (!files || files.length === 0) {
+        // Render 3 gray placeholder boxes
+        for (let i = 0; i < 3; i++) {
+          const slot = document.createElement("div");
+          slot.className = "aspect-square rounded-lg bg-gray-200 animate-pulse";
+          container.appendChild(slot);
         }
+        return container;
+      }
 
-        const photos = files.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name))
-        const firstTen = photos.slice(0, 10)
-        // Include files with size 0 or unknown in 'small' (original url) to ensure they are displayed
-        const small = firstTen.filter(f => Number((f.size as number | undefined) || 0) <= 1024 * 1024)
-        const large = firstTen.filter(f => Number((f.size as number | undefined) || 0) > 1024 * 1024)
+      const photos = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
+      const firstTen = photos.slice(0, 10);
+      // Include files with size 0 or unknown in 'small' (original url) to ensure they are displayed
+      const small = firstTen.filter(
+        (f) => Number((f.size as number | undefined) || 0) <= 1024 * 1024,
+      );
+      const large = firstTen.filter(
+        (f) => Number((f.size as number | undefined) || 0) > 1024 * 1024,
+      );
 
-        const selected: Array<{ file: MediaFile; transformed: boolean }> = []
+      const selected: Array<{ file: MediaFile; transformed: boolean }> = [];
 
-        for (const f of small) {
-          if (selected.length >= 3) break
-          selected.push({ file: f, transformed: false })
+      for (const f of small) {
+        if (selected.length >= 3) break;
+        selected.push({ file: f, transformed: false });
+      }
+
+      if (selected.length < 3 && small.length < 3) {
+        for (const f of large) {
+          if (selected.length >= 3) break;
+          selected.push({ file: f, transformed: true });
         }
+      }
 
-        if (selected.length < 3 && small.length < 3) {
-          for (const f of large) {
-            if (selected.length >= 3) break
-            selected.push({ file: f, transformed: true })
-          }
+      if (selected.length === 0) {
+        // If we have files but no suitable photos found (or all videos), show placeholders or icon
+        // But user asked for gray space while loading.
+        // If we are here, it means we have the file list but maybe no photos?
+        // If photos array is empty, we should probably show a placeholder saying "No photos"
+        // But let's stick to the gray box if that's what happens.
+        // Actually if photos is empty, we might want to show at least one gray box or an icon.
+        // For now, if no photos selected, show empty gray boxes as well.
+        for (let i = 0; i < 3; i++) {
+          const slot = document.createElement("div");
+          slot.className = "aspect-square rounded-lg bg-gray-200";
+          container.appendChild(slot);
         }
+      } else {
+        selected.forEach((item) => {
+          const slot = document.createElement("div");
+          slot.className =
+            "aspect-square rounded-lg overflow-hidden bg-gray-200";
 
-        if (selected.length === 0) {
-           // If we have files but no suitable photos found (or all videos), show placeholders or icon
-           // But user asked for gray space while loading. 
-           // If we are here, it means we have the file list but maybe no photos?
-           // If photos array is empty, we should probably show a placeholder saying "No photos"
-           // But let's stick to the gray box if that's what happens.
-           // Actually if photos is empty, we might want to show at least one gray box or an icon.
-           // For now, if no photos selected, show empty gray boxes as well.
-           for (let i = 0; i < 3; i++) {
-                const slot = document.createElement('div')
-                slot.className = 'aspect-square rounded-lg bg-gray-200'
-                container.appendChild(slot)
-            }
-        } else {
-            selected.forEach((item) => {
-              const slot = document.createElement('div')
-              slot.className = 'aspect-square rounded-lg overflow-hidden bg-gray-200'
+          const f = item.file;
+          const img = document.createElement("img");
+          img.alt = eventName || f.name;
+          img.loading = "lazy";
+          img.className =
+            "w-full h-full object-cover transition-opacity duration-300 opacity-0"; // Start invisible for fade-in
+          img.onload = () => {
+            img.classList.remove("opacity-0");
+          };
 
-              const f = item.file
-              const img = document.createElement('img')
-              img.alt = eventName || f.name
-              img.loading = 'lazy'
-              img.className = 'w-full h-full object-cover transition-opacity duration-300 opacity-0' // Start invisible for fade-in
-              img.onload = () => { img.classList.remove('opacity-0') }
+          const src = item.transformed ? cfLowRes(f.url) : f.url;
+          img.src = src;
 
-              const src = item.transformed ? cfLowRes(f.url) : f.url
-              img.src = src
+          img.addEventListener("error", () => {
+            try {
+              slot.innerHTML = "";
+              slot.className = "aspect-square rounded-lg bg-gray-200";
+            } catch {}
+          });
 
-              img.addEventListener('error', () => {
-                try {
-                  slot.innerHTML = ''
-                  slot.className = 'aspect-square rounded-lg bg-gray-200'
-                } catch {}
-              })
+          slot.appendChild(img);
+          container.appendChild(slot);
+        });
+        // Removed filling of remaining slots with gray boxes as per user request
+      }
 
-              slot.appendChild(img)
-              container.appendChild(slot)
-            })
-            // Removed filling of remaining slots with gray boxes as per user request
-        }
-        
-        return container
+      return container;
     }
 
-    function updateCardImages(folder: string, files: MediaFile[], eventName: string) {
-        const card = document.querySelector(`div[data-folder="${folder}"]`)
-        if (!card) return
-        
-        const oldContainer = card.querySelector('.grid.grid-cols-3')
-        if (oldContainer && oldContainer.parentNode) {
-            const newContainer = buildImagesGrid(files, eventName)
-            oldContainer.parentNode.replaceChild(newContainer, oldContainer)
-        }
-        
-        const photosCount = files.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name)).length
-        const badge = Array.from(card.querySelectorAll('span')).find(s => s.textContent?.startsWith('Foto:'))
-        if (badge) {
-            badge.textContent = `Foto: ${photosCount}`
-        }
+    function updateCardImages(
+      folder: string,
+      files: MediaFile[],
+      eventName: string,
+    ) {
+      const card = document.querySelector(`div[data-folder="${folder}"]`);
+      if (!card) return;
+
+      const oldContainer = card.querySelector(".grid.grid-cols-3");
+      if (oldContainer && oldContainer.parentNode) {
+        const newContainer = buildImagesGrid(files, eventName);
+        oldContainer.parentNode.replaceChild(newContainer, oldContainer);
+      }
+
+      const photosCount = files.filter(
+        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
+      ).length;
+      const badge = Array.from(card.querySelectorAll("span")).find((s) =>
+        s.textContent?.startsWith("Foto:"),
+      );
+      if (badge) {
+        badge.textContent = `Foto: ${photosCount}`;
+      }
     }
 
     function renderCard(grid: HTMLElement, ev: EventData) {
-        const card = document.createElement('div')
-        card.dataset.folder = ev.folder
-        card.className = 'rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col'
-        const cover = document.createElement('div')
-        
-        const filesArr = Array.isArray(ev.files) ? ev.files : []
-        const container = buildImagesGrid(filesArr, ev.meta?.eventName || '')
-        
-        cover.appendChild(container)
-        cover.className = 'contents'
-          
-          card.appendChild(cover)
-        const info = document.createElement('div')
-        info.className = 'p-3 flex flex-col flex-1'
-        const title = document.createElement('div')
-        title.className = 'font-semibold text-gray-900 text-base md:text-lg'
-        title.textContent = clamp(capitalize(ev.meta?.eventName || ''), 60)
-        const badges = document.createElement('div')
-        badges.className = 'flex items-center gap-2 mt-1 mb-2'
-        
-        const date = document.createElement('div')
-        date.className = 'inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5'
-        date.textContent = ev.meta?.date ? formatDate(ev.meta.date) : ''
-        badges.appendChild(date)
+      const card = document.createElement("div");
+      card.dataset.folder = ev.folder;
+      card.className =
+        "rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col";
+      const cover = document.createElement("div");
 
-        const photosCount = filesArr.filter(f => !/\.(mp4|webm|ogg)$/i.test(f.name)).length
-        const badgePhoto = document.createElement('span')
-        badgePhoto.className = 'inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5'
-        badgePhoto.textContent = `Foto: ${photosCount}`
-        badges.appendChild(badgePhoto)
+      const filesArr = Array.isArray(ev.files) ? ev.files : [];
+      const container = buildImagesGrid(filesArr, ev.meta?.eventName || "");
 
-        info.appendChild(title)
-        info.appendChild(badges)
-        
-        const desc = document.createElement('div')
-        desc.className = 'text-xs md:text-sm text-gray-700 mb-2'
-        desc.textContent = ev.meta?.description ? ev.meta.description : ''
-        desc.style.textAlign = 'justify'
-        ;(desc as any).style.textJustify = 'inter-word'
-        info.appendChild(desc)
+      cover.appendChild(container);
+      cover.className = "contents";
 
-        const actions = document.createElement('div')
-        actions.className = 'mt-3 flex items-center gap-2 mt-auto'
-        const openLink = document.createElement('a')
-        openLink.className = 'inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white flex-1 shadow-md hover:shadow-lg transition-all duration-300'
-        openLink.textContent = 'Apri galleria'
-        openLink.href = `/media/${ev.folder}`
-        openLink.style.background = '#E01E00'
-        const dlIcon = document.createElement('button')
-        dlIcon.type = 'button'
-        dlIcon.className = 'inline-flex items-center justify-center w-10 h-10 rounded-xl border border-red-600 bg-white text-red-700 hover:bg-red-50'
-        dlIcon.setAttribute('aria-label', 'Scarica cartella')
-        dlIcon.setAttribute('title', 'Scarica cartella')
-        dlIcon.innerHTML = `
+      card.appendChild(cover);
+      const info = document.createElement("div");
+      info.className = "p-3 flex flex-col flex-1";
+      const title = document.createElement("div");
+      title.className = "font-semibold text-gray-900 text-base md:text-lg";
+      title.textContent = clamp(capitalize(ev.meta?.eventName || ""), 60);
+      const badges = document.createElement("div");
+      badges.className = "flex items-center gap-2 mt-1 mb-2";
+
+      const date = document.createElement("div");
+      date.className =
+        "inline-flex text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-0.5";
+      date.textContent = ev.meta?.date ? formatDate(ev.meta.date) : "";
+      badges.appendChild(date);
+
+      const photosCount = filesArr.filter(
+        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
+      ).length;
+      const badgePhoto = document.createElement("span");
+      badgePhoto.className =
+        "inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5";
+      badgePhoto.textContent = `Foto: ${photosCount}`;
+      badges.appendChild(badgePhoto);
+
+      info.appendChild(title);
+      info.appendChild(badges);
+
+      const desc = document.createElement("div");
+      desc.className = "text-xs md:text-sm text-gray-700 mb-2";
+      desc.textContent = ev.meta?.description ? ev.meta.description : "";
+      desc.style.textAlign = "justify";
+      (desc as any).style.textJustify = "inter-word";
+      info.appendChild(desc);
+
+      const actions = document.createElement("div");
+      actions.className = "mt-3 flex items-center gap-2 mt-auto";
+      const openLink = document.createElement("a");
+      openLink.className =
+        "inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-white flex-1 shadow-md hover:shadow-lg transition-all duration-300";
+      openLink.textContent = "Apri galleria";
+      openLink.href = `/media/${ev.folder}`;
+      openLink.style.background = "#E01E00";
+      const dlIcon = document.createElement("button");
+      dlIcon.type = "button";
+      dlIcon.className =
+        "inline-flex items-center justify-center w-10 h-10 rounded-xl border border-red-600 bg-white text-red-700 hover:bg-red-50";
+      dlIcon.setAttribute("aria-label", "Scarica cartella");
+      dlIcon.setAttribute("title", "Scarica cartella");
+      dlIcon.innerHTML = `
           <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v8m0 0l-4-4m4 4l4-4M4 18h16v2H4z" />
           </svg>
-        `
-        dlIcon.addEventListener('click', () => downloadFolderZip(ev.folder, ev.files || []))
-        actions.appendChild(openLink)
-        actions.appendChild(dlIcon)
-        info.appendChild(actions)
-        card.appendChild(cover)
-        card.appendChild(info)
-        grid.appendChild(card)
+        `;
+      dlIcon.addEventListener("click", () =>
+        downloadFolderZip(ev.folder, ev.files || []),
+      );
+      actions.appendChild(openLink);
+      actions.appendChild(dlIcon);
+      info.appendChild(actions);
+      card.appendChild(cover);
+      card.appendChild(info);
+      grid.appendChild(card);
     }
 
     function renderEvents(list: EventData[]) {
-      const grid = document.getElementById('eventsGrid')
-      if (!grid) return
-      grid.innerHTML = ''
-      const filtered = list.filter(matchesFilters)
-      const sfEl = document.getElementById('sortField') as HTMLSelectElement | null
-      const soEl = document.getElementById('sortOrder') as HTMLSelectElement | null
-      const field = (sfEl?.value || 'date')
-      const order = (soEl?.value || 'desc')
+      const grid = document.getElementById("eventsGrid");
+      if (!grid) return;
+      grid.innerHTML = "";
+      const filtered = list.filter(matchesFilters);
+      const sfEl = document.getElementById(
+        "sortField",
+      ) as HTMLSelectElement | null;
+      const soEl = document.getElementById(
+        "sortOrder",
+      ) as HTMLSelectElement | null;
+      const field = sfEl?.value || "date";
+      const order = soEl?.value || "desc";
       filtered.sort((a: EventData, b: EventData) => {
-        let va = ''
-        let vb = ''
-        if (field === 'name') {
-          va = (a.meta?.eventName || a.folder || '').toLowerCase()
-          vb = (b.meta?.eventName || b.folder || '').toLowerCase()
+        let va = "";
+        let vb = "";
+        if (field === "name") {
+          va = (a.meta?.eventName || a.folder || "").toLowerCase();
+          vb = (b.meta?.eventName || b.folder || "").toLowerCase();
         } else {
-          va = a.meta?.date || ''
-          vb = b.meta?.date || ''
+          va = a.meta?.date || "";
+          vb = b.meta?.date || "";
         }
-        const cmp = va.localeCompare(vb)
-        const effOrder = field === 'name' ? (order === 'desc' ? 'asc' : 'desc') : order
-        return effOrder === 'desc' ? -cmp : cmp
-      })
+        const cmp = va.localeCompare(vb);
+        const effOrder =
+          field === "name" ? (order === "desc" ? "asc" : "desc") : order;
+        return effOrder === "desc" ? -cmp : cmp;
+      });
 
-      const totalPages = filtered.length > 0 ? Math.ceil(filtered.length / PAGE_SIZE) : 0
-      
+      const totalPages =
+        filtered.length > 0 ? Math.ceil(filtered.length / PAGE_SIZE) : 0;
+
       // Funzione per aggiornare le barre di paginazione (top e bottom)
       const updatePaginationBars = () => {
-        const bars = ['Top', 'Bottom']
-        bars.forEach(suffix => {
-          const bar = document.getElementById(`eventsPaginationBar${suffix}`)
-          const prev = document.getElementById(`pagePrev${suffix}`) as HTMLButtonElement | null
-          const next = document.getElementById(`pageNext${suffix}`) as HTMLButtonElement | null
-          const info = bar?.querySelector('.page-numbers-info')
+        const bars = ["Top", "Bottom"];
+        bars.forEach((suffix) => {
+          const bar = document.getElementById(`eventsPaginationBar${suffix}`);
+          const prev = document.getElementById(
+            `pagePrev${suffix}`,
+          ) as HTMLButtonElement | null;
+          const next = document.getElementById(
+            `pageNext${suffix}`,
+          ) as HTMLButtonElement | null;
+          const info = bar?.querySelector(".page-numbers-info");
 
           if (bar) {
             if (totalPages <= 1) {
-              bar.classList.add('hidden')
+              bar.classList.add("hidden");
             } else {
-              bar.classList.remove('hidden')
-              if (info) info.textContent = `Pagina ${currentPage} di ${totalPages}`
-              if (prev) prev.disabled = currentPage <= 1
-              if (next) next.disabled = currentPage >= totalPages
+              bar.classList.remove("hidden");
+              if (info)
+                info.textContent = `Pagina ${currentPage} di ${totalPages}`;
+              if (prev) prev.disabled = currentPage <= 1;
+              if (next) next.disabled = currentPage >= totalPages;
             }
           }
-        })
-      }
+        });
+      };
 
       if (totalPages === 0) {
-        updatePaginationBars()
-        grid.innerHTML = '<div class="col-span-full py-12 text-center"><p class="text-gray-500 font-medium">Nessun evento trovato corrispondente ai filtri</p></div>'
-        return
+        updatePaginationBars();
+        grid.innerHTML =
+          '<div class="col-span-full py-12 text-center"><p class="text-gray-500 font-medium">Nessun evento trovato corrispondente ai filtri</p></div>';
+        return;
       }
 
-      if (currentPage < 1) currentPage = 1
-      if (currentPage > totalPages) currentPage = totalPages
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
 
-      updatePaginationBars()
+      updatePaginationBars();
 
-      const start = (currentPage - 1) * PAGE_SIZE
-      const pageItems = filtered.slice(start, start + PAGE_SIZE)
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = filtered.slice(start, start + PAGE_SIZE);
 
-      let i = 0
+      let i = 0;
       const renderNext = () => {
-        if (!grid) return
-        if (i >= pageItems.length) return
-        const ev = pageItems[i++]
-        renderCard(grid, ev)
+        if (!grid) return;
+        if (i >= pageItems.length) return;
+        const ev = pageItems[i++];
+        renderCard(grid, ev);
         if (i < pageItems.length) {
-          requestAnimationFrame(renderNext)
+          requestAnimationFrame(renderNext);
         }
-      }
+      };
 
       if (pageItems.length > 0) {
-        requestAnimationFrame(renderNext)
+        requestAnimationFrame(renderNext);
       }
     }
     async function ensureFflate() {
-      const g = (window as any)
-      if (g.fflate) return g.fflate
-      await new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js'; s.onload = resolve; s.onerror = reject; document.head.appendChild(s) })
-      return (window as any).fflate
+      const g = window as any;
+      if (g.fflate) return g.fflate;
+      await new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/fflate/umd/index.min.js";
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+      return (window as any).fflate;
     }
     function cfLowRes(url: string) {
-      if (!url) return url
-      const lower = url.toLowerCase()
-      if (lower.endsWith('.bmp')) return url
-      const path = url.startsWith('/') ? url : '/' + url
-      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`
+      if (!url) return url;
+      const lower = url.toLowerCase();
+      if (lower.endsWith(".bmp")) return url;
+      const path = url.startsWith("/") ? url : "/" + url;
+      return `/cdn-cgi/image/fit=scale-down,width=500,quality=80,format=webp${path}`;
     }
 
     async function downloadFolderZip(folder: string, files: MediaFile[]) {
       try {
-        const fflate = await ensureFflate()
-        const overlay = document.createElement('div')
-        overlay.className = 'fixed inset-0 bg-black/40 z-50 flex items-center justify-center'
-        const card = document.createElement('div')
-        card.className = 'bg-white rounded-xl p-4 w-80 text-center shadow-lg'
-        const title = document.createElement('div')
-        title.className = 'text-sm font-semibold text-gray-800'
-        title.textContent = 'Preparazione download — non chiudere la pagina'
-        const barBox = document.createElement('div')
-        barBox.className = 'w-full bg-gray-200 rounded-full h-2 mt-3 overflow-hidden'
-        const bar = document.createElement('div')
-        bar.className = 'bg-red-600 h-2 rounded-full'
-        bar.style.width = '0%'
-        const pct = document.createElement('div')
-        pct.className = 'text-xs text-gray-700 mt-2'
-        pct.textContent = '0%'
-        barBox.appendChild(bar)
-        card.appendChild(title)
-        card.appendChild(barBox)
-        card.appendChild(pct)
-        overlay.appendChild(card)
-        document.body.appendChild(overlay)
+        const fflate = await ensureFflate();
+        const overlay = document.createElement("div");
+        overlay.className =
+          "fixed inset-0 bg-black/40 z-50 flex items-center justify-center";
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-xl p-4 w-80 text-center shadow-lg";
+        const title = document.createElement("div");
+        title.className = "text-sm font-semibold text-gray-800";
+        title.textContent = "Preparazione download — non chiudere la pagina";
+        const barBox = document.createElement("div");
+        barBox.className =
+          "w-full bg-gray-200 rounded-full h-2 mt-3 overflow-hidden";
+        const bar = document.createElement("div");
+        bar.className = "bg-red-600 h-2 rounded-full";
+        bar.style.width = "0%";
+        const pct = document.createElement("div");
+        pct.className = "text-xs text-gray-700 mt-2";
+        pct.textContent = "0%";
+        barBox.appendChild(bar);
+        card.appendChild(title);
+        card.appendChild(barBox);
+        card.appendChild(pct);
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
         const list = files.filter((it) => {
-          const n = (it?.name || '').toLowerCase()
-          const u = (it?.url || '').toLowerCase()
-          if (!n) return false
-          if (n.endsWith('.webp') || u.endsWith('.webp')) return false
-          return true
-        })
-        let loaded = 0
-        const total = list.length
-        const map: any = {}
+          const n = (it?.name || "").toLowerCase();
+          const u = (it?.url || "").toLowerCase();
+          if (!n) return false;
+          if (n.endsWith(".webp") || u.endsWith(".webp")) return false;
+          return true;
+        });
+        let loaded = 0;
+        const total = list.length;
+        const map: any = {};
         for (const it of list) {
-          const res = await fetch(it.url)
-          const ab = await res.arrayBuffer()
-          const u8 = new Uint8Array(ab)
-          map[it.name] = u8
-          loaded++
-          const percent = Math.round((loaded / total) * 100)
-          bar.style.width = percent + '%'
-          pct.textContent = percent + '%'
+          const res = await fetch(it.url);
+          const ab = await res.arrayBuffer();
+          const u8 = new Uint8Array(ab);
+          map[it.name] = u8;
+          loaded++;
+          const percent = Math.round((loaded / total) * 100);
+          bar.style.width = percent + "%";
+          pct.textContent = percent + "%";
         }
-        const zip = fflate.zipSync(map, { level: 0 })
-        const blob = new Blob([zip], { type: 'application/zip' })
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = `${folder}.zip`
-        document.body.appendChild(a)
-        a.click()
-        URL.revokeObjectURL(url)
-        setTimeout(() => { overlay.remove() }, 500)
+        const zip = fflate.zipSync(map, { level: 0 });
+        const blob = new Blob([zip], { type: "application/zip" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${folder}.zip`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        setTimeout(() => {
+          overlay.remove();
+        }, 500);
       } catch (e) {
-        console.error('downloadFolderZip:error', e)
-        alert('Errore nel preparare il download')
+        console.error("downloadFolderZip:error", e);
+        alert("Errore nel preparare il download");
       }
     }
-    let uploadMode = 'existing'
+    let uploadMode = "existing";
     function setModeButtons() {
-      const mE = document.getElementById('modeExisting') as HTMLButtonElement | null
-      const mN = document.getElementById('modeNew') as HTMLButtonElement | null
+      const mE = document.getElementById(
+        "modeExisting",
+      ) as HTMLButtonElement | null;
+      const mN = document.getElementById("modeNew") as HTMLButtonElement | null;
       if (mE && mN) {
-        if (uploadMode === 'existing') {
-          mE.style.background = 'linear-gradient(135deg, #FF2400, #E01E00)'
-          mE.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-white'
-          mN.style.background = ''
-          mN.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300'
+        if (uploadMode === "existing") {
+          mE.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
+          mE.className =
+            "px-3 py-1.5 rounded-full text-sm font-medium text-white";
+          mN.style.background = "";
+          mN.className =
+            "px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300";
         } else {
-          mN.style.background = 'linear-gradient(135deg, #FF2400, #E01E00)'
-          mN.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-white'
-          mE.style.background = ''
-          mE.className = 'px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300'
+          mN.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
+          mN.className =
+            "px-3 py-1.5 rounded-full text-sm font-medium text-white";
+          mE.style.background = "";
+          mE.className =
+            "px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300";
         }
       }
     }
     function updateUploadVisibility() {
-      const existingVal = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
-      const existingBox = document.getElementById('existingBox')
-      const newFields = document.getElementById('newEventFields')
-      const nameEl = document.getElementById('eventName') as HTMLInputElement | null
-      const dateEl = document.getElementById('date') as HTMLInputElement | null
-      
-      setModeButtons()
-      if (!newFields) return
-      if (uploadMode === 'existing') {
-        existingBox?.classList.remove('hidden')
-        newFields.classList.add('hidden')
-        nameEl && (nameEl.required = false)
-        dateEl && (dateEl.required = false)
+      const existingVal =
+        (
+          document.getElementById(
+            "existingFolderHidden",
+          ) as HTMLInputElement | null
+        )?.value || "";
+      const existingBox = document.getElementById("existingBox");
+      const newFields = document.getElementById("newEventFields");
+      const nameEl = document.getElementById(
+        "eventName",
+      ) as HTMLInputElement | null;
+      const dateEl = document.getElementById("date") as HTMLInputElement | null;
+
+      setModeButtons();
+      if (!newFields) return;
+      if (uploadMode === "existing") {
+        existingBox?.classList.remove("hidden");
+        newFields.classList.add("hidden");
+        nameEl && (nameEl.required = false);
+        dateEl && (dateEl.required = false);
         if (existingVal) {
-          const ev = (events || []).find(e => e.folder === existingVal)
+          const ev = (events || []).find((e) => e.folder === existingVal);
           if (ev) {
           }
-          if (comboInput) comboInput.readOnly = true
-          changeExisting?.classList.remove('hidden')
+          if (comboInput) comboInput.readOnly = true;
+          changeExisting?.classList.remove("hidden");
         } else {
-          if (comboInput) comboInput.readOnly = false
-          changeExisting?.classList.add('hidden')
+          if (comboInput) comboInput.readOnly = false;
+          changeExisting?.classList.add("hidden");
         }
       } else {
-        existingBox?.classList.add('hidden')
-        newFields.classList.remove('hidden')
-        nameEl && (nameEl.required = true)
-        dateEl && (dateEl.required = true)
-        if (comboInput) comboInput.readOnly = false
-        changeExisting?.classList.add('hidden')
+        existingBox?.classList.add("hidden");
+        newFields.classList.remove("hidden");
+        nameEl && (nameEl.required = true);
+        dateEl && (dateEl.required = true);
+        if (comboInput) comboInput.readOnly = false;
+        changeExisting?.classList.add("hidden");
       }
     }
-    const comboInput = document.getElementById('comboInput') as HTMLInputElement | null
-    const comboBox = document.getElementById('comboSuggestions')
-    const existingHidden = document.getElementById('existingFolderHidden') as HTMLInputElement | null
-    const changeExisting = document.getElementById('changeExisting') as HTMLButtonElement | null
+    const comboInput = document.getElementById(
+      "comboInput",
+    ) as HTMLInputElement | null;
+    const comboBox = document.getElementById("comboSuggestions");
+    const existingHidden = document.getElementById(
+      "existingFolderHidden",
+    ) as HTMLInputElement | null;
+    const changeExisting = document.getElementById(
+      "changeExisting",
+    ) as HTMLButtonElement | null;
     function labelFor(ev: EventData) {
-      const name = ev.meta?.eventName || ''
-      const d = ev.meta?.date ? ` — ${formatDate(ev.meta.date)}` : ''
-      return name + d
+      const name = ev.meta?.eventName || "";
+      const d = ev.meta?.date ? ` — ${formatDate(ev.meta.date)}` : "";
+      return name + d;
     }
     function renderComboSuggestions(q: string) {
-      if (!comboBox) return
+      if (!comboBox) return;
       const list = (events || [])
-        .filter(ev => {
-          const name = (ev.meta?.eventName || ev.folder || '').toLowerCase()
-          return q ? name.includes(q.toLowerCase()) : true
+        .filter((ev) => {
+          const name = (ev.meta?.eventName || ev.folder || "").toLowerCase();
+          return q ? name.includes(q.toLowerCase()) : true;
         })
-        .slice(0, 50)
-      comboBox.innerHTML = ''
-      list.forEach(ev => {
-        const item = document.createElement('button')
-        item.type = 'button'
-        item.className = 'w-full text-left px-3 py-2 hover:bg-red-50'
-        item.textContent = labelFor(ev)
-        item.addEventListener('click', () => {
-          if (existingHidden) existingHidden.value = ev.folder
+        .slice(0, 50);
+      comboBox.innerHTML = "";
+      list.forEach((ev) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "w-full text-left px-3 py-2 hover:bg-red-50";
+        item.textContent = labelFor(ev);
+        item.addEventListener("click", () => {
+          if (existingHidden) existingHidden.value = ev.folder;
           if (comboInput) {
-            comboInput.value = labelFor(ev)
-            comboInput.readOnly = true
+            comboInput.value = labelFor(ev);
+            comboInput.readOnly = true;
           }
-          comboBox.classList.add('hidden')
-          changeExisting?.classList.remove('hidden')
-          updateUploadVisibility()
-          updateSubmitEnabled()
-          console.log('existing:selected', ev.folder)
-        })
-        comboBox.appendChild(item)
-      })
+          comboBox.classList.add("hidden");
+          changeExisting?.classList.remove("hidden");
+          updateUploadVisibility();
+          updateSubmitEnabled();
+          console.log("existing:selected", ev.folder);
+        });
+        comboBox.appendChild(item);
+      });
     }
-    comboInput?.addEventListener('input', (e) => {
-      if (comboInput && comboInput.readOnly) return
-      const q = (e.target as HTMLInputElement).value || ''
-      renderComboSuggestions(q)
-      comboBox?.classList.remove('hidden')
-    })
-    comboInput?.addEventListener('focus', () => {
-      if (comboInput && comboInput.readOnly) return
-      renderComboSuggestions(comboInput.value || '')
-      comboBox?.classList.remove('hidden')
-      uploadMode = 'existing'
-      updateUploadVisibility()
-    })
-    document.addEventListener('click', (e) => {
-      if (!comboBox) return
-      const target = e.target as HTMLElement
-      const inside = target.closest('#comboSuggestions') || target.closest('#comboInput')
-      if (!inside) comboBox.classList.add('hidden')
-    })
-    document.getElementById('modeExisting')?.addEventListener('click', () => {
-      uploadMode = 'existing'
-      updateUploadVisibility()
-      updateSubmitEnabled()
-      console.log('mode:set', uploadMode)
-    })
-    document.getElementById('modeNew')?.addEventListener('click', () => {
-      uploadMode = 'new'
-      if (existingHidden) existingHidden.value = ''
-      if (comboInput) comboInput.value = ''
-      updateUploadVisibility()
-      updateSubmitEnabled()
-      console.log('mode:set', uploadMode)
-    })
-    changeExisting?.addEventListener('click', () => {
-      if (existingHidden) existingHidden.value = ''
+    comboInput?.addEventListener("input", (e) => {
+      if (comboInput && comboInput.readOnly) return;
+      const q = (e.target as HTMLInputElement).value || "";
+      renderComboSuggestions(q);
+      comboBox?.classList.remove("hidden");
+    });
+    comboInput?.addEventListener("focus", () => {
+      if (comboInput && comboInput.readOnly) return;
+      renderComboSuggestions(comboInput.value || "");
+      comboBox?.classList.remove("hidden");
+      uploadMode = "existing";
+      updateUploadVisibility();
+    });
+    document.addEventListener("click", (e) => {
+      if (!comboBox) return;
+      const target = e.target as HTMLElement;
+      const inside =
+        target.closest("#comboSuggestions") || target.closest("#comboInput");
+      if (!inside) comboBox.classList.add("hidden");
+    });
+    document.getElementById("modeExisting")?.addEventListener("click", () => {
+      uploadMode = "existing";
+      updateUploadVisibility();
+      updateSubmitEnabled();
+      console.log("mode:set", uploadMode);
+    });
+    document.getElementById("modeNew")?.addEventListener("click", () => {
+      uploadMode = "new";
+      if (existingHidden) existingHidden.value = "";
+      if (comboInput) comboInput.value = "";
+      updateUploadVisibility();
+      updateSubmitEnabled();
+      console.log("mode:set", uploadMode);
+    });
+    changeExisting?.addEventListener("click", () => {
+      if (existingHidden) existingHidden.value = "";
       if (comboInput) {
-        comboInput.readOnly = false
-        comboInput.value = ''
-        comboInput.focus()
+        comboInput.readOnly = false;
+        comboInput.value = "";
+        comboInput.focus();
       }
-      renderComboSuggestions('')
-      comboBox?.classList.remove('hidden')
-      updateUploadVisibility()
-      updateSubmitEnabled()
-    })
-    document.getElementById('eventName')?.addEventListener('focus', () => { uploadMode = 'new'; updateUploadVisibility() })
-    document.getElementById('date')?.addEventListener('focus', () => { uploadMode = 'new'; updateUploadVisibility() })
-    document.getElementById('description')?.addEventListener('focus', () => { uploadMode = 'new'; updateUploadVisibility() })
-    document.getElementById('eventName')?.addEventListener('input', () => updateSubmitEnabled())
-    document.getElementById('date')?.addEventListener('input', () => updateSubmitEnabled())
-    document.getElementById('searchEvents')?.addEventListener('input', () => {
-      currentPage = 1
-      renderEvents(events)
-    })
-    document.getElementById('dateFrom')?.addEventListener('input', () => {
-      currentPage = 1
-      renderEvents(events)
-    })
-    document.getElementById('dateTo')?.addEventListener('input', () => {
-      currentPage = 1
-      renderEvents(events)
-    })
-    document.getElementById('clearFilter')?.addEventListener('click', () => {
-      const s = document.getElementById('searchEvents') as HTMLInputElement | null
-      const df = document.getElementById('dateFrom') as HTMLInputElement | null
-      const dt = document.getElementById('dateTo') as HTMLInputElement | null
-      if (s) s.value = ''
-      if (df) df.value = ''
-      if (dt) dt.value = ''
-      currentPage = 1
-      renderEvents(events)
-    })
-    document.getElementById('sortField')?.addEventListener('change', () => {
-      currentPage = 1
-      renderEvents(events)
-    })
-    document.getElementById('sortOrder')?.addEventListener('change', () => {
-      currentPage = 1
-      renderEvents(events)
-    })
+      renderComboSuggestions("");
+      comboBox?.classList.remove("hidden");
+      updateUploadVisibility();
+      updateSubmitEnabled();
+    });
+    document.getElementById("eventName")?.addEventListener("focus", () => {
+      uploadMode = "new";
+      updateUploadVisibility();
+    });
+    document.getElementById("date")?.addEventListener("focus", () => {
+      uploadMode = "new";
+      updateUploadVisibility();
+    });
+    document.getElementById("description")?.addEventListener("focus", () => {
+      uploadMode = "new";
+      updateUploadVisibility();
+    });
+    document
+      .getElementById("eventName")
+      ?.addEventListener("input", () => updateSubmitEnabled());
+    document
+      .getElementById("date")
+      ?.addEventListener("input", () => updateSubmitEnabled());
+    document.getElementById("searchEvents")?.addEventListener("input", () => {
+      currentPage = 1;
+      renderEvents(events);
+    });
+    document.getElementById("dateFrom")?.addEventListener("input", () => {
+      currentPage = 1;
+      renderEvents(events);
+    });
+    document.getElementById("dateTo")?.addEventListener("input", () => {
+      currentPage = 1;
+      renderEvents(events);
+    });
+    document.getElementById("clearFilter")?.addEventListener("click", () => {
+      const s = document.getElementById(
+        "searchEvents",
+      ) as HTMLInputElement | null;
+      const df = document.getElementById("dateFrom") as HTMLInputElement | null;
+      const dt = document.getElementById("dateTo") as HTMLInputElement | null;
+      if (s) s.value = "";
+      if (df) df.value = "";
+      if (dt) dt.value = "";
+      currentPage = 1;
+      renderEvents(events);
+    });
+    document.getElementById("sortField")?.addEventListener("change", () => {
+      currentPage = 1;
+      renderEvents(events);
+    });
+    document.getElementById("sortOrder")?.addEventListener("change", () => {
+      currentPage = 1;
+      renderEvents(events);
+    });
     function updateSortUI() {
-      const field = (document.getElementById('sortField') as HTMLInputElement | null)?.value || 'date'
-      const order = (document.getElementById('sortOrder') as HTMLInputElement | null)?.value || 'desc'
-      const nameBtn = document.getElementById('sortNameBtn') as HTMLButtonElement | null
-      const dateBtn = document.getElementById('sortDateBtn') as HTMLButtonElement | null
-      const dirIcon = document.getElementById('sortDirIcon') as SVGElement | null
-      const knob = document.getElementById('sortKnob') as HTMLDivElement | null
-      if (nameBtn) nameBtn.textContent = order === 'asc' ? 'Z–A' : 'A–Z'
+      const field =
+        (document.getElementById("sortField") as HTMLInputElement | null)
+          ?.value || "date";
+      const order =
+        (document.getElementById("sortOrder") as HTMLInputElement | null)
+          ?.value || "desc";
+      const nameBtn = document.getElementById(
+        "sortNameBtn",
+      ) as HTMLButtonElement | null;
+      const dateBtn = document.getElementById(
+        "sortDateBtn",
+      ) as HTMLButtonElement | null;
+      const dirIcon = document.getElementById(
+        "sortDirIcon",
+      ) as SVGElement | null;
+      const knob = document.getElementById("sortKnob") as HTMLDivElement | null;
+      if (nameBtn) nameBtn.textContent = order === "asc" ? "Z–A" : "A–Z";
       if (nameBtn && dateBtn) {
-        nameBtn.setAttribute('aria-pressed', String(field === 'name'))
-        dateBtn.setAttribute('aria-pressed', String(field === 'date'))
-        if (field === 'name') {
-          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-xs font-semibold text-white focus:outline-none'
-          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-[#E01E00] focus:outline-none'
-          if (knob) knob.style.left = '0'
+        nameBtn.setAttribute("aria-pressed", String(field === "name"));
+        dateBtn.setAttribute("aria-pressed", String(field === "date"));
+        if (field === "name") {
+          nameBtn.className =
+            "absolute inset-y-0 left-0 w-12 text-xs font-semibold text-white focus:outline-none";
+          dateBtn.className =
+            "absolute inset-y-0 right-0 w-12 text-[#E01E00] focus:outline-none";
+          if (knob) knob.style.left = "0";
         } else {
-          dateBtn.className = 'absolute inset-y-0 right-0 w-12 text-xs font-semibold text-white focus:outline-none'
-          nameBtn.className = 'absolute inset-y-0 left-0 w-12 text-[#E01E00] focus:outline-none'
-          if (knob) knob.style.left = '50%'
+          dateBtn.className =
+            "absolute inset-y-0 right-0 w-12 text-xs font-semibold text-white focus:outline-none";
+          nameBtn.className =
+            "absolute inset-y-0 left-0 w-12 text-[#E01E00] focus:outline-none";
+          if (knob) knob.style.left = "50%";
         }
       }
       if (dirIcon) {
-        dirIcon.innerHTML = order === 'asc'
-          ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>'
-          : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>'
+        dirIcon.innerHTML =
+          order === "asc"
+            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>'
+            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>';
       }
     }
-    updateSortUI()
-    document.getElementById('sortSwitch')?.addEventListener('click', () => {
-      const sf = document.getElementById('sortField') as HTMLInputElement | null
+    updateSortUI();
+    document.getElementById("sortSwitch")?.addEventListener("click", () => {
+      const sf = document.getElementById(
+        "sortField",
+      ) as HTMLInputElement | null;
       if (sf) {
-        sf.value = (sf.value === 'date') ? 'name' : 'date'
-        updateSortUI()
-        currentPage = 1
-        renderEvents(events)
+        sf.value = sf.value === "date" ? "name" : "date";
+        updateSortUI();
+        currentPage = 1;
+        renderEvents(events);
       }
-    })
-    document.getElementById('sortDirBtn')?.addEventListener('click', () => {
-      const so = document.getElementById('sortOrder') as HTMLInputElement | null
-      if (so) so.value = (so.value === 'asc') ? 'desc' : 'asc'
-      updateSortUI()
-      currentPage = 1
-      renderEvents(events)
-    })
+    });
+    document.getElementById("sortDirBtn")?.addEventListener("click", () => {
+      const so = document.getElementById(
+        "sortOrder",
+      ) as HTMLInputElement | null;
+      if (so) so.value = so.value === "asc" ? "desc" : "asc";
+      updateSortUI();
+      currentPage = 1;
+      renderEvents(events);
+    });
+    // Funzione per scroll affidabile indipendentemente da risoluzione/scaling
+    const scrollToSection = () => {
+      const section = document.getElementById("eventsListSection");
+      const nav = document.querySelector("nav");
+      if (section) {
+        const navHeight = nav?.getBoundingClientRect().height || 80;
+        const offset =
+          section.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+        window.scrollTo({ top: offset, behavior: "smooth" });
+      }
+    };
+
     // Gestione click paginazione (Sia Top che Bottom)
     const handlePrev = () => {
-      if (currentPage <= 1) return
-      currentPage--
-      renderEvents(events)
-      document.getElementById('eventsListSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
+      if (currentPage <= 1) return;
+      currentPage--;
+      renderEvents(events);
+      scrollToSection();
+    };
     const handleNext = () => {
-      const filtered = events.filter(matchesFilters)
-      const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
-      if (currentPage >= totalPages) return
-      currentPage++
-      renderEvents(events)
-      document.getElementById('eventsListSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      const filtered = events.filter(matchesFilters);
+      const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+      if (currentPage >= totalPages) return;
+      currentPage++;
+      renderEvents(events);
+      scrollToSection();
+    };
+
+    document
+      .getElementById("pagePrevTop")
+      ?.addEventListener("click", handlePrev);
+    document
+      .getElementById("pageNextTop")
+      ?.addEventListener("click", handleNext);
+    document
+      .getElementById("pagePrevBottom")
+      ?.addEventListener("click", handlePrev);
+    document
+      .getElementById("pageNextBottom")
+      ?.addEventListener("click", handleNext);
+    const MAX_TOTAL_BYTES = 1024 * 1024 * 1024;
+    function formatBytes(b: number) {
+      const u = ["B", "KB", "MB", "GB"];
+      let i = 0;
+      let v = b;
+      while (v >= 1024 && i < u.length - 1) {
+        v /= 1024;
+        i++;
+      }
+      return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`;
     }
 
-    document.getElementById('pagePrevTop')?.addEventListener('click', handlePrev)
-    document.getElementById('pageNextTop')?.addEventListener('click', handleNext)
-    document.getElementById('pagePrevBottom')?.addEventListener('click', handlePrev)
-    document.getElementById('pageNextBottom')?.addEventListener('click', handleNext)
-    const MAX_TOTAL_BYTES = 1024 * 1024 * 1024
-    function formatBytes(b: number) {
-      const u = ['B','KB','MB','GB']
-      let i = 0
-      let v = b
-      while (v >= 1024 && i < u.length - 1) { v /= 1024; i++ }
-      return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`
-    }
-    
     function totalSelectedBytes() {
-      const input = document.getElementById('files') as HTMLInputElement | null
-      const inputBytes = input && input.files ? Array.from(input.files).reduce((a,f)=>a+(f.size||0),0) : 0
-      const dropBytes = externalFiles.reduce((a,f)=>a+(f.size||0),0)
-      return inputBytes + dropBytes
+      const input = document.getElementById("files") as HTMLInputElement | null;
+      const inputBytes =
+        input && input.files
+          ? Array.from(input.files).reduce((a, f) => a + (f.size || 0), 0)
+          : 0;
+      const dropBytes = externalFiles.reduce((a, f) => a + (f.size || 0), 0);
+      return inputBytes + dropBytes;
     }
     function updateSizeLimitInfo() {
-      const msg = document.getElementById('sizeLimitMsg')
-      if (!msg) return
-      const bytes = totalSelectedBytes()
-      const over = bytes > MAX_TOTAL_BYTES
-      msg.textContent = over ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB` : `Selezionati ${formatBytes(bytes)} su 1GB`
-      msg.className = over ? 'text-xs text-red-700 mt-1' : 'text-xs text-gray-600 mt-1'
+      const msg = document.getElementById("sizeLimitMsg");
+      if (!msg) return;
+      const bytes = totalSelectedBytes();
+      const over = bytes > MAX_TOTAL_BYTES;
+      msg.textContent = over
+        ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB`
+        : `Selezionati ${formatBytes(bytes)} su 1GB`;
+      msg.className = over
+        ? "text-xs text-red-700 mt-1"
+        : "text-xs text-gray-600 mt-1";
     }
-    document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
-      e.preventDefault()
-      const formEl = document.getElementById('uploadForm') as HTMLFormElement
-      const statusEl = document.getElementById('uploadStatus')
-      const filesInput = document.getElementById('files') as HTMLInputElement | null
-      console.log('submit:start', {
-        uploadMode,
-        existingFolder: (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || '',
-        eventName: (document.getElementById('eventName') as HTMLInputElement | null)?.value || '',
-        date: (document.getElementById('date') as HTMLInputElement | null)?.value || '',
-        filesInputCount: filesInput && filesInput.files ? filesInput.files.length : 0,
-        externalFilesCount: externalFiles.length
-      })
-      const hasAnyFiles = !!(filesInput && filesInput.files && filesInput.files.length > 0) || externalFiles.length > 0
-      if (!hasAnyFiles) {
-        if (statusEl) {
-          statusEl.textContent = 'Seleziona almeno un file'
-          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
-          statusEl.classList.remove('hidden')
-        }
-        setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 3000)
-        return
-      }
-      const isValidEvent = (function(){
-        const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
-        const nameEl = document.getElementById('eventName') as HTMLInputElement | null
-        const dateEl = document.getElementById('date') as HTMLInputElement | null
-        if (uploadMode === 'existing') return !!existing
-        return !!(nameEl && nameEl.value && dateEl && dateEl.value)
-      })()
-      if (!isValidEvent) {
-        if (statusEl) {
-          statusEl.textContent = 'Completa i dati evento o seleziona evento esistente'
-          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
-          statusEl.classList.remove('hidden')
-        }
-        setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 3000)
-        return
-      }
-      if (uploadMode === 'new') {
-        const name = (document.getElementById('eventName') as HTMLInputElement | null)?.value || ''
-        const date = (document.getElementById('date') as HTMLInputElement | null)?.value || ''
-        const duplicate = isDuplicateNewEvent(name, date)
-        if (duplicate) {
+    document
+      .getElementById("uploadForm")
+      ?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formEl = document.getElementById("uploadForm") as HTMLFormElement;
+        const statusEl = document.getElementById("uploadStatus");
+        const filesInput = document.getElementById(
+          "files",
+        ) as HTMLInputElement | null;
+        console.log("submit:start", {
+          uploadMode,
+          existingFolder:
+            (
+              document.getElementById(
+                "existingFolderHidden",
+              ) as HTMLInputElement | null
+            )?.value || "",
+          eventName:
+            (document.getElementById("eventName") as HTMLInputElement | null)
+              ?.value || "",
+          date:
+            (document.getElementById("date") as HTMLInputElement | null)
+              ?.value || "",
+          filesInputCount:
+            filesInput && filesInput.files ? filesInput.files.length : 0,
+          externalFilesCount: externalFiles.length,
+        });
+        const hasAnyFiles =
+          !!(filesInput && filesInput.files && filesInput.files.length > 0) ||
+          externalFiles.length > 0;
+        if (!hasAnyFiles) {
           if (statusEl) {
-            statusEl.textContent = 'Esiste già un evento con lo stesso nome e data. Usa "Evento esistente" oppure cambia nome/data.'
-            statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
-            statusEl.classList.remove('hidden')
+            statusEl.textContent = "Seleziona almeno un file";
+            statusEl.className =
+              "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+            statusEl.classList.remove("hidden");
           }
-          setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
-          return
+          setTimeout(() => {
+            if (statusEl) statusEl.classList.add("hidden");
+          }, 3000);
+          return;
         }
-      }
-      if (!formEl) return
-      const progress = document.getElementById('uploadProgress')
-      const bar = document.getElementById('uploadBar') as HTMLDivElement | null
-      const pct = document.getElementById('uploadPercent')
-      progress?.classList.remove('hidden')
-
-      const filesInputList = filesInput && filesInput.files ? Array.from(filesInput.files) : []
-      const sources: File[] = [...filesInputList, ...externalFiles]
-      const allFiles: File[] = []
-      for (const f of sources) {
-        allFiles.push(f)
-      }
-      const totalBytesAll = allFiles.reduce((a, f) => a + (f.size || 0), 0)
-      let uploadedBase = 0
-      const RAW_THRESHOLD_BYTES = 100 * 1024 * 1024
-
-      const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
-      const name = (document.getElementById('eventName') as HTMLInputElement | null)?.value || ''
-      const date = (document.getElementById('date') as HTMLInputElement | null)?.value || ''
-      const desc = (document.getElementById('description') as HTMLTextAreaElement | null)?.value || ''
-
-      async function uploadOne(file: File) {
-        return new Promise<void>((resolve, reject) => {
-          const xhr = new XMLHttpRequest()
-          let url = '/api/media'
-          let fd: FormData | null = null
-          if (file.size >= RAW_THRESHOLD_BYTES) {
-            const params = new URLSearchParams()
-            params.set('raw', '1')
-            params.set('filename', file.name)
-            if (file.type) params.set('contentType', file.type)
-            if (existing) {
-              params.set('existingFolder', existing)
-            } else {
-              params.set('eventName', name)
-              params.set('date', date)
+        const isValidEvent = (function () {
+          const existing =
+            (
+              document.getElementById(
+                "existingFolderHidden",
+              ) as HTMLInputElement | null
+            )?.value || "";
+          const nameEl = document.getElementById(
+            "eventName",
+          ) as HTMLInputElement | null;
+          const dateEl = document.getElementById(
+            "date",
+          ) as HTMLInputElement | null;
+          if (uploadMode === "existing") return !!existing;
+          return !!(nameEl && nameEl.value && dateEl && dateEl.value);
+        })();
+        if (!isValidEvent) {
+          if (statusEl) {
+            statusEl.textContent =
+              "Completa i dati evento o seleziona evento esistente";
+            statusEl.className =
+              "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+            statusEl.classList.remove("hidden");
+          }
+          setTimeout(() => {
+            if (statusEl) statusEl.classList.add("hidden");
+          }, 3000);
+          return;
+        }
+        if (uploadMode === "new") {
+          const name =
+            (document.getElementById("eventName") as HTMLInputElement | null)
+              ?.value || "";
+          const date =
+            (document.getElementById("date") as HTMLInputElement | null)
+              ?.value || "";
+          const duplicate = isDuplicateNewEvent(name, date);
+          if (duplicate) {
+            if (statusEl) {
+              statusEl.textContent =
+                'Esiste già un evento con lo stesso nome e data. Usa "Evento esistente" oppure cambia nome/data.';
+              statusEl.className =
+                "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+              statusEl.classList.remove("hidden");
             }
-            if (desc) params.set('description', desc)
-            url = `/api/media?${params.toString()}`
-            xhr.open('POST', url)
-          } else {
-            xhr.open('POST', url)
-            fd = new FormData()
-            if (existing) fd.append('existingFolder', existing)
-            else { fd.append('eventName', name); fd.append('date', date) }
-            if (desc) fd.append('description', desc)
-            fd.append('files', file)
+            setTimeout(() => {
+              if (statusEl) statusEl.classList.add("hidden");
+            }, 4000);
+            return;
           }
+        }
+        if (!formEl) return;
+        const progress = document.getElementById("uploadProgress");
+        const bar = document.getElementById(
+          "uploadBar",
+        ) as HTMLDivElement | null;
+        const pct = document.getElementById("uploadPercent");
+        progress?.classList.remove("hidden");
 
-          xhr.upload.onprogress = (evt) => {
-            const totalLoaded = uploadedBase + (evt.loaded || 0)
-            const percent = Math.round((totalLoaded / totalBytesAll) * 100)
-            if (bar) bar.style.width = percent + '%'
-            if (pct) pct.textContent = percent + '%'
-          }
-          xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                uploadedBase += file.size || 0
-                resolve()
+        const filesInputList =
+          filesInput && filesInput.files ? Array.from(filesInput.files) : [];
+        const sources: File[] = [...filesInputList, ...externalFiles];
+        const allFiles: File[] = [];
+        for (const f of sources) {
+          allFiles.push(f);
+        }
+        const totalBytesAll = allFiles.reduce((a, f) => a + (f.size || 0), 0);
+        let uploadedBase = 0;
+        const RAW_THRESHOLD_BYTES = 100 * 1024 * 1024;
+
+        const existing =
+          (
+            document.getElementById(
+              "existingFolderHidden",
+            ) as HTMLInputElement | null
+          )?.value || "";
+        const name =
+          (document.getElementById("eventName") as HTMLInputElement | null)
+            ?.value || "";
+        const date =
+          (document.getElementById("date") as HTMLInputElement | null)?.value ||
+          "";
+        const desc =
+          (document.getElementById("description") as HTMLTextAreaElement | null)
+            ?.value || "";
+
+        async function uploadOne(file: File) {
+          return new Promise<void>((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            let url = "/api/media";
+            let fd: FormData | null = null;
+            if (file.size >= RAW_THRESHOLD_BYTES) {
+              const params = new URLSearchParams();
+              params.set("raw", "1");
+              params.set("filename", file.name);
+              if (file.type) params.set("contentType", file.type);
+              if (existing) {
+                params.set("existingFolder", existing);
               } else {
-                let msg = ''
-                try { msg = JSON.parse(xhr.responseText)?.error || xhr.responseText } catch { msg = xhr.responseText }
-                reject(new Error(msg || 'Errore nel caricamento'))
+                params.set("eventName", name);
+                params.set("date", date);
               }
+              if (desc) params.set("description", desc);
+              url = `/api/media?${params.toString()}`;
+              xhr.open("POST", url);
+            } else {
+              xhr.open("POST", url);
+              fd = new FormData();
+              if (existing) fd.append("existingFolder", existing);
+              else {
+                fd.append("eventName", name);
+                fd.append("date", date);
+              }
+              if (desc) fd.append("description", desc);
+              fd.append("files", file);
             }
-          }
-          if (fd) xhr.send(fd)
-          else xhr.send(file)
-        })
-      }
 
-      try {
-        for (const f of allFiles) {
-          if (!f || !f.name || f.size === 0) continue
-          await uploadOne(f)
+            xhr.upload.onprogress = (evt) => {
+              const totalLoaded = uploadedBase + (evt.loaded || 0);
+              const percent = Math.round((totalLoaded / totalBytesAll) * 100);
+              if (bar) bar.style.width = percent + "%";
+              if (pct) pct.textContent = percent + "%";
+            };
+            xhr.onreadystatechange = () => {
+              if (xhr.readyState === 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                  uploadedBase += file.size || 0;
+                  resolve();
+                } else {
+                  let msg = "";
+                  try {
+                    msg =
+                      JSON.parse(xhr.responseText)?.error || xhr.responseText;
+                  } catch {
+                    msg = xhr.responseText;
+                  }
+                  reject(new Error(msg || "Errore nel caricamento"));
+                }
+              }
+            };
+            if (fd) xhr.send(fd);
+            else xhr.send(file);
+          });
         }
-        const originals = sources.map(f => f.name).filter(n => !!n)
-        const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
-        const name = (document.getElementById('eventName') as HTMLInputElement | null)?.value || ''
-        const date = (document.getElementById('date') as HTMLInputElement | null)?.value || ''
-        const desc = (document.getElementById('description') as HTMLTextAreaElement | null)?.value || ''
-        const folder = existing ? existing : `${clientCreateSlug(name)}-${date.replace(/-/g, '')}`
+
         try {
-          await fetch('/api/media?notify=1', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ folder, eventName: name, date, description: desc, files: originals })
-          })
-        } catch {}
-        await loadEvents()
-        formEl.reset()
-        const summary = document.getElementById('filesSummary')
-        summary && (summary.textContent = '')
-        externalFiles = []
-        const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
-        submitBtn && (submitBtn.disabled = true)
-        progress?.classList.add('hidden')
-        if (bar) bar.style.width = '0%'
-        if (pct) pct.textContent = '0%'
-        if (statusEl) {
-          statusEl.textContent = 'Caricamento completato'
-          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-3 bg-white/80 backdrop-blur-sm text-green-700 border-green-200 shadow-sm'
-          setTimeout(() => { statusEl.classList.remove('hidden') }, 150)
+          for (const f of allFiles) {
+            if (!f || !f.name || f.size === 0) continue;
+            await uploadOne(f);
+          }
+          const originals = sources.map((f) => f.name).filter((n) => !!n);
+          const existing =
+            (
+              document.getElementById(
+                "existingFolderHidden",
+              ) as HTMLInputElement | null
+            )?.value || "";
+          const name =
+            (document.getElementById("eventName") as HTMLInputElement | null)
+              ?.value || "";
+          const date =
+            (document.getElementById("date") as HTMLInputElement | null)
+              ?.value || "";
+          const desc =
+            (
+              document.getElementById(
+                "description",
+              ) as HTMLTextAreaElement | null
+            )?.value || "";
+          const folder = existing
+            ? existing
+            : `${clientCreateSlug(name)}-${date.replace(/-/g, "")}`;
+          try {
+            await fetch("/api/media?notify=1", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                folder,
+                eventName: name,
+                date,
+                description: desc,
+                files: originals,
+              }),
+            });
+          } catch {}
+          await loadEvents();
+          formEl.reset();
+          const summary = document.getElementById("filesSummary");
+          summary && (summary.textContent = "");
+          externalFiles = [];
+          const submitBtn = document.getElementById(
+            "submitBtn",
+          ) as HTMLButtonElement | null;
+          submitBtn && (submitBtn.disabled = true);
+          progress?.classList.add("hidden");
+          if (bar) bar.style.width = "0%";
+          if (pct) pct.textContent = "0%";
+          if (statusEl) {
+            statusEl.textContent = "Caricamento completato";
+            statusEl.className =
+              "text-sm font-medium rounded-xl border px-3 py-2 mt-3 bg-white/80 backdrop-blur-sm text-green-700 border-green-200 shadow-sm";
+            setTimeout(() => {
+              statusEl.classList.remove("hidden");
+            }, 150);
+          }
+        } catch (err) {
+          const msg = (err as any)?.message || String(err || "");
+          console.error("submit:error", msg);
+          if (statusEl) {
+            statusEl.textContent = msg || "Errore nel caricamento";
+            statusEl.className =
+              "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+            statusEl.classList.remove("hidden");
+          }
+          progress?.classList.add("hidden");
+          if (bar) bar.style.width = "0%";
+          if (pct) pct.textContent = "0%";
         }
-      } catch (err) {
-        const msg = (err as any)?.message || String(err || '')
-        console.error('submit:error', msg)
-        if (statusEl) {
-          statusEl.textContent = msg || 'Errore nel caricamento'
-          statusEl.className = 'text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300'
-          statusEl.classList.remove('hidden')
-        }
-        progress?.classList.add('hidden')
-        if (bar) bar.style.width = '0%'
-        if (pct) pct.textContent = '0%'
-      }
-      setTimeout(() => { if (statusEl) statusEl.classList.add('hidden') }, 4000)
-    })
-    
+        setTimeout(() => {
+          if (statusEl) statusEl.classList.add("hidden");
+        }, 4000);
+      });
+
     function isDuplicateNewEvent(name: string, date: string) {
-      if (!name || !date) return false
-      const slug = clientCreateSlug(name)
-      const d = date.replace(/-/g, '')
-      const target = `${slug}-${d}`
-      return events.some(ev => ev.folder === target)
+      if (!name || !date) return false;
+      const slug = clientCreateSlug(name);
+      const d = date.replace(/-/g, "");
+      const target = `${slug}-${d}`;
+      return events.some((ev) => ev.folder === target);
     }
 
     function updateSubmitEnabled() {
-      const input = document.getElementById('files') as HTMLInputElement | null
-      const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null
-      const hasFiles = !!(input && input.files && input.files.length > 0) || externalFiles.length > 0
-      const existing = (document.getElementById('existingFolderHidden') as HTMLInputElement | null)?.value || ''
-      const nameEl = document.getElementById('eventName') as HTMLInputElement | null
-      const dateEl = document.getElementById('date') as HTMLInputElement | null
-      const hasEventInfo = uploadMode === 'existing' ? !!existing : !!(nameEl && nameEl.value && dateEl && dateEl.value)
-      const hasDup = uploadMode === 'new' ? isDuplicateNewEvent(nameEl?.value || '', dateEl?.value || '') : false
-      const sizeOk = totalSelectedBytes() <= MAX_TOTAL_BYTES
-      const enabled = hasFiles && hasEventInfo && !hasDup && sizeOk
-      submitBtn && (submitBtn.disabled = !enabled)
-      console.log('updateSubmitEnabled', {
+      const input = document.getElementById("files") as HTMLInputElement | null;
+      const submitBtn = document.getElementById(
+        "submitBtn",
+      ) as HTMLButtonElement | null;
+      const hasFiles =
+        !!(input && input.files && input.files.length > 0) ||
+        externalFiles.length > 0;
+      const existing =
+        (
+          document.getElementById(
+            "existingFolderHidden",
+          ) as HTMLInputElement | null
+        )?.value || "";
+      const nameEl = document.getElementById(
+        "eventName",
+      ) as HTMLInputElement | null;
+      const dateEl = document.getElementById("date") as HTMLInputElement | null;
+      const hasEventInfo =
+        uploadMode === "existing"
+          ? !!existing
+          : !!(nameEl && nameEl.value && dateEl && dateEl.value);
+      const hasDup =
+        uploadMode === "new"
+          ? isDuplicateNewEvent(nameEl?.value || "", dateEl?.value || "")
+          : false;
+      const sizeOk = totalSelectedBytes() <= MAX_TOTAL_BYTES;
+      const enabled = hasFiles && hasEventInfo && !hasDup && sizeOk;
+      submitBtn && (submitBtn.disabled = !enabled);
+      console.log("updateSubmitEnabled", {
         enabled,
         hasFiles,
         hasEventInfo,
@@ -1153,78 +1729,88 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
         sizeOk,
         uploadMode,
         existing,
-        eventName: nameEl?.value || '',
-        date: dateEl?.value || '',
+        eventName: nameEl?.value || "",
+        date: dateEl?.value || "",
         inputFiles: input && input.files ? input.files.length : 0,
         externalFiles: externalFiles.length,
-        totalBytes: totalSelectedBytes()
-      })
-      updateSizeLimitInfo()
+        totalBytes: totalSelectedBytes(),
+      });
+      updateSizeLimitInfo();
     }
-    document.getElementById('files')?.addEventListener('change', (e) => {
-      const input = e.target as HTMLInputElement
-      const summary = document.getElementById('filesSummary')
-      const count = input.files ? input.files.length : 0
-      externalFiles = []
-      if (summary) summary.textContent = count > 0 ? `${count} file selezionati` : ''
-      console.log('files:inputChange', { count })
-      updateSubmitEnabled()
-      updateSizeLimitInfo()
-    })
-    const dropzone = document.getElementById('dropzone')
-    const pickFiles = document.getElementById('pickFiles')
-    dropzone?.addEventListener('dragover', (e) => {
-      e.preventDefault()
-      dropzone.classList.add('bg-red-50')
-      dropzone.classList.add('border-red-400')
-    })
-    dropzone?.addEventListener('dragleave', () => {
-      dropzone.classList.remove('bg-red-50')
-      dropzone.classList.remove('border-red-400')
-    })
-    dropzone?.addEventListener('drop', (e) => {
-      e.preventDefault()
-      const input = document.getElementById('files') as HTMLInputElement | null
-      const summary = document.getElementById('filesSummary')
-      const files = (e as DragEvent).dataTransfer?.files
+    document.getElementById("files")?.addEventListener("change", (e) => {
+      const input = e.target as HTMLInputElement;
+      const summary = document.getElementById("filesSummary");
+      const count = input.files ? input.files.length : 0;
+      externalFiles = [];
+      if (summary)
+        summary.textContent = count > 0 ? `${count} file selezionati` : "";
+      console.log("files:inputChange", { count });
+      updateSubmitEnabled();
+      updateSizeLimitInfo();
+    });
+    const dropzone = document.getElementById("dropzone");
+    const pickFiles = document.getElementById("pickFiles");
+    dropzone?.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropzone.classList.add("bg-red-50");
+      dropzone.classList.add("border-red-400");
+    });
+    dropzone?.addEventListener("dragleave", () => {
+      dropzone.classList.remove("bg-red-50");
+      dropzone.classList.remove("border-red-400");
+    });
+    dropzone?.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const input = document.getElementById("files") as HTMLInputElement | null;
+      const summary = document.getElementById("filesSummary");
+      const files = (e as DragEvent).dataTransfer?.files;
       if (input && files) {
-        externalFiles = Array.from(files)
-        const countInput = input.files ? input.files.length : 0
-        const countDrop = externalFiles.length
-        const total = countInput + countDrop
-        if (summary) summary.textContent = total > 0 ? `${total} file selezionati` : ''
-        console.log('files:drop', { countInput, countDrop, total })
-        updateSubmitEnabled()
-        updateSizeLimitInfo()
+        externalFiles = Array.from(files);
+        const countInput = input.files ? input.files.length : 0;
+        const countDrop = externalFiles.length;
+        const total = countInput + countDrop;
+        if (summary)
+          summary.textContent = total > 0 ? `${total} file selezionati` : "";
+        console.log("files:drop", { countInput, countDrop, total });
+        updateSubmitEnabled();
+        updateSizeLimitInfo();
       }
-      dropzone.classList.remove('bg-red-50')
-      dropzone.classList.remove('border-red-400')
-    })
-    pickFiles?.addEventListener('click', () => {
-      const input = document.getElementById('files') as HTMLInputElement | null
-      input?.click()
-      console.log('files:pickClick')
-    })
-    const descEl = document.getElementById('description') as HTMLTextAreaElement | null
-    const descMsg = document.getElementById('descLimitMsg')
-    descEl?.addEventListener('input', () => {
-      const len = (descEl?.value || '').length
-      if (descMsg) descMsg.textContent = len >= 200 ? 'Hai raggiunto il limite di 200 caratteri' : ''
-    })
-    const evtNameEl = document.getElementById('eventName') as HTMLInputElement | null
-    const nameMsg = document.getElementById('nameLimitMsg')
-    evtNameEl?.addEventListener('input', () => {
-      const len = (evtNameEl?.value || '').length
-      if (nameMsg) nameMsg.textContent = len >= 60 ? 'Hai raggiunto il limite di 60 caratteri' : ''
-    })
-    const infoModal = document.getElementById('infoModal')
-    const infoTitle = document.getElementById('infoTitle')
-    const infoBody = document.getElementById('infoBody')
-    const infoClose = document.getElementById('infoClose')
+      dropzone.classList.remove("bg-red-50");
+      dropzone.classList.remove("border-red-400");
+    });
+    pickFiles?.addEventListener("click", () => {
+      const input = document.getElementById("files") as HTMLInputElement | null;
+      input?.click();
+      console.log("files:pickClick");
+    });
+    const descEl = document.getElementById(
+      "description",
+    ) as HTMLTextAreaElement | null;
+    const descMsg = document.getElementById("descLimitMsg");
+    descEl?.addEventListener("input", () => {
+      const len = (descEl?.value || "").length;
+      if (descMsg)
+        descMsg.textContent =
+          len >= 200 ? "Hai raggiunto il limite di 200 caratteri" : "";
+    });
+    const evtNameEl = document.getElementById(
+      "eventName",
+    ) as HTMLInputElement | null;
+    const nameMsg = document.getElementById("nameLimitMsg");
+    evtNameEl?.addEventListener("input", () => {
+      const len = (evtNameEl?.value || "").length;
+      if (nameMsg)
+        nameMsg.textContent =
+          len >= 60 ? "Hai raggiunto il limite di 60 caratteri" : "";
+    });
+    const infoModal = document.getElementById("infoModal");
+    const infoTitle = document.getElementById("infoTitle");
+    const infoBody = document.getElementById("infoBody");
+    const infoClose = document.getElementById("infoClose");
     function openInfo(key: string | null) {
-      if (!infoModal || !infoTitle || !infoBody) return
-      if (key === 'event' || key === 'files') {
-        infoTitle.textContent = 'Come organizzare i caricamenti'
+      if (!infoModal || !infoTitle || !infoBody) return;
+      if (key === "event" || key === "files") {
+        infoTitle.textContent = "Come organizzare i caricamenti";
         infoBody.innerHTML = `
           <p style="text-align: justify; text-justify: inter-word;">
             Se l’evento è già presente, seleziona “Evento esistente”. In caso contrario crea un nuovo evento indicando nome e data.
@@ -1233,38 +1819,74 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro'
           <p style="text-align: justify; text-justify: inter-word;">
             Carica sempre foto di <strong>un solo evento alla volta</strong>. Se hai file relativi a eventi diversi, effettua caricamenti separati per mantenere ordine e coerenza.
           </p>
-        `
+        `;
       }
-      infoModal.classList.remove('hidden')
-      infoModal.classList.add('flex')
+      infoModal.classList.remove("hidden");
+      infoModal.classList.add("flex");
     }
-    document.querySelectorAll('[data-info]')?.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-info')
-        openInfo(key)
-      })
-    })
+    document.querySelectorAll("[data-info]")?.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.getAttribute("data-info");
+        openInfo(key);
+      });
+    });
     function closeInfo() {
-      if (!infoModal) return
-      infoModal.classList.add('hidden')
-      infoModal.classList.remove('flex')
+      if (!infoModal) return;
+      infoModal.classList.add("hidden");
+      infoModal.classList.remove("flex");
     }
-    infoClose?.addEventListener('click', closeInfo)
-    infoModal?.addEventListener('click', (e) => {
-      if (e.target === infoModal) closeInfo()
-    })
-    updateUploadVisibility()
-    updateSubmitEnabled()
-    loadEvents()
+    infoClose?.addEventListener("click", closeInfo);
+    infoModal?.addEventListener("click", (e) => {
+      if (e.target === infoModal) closeInfo();
+    });
+    updateUploadVisibility();
+    updateSubmitEnabled();
+    loadEvents();
   </script>
   <style>
-    input[type="date"]{width:100%;max-width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none}
-    #dateFrom,#dateTo,#date{width:100%;max-width:100%;box-sizing:border-box}
-    #sortSwitch button{outline:none;box-shadow:none;-webkit-tap-highlight-color:transparent;border-radius:9999px;appearance:none;-webkit-appearance:none}
-    #sortSwitch button:focus{outline:none!important;box-shadow:none!important}
-    #sortSwitch button::-moz-focus-inner{border:0}
-    #sortSwitch button:-moz-focusring{outline:none}
-    #sortDirBtn{outline:none;box-shadow:none;-webkit-tap-highlight-color:transparent;border-radius:9999px;appearance:none;-webkit-appearance:none}
-    #sortDirBtn:focus{outline:none!important;box-shadow:none!important}
+    input[type="date"] {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    #dateFrom,
+    #dateTo,
+    #date {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    #sortSwitch button {
+      outline: none;
+      box-shadow: none;
+      -webkit-tap-highlight-color: transparent;
+      border-radius: 9999px;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    #sortSwitch button:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    #sortSwitch button::-moz-focus-inner {
+      border: 0;
+    }
+    #sortSwitch button:-moz-focusring {
+      outline: none;
+    }
+    #sortDirBtn {
+      outline: none;
+      box-shadow: none;
+      -webkit-tap-highlight-color: transparent;
+      border-radius: 9999px;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    #sortDirBtn:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
   </style>
 </DefaultLayout>
