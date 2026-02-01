@@ -65,7 +65,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     </section>
     <section class="pt-4 pb-16">
       <!-- Anchor invisibile per scroll paginazione -->
-      <div id="eventsTop" style="scroll-margin-top: 100px;"></div>
+      <div
+        id="eventsTop"
+        tabindex="-1"
+        style="scroll-margin-top: 100px; outline: none;"
+      >
+      </div>
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div
@@ -1329,22 +1334,15 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
     updateSortUI();
-    // Funzione per scroll - approccio diverso: usa anchor nativo del browser
+    // Funzione per scroll - usa focus() che forza sempre lo scroll
     const scrollToSection = () => {
-      // Rimuovi hash, poi riaggiungi per forzare lo scroll nativo del browser
-      const currentHash = window.location.hash;
-      if (currentHash === "#eventsTop") {
-        // Se già su hash, forza refresh rimuovendo e riaggiungendo
-        history.replaceState(
-          null,
-          "",
-          window.location.pathname + window.location.search,
-        );
-      }
-      // Piccolo delay poi naviga all'anchor
       setTimeout(() => {
-        window.location.hash = "eventsTop";
-      }, 10);
+        const target = document.getElementById("eventsTop");
+        if (target) {
+          // focus() forza sempre lo scroll anche se già nella viewport parziale
+          target.focus({ preventScroll: false });
+        }
+      }, 50);
     };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
