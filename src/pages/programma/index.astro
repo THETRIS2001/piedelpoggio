@@ -1,38 +1,72 @@
 ---
 export const prerender = true;
 
-import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import DefaultLayout from "../../layouts/DefaultLayout.astro";
+
+// Percorso centralizzato - modifica solo qui per cambiare il file
+const PROGRAMMA_FILE = "/documents/Programmi%20estivi/programma.pdf";
 ---
 
-
-<DefaultLayout title="Programma - Piedelpoggio" description="Tutti gli eventi e le manifestazioni di Piedelpoggio, borgo montano nel cuore del Lazio.">
-  <main class=" bg-gradient-to-br from-red-50/30 via-white to-orange-50/20">
+<DefaultLayout
+  title="Programma - Piedelpoggio"
+  description="Tutti gli eventi e le manifestazioni di Piedelpoggio, borgo montano nel cuore del Lazio."
+>
+  <main class="bg-gradient-to-br from-red-50/30 via-white to-orange-50/20">
     <!-- Hero Section -->
     <section class="hero-section">
       <!-- Background with gradient -->
-      <div class="absolute inset-0 bg-gradient-to-b from-red-100/70 via-red-50/50 to-transparent"></div>
-      
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-red-100/70 via-red-50/50 to-transparent"
+      >
+      </div>
+
       <!-- Decorative elements -->
-      
-      
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-40" style="background: radial-gradient(circle, rgba(255, 36, 0, 0.12) 0%, rgba(255, 36, 0, 0.04) 60%, transparent 100%);"></div>
-      
+
+      <div
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-40"
+        style="background: radial-gradient(circle, rgba(255, 36, 0, 0.12) 0%, rgba(255, 36, 0, 0.04) 60%, transparent 100%);"
+      >
+      </div>
+
       <div class="relative z-10 container mx-auto px-4 text-center">
         <div class="animate-fade-in">
           <div class="flex items-center justify-center mb-8">
-            <div class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6" style="background: linear-gradient(135deg, #FF2400, #E01E00);">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            <div
+              class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
+              style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+            >
+              <svg
+                class="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
               </svg>
             </div>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent">
-              PROGRAMMA
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+            >
+              <span
+                class="bg-gradient-to-r from-red-700 via-red-600 to-red-500 bg-clip-text text-transparent"
+              >
+                PROGRAMMA ESTIVO
               </span>
             </h1>
           </div>
-          <div class="w-32 h-1.5 rounded-full mx-auto mb-8" style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"></div>
-          <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">
+          <div
+            class="w-32 h-1.5 rounded-full mx-auto mb-8"
+            style="background: linear-gradient(to right, #FF2400, #E01E00, #CC1A00);"
+          >
+          </div>
+          <p
+            class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16"
+          >
             Scopri il programma estivo
           </p>
         </div>
@@ -42,66 +76,105 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
     <!-- Contenuto principale -->
     <section class="pt-4 pb-16">
       <div class="container mx-auto px-4">
-        
         <!-- Sezione Programma Estivo -->
         <div class="max-w-6xl mx-auto mb-12">
-          <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-6 md:p-12">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+          <div
+            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-6 md:p-12"
+          >
+            <div
+              class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4"
+            >
               <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #FF2400, #E01E00);">
-                  <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                <div
+                  class="w-12 h-12 rounded-xl flex items-center justify-center"
+                  style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                >
+                  <svg
+                    class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    ></path>
                   </svg>
                 </div>
                 <div>
-                  <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Programma Estivo</h2>
+                  <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
+                    Programma Estivo
+                  </h2>
                 </div>
               </div>
             </div>
-            
+
             <!-- Descrizione del programma -->
             <div class="mb-6">
-              <p class="text-gray-600 text-lg">Tutte le attività previste per il mese estivo</p>
+              <p class="text-gray-600 text-lg">
+                Tutte le attività previste per il mese estivo
+              </p>
             </div>
-            
-            <!-- Pulsante PDF -->
+
+            <!-- Pulsante Download -->
             <div class="mb-6">
-              <a 
-                href="/documents/Programmi%20estivi/programma.pdf" 
-                target="_blank"
+              <a
+                href={PROGRAMMA_FILE}
+                download
                 class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 hover:shadow-lg hover:scale-105"
                 style="background: linear-gradient(135deg, #FF2400, #E01E00);"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  ></path>
                 </svg>
-                <span>Scarica PDF</span>
+                <span>Scarica Programma</span>
               </a>
             </div>
-            
-            <!-- PDF Espanso -->
-            <div class="w-full h-96 rounded-lg overflow-auto border border-gray-200 bg-white">
-              <iframe 
-                src="/documents/Programmi%20estivi/programma.pdf#toolbar=0&navpanes=0&scrollbar=1&zoom=FitH&view=FitH" 
-                width="100%" 
-                height="100%"
-                class="rounded-lg"
-                style="border: none;"
-              ></iframe>
+
+            <!-- Immagine Programma -->
+            <div
+              class="w-full rounded-lg overflow-hidden border border-gray-200 bg-white"
+            >
+              <img
+                src={PROGRAMMA_FILE}
+                alt="Programma Estivo"
+                class="w-full h-auto rounded-lg"
+              />
             </div>
-            
+
             <!-- Programmi Precedenti -->
             <div class="mt-12">
-              <h3 class="text-1xl sm:text-3xl font-bold text-gray-900 mb-8">Programmi Precedenti</h3>
+              <h3 class="text-1xl sm:text-3xl font-bold text-gray-900 mb-8">
+                Programmi Precedenti
+              </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
                 <!-- Programma 2023 -->
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300">
+                <div
+                  class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
+                >
                   <div class="flex items-center space-x-4 mb-6">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center">
-                      <span class="text-white font-bold text-sm md:text-lg">2023</span>
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center"
+                    >
+                      <span class="text-white font-bold text-sm md:text-lg"
+                        >2023</span
+                      >
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900">Programma 2023</h4>
+                    <h4 class="text-xl font-bold text-gray-900">
+                      Programma 2023
+                    </h4>
                   </div>
                   <div class="space-y-3">
                     <p class="text-gray-600 text-sm">
@@ -109,10 +182,28 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
                     </p>
                   </div>
                   <div class="mt-6">
-                    <a href="/documents/Programmi%20estivi/programma.pdf" target="_blank" class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    <a
+                      href="/documents/Programmi%20estivi/programma.pdf"
+                      target="_blank"
+                      class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        ></path>
                       </svg>
                       Anteprima PDF
                     </a>
@@ -120,12 +211,20 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
                 </div>
 
                 <!-- Programma 2022 -->
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300">
+                <div
+                  class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
+                >
                   <div class="flex items-center space-x-4 mb-6">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
-                      <span class="text-white font-bold text-sm md:text-lg">2022</span>
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg flex items-center justify-center"
+                    >
+                      <span class="text-white font-bold text-sm md:text-lg"
+                        >2022</span
+                      >
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900">Programma 2022</h4>
+                    <h4 class="text-xl font-bold text-gray-900">
+                      Programma 2022
+                    </h4>
                   </div>
                   <div class="space-y-3">
                     <p class="text-gray-600 text-sm">
@@ -133,10 +232,28 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
                     </p>
                   </div>
                   <div class="mt-6">
-                    <a href="/documents/Programmi%20estivi/programma.pdf" target="_blank" class="w-full bg-orange-100 hover:bg-orange-200 text-orange-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    <a
+                      href="/documents/Programmi%20estivi/programma.pdf"
+                      target="_blank"
+                      class="w-full bg-orange-100 hover:bg-orange-200 text-orange-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        ></path>
                       </svg>
                       Anteprima PDF
                     </a>
@@ -144,12 +261,20 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
                 </div>
 
                 <!-- Programma 2021 -->
-                <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300">
+                <div
+                  class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
+                >
                   <div class="flex items-center space-x-4 mb-6">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                      <span class="text-white font-bold text-sm md:text-lg">2021</span>
+                    <div
+                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center"
+                    >
+                      <span class="text-white font-bold text-sm md:text-lg"
+                        >2021</span
+                      >
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900">Programma 2021</h4>
+                    <h4 class="text-xl font-bold text-gray-900">
+                      Programma 2021
+                    </h4>
                   </div>
                   <div class="space-y-3">
                     <p class="text-gray-600 text-sm">
@@ -157,25 +282,38 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
                     </p>
                   </div>
                   <div class="mt-6">
-                    <a href="/documents/Programmi%20estivi/programma.pdf" target="_blank" class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    <a
+                      href="/documents/Programmi%20estivi/programma.pdf"
+                      target="_blank"
+                      class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        ></path>
                       </svg>
                       Anteprima PDF
                     </a>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
-        
       </div>
     </section>
   </main>
 </DefaultLayout>
-
-
-
