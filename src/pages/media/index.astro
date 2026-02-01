@@ -64,6 +64,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       </div>
     </section>
     <section class="pt-4 pb-16">
+      <!-- Anchor invisibile per scroll paginazione -->
+      <div id="eventsTop" style="scroll-margin-top: 100px;"></div>
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div
@@ -1327,18 +1329,22 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
     updateSortUI();
-    // Funzione per scroll affidabile indipendentemente da risoluzione/scaling
+    // Funzione per scroll - approccio diverso: usa anchor nativo del browser
     const scrollToSection = () => {
-      // Usa requestAnimationFrame per garantire che il DOM sia aggiornato
-      requestAnimationFrame(() => {
-        const section = document.getElementById("eventsListSection");
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          const absoluteTop = rect.top + window.pageYOffset;
-          // Scroll immediato senza smooth per evitare problemi
-          window.scrollTo(0, Math.max(0, absoluteTop - 100));
-        }
-      });
+      // Rimuovi hash, poi riaggiungi per forzare lo scroll nativo del browser
+      const currentHash = window.location.hash;
+      if (currentHash === "#eventsTop") {
+        // Se già su hash, forza refresh rimuovendo e riaggiungendo
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search,
+        );
+      }
+      // Piccolo delay poi naviga all'anchor
+      setTimeout(() => {
+        window.location.hash = "eventsTop";
+      }, 10);
     };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
