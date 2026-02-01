@@ -1,78 +1,208 @@
 ---
 // Componente dropdown per il menu Informazioni
-import RotatingText from './RotatingText.tsx';
+import RotatingText from "./RotatingText.tsx";
 ---
 
 <div class="relative group">
   <!-- Trigger Button -->
-  <button 
-    type="button" 
+  <button
+    type="button"
     class="info-dropdown-trigger bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 text-white px-8 py-3.5 rounded-xl sm:rounded-2xl text-sm font-semibold transition-all duration-300 flex items-center hover:shadow-glow hover:scale-105 hover:from-blue-700 hover:via-cyan-700 hover:to-teal-700 active:scale-95 group shadow-lg w-52"
     aria-expanded="false"
     aria-haspopup="true"
   >
     <div class="w-5 h-5 flex-shrink-0">
-      <svg class="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      <svg
+        class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
       </svg>
     </div>
     <div class="flex-1 flex justify-center">
-      <span><RotatingText texts={["Risorse", "Info", "Documenti", "Storia", "Statuto", "Poesie", "Tradizioni", "Bilancio", "Video", "WebCam", "Sentieri", "Ambiente", "Ricette", "Parrocchia", "Terremoto", "Montagna", "Cartine"]} client:load /></span>
+      <span
+        ><RotatingText
+          texts={[
+            "Risorse",
+            "Info",
+            "Documenti",
+            "Storia",
+            "Statuto",
+            "Poesie",
+            "Tradizioni",
+            "Bilancio",
+            "Video",
+            "WebCam",
+            "Sentieri",
+            "Ambiente",
+            "Ricette",
+            "Parrocchia",
+            "Terremoto",
+            "Montagna",
+            "Cartine",
+          ]}
+          client:load
+        /></span
+      >
     </div>
     <div class="w-4 h-4 flex-shrink-0">
-      <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      <svg
+        class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"></path>
       </svg>
     </div>
   </button>
 
   <!-- Dropdown Menu -->
-  <div class="info-dropdown-menu absolute right-0 mt-2 w-80 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-strong border border-gray-200/50 opacity-0 invisible transform scale-95 transition-all duration-300 z-50 max-h-[80vh] overflow-y-auto custom-scrollbar">
+  <div
+    class="info-dropdown-menu absolute right-0 mt-2 w-80 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-strong border border-gray-200/50 opacity-0 invisible transform scale-95 transition-all duration-300 z-50 max-h-[80vh] overflow-y-auto custom-scrollbar"
+  >
     <div class="p-4">
       <!-- Sezione Storia e Testimonianze -->
       <div class="mb-6">
-        <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 px-2 text-[#0ea5e9]">Storia e Testimonianze</h3>
+        <h3
+          class="text-sm font-semibold uppercase tracking-wider mb-3 px-2 text-[#0ea5e9]"
+        >
+          Storia e Testimonianze
+        </h3>
         <div class="space-y-1">
-          <a href="/info/storia" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          <a
+            href="/info/storia"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              ></path>
             </svg>
             <span class="font-medium">La Storia</span>
           </a>
-          <a href="/info/terremoto-1703" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          <a
+            href="/info/terremoto-1703"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
             </svg>
             <span class="font-medium">Terremoto 1703</span>
           </a>
-          <a href="/info/poesie-canzoni" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+          <a
+            href="/info/poesie-canzoni"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+              ></path>
             </svg>
-            <span class="font-medium">Poesie, Tradizioni, Testimonianze e Canzoni</span>
+            <span class="font-medium"
+              >Poesie, Tradizioni, Testimonianze e Canzoni</span
+            >
           </a>
         </div>
       </div>
 
       <!-- Sezione Documenti Ufficiali -->
       <div class="mb-6">
-        <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 px-2 text-[#0ea5e9]">Documenti Ufficiali</h3>
+        <h3
+          class="text-sm font-semibold uppercase tracking-wider mb-3 px-2 text-[#0ea5e9]"
+        >
+          Documenti Ufficiali
+        </h3>
         <div class="space-y-1">
-          <a href="/info/documenti-pro-loco" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          <a
+            href="/info/documenti-pro-loco"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              ></path>
             </svg>
             <span class="font-medium">Documenti Pro Loco</span>
           </a>
-          <a href="/info/bilancio" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          <a
+            href="/info/bilancio"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+              ></path>
             </svg>
             <span class="font-medium">Bilancio</span>
           </a>
-          <a href="/info/parrocchia" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          <a
+            href="/info/parrocchia"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              ></path>
             </svg>
             <span class="font-medium">Parrocchia S.M. Cerreto</span>
           </a>
@@ -81,32 +211,96 @@ import RotatingText from './RotatingText.tsx';
 
       <!-- Sezione Territorio -->
       <div>
-        <h3 class="text-sm font-semibold uppercase tracking-wider mb-3 px-2 text-[#0ea5e9]">Territorio</h3>
+        <h3
+          class="text-sm font-semibold uppercase tracking-wider mb-3 px-2 text-[#0ea5e9]"
+        >
+          Territorio
+        </h3>
         <div class="space-y-1">
-          <a href="/info/video" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          <a
+            href="/info/video"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+              ></path>
             </svg>
             <span class="font-medium">Video</span>
           </a>
-          <a href="/info/webcam" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          <a
+            href="/info/webcam"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+              ></path>
             </svg>
             <span class="font-medium">Webcam Live</span>
           </a>
-          <a href="/info/universita-agraria" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+          <a
+            href="/info/universita-agraria"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 14l9-5-9-5-9 5 9 5z"></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+              ></path>
             </svg>
             <span class="font-medium">Università Agraria</span>
           </a>
 
-          <a href="/info/montagna-sentieri" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group">
-            <svg class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3l4 8 5-5 5 15H2L8 3z"/>
+          <a
+            href="/info/montagna-sentieri"
+            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-all duration-300 group"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 3l4 8 5-5 5 15H2L8 3z"></path>
             </svg>
             <span class="font-medium">Montagna, Sentieri e Informazioni</span>
           </a>
@@ -117,9 +311,9 @@ import RotatingText from './RotatingText.tsx';
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const trigger = document.querySelector('.info-dropdown-trigger');
-    const menu = document.querySelector('.info-dropdown-menu');
+  document.addEventListener("DOMContentLoaded", () => {
+    const trigger = document.querySelector(".info-dropdown-trigger");
+    const menu = document.querySelector(".info-dropdown-menu");
     let isOpen = false;
 
     if (!trigger || !menu) return;
@@ -127,42 +321,46 @@ import RotatingText from './RotatingText.tsx';
     // Toggle dropdown
     const toggleDropdown = () => {
       isOpen = !isOpen;
-      trigger.setAttribute('aria-expanded', isOpen.toString());
-      
+      trigger.setAttribute("aria-expanded", isOpen.toString());
+
       if (isOpen) {
-        menu.classList.remove('opacity-0', 'invisible', 'scale-95');
-        menu.classList.add('opacity-100', 'visible', 'scale-100');
+        menu.classList.remove("opacity-0", "invisible", "scale-95");
+        menu.classList.add("opacity-100", "visible", "scale-100");
       } else {
-        menu.classList.add('opacity-0', 'invisible', 'scale-95');
-        menu.classList.remove('opacity-100', 'visible', 'scale-100');
+        menu.classList.add("opacity-0", "invisible", "scale-95");
+        menu.classList.remove("opacity-100", "visible", "scale-100");
       }
     };
 
     // Click on trigger
-    trigger.addEventListener('click', (e) => {
+    trigger.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       toggleDropdown();
     });
 
     // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (isOpen && !trigger.contains(e.target) && !menu.contains(e.target)) {
+    document.addEventListener("click", (e) => {
+      if (
+        isOpen &&
+        !trigger.contains(e.target as Node) &&
+        !menu.contains(e.target as Node)
+      ) {
         toggleDropdown();
       }
     });
 
     // Close on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && isOpen) {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen) {
         toggleDropdown();
       }
     });
 
     // Close dropdown when clicking on menu items
-    const menuLinks = menu.querySelectorAll('a');
-    menuLinks.forEach(link => {
-      link.addEventListener('click', () => {
+    const menuLinks = menu.querySelectorAll("a");
+    menuLinks.forEach((link) => {
+      link.addEventListener("click", () => {
         if (isOpen) {
           toggleDropdown();
         }

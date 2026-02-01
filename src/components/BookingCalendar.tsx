@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { formatDate, removeSecondsFromTime } from '../utils/date';
 
 type Booking = {
@@ -24,7 +25,7 @@ const WEEKDAYS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
 // Funzione per mascherare il nome con asterischi
 function maskCustomerName(name: string): string {
   if (!name || name.length <= 2) return name;
-  
+
   const words = name.trim().split(' ');
   return words.map(word => {
     if (word.length <= 2) return word;
@@ -81,32 +82,32 @@ const legendColors = {
 };
 
 const CalendarHeader: React.FC<{ month: number; year: number; onPrev: () => void; onNext: () => void; onToday: () => void; }>
-= ({ month, year, onPrev, onNext, onToday }) => {
-  const months = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
-  return (
-    <div className="flex items-center justify-between mb-4">
-      <div className="flex items-center gap-2">
-        <button aria-label="Mese precedente" className="p-2 rounded-lg hover:bg-gray-100" onClick={onPrev}>
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
-        </button>
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-900">{months[month]} {year}</h2>
-        <button aria-label="Mese successivo" className="p-2 rounded-lg hover:bg-gray-100" onClick={onNext}>
-          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
-        </button>
+  = ({ month, year, onPrev, onNext, onToday }) => {
+    const months = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+    return (
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <button aria-label="Mese precedente" className="p-2 rounded-lg hover:bg-gray-100" onClick={onPrev}>
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-900">{months[month]} {year}</h2>
+          <button aria-label="Mese successivo" className="p-2 rounded-lg hover:bg-gray-100" onClick={onNext}>
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </div>
+        <button onClick={onToday} className="px-3 py-1 text-xs md:text-sm font-medium.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200">Oggi</button>
       </div>
-      <button onClick={onToday} className="px-3 py-1 text-xs md:text-sm font-medium.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200">Oggi</button>
-    </div>
-  );
-};
+    );
+  };
 
 const BookingCalendar: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
   const now = new Date();
-  
+
   const [visibleMonth, setVisibleMonth] = useState(now.getMonth());
   const [visibleYear, setVisibleYear] = useState(now.getFullYear());
   const [selectedDate, setSelectedDate] = useState<string>(toDateKey(now));
-  
+
   useEffect(() => {
     setIsClient(true);
     // Aggiorniamo selectedDate solo se necessario, ma lasciamo un valore iniziale sensato per il SSR
@@ -115,7 +116,7 @@ const BookingCalendar: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
-  
+
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -204,11 +205,11 @@ const BookingCalendar: React.FC = () => {
   const occupiedForDate = useMemo(() => bookingsByDate.get(selectedDate) || [], [bookingsByDate, selectedDate]);
 
   const isSlotBusy = (dateKey: string, slotStart: string, slotEnd: string) => {
-     const s = minutesFromTime(slotStart);
-     const e = minutesFromTime(slotEnd);
-     const list = bookingsByDate.get(dateKey) || [];
-     return list.some(b => rangesOverlap(s, e, minutesFromTime(b.start), minutesFromTime(b.end)));
-   };
+    const s = minutesFromTime(slotStart);
+    const e = minutesFromTime(slotEnd);
+    const list = bookingsByDate.get(dateKey) || [];
+    return list.some(b => rangesOverlap(s, e, minutesFromTime(b.start), minutesFromTime(b.end)));
+  };
 
   const canBookSlot = () => {
     if (!startTime || !endTime) return false;
@@ -225,9 +226,9 @@ const BookingCalendar: React.FC = () => {
 
   const startOptions = useMemo(() => {
     const d = new Date(selectedDate);
-    d.setHours(0,0,0,0);
+    d.setHours(0, 0, 0, 0);
     const t = new Date();
-    t.setHours(0,0,0,0);
+    t.setHours(0, 0, 0, 0);
     if (d < t) return [] as string[];
     const opts: string[] = [];
     for (let m = WORK_START; m < WORK_END; m += STEP) {
@@ -310,18 +311,18 @@ const BookingCalendar: React.FC = () => {
       } else {
         // NON chiudere la modale, così l'utente rimane nel contesto e vede l'errore
         // setShowBookingForm(false); <-- RIMOSSO
-        
+
         const errorMsg = result.error || 'Errore nella creazione della prenotazione';
-        
+
         // Mostriamo l'errore sia nel toast che (opzionalmente) dentro il form se volessimo
         // Per ora usiamo il meccanismo showMessage esistente ma assicuriamoci che sia ben visibile
         showMessage('error', errorMsg);
-        
+
         // Se è un errore 500, logghiamo per debug
         if (response.status === 500) {
-           console.error('Server error during booking:', result);
-           // Opzionale: rendere il messaggio più esplicito per l'utente
-           showMessage('error', 'Errore del server. Riprova più tardi o contatta l\'assistenza.');
+          console.error('Server error during booking:', result);
+          // Opzionale: rendere il messaggio più esplicito per l'utente
+          showMessage('error', 'Errore del server. Riprova più tardi o contatta l\'assistenza.');
         }
       }
     } catch (error) {
@@ -337,7 +338,7 @@ const BookingCalendar: React.FC = () => {
   const handleCancelBooking = async (bookingId: string) => {
     const booking = bookings.find(b => b.id === bookingId);
     if (!booking) return;
-    
+
     setShowCancelDialog({ bookingId, booking });
     setCancelPhone('');
     setCancelError('');
@@ -409,7 +410,7 @@ const BookingCalendar: React.FC = () => {
     setSelectedDate(toDateKey(d));
   };
 
-  
+
 
   return (
     <div>
@@ -440,14 +441,14 @@ const BookingCalendar: React.FC = () => {
               const isSelected = key === selectedDate;
               const count = (bookingsByDate.get(key) || []).length;
               const isToday = key === toDateKey(new Date());
-              
+
               // Controlla se il giorno è nel passato
               const today = new Date();
               today.setHours(0, 0, 0, 0);
               const dayDate = new Date(day);
               dayDate.setHours(0, 0, 0, 0);
               const isPastDay = dayDate < today;
-              
+
               return (
                 <button
                   key={key}
@@ -455,17 +456,16 @@ const BookingCalendar: React.FC = () => {
                   aria-selected={isSelected}
                   onClick={() => !isPastDay && setSelectedDate(key)}
                   disabled={isPastDay}
-                  className={`aspect-square w-full sm:aspect-auto sm:h-24 rounded-xl border               transition-all duration-200 text-left p-2 focus:outline-none ${
-                    isPastDay 
-                      ? 'border-gray-300 bg-gray-100 cursor-not-allowed opacity-60' 
+                  className={`aspect-square w-full sm:aspect-auto sm:h-24 rounded-xl border               transition-all duration-200 text-left p-2 focus:outline-none ${isPastDay
+                      ? 'border-gray-300 bg-gray-100 cursor-not-allowed opacity-60'
                       : count > 0
                         ? isSelected
                           ? 'border-red-300 bg-red-100 focus:ring-2 focus:ring-red-500'
                           : 'border-red-200 bg-red-50 hover:bg-red-100 focus:ring-2               focus:ring-red-500'
-                        : isSelected 
-                          ? 'border-primary-300 bg-primary-50 focus:ring-2              focus:ring-primary-500' 
+                        : isSelected
+                          ? 'border-primary-300 bg-primary-50 focus:ring-2              focus:ring-primary-500'
                           : 'border-gray-200 bg-white hover:bg-gray-50 focus:ring-2               focus:ring-primary-500'
-                  } ${isToday && !isPastDay ? 'shadow-inner' : ''}`}
+                    } ${isToday && !isPastDay ? 'shadow-inner' : ''}`}
                 >
                   <div className="flex flex-col h-full">
                     <div className="flex items-start justify-between mb-1">
@@ -473,31 +473,28 @@ const BookingCalendar: React.FC = () => {
                         {day.getDate()}
                       </span>
                       {count > 0 && (
-                        <span className={`hidden sm:inline text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${
-                          isPastDay 
-                            ? 'bg-gray-200 text-gray-500 border-gray-300' 
+                        <span className={`hidden sm:inline text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${isPastDay
+                            ? 'bg-gray-200 text-gray-500 border-gray-300'
                             : 'bg-red-200 text-red-800 border-red-300'
-                        }`}>
+                          }`}>
                           {count}
                         </span>
                       )}
                     </div>
                     <div className="hidden sm:block flex-1 space-y-0.5">
-                      {(bookingsByDate.get(key) || []).slice(0,1).map((b, idx) => (
-                        <div key={idx} className={`text-[10px] px-1.5 py-0.5 rounded ${
-                          isPastDay 
-                            ? 'bg-gray-200 text-gray-500' 
+                      {(bookingsByDate.get(key) || []).slice(0, 1).map((b, idx) => (
+                        <div key={idx} className={`text-[10px] px-1.5 py-0.5 rounded ${isPastDay
+                            ? 'bg-gray-200 text-gray-500'
                             : 'bg-red-200 text-red-800'
-                        } truncate`}>
+                          } truncate`}>
                           {removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)}
                         </div>
                       ))}
                       {(count > 1) && (
-                        <div className={`text-[10px] px-1.5 py-0.5 rounded ${
-                          isPastDay 
-                            ? 'bg-gray-200 text-gray-500' 
+                        <div className={`text-[10px] px-1.5 py-0.5 rounded ${isPastDay
+                            ? 'bg-gray-200 text-gray-500'
                             : 'bg-red-200 text-red-800'
-                        }`}>
+                          }`}>
                           +{count - 1} altr{count > 2 ? 'e' : 'o'}
                         </div>
                       )}
@@ -506,8 +503,8 @@ const BookingCalendar: React.FC = () => {
                 </button>
               );
 
-             })}
-           </React.Fragment>
+            })}
+          </React.Fragment>
         ))}
       </div>
 
@@ -523,7 +520,7 @@ const BookingCalendar: React.FC = () => {
               <div>
                 <div className="text-xs sm:text-sm font-semibold text-amber-900">Costo Prenotazione</div>
                 <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-amber-800">20€</div>
-                
+
               </div>
             </div>
             <a href="/info/contatti" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 shadow-sm">
@@ -608,76 +605,76 @@ const BookingCalendar: React.FC = () => {
               </div>
             </div>
             <div className="pt-2">
-                {canBookSlot() ? (
-                  <button
-                    onClick={() => setShowBookingForm(true)}
-                    disabled={isLoading}
-                    className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? 'Caricamento...' : 'Prenota questo intervallo'}
-                  </button>
-                ) : (
-                  <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona inizio e fine</div>
-                )}
-              </div>
+              {canBookSlot() ? (
+                <button
+                  onClick={() => setShowBookingForm(true)}
+                  disabled={isLoading}
+                  className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? 'Caricamento...' : 'Prenota questo intervallo'}
+                </button>
+              ) : (
+                <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona inizio e fine</div>
+              )}
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="mt-6">
-          <div className="p-4 bg-white rounded-xl border border-gray-200">
-            <h4 className="text-sm font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
-            {occupiedForDate.length === 0 ? (
-              <p className="text-sm text-gray-600">Nessuna prenotazione presente.</p>
-            ) : (
-              <ul className="space-y-2">
-                {occupiedForDate.map((b, i) => {
-                  const masked = maskCustomerName(b.customer_name)
-                  const titleRaw = b.title || ''
-                  const titleSanitized = titleRaw && b.customer_name ? titleRaw.split(b.customer_name).join(masked) : titleRaw
-                  let cleanedTitle = titleSanitized ? titleSanitized.split(masked).join('').trim() : ''
-                  if (cleanedTitle.toLowerCase().startsWith('prenotazione')) {
-                    cleanedTitle = cleanedTitle.replace(/^prenotazione\s*/i, '').trim()
-                  }
-                  return (
-                    <li key={i} className="px-4 py-3 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
-                      <div className="font-medium">
-                        {removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} · Prenotato da {masked}{cleanedTitle ? ` · ${cleanedTitle}` : ''}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleCancelBooking(b.id)}
-                          disabled={isLoading}
-                          className="text-sm px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
-                          aria-label="Cancella prenotazione"
-                        >
-                          Cancella
-                        </button>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </div>
+      <div className="mt-6">
+        <div className="p-4 bg-white rounded-xl border border-gray-200">
+          <h4 className="text-sm font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
+          {occupiedForDate.length === 0 ? (
+            <p className="text-sm text-gray-600">Nessuna prenotazione presente.</p>
+          ) : (
+            <ul className="space-y-2">
+              {occupiedForDate.map((b, i) => {
+                const masked = maskCustomerName(b.customer_name)
+                const titleRaw = b.title || ''
+                const titleSanitized = titleRaw && b.customer_name ? titleRaw.split(b.customer_name).join(masked) : titleRaw
+                let cleanedTitle = titleSanitized ? titleSanitized.split(masked).join('').trim() : ''
+                if (cleanedTitle.toLowerCase().startsWith('prenotazione')) {
+                  cleanedTitle = cleanedTitle.replace(/^prenotazione\s*/i, '').trim()
+                }
+                return (
+                  <li key={i} className="px-4 py-3 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
+                    <div className="font-medium">
+                      {removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} · Prenotato da {masked}{cleanedTitle ? ` · ${cleanedTitle}` : ''}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleCancelBooking(b.id)}
+                        disabled={isLoading}
+                        className="text-sm px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50"
+                        aria-label="Cancella prenotazione"
+                      >
+                        Cancella
+                      </button>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
         </div>
+      </div>
 
       {/* Form di prenotazione */}
       {showBookingForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl transform transition-all">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Nuova Prenotazione</h3>
-            
+
             {/* Alert errore dentro la modale per massima visibilità */}
             {message && message.type === 'error' && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm flex items-start gap-2">
                 <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>{message.text}</span>
               </div>
             )}
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">Nome <span className="text-red-600">*</span></label>
@@ -767,11 +764,10 @@ const BookingCalendar: React.FC = () => {
                   setCancelPhone(e.target.value);
                   setCancelError(''); // Clear error when user types
                 }}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  cancelError 
-                    ? 'border-red-300 focus:ring-red-500' 
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${cancelError
+                    ? 'border-red-300 focus:ring-red-500'
                     : 'border-gray-300 focus:ring-red-500'
-                }`}
+                  }`}
                 placeholder="Numero di telefono"
                 autoFocus
               />
