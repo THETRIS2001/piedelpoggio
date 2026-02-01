@@ -1334,10 +1334,22 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
     updateSortUI();
-    // Scroll istantaneo al top della pagina
+    // Scroll istantaneo alla sezione eventi
     const scrollToTop = () => {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
+      const target = document.getElementById("eventsTop");
+      if (target) {
+        // Calcola posizione assoluta dell'elemento
+        let top = 0;
+        let el: HTMLElement | null = target;
+        while (el) {
+          top += el.offsetTop;
+          el = el.offsetParent as HTMLElement | null;
+        }
+        // Sottrai 100px per la navbar fissa
+        const scrollPos = Math.max(0, top - 100);
+        document.documentElement.scrollTop = scrollPos;
+        document.body.scrollTop = scrollPos;
+      }
     };
     document.getElementById("sortSwitch")?.addEventListener("click", () => {
       const sf = document.getElementById(
