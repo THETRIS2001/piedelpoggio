@@ -112,50 +112,51 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
               </div>
             </div>
 
-            <!-- Immagine Programma con Lightbox -->
+            <!-- Layout a 2 colonne su desktop, verticale su mobile -->
             <div
-              class="inline-block rounded-lg overflow-hidden border border-gray-200 bg-white cursor-pointer"
-              id="programma-container"
+              class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 items-start"
             >
-              <img
-                src={PROGRAMMA_FILE}
-                alt="Programma Estivo"
-                class="max-h-[70vh] h-auto w-auto max-w-full rounded-lg"
-                id="programma-img"
-              />
-            </div>
-
-            <!-- Programmi Precedenti -->
-            <div class="mt-12">
-              <h3 class="text-1xl sm:text-3xl font-bold text-gray-900 mb-8">
-                Programmi Precedenti
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Programma 2025 -->
+              <!-- Colonna sinistra: Immagine Programma -->
+              <div class="flex flex-col">
                 <div
-                  class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
+                  class="inline-block rounded-lg overflow-hidden border border-gray-200 bg-white cursor-pointer self-start"
+                  id="programma-container"
                 >
-                  <div class="flex items-center space-x-4 mb-6">
-                    <div
-                      class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center"
-                    >
-                      <span class="text-white font-bold text-sm md:text-lg"
-                        >2025</span
+                  <img
+                    src={PROGRAMMA_FILE}
+                    alt="Programma Estivo"
+                    class="max-h-[70vh] h-auto w-auto max-w-full rounded-lg"
+                    id="programma-img"
+                  />
+                </div>
+              </div>
+
+              <!-- Colonna destra: Programmi Precedenti -->
+              <div class="mt-0 lg:mt-0">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+                  Programmi Precedenti
+                </h3>
+                <div class="space-y-6">
+                  <!-- Programma 2025 -->
+                  <div
+                    class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
+                  >
+                    <div class="flex items-center space-x-4 mb-4">
+                      <div
+                        class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center"
                       >
+                        <span class="text-white font-bold text-lg">2025</span>
+                      </div>
+                      <h4 class="text-lg font-bold text-gray-900">
+                        Programma 2025
+                      </h4>
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900">
-                      Programma 2025
-                    </h4>
-                  </div>
-                  <div class="space-y-3">
-                    <p class="text-gray-600 text-sm">
+                    <p class="text-gray-600 text-sm mb-4">
                       Programma completo delle attività estive dell'anno 2025
                     </p>
-                  </div>
-                  <div class="mt-6">
                     <a
                       href="/documents/Programmi%20estivi/Programma%20estivo%202025.jpg"
-                      class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-3 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
+                      class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-2.5 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
                       id="btn-programma-2025"
                     >
                       <svg
