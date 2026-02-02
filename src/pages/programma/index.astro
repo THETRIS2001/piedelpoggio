@@ -82,16 +82,59 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
           <div
             class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-6 md:p-12"
           >
-            <div
-              class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4"
-            >
-              <div class="flex items-center gap-4">
+            <!-- Layout a 2 colonne su desktop, verticale su mobile -->
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8">
+              <!-- Colonna sinistra: Programma Corrente -->
+              <div
+                class="bg-gradient-to-br from-red-50/50 to-orange-50/50 rounded-xl sm:rounded-2xl p-6 md:p-8 border border-red-100"
+              >
+                <div class="flex items-center gap-4 mb-6">
+                  <div
+                    class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center"
+                    style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                  >
+                    <svg
+                      class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                      Programma 2026
+                    </h2>
+                    <p class="text-sm text-gray-600">Anno corrente</p>
+                  </div>
+                </div>
+
                 <div
-                  class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center"
-                  style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                  class="inline-block rounded-lg overflow-hidden border border-gray-200 bg-white cursor-pointer shadow-lg hover:shadow-xl transition-shadow"
+                  id="programma-container"
                 >
+                  <img
+                    src={PROGRAMMA_FILE}
+                    alt="Programma Estivo 2026"
+                    class="max-h-[70vh] h-auto w-auto max-w-full rounded-lg"
+                    id="programma-img"
+                  />
+                </div>
+              </div>
+
+              <!-- Colonna destra: Programmi Precedenti -->
+              <div
+                class="bg-gradient-to-br from-gray-50 to-slate-50/50 rounded-xl sm:rounded-2xl p-6 md:p-8 border border-gray-200"
+              >
+                <div class="flex items-center gap-3 mb-6">
                   <svg
-                    class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                    class="w-8 h-8 text-gray-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -100,58 +143,31 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    ></path>
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
+                  <h3 class="text-2xl font-bold text-gray-900">
+                    Programmi Precedenti
+                  </h3>
                 </div>
-                <div>
-                  <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
-                    Programma Estivo
-                  </h2>
-                </div>
-              </div>
-            </div>
 
-            <!-- Layout a 2 colonne su desktop, verticale su mobile -->
-            <div
-              class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 items-start"
-            >
-              <!-- Colonna sinistra: Immagine Programma -->
-              <div class="flex flex-col">
-                <div
-                  class="inline-block rounded-lg overflow-hidden border border-gray-200 bg-white cursor-pointer self-start"
-                  id="programma-container"
-                >
-                  <img
-                    src={PROGRAMMA_FILE}
-                    alt="Programma Estivo"
-                    class="max-h-[70vh] h-auto w-auto max-w-full rounded-lg"
-                    id="programma-img"
-                  />
-                </div>
-              </div>
-
-              <!-- Colonna destra: Programmi Precedenti -->
-              <div class="mt-0 lg:mt-0">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-                  Programmi Precedenti
-                </h3>
-                <div class="space-y-6">
+                <div class="space-y-4">
                   <!-- Programma 2025 -->
                   <div
                     class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
                   >
-                    <div class="flex items-center space-x-4 mb-4">
+                    <div class="flex items-center space-x-4 mb-6">
                       <div
-                        class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center"
+                        class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center"
                       >
-                        <span class="text-white font-bold text-lg">2025</span>
+                        <span class="text-white font-bold text-sm md:text-lg"
+                          >2025</span
+                        >
                       </div>
-                      <h4 class="text-lg font-bold text-gray-900">
+                      <h4 class="text-xl font-bold text-gray-900">
                         Programma 2025
                       </h4>
                     </div>
-                    <p class="text-gray-600 text-sm mb-4">
+                    <p class="text-gray-600 text-sm mb-6">
                       Programma completo delle attività estive dell'anno 2025
                     </p>
                     <a
