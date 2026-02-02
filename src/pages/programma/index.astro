@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
+import Lightbox from "../../components/Lightbox";
 
 // Percorso centralizzato - modifica solo qui per cambiare il file
 const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
@@ -32,7 +33,7 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
         <div class="animate-fade-in">
           <div class="flex items-center justify-center mb-8">
             <div
-              class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
+              class="hidden md:flex w-24 h-24 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
               style="background: linear-gradient(135deg, #FF2400, #E01E00);"
             >
               <svg
@@ -86,7 +87,7 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
             >
               <div class="flex items-center gap-4">
                 <div
-                  class="w-12 h-12 rounded-xl flex items-center justify-center"
+                  class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center"
                   style="background: linear-gradient(135deg, #FF2400, #E01E00);"
                 >
                   <svg
@@ -111,14 +112,16 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
               </div>
             </div>
 
-            <!-- Immagine Programma -->
+            <!-- Immagine Programma con Lightbox -->
             <div
-              class="w-full rounded-lg overflow-hidden border border-gray-200 bg-white"
+              class="inline-block rounded-lg overflow-hidden border border-gray-200 bg-white cursor-pointer"
+              id="programma-container"
             >
               <img
                 src={PROGRAMMA_FILE}
                 alt="Programma Estivo"
-                class="w-full h-auto rounded-lg"
+                class="h-[70vh] w-auto rounded-lg"
+                id="programma-img"
               />
             </div>
 
@@ -184,4 +187,97 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
       </div>
     </section>
   </main>
+
+  <!-- Lightbox per immagine programma -->
+  <div id="programma-lightbox" class="lightbox-overlay" style="display: none;">
+    <div class="lightbox-container">
+      <img
+        id="lightbox-img"
+        src=""
+        alt="Programma Estivo"
+        class="lightbox-image"
+      />
+    </div>
+  </div>
 </DefaultLayout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const programmaImg = document.getElementById(
+      "programma-img",
+    ) as HTMLImageElement;
+    const programmaContainer = document.getElementById("programma-container");
+    const lightbox = document.getElementById("programma-lightbox");
+    const lightboxImg = document.getElementById(
+      "lightbox-img",
+    ) as HTMLImageElement;
+
+    if (programmaContainer && lightbox && lightboxImg && programmaImg) {
+      // Apri lightbox al click
+      programmaContainer.addEventListener("click", () => {
+        lightboxImg.src = programmaImg.src;
+
+        // Calcola dimensioni ottimali
+        const img = new Image();
+        img.onload = () => {
+          const maxWidth = window.innerWidth * 0.9;
+          const maxHeight = window.innerHeight * 0.9;
+          const scaleWidth = maxWidth / img.naturalWidth;
+          const scaleHeight = maxHeight / img.naturalHeight;
+          const scale = Math.min(scaleWidth, scaleHeight);
+
+          lightboxImg.style.width = `${img.naturalWidth * scale}px`;
+          lightboxImg.style.height = `${img.naturalHeight * scale}px`;
+        };
+        img.src = programmaImg.src;
+
+        lightbox.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      });
+
+      // Chiudi lightbox al click ovunque
+      lightbox.addEventListener("click", () => {
+        lightbox.style.display = "none";
+        document.body.style.overflow = "unset";
+      });
+
+      // Chiudi con ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.style.display === "flex") {
+          lightbox.style.display = "none";
+          document.body.style.overflow = "unset";
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer;
+  }
+
+  .lightbox-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .lightbox-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+</style>
