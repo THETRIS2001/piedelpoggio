@@ -429,7 +429,7 @@ const zoneLimitrofeVideos: VideoItem[] = [
 
         <!-- Riprese Zone Limitrofe - Box con ombra -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
+          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300"
         >
           <div class="p-6 md:p-12">
             <div class="flex items-center space-x-4 mb-8">
@@ -460,7 +460,7 @@ const zoneLimitrofeVideos: VideoItem[] = [
               {
                 zoneLimitrofeVideos.map((video) => (
                   <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-                    <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
+                    <div class="aspect-video bg-black overflow-hidden">
                       {video.type === "youtube" ? (
                         <div
                           class="w-full h-full cursor-pointer group relative js-youtube-placeholder"
