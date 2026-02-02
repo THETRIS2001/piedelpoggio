@@ -1,48 +1,77 @@
 ---
 export const prerender = true;
 
-import DefaultLayout from '../layouts/DefaultLayout.astro';
-import BookingCalendar from '../components/BookingCalendar.tsx';
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import BookingCalendar from "../components/BookingCalendar.tsx";
 ---
 
-<DefaultLayout title="Prenotazione - Piedelpoggio" description="Prenotazione Campo Sportivo: calendario disponibilità e fasce orarie.">
-  <main class=" bg-white">
+<DefaultLayout
+  title="Prenotazione - Piedelpoggio"
+  description="Prenotazione Campo Sportivo: calendario disponibilità e fasce orarie."
+>
+  <main class="bg-white">
     <!-- Hero Section -->
     <section class="hero-section">
       <!-- Background with gradient -->
-      <div class="absolute inset-0 bg-gradient-to-b from-green-100/60 via-green-50/40 to-transparent"></div>
-      
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-green-100/70 via-green-50/50 to-transparent"
+      >
+      </div>
+
       <!-- Decorative elements -->
-      
-      
-      
+
       <div class="relative z-10 container mx-auto px-4 text-center">
         <div class="animate-fade-in">
           <div class="flex items-center justify-center mb-8">
-            <div class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6" style="background: linear-gradient(135deg, #10B981, #059669);">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            <div
+              class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
+              style="background: linear-gradient(135deg, #10B981, #059669);"
+            >
+              <svg
+                class="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
               </svg>
             </div>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span style="background: linear-gradient(135deg, #10B981, #059669, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+            >
+              <span
+                style="background: linear-gradient(135deg, #10B981, #059669, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"
+              >
                 PRENOTAZIONE CAMPO SPORTIVO
               </span>
             </h1>
           </div>
-          <div class="w-32 h-1.5 rounded-full mx-auto mb-8" style="background: linear-gradient(90deg, #10B981, #059669, #10B981);"></div>
-          <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">
-            Seleziona un giorno e una fascia oraria per prenotare il campo sportivo
+          <div
+            class="w-32 h-1.5 rounded-full mx-auto mb-8"
+            style="background: linear-gradient(90deg, #10B981, #059669, #10B981);"
+          >
+          </div>
+          <p
+            class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16"
+          >
+            Seleziona un giorno e una fascia oraria per prenotare il campo
+            sportivo
           </p>
-          
         </div>
       </div>
     </section>
 
     <!-- Main content: booking calendar -->
-    <section class="pt-4 pb-6 sm:pb-16 px-4 sm:px-6 lg:px-8">
+    <section class="pt-4 pb-16 px-4 sm:px-6 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+        <div
+          class="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden"
+        >
           <div class="p-6 md:p-12">
             <BookingCalendar client:load />
           </div>
