@@ -5,7 +5,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import Lightbox from "../../components/Lightbox";
 
 // Percorso centralizzato - modifica solo qui per cambiare il file
-const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
+const PROGRAMMA_FILE =
+  "/documents/Programmi%20estivi/Programma estivo corrente.png";
 ---
 
 <DefaultLayout
@@ -111,7 +112,6 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
                     <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
                       Programma 2026
                     </h2>
-                    <p class="text-sm text-gray-600">Anno corrente</p>
                   </div>
                 </div>
 
@@ -201,6 +201,277 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
             </div>
           </div>
         </div>
+
+        <!-- Eventi Frazioni Limitrofe -->
+        <div class="max-w-6xl mx-auto">
+          <div
+            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-soft border border-gray-200 p-6 md:p-12"
+          >
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center bg-gradient-to-br from-green-500 to-emerald-600"
+              >
+                <svg
+                  class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                Eventi Frazioni Limitrofe
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Leonessa - 07-12-2025 - Programma Natalizio -->
+              <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2007-12-2025%20-%20Programma%20Natalizio.jpg"
+              >
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2007-12-2025%20-%20Programma%20Natalizio.jpg"
+                    alt="Programma Natalizio"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                  >
+                    07 DIC 2025
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex items-start gap-2 mb-2">
+                    <svg
+                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-gray-700"
+                      >Leonessa</span
+                    >
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Programma Natalizio
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Leonessa - 26-07-2025 - Programma Estivo -->
+              <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2026-07-2025%20-%20Programma%20Estivo.jpg"
+              >
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2026-07-2025%20-%20Programma%20Estivo.jpg"
+                    alt="Programma Estivo"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                  >
+                    26 LUG 2025
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex items-start gap-2 mb-2">
+                    <svg
+                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-gray-700"
+                      >Leonessa</span
+                    >
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Programma Estivo
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Terzone - 16-08-2025 - Cantine Terzone -->
+              <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                data-img="/documents/Eventi%20Frazioni/Terzone%20-%2016-08-2025%20-%20Cantine%20Terzone.jpg"
+              >
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src="/documents/Eventi%20Frazioni/Terzone%20-%2016-08-2025%20-%20Cantine%20Terzone.jpg"
+                    alt="Cantine Terzone"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                  >
+                    16 AGO 2025
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex items-start gap-2 mb-2">
+                    <svg
+                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-gray-700"
+                      >Terzone</span
+                    >
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Cantine Terzone
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Villa Pulcini - 14-08-2025 - Coachella -->
+              <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                data-img="/documents/Eventi%20Frazioni/Villa%20Pulcini%20-%2014-08-2025%20-%20Coachella.jpg"
+              >
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src="/documents/Eventi%20Frazioni/Villa%20Pulcini%20-%2014-08-2025%20-%20Coachella.jpg"
+                    alt="Coachella"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                  >
+                    14 AGO 2025
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex items-start gap-2 mb-2">
+                    <svg
+                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-gray-700"
+                      >Villa Pulcini</span
+                    >
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Coachella
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Leonessa - 14-06-2025 - Palio del Velluto -->
+              <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2014-06-2025%20-%20Palio%20del%20Velluto.jpg"
+              >
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2014-06-2025%20-%20Palio%20del%20Velluto.jpg"
+                    alt="Palio del Velluto"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                  >
+                    14 GIU 2025
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex items-start gap-2 mb-2">
+                    <svg
+                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-gray-700"
+                      >Leonessa</span
+                    >
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Palio del Velluto
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Leonessa - 27-07-2024 - Programma Estivo -->
+              <div
+                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2027-07-2024%20-%20Programma%20Estivo.jpeg"
+              >
+                <div class="relative h-48 overflow-hidden">
+                  <img
+                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2027-07-2024%20-%20Programma%20Estivo.jpeg"
+                    alt="Programma Estivo"
+                    class="w-full h-full object-cover"
+                  />
+                  <div
+                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                  >
+                    27 LUG 2024
+                  </div>
+                </div>
+                <div class="p-4">
+                  <div class="flex items-start gap-2 mb-2">
+                    <svg
+                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-sm font-semibold text-gray-700"
+                      >Leonessa</span
+                    >
+                  </div>
+                  <h3 class="text-lg font-bold text-gray-900 mb-1">
+                    Programma Estivo
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -264,6 +535,17 @@ const PROGRAMMA_FILE = "/documents/Programmi%20estivi/Programma estivo.png";
           openLightbox(href);
         });
       }
+
+      // Apri lightbox per card Eventi Frazioni
+      const eventCards = document.querySelectorAll(".eventi-frazioni-card");
+      eventCards.forEach((card) => {
+        card.addEventListener("click", () => {
+          const imgSrc = card.getAttribute("data-img");
+          if (imgSrc) {
+            openLightbox(imgSrc);
+          }
+        });
+      });
 
       // Chiudi lightbox al click ovunque
       lightbox.addEventListener("click", () => {
