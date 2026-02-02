@@ -1,13 +1,12 @@
 ---
 export const prerender = true;
 
-import DefaultLayout from '../layouts/DefaultLayout.astro';
-import CountUp from '../components/CountUp.tsx';
-import Masonry from '../components/Masonry.tsx';
-import WeatherWidget from '../components/WeatherWidget.tsx';
-import TextType from '../components/TextType.tsx';
-import { SITE_CONFIG } from '../utils/config';
-
+import DefaultLayout from "../layouts/DefaultLayout.astro";
+import CountUp from "../components/CountUp.tsx";
+import Masonry from "../components/Masonry.tsx";
+import WeatherWidget from "../components/WeatherWidget.tsx";
+import TextType from "../components/TextType.tsx";
+import { SITE_CONFIG } from "../utils/config";
 
 const availablePhotos = [
   { name: "1.jpg", extension: "jpg" },
@@ -36,7 +35,9 @@ function shuffleArray<T>(array: T[]): T[] {
 
 // Funzione per generare altezze casuali per il layout masonry
 function getRandomHeight(): number {
-  const heights = [260, 280, 290, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520, 550];
+  const heights = [
+    260, 280, 290, 300, 320, 340, 360, 380, 400, 420, 440, 460, 480, 520, 550,
+  ];
   return heights[Math.floor(Math.random() * heights.length)];
 }
 
@@ -53,102 +54,132 @@ const masonryItems = selectedPhotos.map((photo, index) => ({
 }));
 ---
 
-<DefaultLayout title="Benvenuti a Piedelpoggio" description="Scopri l'antico borgo di Piedelpoggio, frazione di Leonessa nel cuore del Lazio. Storia, tradizioni e natura incontaminata.">
-  <main class=" bg-white">
+<DefaultLayout
+  title="Benvenuti a Piedelpoggio"
+  description="Scopri l'antico borgo di Piedelpoggio, frazione di Leonessa nel cuore del Lazio. Storia, tradizioni e natura incontaminata."
+>
+  <main class="bg-white">
     <!-- Hero Section -->
-    <section class="relative  flex items-center justify-center overflow-hidden">
+    <section class="relative flex items-center justify-center overflow-hidden">
       <!-- Background removed -->
-      
-      
+
       <!-- Decorative elements -->
-    
-    <!-- Content -->
-    <div class="relative z-10 container mx-auto px-4 text-center">
-      <div class="animate-fade-in-title">
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight min-h-[200px] md:min-h-[280px] lg:min-h-[320px] flex items-center justify-center">
-          <TextType 
-            text={["Benvenuti a", "Piedelpoggio"]}
-            typingSpeed={150}
-            pauseDuration={2000}
-            loop={false}
-            showCursor={true}
-            cursorCharacter="|"
-            className=""
-            client:load
-          />
-        </h1>
-        
-        <p class="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-10 max-w-6xl mx-auto leading-relaxed animate-slide-up font-light" style="animation-delay: 0.3s;">
-          Un antico borgo ai piedi del <span class="font-semibold text-primary-800">Monte di Cambio</span>, dove storia e tradizioni si fondono con la bellezza della natura laziale
-        </p>
-        
-        <!-- Contenitore con dimensioni fisse per il widget meteo -->
-        <div class="mb-12 animate-slide-up max-w-6xl mx-auto" style="animation-delay: 0.6s;">
-          <!-- Placeholder che mantiene le dimensioni del widget -->
-          <div class="bg-gradient-to-r from-blue-50/80 via-white/90 to-sky-50/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-soft border border-gray-200">
-            <div class="flex flex-col items-center justify-start min-h-full">
-              <WeatherWidget client:load />
+
+      <!-- Content -->
+      <div class="relative z-10 container mx-auto px-4 text-center">
+        <div class="animate-fade-in-title">
+          <h1
+            class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight min-h-[200px] md:min-h-[280px] lg:min-h-[320px] flex items-center justify-center"
+          >
+            <TextType
+              text={["Benvenuti a", "Piedelpoggio"]}
+              typingSpeed={150}
+              pauseDuration={2000}
+              loop={false}
+              showCursor={true}
+              cursorCharacter="|"
+              className=""
+              client:load
+            />
+          </h1>
+
+          <p
+            class="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-10 max-w-6xl mx-auto leading-relaxed animate-slide-up font-light"
+            style="animation-delay: 0.3s;"
+          >
+            Un antico borgo ai piedi del <span
+              class="font-semibold text-primary-800">Monte di Cambio</span
+            >, dove storia e tradizioni si fondono con la bellezza della natura
+            laziale
+          </p>
+
+          <!-- Contenitore con dimensioni fisse per il widget meteo -->
+          <div
+            class="mb-12 animate-slide-up max-w-6xl mx-auto"
+            style="animation-delay: 0.6s;"
+          >
+            <!-- Placeholder che mantiene le dimensioni del widget -->
+            <div
+              class="bg-gradient-to-r from-blue-50/80 via-white/90 to-sky-50/80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border border-gray-200"
+            >
+              <div class="flex flex-col items-center justify-start min-h-full">
+                <WeatherWidget client:load />
+              </div>
+            </div>
+          </div>
+
+          <!-- Citazione poetica di Angelo Felice Maccheroni -->
+          <div class="mb-12 animate-slide-up" style="animation-delay: 0.7s;">
+            <div class="relative max-w-2xl mx-auto">
+              <!-- Decorative quote marks -->
+              <div
+                class="absolute -top-4 -left-4 text-6xl text-primary-300/40 font-serif leading-none"
+              >
+                "
+              </div>
+              <div
+                class="absolute -bottom-8 -right-4 text-6xl text-primary-300/40 font-serif leading-none rotate-180"
+              >
+                "
+              </div>
+
+              <!-- Quote content -->
+              <blockquote
+                class="relative bg-gradient-to-br from-white/80 to-primary-50/60 backdrop-blur-sm border border-gray-200 rounded-xl sm:rounded-2xl p-8 shadow-xl"
+              >
+                <div class="text-center">
+                  <p
+                    class="text-lg md:text-xl lg:text-2xl text-gray-800 leading-relaxed font-light italic mb-6"
+                  >
+                    …In questa villa deliziosa e amena<br />
+                    che sembra in tutto l'isola cumana<br />
+                    vidi del dì la luce alma e serena….
+                  </p>
+                  <footer class="flex items-center justify-center gap-2">
+                    <div
+                      class="w-12 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent"
+                    >
+                    </div>
+                    <cite
+                      class="text-primary-700 font-medium text-sm md:text-base not-italic"
+                    >
+                      Angelo Felice Maccheroni
+                    </cite>
+                    <div
+                      class="w-12 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent"
+                    >
+                    </div>
+                  </footer>
+                </div>
+              </blockquote>
             </div>
           </div>
         </div>
-        
-        <!-- Citazione poetica di Angelo Felice Maccheroni -->
-        <div class="mb-12 animate-slide-up" style="animation-delay: 0.7s;">
-          <div class="relative max-w-2xl mx-auto">
-            <!-- Decorative quote marks -->
-            <div class="absolute -top-4 -left-4 text-6xl text-primary-300/40 font-serif leading-none">"</div>
-            <div class="absolute -bottom-8 -right-4 text-6xl text-primary-300/40 font-serif leading-none rotate-180">"</div>
-            
-            <!-- Quote content -->
-            <blockquote class="relative bg-gradient-to-br from-white/80 to-primary-50/60 backdrop-blur-sm border border-gray-200 rounded-3xl p-8 shadow-soft
-">
-              <div class="text-center">
-                <p class="text-lg md:text-xl lg:text-2xl text-gray-800 leading-relaxed font-light italic mb-6">
-                  …In questa villa deliziosa e amena<br>
-                  che sembra in tutto l'isola cumana<br>
-                  vidi del dì la luce alma e serena….
-                </p>
-                <footer class="flex items-center justify-center gap-2">
-                  <div class="w-12 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent"></div>
-                  <cite class="text-primary-700 font-medium text-sm md:text-base not-italic">
-                    Angelo Felice Maccheroni
-                  </cite>
-                  <div class="w-12 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent"></div>
-                </footer>
-              </div>
-            </blockquote>
-          </div>
+      </div>
+    </section>
+
+    <!-- Galleria Masonry -->
+    <section class="pt-6 pb-0 relative overflow-hidden">
+      <!-- Decorative background elements -->
+
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="animate-slide-up">
+          <Masonry
+            items={masonryItems}
+            ease="ease-out"
+            duration={0.6}
+            stagger={0.05}
+            animateFrom="bottom"
+            scaleOnHover={true}
+            hoverScale={0.95}
+            blurToFocus={true}
+            colorShiftOnHover={false}
+            source="media"
+            limit={12}
+            client:load
+          />
         </div>
-        
-
       </div>
-    </div>
-  </section>
-
-  <!-- Galleria Masonry -->
-  <section class="pt-6 pb-0 relative overflow-hidden">
-    <!-- Decorative background elements -->
-    
-    
-    
-    <div class="container mx-auto px-4 relative z-10">
-      <div class="animate-slide-up">
-        <Masonry 
-          items={masonryItems}
-          ease="ease-out"
-          duration={0.6}
-          stagger={0.05}
-          animateFrom="bottom"
-          scaleOnHover={true}
-          hoverScale={0.95}
-          blurToFocus={true}
-          colorShiftOnHover={false}
-          source="media"
-          limit={12}
-          client:load
-        />
-      </div>
-    </div>
-  </section>
-
+    </section>
+  </main>
 </DefaultLayout>
