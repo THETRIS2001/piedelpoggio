@@ -3,8 +3,58 @@ export const prerender = true;
 
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import Lightbox from "../../components/Lightbox";
+import {
+  parseEventoFrazione,
+  parseProgrammaPrecedente,
+  sortEventiByDate,
+  sortProgrammiByYear,
+  formatDateBadge,
+  type EventoFrazione,
+  type ProgrammaPrecedente,
+} from "../../utils/eventiParser";
 
-// Percorso centralizzato - modifica solo qui per cambiare il file
+// Load all files from Eventi Frazioni folder
+const eventiFiles = import.meta.glob(
+  "/public/documents/Eventi Frazioni/*.(jpg|jpeg|png)",
+  { eager: true },
+);
+const eventiArray: EventoFrazione[] = [];
+
+for (const path in eventiFiles) {
+  const filename = path.split("/").pop();
+  if (filename) {
+    const evento = parseEventoFrazione(filename, "/documents/Eventi Frazioni");
+    if (evento) {
+      eventiArray.push(evento);
+    }
+  }
+}
+
+const eventiSorted = sortEventiByDate(eventiArray);
+
+// Load all files from Programmi estivi folder
+const programmiFiles = import.meta.glob(
+  "/public/documents/Programmi estivi/*.(jpg|jpeg|png)",
+  { eager: true },
+);
+const programmiArray: ProgrammaPrecedente[] = [];
+
+for (const path in programmiFiles) {
+  const filename = path.split("/").pop();
+  if (filename) {
+    const programma = parseProgrammaPrecedente(
+      filename,
+      "/documents/Programmi estivi",
+    );
+    if (programma) {
+      programmiArray.push(programma);
+    }
+  }
+}
+
+const programmiSorted = sortProgrammiByYear(programmiArray);
+
+// Current program file path
 const PROGRAMMA_FILE =
   "/documents/Programmi%20estivi/Programma estivo corrente.png";
 ---
@@ -151,51 +201,52 @@ const PROGRAMMA_FILE =
                 </div>
 
                 <div class="space-y-4">
-                  <!-- Programma 2025 -->
-                  <div
-                    class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
-                  >
-                    <div class="flex items-center space-x-4 mb-6">
-                      <div
-                        class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center"
-                      >
-                        <span class="text-white font-bold text-sm md:text-lg"
-                          >2025</span
+                  {
+                    programmiSorted.map((programma, index) => (
+                      <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300">
+                        <div class="flex items-center space-x-4 mb-6">
+                          <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm md:text-lg">
+                              {programma.anno}
+                            </span>
+                          </div>
+                          <h4 class="text-xl font-bold text-gray-900">
+                            Programma {programma.anno}
+                          </h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-6">
+                          Programma completo delle attività estive dell'anno{" "}
+                          {programma.anno}
+                        </p>
+                        <a
+                          href={programma.path}
+                          class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-2.5 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
+                          id={`btn-programma-${programma.anno}`}
                         >
+                          <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          </svg>
+                          Visualizza
+                        </a>
                       </div>
-                      <h4 class="text-xl font-bold text-gray-900">
-                        Programma 2025
-                      </h4>
-                    </div>
-                    <p class="text-gray-600 text-sm mb-6">
-                      Programma completo delle attività estive dell'anno 2025
-                    </p>
-                    <a
-                      href="/documents/Programmi%20estivi/Programma%20estivo%202025.jpg"
-                      class="w-full bg-red-100 hover:bg-red-200 text-red-700 py-2.5 px-4 rounded-lg transition-colors duration-300 block text-center font-medium inline-flex items-center justify-center gap-2"
-                      id="btn-programma-2025"
-                    >
-                      <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                        ></path>
-                      </svg>
-                      Visualizza
-                    </a>
-                  </div>
+                    ))
+                  }
                 </div>
               </div>
             </div>
@@ -236,239 +287,46 @@ const PROGRAMMA_FILE =
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <!-- Leonessa - 07-12-2025 - Programma Natalizio -->
-              <div
-                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
-                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2007-12-2025%20-%20Programma%20Natalizio.jpg"
-              >
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2007-12-2025%20-%20Programma%20Natalizio.jpg"
-                    alt="Programma Natalizio"
-                    class="w-full h-full object-cover"
-                  />
+              {
+                eventiSorted.map((evento) => (
                   <div
-                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
+                    class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
+                    data-img={evento.path}
                   >
-                    07 DIC 2025
+                    <div class="relative h-48 overflow-hidden">
+                      <img
+                        src={evento.path}
+                        alt={evento.nomeEvento}
+                        class="w-full h-full object-cover"
+                      />
+                      <div class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg">
+                        {formatDateBadge(evento.dataString)}
+                      </div>
+                    </div>
+                    <div class="p-4">
+                      <div class="flex items-start gap-2 mb-2">
+                        <svg
+                          class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                        <span class="text-sm font-semibold text-gray-700">
+                          {evento.luogo}
+                        </span>
+                      </div>
+                      <h3 class="text-lg font-bold text-gray-900 mb-1">
+                        {evento.nomeEvento}
+                      </h3>
+                    </div>
                   </div>
-                </div>
-                <div class="p-4">
-                  <div class="flex items-start gap-2 mb-2">
-                    <svg
-                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-semibold text-gray-700"
-                      >Leonessa</span
-                    >
-                  </div>
-                  <h3 class="text-lg font-bold text-gray-900 mb-1">
-                    Programma Natalizio
-                  </h3>
-                </div>
-              </div>
-
-              <!-- Leonessa - 26-07-2025 - Programma Estivo -->
-              <div
-                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
-                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2026-07-2025%20-%20Programma%20Estivo.jpg"
-              >
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2026-07-2025%20-%20Programma%20Estivo.jpg"
-                    alt="Programma Estivo"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
-                  >
-                    26 LUG 2025
-                  </div>
-                </div>
-                <div class="p-4">
-                  <div class="flex items-start gap-2 mb-2">
-                    <svg
-                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-semibold text-gray-700"
-                      >Leonessa</span
-                    >
-                  </div>
-                  <h3 class="text-lg font-bold text-gray-900 mb-1">
-                    Programma Estivo
-                  </h3>
-                </div>
-              </div>
-
-              <!-- Terzone - 16-08-2025 - Cantine Terzone -->
-              <div
-                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
-                data-img="/documents/Eventi%20Frazioni/Terzone%20-%2016-08-2025%20-%20Cantine%20Terzone.jpg"
-              >
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src="/documents/Eventi%20Frazioni/Terzone%20-%2016-08-2025%20-%20Cantine%20Terzone.jpg"
-                    alt="Cantine Terzone"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
-                  >
-                    16 AGO 2025
-                  </div>
-                </div>
-                <div class="p-4">
-                  <div class="flex items-start gap-2 mb-2">
-                    <svg
-                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-semibold text-gray-700"
-                      >Terzone</span
-                    >
-                  </div>
-                  <h3 class="text-lg font-bold text-gray-900 mb-1">
-                    Cantine Terzone
-                  </h3>
-                </div>
-              </div>
-
-              <!-- Villa Pulcini - 14-08-2025 - Coachella -->
-              <div
-                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
-                data-img="/documents/Eventi%20Frazioni/Villa%20Pulcini%20-%2014-08-2025%20-%20Coachella.jpg"
-              >
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src="/documents/Eventi%20Frazioni/Villa%20Pulcini%20-%2014-08-2025%20-%20Coachella.jpg"
-                    alt="Coachella"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
-                  >
-                    14 AGO 2025
-                  </div>
-                </div>
-                <div class="p-4">
-                  <div class="flex items-start gap-2 mb-2">
-                    <svg
-                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-semibold text-gray-700"
-                      >Villa Pulcini</span
-                    >
-                  </div>
-                  <h3 class="text-lg font-bold text-gray-900 mb-1">
-                    Coachella
-                  </h3>
-                </div>
-              </div>
-
-              <!-- Leonessa - 14-06-2025 - Palio del Velluto -->
-              <div
-                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
-                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2014-06-2025%20-%20Palio%20del%20Velluto.jpg"
-              >
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2014-06-2025%20-%20Palio%20del%20Velluto.jpg"
-                    alt="Palio del Velluto"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
-                  >
-                    14 GIU 2025
-                  </div>
-                </div>
-                <div class="p-4">
-                  <div class="flex items-start gap-2 mb-2">
-                    <svg
-                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-semibold text-gray-700"
-                      >Leonessa</span
-                    >
-                  </div>
-                  <h3 class="text-lg font-bold text-gray-900 mb-1">
-                    Palio del Velluto
-                  </h3>
-                </div>
-              </div>
-
-              <!-- Leonessa - 27-07-2024 - Programma Estivo -->
-              <div
-                class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer eventi-frazioni-card"
-                data-img="/documents/Eventi%20Frazioni/Leonessa%20-%2027-07-2024%20-%20Programma%20Estivo.jpeg"
-              >
-                <div class="relative h-48 overflow-hidden">
-                  <img
-                    src="/documents/Eventi%20Frazioni/Leonessa%20-%2027-07-2024%20-%20Programma%20Estivo.jpeg"
-                    alt="Programma Estivo"
-                    class="w-full h-full object-cover"
-                  />
-                  <div
-                    class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg"
-                  >
-                    27 LUG 2024
-                  </div>
-                </div>
-                <div class="p-4">
-                  <div class="flex items-start gap-2 mb-2">
-                    <svg
-                      class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-sm font-semibold text-gray-700"
-                      >Leonessa</span
-                    >
-                  </div>
-                  <h3 class="text-lg font-bold text-gray-900 mb-1">
-                    Programma Estivo
-                  </h3>
-                </div>
-              </div>
+                ))
+              }
             </div>
           </div>
         </div>
@@ -526,15 +384,15 @@ const PROGRAMMA_FILE =
         openLightbox(programmaImg.src),
       );
 
-      // Apri lightbox per programma 2025
-      const btn2025 = document.getElementById("btn-programma-2025");
-      if (btn2025) {
-        btn2025.addEventListener("click", (e) => {
+      // Apri lightbox per tutti i programmi precedenti
+      const programmaBtns = document.querySelectorAll('[id^="btn-programma-"]');
+      programmaBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
           e.preventDefault();
-          const href = (btn2025 as HTMLAnchorElement).href;
+          const href = (btn as HTMLAnchorElement).href;
           openLightbox(href);
         });
-      }
+      });
 
       // Apri lightbox per card Eventi Frazioni
       const eventCards = document.querySelectorAll(".eventi-frazioni-card");

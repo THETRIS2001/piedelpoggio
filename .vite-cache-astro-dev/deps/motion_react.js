@@ -1,7 +1,4 @@
 import {
-  require_react
-} from "./chunk-CWKN2OBM.js";
-import {
   AsyncMotionValueAnimation,
   DOMKeyframesResolver,
   DOMVisualElement,
@@ -313,6 +310,9 @@ import {
   warning,
   wrap
 } from "./chunk-EJNYQXKE.js";
+import {
+  require_react
+} from "./chunk-CWKN2OBM.js";
 import {
   require_jsx_runtime
 } from "./chunk-UMBYCFDB.js";
