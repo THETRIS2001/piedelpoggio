@@ -201,3 +201,47 @@ export function parseDocumentoProloco(filename: string, basePath: string): Docum
 export function sortDocumentiByDate(documenti: DocumentoProloco[]): DocumentoProloco[] {
     return documenti.sort((a, b) => b.data.getTime() - a.data.getTime());
 }
+
+export interface Bilancio {
+    anno: number;
+    filename: string;
+    path: string;
+}
+
+/**
+ * Parse Bilancio filename
+ * Format: "Bilancio - YYYY.[jpg|jpeg|png|pdf]"
+ * Example: "Bilancio - 2024.jpg"
+ */
+export function parseBilancio(filename: string, basePath: string): Bilancio | null {
+    try {
+        // Remove extension
+        const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|pdf)$/i, '');
+
+        // Extract year from "Bilancio - YYYY"
+        const match = nameWithoutExt.match(/Bilancio - (\d{4})/i);
+
+        if (!match) {
+            console.warn(`Invalid bilancio filename format: ${filename}`);
+            return null;
+        }
+
+        const anno = parseInt(match[1], 10);
+
+        return {
+            anno,
+            filename,
+            path: `${basePath}/${encodeURIComponent(filename)}`
+        };
+    } catch (error) {
+        console.error(`Error parsing bilancio filename: ${filename}`, error);
+        return null;
+    }
+}
+
+/**
+ * Sort bilanci by year descending (most recent first)
+ */
+export function sortBilanciByYear(bilanci: Bilancio[]): Bilancio[] {
+    return bilanci.sort((a, b) => b.anno - a.anno);
+}
