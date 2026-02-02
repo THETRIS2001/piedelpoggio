@@ -1,699 +1,1518 @@
 ---
 export const prerender = true;
-import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
-import docsData from '../../data/docs-proloco.json';
+import docsData from "../../data/docs-proloco.json";
 
 // Palette ciclica per colorare le card come in Parrocchia
 const colorPalette = [
-  { card: 'from-yellow-50 to-orange-100', border: 'border-orange-200', hoverText: 'group-hover:text-orange-600', icon: 'bg-orange-600' },
-  { card: 'from-rose-50 to-pink-100',     border: 'border-pink-200',   hoverText: 'group-hover:text-pink-600',   icon: 'bg-pink-600' },
-  { card: 'from-green-50 to-emerald-100', border: 'border-emerald-200',hoverText: 'group-hover:text-emerald-600', icon: 'bg-emerald-600' },
-  { card: 'from-blue-50 to-indigo-100',   border: 'border-indigo-200', hoverText: 'group-hover:text-indigo-600', icon: 'bg-indigo-600' },
-  { card: 'from-purple-50 to-violet-100', border: 'border-violet-200', hoverText: 'group-hover:text-violet-600', icon: 'bg-violet-600' },
-  { card: 'from-cyan-50 to-sky-100',      border: 'border-sky-200',    hoverText: 'group-hover:text-sky-600',    icon: 'bg-sky-600' },
-  { card: 'from-lime-50 to-green-100',    border: 'border-lime-200',   hoverText: 'group-hover:text-lime-600',   icon: 'bg-lime-600' },
-  { card: 'from-amber-50 to-yellow-100',  border: 'border-yellow-200', hoverText: 'group-hover:text-yellow-600', icon: 'bg-amber-600' },
+  {
+    card: "from-yellow-50 to-orange-100",
+    border: "border-orange-200",
+    hoverText: "group-hover:text-orange-600",
+    icon: "bg-orange-600",
+  },
+  {
+    card: "from-rose-50 to-pink-100",
+    border: "border-pink-200",
+    hoverText: "group-hover:text-pink-600",
+    icon: "bg-pink-600",
+  },
+  {
+    card: "from-green-50 to-emerald-100",
+    border: "border-emerald-200",
+    hoverText: "group-hover:text-emerald-600",
+    icon: "bg-emerald-600",
+  },
+  {
+    card: "from-blue-50 to-indigo-100",
+    border: "border-indigo-200",
+    hoverText: "group-hover:text-indigo-600",
+    icon: "bg-indigo-600",
+  },
+  {
+    card: "from-purple-50 to-violet-100",
+    border: "border-violet-200",
+    hoverText: "group-hover:text-violet-600",
+    icon: "bg-violet-600",
+  },
+  {
+    card: "from-cyan-50 to-sky-100",
+    border: "border-sky-200",
+    hoverText: "group-hover:text-sky-600",
+    icon: "bg-sky-600",
+  },
+  {
+    card: "from-lime-50 to-green-100",
+    border: "border-lime-200",
+    hoverText: "group-hover:text-lime-600",
+    icon: "bg-lime-600",
+  },
+  {
+    card: "from-amber-50 to-yellow-100",
+    border: "border-yellow-200",
+    hoverText: "group-hover:text-yellow-600",
+    icon: "bg-amber-600",
+  },
 ];
 
 const docs = docsData.map((doc, idx) => {
   const palette = colorPalette[idx % colorPalette.length];
-  const classes = { card: palette.card, border: palette.border, hoverText: palette.hoverText, icon: palette.icon };
+  const classes = {
+    card: palette.card,
+    border: palette.border,
+    hoverText: palette.hoverText,
+    icon: palette.icon,
+  };
   return {
     name: doc.name,
     href: `/documents/proloco/${doc.fileName}`,
     ext: doc.ext,
     dateISO: doc.dateISO,
-    dateDisplay: new Date(doc.dateISO).toLocaleDateString('it-IT', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+    dateDisplay: new Date(doc.dateISO).toLocaleDateString("it-IT", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }),
     classes,
   };
 });
 ---
 
-<DefaultLayout 
-  title="Documenti Pro Loco - Piedelpoggio" 
+<DefaultLayout
+  title="Documenti Pro Loco - Piedelpoggio"
   description="Documenti ufficiali della Pro Loco: Statuto, riunioni e atti"
 >
-  <main class=" bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/20">
+  <main class="bg-gradient-to-br from-blue-50/30 via-white to-indigo-50/20">
     <!-- Hero Section -->
     <section class="hero-section">
       <!-- Background with gradient -->
-      <div class="absolute inset-0 bg-gradient-to-b from-blue-100/60 via-blue-50/40 to-transparent"></div>
-      
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-blue-100/60 via-blue-50/40 to-transparent"
+      >
+      </div>
+
       <!-- Decorative elements -->
-      
-      
-      
+
       <div class="relative z-10 container mx-auto px-4 text-center">
         <div class="animate-fade-in">
           <div class="flex items-center justify-center mb-8">
-            <div class="hidden md:flex w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            <div
+              class="hidden md:flex w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
+            >
+              <svg
+                class="w-10 h-10 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                ></path>
               </svg>
             </div>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span class="bg-gradient-to-r from-blue-900 via-blue-700 to-indigo-600 bg-clip-text text-transparent">
+            <h1
+              class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+            >
+              <span
+                class="bg-gradient-to-r from-blue-900 via-blue-700 to-indigo-600 bg-clip-text text-transparent"
+              >
                 DOCUMENTI PRO LOCO
               </span>
             </h1>
           </div>
-          <div class="w-32 h-1.5 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-500 rounded-full mx-auto mb-8"></div>
-          <p class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16">
+          <div
+            class="w-32 h-1.5 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-500 rounded-full mx-auto mb-8"
+          >
+          </div>
+          <p
+            class="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-6xl mx-auto leading-relaxed font-medium mb-6 md:mb-16"
+          >
             Statuto e documenti ufficiali della Pro Loco Pro Pie del Poggio
           </p>
         </div>
       </div>
     </section>
-    
+
     <!-- Elenco Documenti Pro Loco (automatico) - spostato sopra lo Statuto -->
     <section class="pt-4 pb-16 px-4 sm:px-6 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12">
+        <div
+          class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12"
+        >
           <div class="flex items-center space-x-4 mb-8">
-            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            <div
+              class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center"
+            >
+              <svg
+                class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                ></path>
               </svg>
             </div>
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Documenti Pro Loco</h2>
+            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
+              Documenti Pro Loco
+            </h2>
           </div>
 
           <!-- Barra di ricerca e filtri data -->
           <div class="flex flex-col md:flex-row items-end gap-4 mb-8">
             <div class="w-full md:flex-grow">
-              <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-1">Cerca</label>
-              <input id="searchInput" type="text" placeholder="Cerca per nome documento" class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600" />
+              <label
+                for="searchInput"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Cerca</label
+              >
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Cerca per nome documento"
+                class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600"
+              />
             </div>
             <div class="w-full md:w-auto">
-              <label for="dateFrom" class="block text-sm font-medium text-gray-700 mb-1">Data Inizio</label>
-              <input id="dateFrom" type="date" class="w-full md:w-40 px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600" />
+              <label
+                for="dateFrom"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Data Inizio</label
+              >
+              <input
+                id="dateFrom"
+                type="date"
+                class="w-full md:w-40 px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600"
+              />
             </div>
             <div class="w-full md:w-auto">
-              <label for="dateTo" class="block text-sm font-medium text-gray-700 mb-1">Data Fine</label>
-              <input id="dateTo" type="date" class="w-full md:w-40 px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600" />
+              <label
+                for="dateTo"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Data Fine</label
+              >
+              <input
+                id="dateTo"
+                type="date"
+                class="w-full md:w-40 px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-green-600"
+              />
             </div>
             <div class="w-full md:w-auto">
-              <button id="clearFilter" type="button" class="w-full md:w-auto px-6 py-2 rounded-xl text-white shadow-md hover:opacity-90 transition-opacity" style="background: linear-gradient(135deg, #2563EB, #4F46E5);">Reset</button>
+              <button
+                id="clearFilter"
+                type="button"
+                class="w-full md:w-auto px-6 py-2 rounded-xl text-white shadow-md hover:opacity-90 transition-opacity"
+                style="background: linear-gradient(135deg, #2563EB, #4F46E5);"
+                >Reset</button
+              >
             </div>
           </div>
 
-          {docs.length === 0 ? (
-            <p class="text-gray-600 text-sm md:text-base">Nessun documento trovato nella cartella <code>/public/documents/proloco</code>.</p>
-          ) : (
-            <>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {docs.map((doc) => (
-                <a 
-                  href={doc.href} 
-                  class={`doc-item block bg-gradient-to-br ${doc.classes.card} rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border ${doc.classes.border}`} 
-                  target="_blank"
-                  data-name={doc.name}
-                  data-date={doc.dateISO}
+          {
+            docs.length === 0 ? (
+              <p class="text-gray-600 text-sm md:text-base">
+                Nessun documento trovato nella cartella{" "}
+                <code>/public/documents/proloco</code>.
+              </p>
+            ) : (
+              <>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {docs.map((doc) => (
+                    <a
+                      href={doc.href}
+                      class={`doc-item block bg-gradient-to-br ${doc.classes.card} rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border ${doc.classes.border}`}
+                      target="_blank"
+                      data-name={doc.name}
+                      data-date={doc.dateISO}
+                    >
+                      <div class="flex items-start space-x-4">
+                        <div
+                          class={`w-12 h-12 ${doc.classes.icon} rounded-lg flex items-center justify-center flex-shrink-0`}
+                        >
+                          <svg
+                            class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                          </svg>
+                        </div>
+                        <div class="flex-1">
+                          <h4
+                            class={`font-semibold text-gray-900 ${doc.classes.hoverText} transition-colors mb-1`}
+                          >
+                            {doc.name}
+                          </h4>
+                          <p class="text-sm text-gray-700">
+                            {doc.ext} • {doc.dateDisplay}
+                          </p>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                <p
+                  id="filterEmptyMessage"
+                  class="text-gray-600 text-sm md:text-base mt-4 hidden"
                 >
-                  <div class="flex items-start space-x-4">
-                    <div class={`w-12 h-12 ${doc.classes.icon} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                      <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                      </svg>
-                    </div>
-                    <div class="flex-1">
-                      <h4 class={`font-semibold text-gray-900 ${doc.classes.hoverText} transition-colors mb-1`}>{doc.name}</h4>
-                      <p class="text-sm text-gray-700">{doc.ext} • {doc.dateDisplay}</p>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-            <p id="filterEmptyMessage" class="text-gray-600 text-sm md:text-base mt-4 hidden">Nessun documento corrisponde ai filtri impostati.</p>
-            </>
-          )}
+                  Nessun documento corrisponde ai filtri impostati.
+                </p>
+              </>
+            )
+          }
         </div>
       </div>
     </section>
 
-    <!-- Content Section -->
+    <!-- Content Section - Statuto Collassabile -->
     <section class="pt-4 pb-6 sm:pb-16 px-4 sm:px-6 lg:px-8">
       <div class="max-w-6xl mx-auto">
-        <div class="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-6 md:p-12">
-          <div class="flex items-center space-x-4 mb-6">
-            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl flex items-center justify-center">
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10" />
-              </svg>
-            </div>
-            <div>
-              <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">Statuto della Pro Loco</h2>
-              <p class="text-gray-600 text-sm md:text-base">Testo integrale dello Statuto dell'associazione</p>
-            </div>
-          </div>
-          
-          <div id="statutoContent" class="space-y-8">
-          
-          <!-- Sede, costituzione, durata, oggetto sociale -->
-          <div class="mt-6 md:mt-10 space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Sede, costituzione, durata, oggetto sociale
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 1.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  È costituita l'Associazione Culturale e del Tempo Libero Associazione Pro Pie del Poggio ed è costituito ai sensi e per gli effetti degli art. 36 e seguenti del Codice Civile, dell'art. 19 della costituzione repubblicana. Il presente statuto viene redatto tenendo conto della legge 460 del 18/11/1997 e la legge 383 del 07/12/2000.
-                </p>
+        <div
+          class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content"
+        >
+          <!-- Header cliccabile per Statuto -->
+          <div
+            class="bg-white p-6 md:p-8 cursor-pointer hover:bg-gray-50 transition-all duration-300 collapsible-header"
+            onclick="toggleStatuto(this)"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4">
+                <div
+                  class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0"
+                >
+                  <svg
+                    class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 7h10M7 11h10M7 15h10"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
+                    Statuto della Pro Loco
+                  </h2>
+                  <p class="text-gray-600 text-sm md:text-base mt-1">
+                    Testo integrale dello Statuto dell'associazione
+                  </p>
+                </div>
               </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 2.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  L'Associazione ha sede in Piedelpoggio (RI), attualmente in Via A.F. Maccheroni snc e può essere trasferita dal Consiglio Direttivo, mediante semplice delibera, purché in Italia ed ha durata a tempo indeterminato.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 3.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  L'Associazione non ha fini di lucro. È vietato distribuire, anche in modo indiretto, utili o avanzi di gestione, nonché fondi, riserve o capitale, durante la vita dell'Associazione, salvo che la destinazione o la distribuzione non siano imposti dalla Legge.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 4.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  L'Associazione è un'associazione non riconosciuta senza fini di lucro. L'associazione si propone di promuovere e favorire l'aggregazione e la socializzazione degli associati attraverso la valorizzazione, in ogni sua forma, del tempo libero, sviluppando ed arricchendo la loro personalità.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  L'associazione favorisce anche lo scambio di idee e di solidarietà fra i propri iscritti promuovendo iniziative di carattere culturale, sportivo e ricreativo, organizza tutte quelle altre attività che si dimostrino idonee a perseguire in via diretta o indiretta l'oggetto sociale, coordina le attività degli associati.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>A tal fine, l'associazione potrà:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4">
-                  <li>promuovere e realizzare iniziative di carattere ricreativo, culturale, artistico, sportivo e turistico atte a dare un contenuto sociale al tempo libero degli associati;</li>
-                  <li>favorire e sollecitare iniziative atte ad armonizzare la vita associativa, allo scopo di accrescere le capacità morali, intellettuali, fisiche ed artistiche dei Soci, quelle innovative e quelle di alto contenuto culturale e sociale;</li>
-                  <li>organizzare e farsi promotrice di corsi, seminari, studi, convegni, pubblicazioni anche periodiche, nonché esercitare ogni attività ritenuta utile al fine del conseguimento dello scopo associativo, con i soli limiti imposti dalle leggi vigenti;</li>
-                  <li>svolgere tutte le attività che riguardano cessioni di beni e prestazioni di servizio, complementari agli scopi sociali e per il raggiungimento degli stessi, attraverso anche stipule contrattuali e quanto altro occorre. Promuovere l'assistenza e la solidarietà fra i soci;</li>
-                  <li>promuovere, anche in concorso con Enti pubblici e privati, convegni, manifestazioni e attività di formazione che favoriscano l'Associazionismo;</li>
-                  <li>attivare strumenti di sostegno e di servizio per l'Associazionismo e per gli operatori del settore, con particolare riferimento all'assistenza legislativa, legale e fiscale;</li>
-                  <li>richiedere e utilizzare, tutti i benefici pubblici previsti per il settore associativo, sia esso sportivo, culturale, turistico e del tempo libero in generale;</li>
-                  <li>organizzare e farsi promotrice di corsi, seminari, studi, convegni, pubblicazioni anche periodiche, attività sportive, manifestazioni culturali, di moda, della gastronomia, della cultura, della musica, dello spettacolo, dell'arte, dei mestieri, nonché esercitare ogni attività ritenuta utile al fine del conseguimento dello scopo associativo, nell'interesse generale degli associati e dei cittadini tutti.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed mt-4 text-justify text-sm md:text-base">
-                  L'Associazione è affiliata alla FITeL Regionale del Lazio e tramite questa alla FITeL Nazionale. Per raggiungere gli scopi sociali, l'Associazione può aderire ad iniziative promosse da altre Associazioni, Enti, Fondazioni, Federazioni, Circoli Aziendali, sportivi e culturali, che hanno come finalità istituzionale gli stessi scopi sociali della FITeL.
-                </p>
+              <div
+                class="expand-icon transform transition-transform duration-300"
+              >
+                <svg
+                  class="w-6 h-6 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"></path>
+                </svg>
               </div>
             </div>
           </div>
 
-          <!-- Soci -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Soci
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 5.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  Possono essere soci dell'Associazione, tutti i cittadini che condividano le motivazioni e gli scopi dell'Associazione stessa.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  I Soci acquisiscono il diritto ad ottenere il rilascio della tessera ed usufruire dei servizi dell'Associazione con il pagamento della relativa quota sociale. Resta facoltà del Consiglio Direttivo di confermare la loro qualità di soci.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Tutti i soci hanno diritto di voto e possono partecipare alle iniziative dell'Associazione, ricoprire incarichi negli organi deliberanti e di controllo previsti dal presente Statuto, partecipare alle assemblee. Le quote associative sono stabilite di anno in anno dal Consiglio Direttivo nel rispetto delle finalità dell'Associazione.
-                </p>
+          <!-- Contenuto collassabile per Statuto -->
+          <div
+            class="collapsible-body border-t border-gray-100 p-6 md:p-10 bg-gray-50/50"
+            style="display: none;"
+          >
+            <div id="statutoContent" class="space-y-8">
+              <!-- Sede, costituzione, durata, oggetto sociale -->
+              <div class="mt-6 md:mt-10 space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Sede, costituzione, durata, oggetto sociale
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 1.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      È costituita l'Associazione Culturale e del Tempo Libero
+                      Associazione Pro Pie del Poggio ed è costituito ai sensi e
+                      per gli effetti degli art. 36 e seguenti del Codice
+                      Civile, dell'art. 19 della costituzione repubblicana. Il
+                      presente statuto viene redatto tenendo conto della legge
+                      460 del 18/11/1997 e la legge 383 del 07/12/2000.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 2.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      L'Associazione ha sede in Piedelpoggio (RI), attualmente
+                      in Via A.F. Maccheroni snc e può essere trasferita dal
+                      Consiglio Direttivo, mediante semplice delibera, purché in
+                      Italia ed ha durata a tempo indeterminato.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 3.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      L'Associazione non ha fini di lucro. È vietato
+                      distribuire, anche in modo indiretto, utili o avanzi di
+                      gestione, nonché fondi, riserve o capitale, durante la
+                      vita dell'Associazione, salvo che la destinazione o la
+                      distribuzione non siano imposti dalla Legge.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 4.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      L'Associazione è un'associazione non riconosciuta senza
+                      fini di lucro. L'associazione si propone di promuovere e
+                      favorire l'aggregazione e la socializzazione degli
+                      associati attraverso la valorizzazione, in ogni sua forma,
+                      del tempo libero, sviluppando ed arricchendo la loro
+                      personalità.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      L'associazione favorisce anche lo scambio di idee e di
+                      solidarietà fra i propri iscritti promuovendo iniziative
+                      di carattere culturale, sportivo e ricreativo, organizza
+                      tutte quelle altre attività che si dimostrino idonee a
+                      perseguire in via diretta o indiretta l'oggetto sociale,
+                      coordina le attività degli associati.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>A tal fine, l'associazione potrà:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                    >
+                      <li>
+                        promuovere e realizzare iniziative di carattere
+                        ricreativo, culturale, artistico, sportivo e turistico
+                        atte a dare un contenuto sociale al tempo libero degli
+                        associati;
+                      </li>
+                      <li>
+                        favorire e sollecitare iniziative atte ad armonizzare la
+                        vita associativa, allo scopo di accrescere le capacità
+                        morali, intellettuali, fisiche ed artistiche dei Soci,
+                        quelle innovative e quelle di alto contenuto culturale e
+                        sociale;
+                      </li>
+                      <li>
+                        organizzare e farsi promotrice di corsi, seminari,
+                        studi, convegni, pubblicazioni anche periodiche, nonché
+                        esercitare ogni attività ritenuta utile al fine del
+                        conseguimento dello scopo associativo, con i soli limiti
+                        imposti dalle leggi vigenti;
+                      </li>
+                      <li>
+                        svolgere tutte le attività che riguardano cessioni di
+                        beni e prestazioni di servizio, complementari agli scopi
+                        sociali e per il raggiungimento degli stessi, attraverso
+                        anche stipule contrattuali e quanto altro occorre.
+                        Promuovere l'assistenza e la solidarietà fra i soci;
+                      </li>
+                      <li>
+                        promuovere, anche in concorso con Enti pubblici e
+                        privati, convegni, manifestazioni e attività di
+                        formazione che favoriscano l'Associazionismo;
+                      </li>
+                      <li>
+                        attivare strumenti di sostegno e di servizio per
+                        l'Associazionismo e per gli operatori del settore, con
+                        particolare riferimento all'assistenza legislativa,
+                        legale e fiscale;
+                      </li>
+                      <li>
+                        richiedere e utilizzare, tutti i benefici pubblici
+                        previsti per il settore associativo, sia esso sportivo,
+                        culturale, turistico e del tempo libero in generale;
+                      </li>
+                      <li>
+                        organizzare e farsi promotrice di corsi, seminari,
+                        studi, convegni, pubblicazioni anche periodiche,
+                        attività sportive, manifestazioni culturali, di moda,
+                        della gastronomia, della cultura, della musica, dello
+                        spettacolo, dell'arte, dei mestieri, nonché esercitare
+                        ogni attività ritenuta utile al fine del conseguimento
+                        dello scopo associativo, nell'interesse generale degli
+                        associati e dei cittadini tutti.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed mt-4 text-justify text-sm md:text-base"
+                    >
+                      L'Associazione è affiliata alla FITeL Regionale del Lazio
+                      e tramite questa alla FITeL Nazionale. Per raggiungere gli
+                      scopi sociali, l'Associazione può aderire ad iniziative
+                      promosse da altre Associazioni, Enti, Fondazioni,
+                      Federazioni, Circoli Aziendali, sportivi e culturali, che
+                      hanno come finalità istituzionale gli stessi scopi sociali
+                      della FITeL.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Soci -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Soci
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 5.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      Possono essere soci dell'Associazione, tutti i cittadini
+                      che condividano le motivazioni e gli scopi
+                      dell'Associazione stessa.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      I Soci acquisiscono il diritto ad ottenere il rilascio
+                      della tessera ed usufruire dei servizi dell'Associazione
+                      con il pagamento della relativa quota sociale. Resta
+                      facoltà del Consiglio Direttivo di confermare la loro
+                      qualità di soci.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Tutti i soci hanno diritto di voto e possono partecipare
+                      alle iniziative dell'Associazione, ricoprire incarichi
+                      negli organi deliberanti e di controllo previsti dal
+                      presente Statuto, partecipare alle assemblee. Le quote
+                      associative sono stabilite di anno in anno dal Consiglio
+                      Direttivo nel rispetto delle finalità dell'Associazione.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Diritti e doveri dei Soci -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Diritti e doveri dei Soci
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 6.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      L'appartenenza all'Associazione implica per i Soci
+                      l'accettazione incondizionata del presente Statuto e delle
+                      disposizioni regolamentari emanate dagli organi competenti
+                      in attuazione dello stesso. Tutti i Soci, nel rispetto
+                      delle norme che disciplinano le singole attività,
+                      iniziative o manifestazioni hanno diritto di:
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                    >
+                      <li>
+                        <strong>A)</strong> frequentare i locali e usare le attrezzature
+                        messe a disposizione dall'Associazione;
+                      </li>
+                      <li>
+                        <strong>B)</strong> partecipare a tutte le attività promosse
+                        dall'Associazione e beneficiare dei servizi, provvidenze ed
+                        agevolazioni da essa assicurati, nel rispetto delle norme
+                        e dei regolamenti interni;
+                      </li>
+                      <li>
+                        <strong>C)</strong> partecipare alle attività di altre Associazioni,
+                        Enti, Fondazioni, Federazioni e Circoli Aziendali, sportivi
+                        e culturali aderenti alla FITeL, con le quali si sia stabilito
+                        un rapporto di reciprocità, alle condizioni stabilite dai
+                        singoli Organismi.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Tutti i Soci sono tenuti a comunicare all'Associazione
+                      ogni modificazione dei requisiti previsti dal presente
+                      Statuto.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 7.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      È esclusa la partecipazione temporanea alla vita
+                      associativa.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      Il socio rimane tale fino a quando lo stesso non recede
+                      dall'Associazione o non si verifichi una delle cause che
+                      ne prevedono l'esclusione, come stabilito dal successivo
+                      art. 9.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Tutti gli associati che abbiano compiuto la maggiore età e
+                      sono in regola con i pagamenti hanno diritto di voto in
+                      assemblea, per l'approvazione e le modificazioni del
+                      presente statuto e dei regolamenti e per la nomina degli
+                      Organi direttivi e di controllo dell'Associazione.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 8.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      I soci hanno diritto di ricevere all'atto dell'ammissione,
+                      la tessera sociale della validità di un anno e sono tenuti
+                      al pagamento della quota annuale di associazione,
+                      stabilita dal Consiglio Direttivo ed all'osservanza dello
+                      statuto e delle deliberazioni prese dagli organi sociali.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 9.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong
+                        >La qualifica di socio si perde per i seguenti motivi:</strong
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li>per dimissioni;</li>
+                      <li>
+                        quando non ottemperino alle disposizioni del presente
+                        statuto, ai regolamenti interni o alle deliberazioni
+                        prese dagli organi sociali;
+                      </li>
+                      <li>
+                        quando si rendano morosi del pagamento della tessera e
+                        delle quote sociali senza giustificato motivo;
+                      </li>
+                      <li>
+                        quando, in qualunque modo, arrechino danni morali o
+                        materiali all'Associazione.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Le espulsioni e le radiazioni sono decise dal consiglio
+                      direttivo a maggioranza dei suoi membri. I soci radiati
+                      per morosità potranno, dietro domanda, essere riammessi,
+                      pagando una nuova quota di iscrizione. I soci espulsi o
+                      radiati potranno ricorrere contro il provvedimento secondo
+                      le modalità di cui all'art. 21 del presente Statuto e del
+                      Regolamento interno.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Organi dell'Associazione -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Organi dell'Associazione
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 10.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>Gli organi dell'Associazione sono:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-1 text-gray-600 text-justify"
+                    >
+                      <li>l'Assemblea dei Soci;</li>
+                      <li>il Consiglio Direttivo;</li>
+                      <li>Presidente;</li>
+                      <li>il Collegio dei Revisori dei Conti;</li>
+                      <li>Probiviri</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 11.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      L'Assemblea dei soci può essere ordinaria o straordinaria.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      La comunicazione della convocazione deve essere effettuata
+                      con avviso affisso nei locali dell'Associazione almeno
+                      quindici giorni prima della riunione e contenere i punti
+                      all'ordine del giorno, la data, l'ora ed il luogo
+                      dell'assemblea, nonché la data, l'ora ed il luogo
+                      dell'eventuale assemblea di seconda convocazione.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 12.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      L'assemblea ordinaria è convocata dal Presidente del
+                      Consiglio direttivo almeno una volta l'anno. Essa è
+                      presieduta dal Presidente del Consiglio Direttivo, il
+                      quale nomina a sua volta fra i soci un segretario
+                      verbalizzante.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>Essa approva:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li>
+                        le linee generali del programma di attività per l'anno
+                        sociale;
+                      </li>
+                      <li>
+                        elegge e revoca il Consiglio Direttivo, il Collegio dei
+                        Revisori dei Conti;
+                      </li>
+                      <li>
+                        approva il bilancio, il quale, viene esposto nella sede
+                        sociale, a disposizione dei soci, almeno quindici giorni
+                        prima e dopo la sua approvazione;
+                      </li>
+                      <li>
+                        approva e modifica il Regolamento interno
+                        dell'Associazione;
+                      </li>
+                      <li>
+                        delibera su ogni argomento attinente alla gestione ad
+                        essa sottoposta dal Consiglio Direttivo e su quant'altro
+                        ad essa demandato per legge o per statuto.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Le delibere assembleari, oltre ad essere debitamente
+                      trascritte nel libro verbale delle assemblee dei soci,
+                      rimangono affisse nei locali dell'associazione durante i
+                      quindici giorni che seguono l'assemblea.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 13.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong
+                        >L'Assemblea straordinaria è convocata per deliberare:</strong
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li>sulle modifiche dello statuto;</li>
+                      <li>sullo scioglimento dell'Associazione;</li>
+                      <li>
+                        su ogni altro argomento di carattere straordinario
+                        sottoposto alla sua approvazione dal Consiglio
+                        Direttivo.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Le delibere assembleari, sia in sede ordinaria che
+                      straordinaria, prese in conformità al presente statuto
+                      obbligano tutti i soci anche se assenti, dissenzienti o
+                      astenuti dal voto.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 14.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      In prima convocazione l'Assemblea ordinaria è regolarmente
+                      costituita con la presenza di almeno la metà più uno dei
+                      soci e delibera validamente a maggioranza assoluta dei
+                      presenti, su tutte le questioni poste all'ordine del
+                      giorno.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      In seconda convocazione, l'assemblea ordinaria è
+                      regolarmente costituita qualunque sia il numero dei soci
+                      intervenuti e delibera validamente a maggioranza dei soci
+                      presenti su tutte le questioni poste all'ordine del
+                      giorno.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      La seconda convocazione, sia essa per l'assemblea
+                      ordinaria, sia per quella straordinaria non può avere
+                      luogo se non sono trascorse almeno tre ore dopo l'orario
+                      previsto dalla prima convocazione.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      L'assemblea straordinaria si costituisce validamente
+                      quando intervengono in prima convocazione 2/3 dei soci, in
+                      seconda convocazione la metà più uno e in terza
+                      convocazione qualunque sia il numero dei soci intervenuti;
+                      essa delibera a maggioranza dei soci presenti.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 15.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Le votazioni possono avvenire per alzata di mano o a
+                      scrutinio segreto, quando ne faccia richiesta almeno un
+                      decimo dei presenti. Per l'elezione del consiglio
+                      dell'associazione, la votazione avviene a scrutinio
+                      segreto. Ai fini della elezione del consiglio
+                      dell'associazione il voto viene attribuito alla lista
+                      ovvero i soci possono esprimere la loro preferenza in
+                      favore di una delle liste presentate. In assenza di liste,
+                      è possibile esprimere la preferenza di voto
+                      nominativamente dando la preferenza ad uno dei soci.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 16.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Consiglio Direttivo è composto da un minimo di tre ad
+                      un massimo di quattordici Consiglieri, eletti
+                      dall'assemblea ordinaria fra i soci e resta in carica
+                      perire anni. I membri del consiglio sono rieleggibili.
+                      Nella sua prima seduta il Consiglio Direttivo elegge, fra
+                      i suoi membri, il Presidente, il Vice Presidente.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 17.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Consiglio Direttivo si riunisce ogni qual volta il
+                      Presidente o la maggioranza dei propri componenti lo
+                      ritengano necessario ed è presieduto dal Presidente o, in
+                      sua assenza, dal Vice Presidente. Le riunioni sono valide
+                      con la presenza di almeno la metà dei componenti. Le
+                      deliberazioni si adottano a maggioranza semplice.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 18.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>Il Consiglio Direttivo:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                    >
+                      <li>
+                        redige i programmi di attività sociale previsti dallo
+                        statuto sulla base delle linee approvate dall'assemblea
+                        dei soci;
+                      </li>
+                      <li>
+                        cura l'esecuzione delle deliberazioni dell'assemblea;
+                      </li>
+                      <li>
+                        redige i bilanci da sottoporre al Collegio dei Revisori
+                        dei Conti e quindi all'approvazione all'assemblea dei
+                        soci;
+                      </li>
+                      <li>
+                        stipula tutti gli atti e i contratti di ogni genere
+                        inerenti l'attività sociale;
+                      </li>
+                      <li>
+                        delibera circa l'ammissione, la sospensione, la
+                        radiazione e l'espulsione dei soci;
+                      </li>
+                      <li>
+                        determina l'ammontare delle quote annue associative e le
+                        modalità di versamento;
+                      </li>
+                      <li>
+                        delibera su ogni altra questione riguardante l'attività
+                        dell'Associazione per l'attuazione delle sue finalità
+                        secondo le direttive dell'assemblea, assumendo tutte le
+                        iniziative necessarie;
+                      </li>
+                      <li>
+                        delibera sugli assetti organizzativi interni al
+                        Consiglio Direttivo in rapporto alle esigenze di
+                        funzionalità della Associazione.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 19. Presidente
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Al Presidente del Consiglio Direttivo compete la legale
+                      rappresentanza dell'Associazione. Egli presiede e convoca
+                      l'assemblea ordinaria, straordinaria e il Consiglio
+                      Direttivo. In caso di sua assenza o di impedimento, tutte
+                      le mansioni spettano al Vice Presidente.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 20. Revisori dei Conti
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      La gestione dell'Associazione è controllata da un Collegio
+                      di Revisori dei Conti, composto da due membri effettivi e
+                      un supplente eletti dall'assemblea, fra i soci
+                      maggiorenni.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>I Revisori devono:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li>vigilare sull'amministrazione dell'Associazione;</li>
+                      <li>
+                        redigere ed approvare una relazione al bilancio annuale.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Collegio dei Revisori dei Conti dura in carica tre anni
+                      ed i suoi membri sono rieleggibili.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 21. Probiviri
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      Il Collegio dei probiviri decide in via definitiva sui
+                      ricorsi in materia di sanzioni a carico dei soci nei casi
+                      e con le modalità di cui all'articolo 22.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      Esso è composto da tre membri eletti dall'assemblea.
+                      Qualora nella composizione del Collegio si verificassero
+                      vacanze, le sostituzioni avverranno con il subentro
+                      automatico di coloro che alle elezioni hanno riportato il
+                      maggior numero dei voti.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Collegio dei Probiviri elegge nel proprio seno il
+                      Presidente.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 22. Sanzioni a carico dei soci
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      In caso di violazione da parte dei soci delle norme
+                      sancite dal presente Statuto e dai regolamenti interni,
+                      nonché di inosservanza delle comuni regole di educazione,
+                      il Consiglio direttivo potrà applicare le seguenti
+                      sanzioni:
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-1 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li><strong>a)</strong> richiamo;</li>
+                      <li>
+                        <strong>b)</strong> sospensione dalle attività per un periodo
+                        non superiore a sei mesi;
+                      </li>
+                      <li>
+                        <strong>c)</strong> esclusione definitiva da socio dell'Associazione.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Contro le sanzioni di cui al comma 1 l'interessato può,
+                      entro quindici giorni dalla data di notificazione del
+                      provvedimento, fare ricorso al Collegio dei probiviri che
+                      è tenuto a pronunciarsi entro trenta giorni dalla
+                      ricezione del ricorso.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 17.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Consiglio Direttivo si riunisce ogni qual volta il
+                      Presidente o la maggioranza dei propri componenti lo
+                      ritengano necessario ed è presieduto dal Presidente o, in
+                      sua assenza, dal Vice Presidente. Le riunioni sono valide
+                      con la presenza di almeno la metà dei componenti. Le
+                      deliberazioni si adottano a maggioranza semplice.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 18.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>Il Consiglio Direttivo:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                    >
+                      <li>
+                        redige i programmi di attività sociale previsti dallo
+                        statuto sulla base delle linee approvate dall'assemblea
+                        dei soci;
+                      </li>
+                      <li>
+                        cura l'esecuzione delle deliberazioni dell'assemblea;
+                      </li>
+                      <li>
+                        redige i bilanci da sottoporre al Collegio dei Revisori
+                        dei Conti e quindi all'approvazione all'assemblea dei
+                        soci;
+                      </li>
+                      <li>
+                        stipula tutti gli atti e i contratti di ogni genere
+                        inerenti l'attività sociale;
+                      </li>
+                      <li>
+                        delibera circa l'ammissione, la sospensione, la
+                        radiazione e l'espulsione dei soci;
+                      </li>
+                      <li>
+                        determina l'ammontare delle quote annue associative e le
+                        modalità di versamento;
+                      </li>
+                      <li>
+                        delibera su ogni altra questione riguardante l'attività
+                        dell'Associazione per l'attuazione delle sue finalità
+                        secondo le direttive dell'assemblea, assumendo tutte le
+                        iniziative necessarie;
+                      </li>
+                      <li>
+                        delibera sugli assetti organizzativi interni al
+                        Consiglio Direttivo in rapporto alle esigenze di
+                        funzionalità della Associazione.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 19. Presidente
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Al Presidente del Consiglio Direttivo compete la legale
+                      rappresentanza dell'Associazione. Egli presiede e convoca
+                      l'assemblea ordinaria, straordinaria e il Consiglio
+                      Direttivo. In caso di sua assenza o di impedimento, tutte
+                      le mansioni spettano al Vice Presidente.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 20. Revisori dei Conti
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      La gestione dell'Associazione è controllata da un Collegio
+                      di Revisori dei Conti, composto da due membri effettivi e
+                      un supplente eletti dall'assemblea, fra i soci
+                      maggiorenni.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong>I Revisori devono:</strong>
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li>vigilare sull'amministrazione dell'Associazione;</li>
+                      <li>
+                        redigere ed approvare una relazione al bilancio annuale.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Collegio dei Revisori dei Conti dura in carica tre anni
+                      ed i suoi membri sono rieleggibili.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 21. Probiviri
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      Il Collegio dei probiviri decide in via definitiva sui
+                      ricorsi in materia di sanzioni a carico dei soci nei casi
+                      e con le modalità di cui all'articolo 22.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      Esso è composto da tre membri eletti dall'assemblea.
+                      Qualora nella composizione del Collegio si verificassero
+                      vacanze, le sostituzioni avverranno con il subentro
+                      automatico di coloro che alle elezioni hanno riportato il
+                      maggior numero dei voti.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il Collegio dei Probiviri elegge nel proprio seno il
+                      Presidente.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 22. Sanzioni a carico dei soci
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      In caso di violazione da parte dei soci delle norme
+                      sancite dal presente Statuto e dai regolamenti interni,
+                      nonché di inosservanza delle comuni regole di educazione,
+                      il Consiglio direttivo potrà applicare le seguenti
+                      sanzioni:
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-1 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                    >
+                      <li><strong>a)</strong> richiamo;</li>
+                      <li>
+                        <strong>b)</strong> sospensione dalle attività per un periodo
+                        non superiore a sei mesi;
+                      </li>
+                      <li>
+                        <strong>c)</strong> esclusione definitiva da socio dell'Associazione.
+                      </li>
+                    </ul>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Contro le sanzioni di cui al comma 1 l'interessato può,
+                      entro quindici giorni dalla data di notificazione del
+                      provvedimento, fare ricorso al Collegio dei probiviri che
+                      è tenuto a pronunciarsi entro trenta giorni dalla
+                      ricezione del ricorso.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Patrimonio dell'Associazione -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Patrimonio dell'Associazione
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 23.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                    >
+                      <strong
+                        >Il fondo patrimoniale dell'Associazione è indivisibile
+                        ed è costituito:</strong
+                      >
+                    </p>
+                    <ul
+                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                    >
+                      <li>
+                        dal patrimonio mobiliare ed immobiliare di proprietà
+                        dell'Associazione;
+                      </li>
+                      <li>
+                        dai contributi annuali e straordinari degli associati;
+                      </li>
+                      <li>dai contributi, erogazioni e lasciti diversi;</li>
+                      <li>
+                        da raccolte pubbliche di fondi effettuate
+                        occasionalmente;
+                      </li>
+                      <li>
+                        da tutti gli altri proventi, conseguiti
+                        dall'Associazione per il perseguimento o il supporto
+                        dell'attività istituzionale, previsti dalle normative
+                        vigenti in materia.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 24.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Le somme versate per la tessera sociale e le quote annuali
+                      di adesione all'Associazione non sono rimborsabili in
+                      nessun caso e sono, insieme a tutti gli altri contributi
+                      associativi, intrasmissibili e non rivalutabili.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rendiconto economico-finanziario -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Rendiconto economico-finanziario
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 25.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il rendiconto economico-finanziario comprende l'esercizio
+                      sociale dal primo gennaio al trentuno dicembre di ogni
+                      anno e deve essere presentato dal Consiglio Direttivo
+                      all'assemblea dei soci per la sua approvazione, di norma
+                      entro il trentuno marzo dell'anno successivo e da questa
+                      approvato in sede di riunione ordinaria.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Scioglimento dell'Associazione -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Scioglimento dell'Associazione
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 26.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Lo scioglimento dell'Associazione deve essere deliberato
+                      dall'assemblea dei soci con le modalità previste
+                      all'articolo 14 del presente statuto.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 27.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    >
+                      In caso di scioglimento deliberato dall'assemblea, il
+                      patrimonio sociale, soddisfatto ogni creditore
+                      dell'Associazione, verrà devoluto ad altra associazione
+                      con finalità analoghe e conformi alle finalità
+                      dell'Associazione o a fini di pubblica utilità, sentito
+                      l'organismo di controllo di cui all'articolo 3 comma 190
+                      della legge 23 dicembre 1996 n. 662 o altra destinazione
+                      imposta dalla legge.
+                    </p>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Il presente statuto viene redatto tenendo conto delle
+                      norme previste dal D.L. 4/12/97 n. 460 per le Associazioni
+                      no-profit.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Controversie -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Controversie
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 28.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      In caso di controversie fra i soci o fra i soci e
+                      l'Associazione, relativamente al presente statuto, sarà
+                      competente un Collegio di tre Arbitri, nominati uno per
+                      ciascuno delle parti ed il terzo di comune accordo, il
+                      quale giudicherà secondo equità e senza formalità di
+                      procedure, salvo che tali controversie non siano per legge
+                      demandate al giudizio dell'autorità giudiziaria. La
+                      decisione presa a maggioranza, viene dal Consiglio
+                      Direttivo, comunicata per iscritto all'interessato.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Disposizioni finali -->
+              <div class="space-y-6">
+                <h2
+                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+                >
+                  Disposizioni finali
+                </h2>
+
+                <div class="space-y-4">
+                  <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">
+                      Art. 29.
+                    </h3>
+                    <p
+                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                    >
+                      Per tutto quanto non previsto espressamente dal presente
+                      statuto, si rimanda alla normativa vigente in materia.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <!-- Diritti e doveri dei Soci -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Diritti e doveri dei Soci
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 6.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  L'appartenenza all'Associazione implica per i Soci l'accettazione incondizionata del presente Statuto e delle disposizioni regolamentari emanate dagli organi competenti in attuazione dello stesso. Tutti i Soci, nel rispetto delle norme che disciplinano le singole attività, iniziative o manifestazioni hanno diritto di:
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4">
-                  <li><strong>A)</strong> frequentare i locali e usare le attrezzature messe a disposizione dall'Associazione;</li>
-                  <li><strong>B)</strong> partecipare a tutte le attività promosse dall'Associazione e beneficiare dei servizi, provvidenze ed agevolazioni da essa assicurati, nel rispetto delle norme e dei regolamenti interni;</li>
-                  <li><strong>C)</strong> partecipare alle attività di altre Associazioni, Enti, Fondazioni, Federazioni e Circoli Aziendali, sportivi e culturali aderenti alla FITeL, con le quali si sia stabilito un rapporto di reciprocità, alle condizioni stabilite dai singoli Organismi.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Tutti i Soci sono tenuti a comunicare all'Associazione ogni modificazione dei requisiti previsti dal presente Statuto.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 7.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  È esclusa la partecipazione temporanea alla vita associativa.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  Il socio rimane tale fino a quando lo stesso non recede dall'Associazione o non si verifichi una delle cause che ne prevedono l'esclusione, come stabilito dal successivo art. 9.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Tutti gli associati che abbiano compiuto la maggiore età e sono in regola con i pagamenti hanno diritto di voto in assemblea, per l'approvazione e le modificazioni del presente statuto e dei regolamenti e per la nomina degli Organi direttivi e di controllo dell'Associazione.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 8.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  I soci hanno diritto di ricevere all'atto dell'ammissione, la tessera sociale della validità di un anno e sono tenuti al pagamento della quota annuale di associazione, stabilita dal Consiglio Direttivo ed all'osservanza dello statuto e delle deliberazioni prese dagli organi sociali.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 9.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>La qualifica di socio si perde per i seguenti motivi:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li>per dimissioni;</li>
-                  <li>quando non ottemperino alle disposizioni del presente statuto, ai regolamenti interni o alle deliberazioni prese dagli organi sociali;</li>
-                  <li>quando si rendano morosi del pagamento della tessera e delle quote sociali senza giustificato motivo;</li>
-                  <li>quando, in qualunque modo, arrechino danni morali o materiali all'Associazione.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Le espulsioni e le radiazioni sono decise dal consiglio direttivo a maggioranza dei suoi membri. I soci radiati per morosità potranno, dietro domanda, essere riammessi, pagando una nuova quota di iscrizione. I soci espulsi o radiati potranno ricorrere contro il provvedimento secondo le modalità di cui all'art. 21 del presente Statuto e del Regolamento interno.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Organi dell'Associazione -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Organi dell'Associazione
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 10.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>Gli organi dell'Associazione sono:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-1 text-gray-600 text-justify">
-                  <li>l'Assemblea dei Soci;</li>
-                  <li>il Consiglio Direttivo;</li>
-                  <li>Presidente;</li>
-                  <li>il Collegio dei Revisori dei Conti;</li>
-                  <li>Probiviri</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 11.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  L'Assemblea dei soci può essere ordinaria o straordinaria.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  La comunicazione della convocazione deve essere effettuata con avviso affisso nei locali dell'Associazione almeno quindici giorni prima della riunione e contenere i punti all'ordine del giorno, la data, l'ora ed il luogo dell'assemblea, nonché la data, l'ora ed il luogo dell'eventuale assemblea di seconda convocazione.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 12.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  L'assemblea ordinaria è convocata dal Presidente del Consiglio direttivo almeno una volta l'anno. Essa è presieduta dal Presidente del Consiglio Direttivo, il quale nomina a sua volta fra i soci un segretario verbalizzante.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>Essa approva:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li>le linee generali del programma di attività per l'anno sociale;</li>
-                  <li>elegge e revoca il Consiglio Direttivo, il Collegio dei Revisori dei Conti;</li>
-                  <li>approva il bilancio, il quale, viene esposto nella sede sociale, a disposizione dei soci, almeno quindici giorni prima e dopo la sua approvazione;</li>
-                  <li>approva e modifica il Regolamento interno dell'Associazione;</li>
-                  <li>delibera su ogni argomento attinente alla gestione ad essa sottoposta dal Consiglio Direttivo e su quant'altro ad essa demandato per legge o per statuto.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Le delibere assembleari, oltre ad essere debitamente trascritte nel libro verbale delle assemblee dei soci, rimangono affisse nei locali dell'associazione durante i quindici giorni che seguono l'assemblea.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 13.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>L'Assemblea straordinaria è convocata per deliberare:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li>sulle modifiche dello statuto;</li>
-                  <li>sullo scioglimento dell'Associazione;</li>
-                  <li>su ogni altro argomento di carattere straordinario sottoposto alla sua approvazione dal Consiglio Direttivo.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Le delibere assembleari, sia in sede ordinaria che straordinaria, prese in conformità al presente statuto obbligano tutti i soci anche se assenti, dissenzienti o astenuti dal voto.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 14.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  In prima convocazione l'Assemblea ordinaria è regolarmente costituita con la presenza di almeno la metà più uno dei soci e delibera validamente a maggioranza assoluta dei presenti, su tutte le questioni poste all'ordine del giorno.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  In seconda convocazione, l'assemblea ordinaria è regolarmente costituita qualunque sia il numero dei soci intervenuti e delibera validamente a maggioranza dei soci presenti su tutte le questioni poste all'ordine del giorno.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  La seconda convocazione, sia essa per l'assemblea ordinaria, sia per quella straordinaria non può avere luogo se non sono trascorse almeno tre ore dopo l'orario previsto dalla prima convocazione.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  L'assemblea straordinaria si costituisce validamente quando intervengono in prima convocazione 2/3 dei soci, in seconda convocazione la metà più uno e in terza convocazione qualunque sia il numero dei soci intervenuti; essa delibera a maggioranza dei soci presenti.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 15.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Le votazioni possono avvenire per alzata di mano o a scrutinio segreto, quando ne faccia richiesta almeno un decimo dei presenti. Per l'elezione del consiglio dell'associazione, la votazione avviene a scrutinio segreto. Ai fini della elezione del consiglio dell'associazione il voto viene attribuito alla lista ovvero i soci possono esprimere la loro preferenza in favore di una delle liste presentate. In assenza di liste, è possibile esprimere la preferenza di voto nominativamente dando la preferenza ad uno dei soci.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 16.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Consiglio Direttivo è composto da un minimo di tre ad un massimo di quattordici Consiglieri, eletti dall'assemblea ordinaria fra i soci e resta in carica perire anni. I membri del consiglio sono rieleggibili. Nella sua prima seduta il Consiglio Direttivo elegge, fra i suoi membri, il Presidente, il Vice Presidente.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 17.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Consiglio Direttivo si riunisce ogni qual volta il Presidente o la maggioranza dei propri componenti lo ritengano necessario ed è presieduto dal Presidente o, in sua assenza, dal Vice Presidente. Le riunioni sono valide con la presenza di almeno la metà dei componenti. Le deliberazioni si adottano a maggioranza semplice.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 18.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>Il Consiglio Direttivo:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4">
-                  <li>redige i programmi di attività sociale previsti dallo statuto sulla base delle linee approvate dall'assemblea dei soci;</li>
-                  <li>cura l'esecuzione delle deliberazioni dell'assemblea;</li>
-                  <li>redige i bilanci da sottoporre al Collegio dei Revisori dei Conti e quindi all'approvazione all'assemblea dei soci;</li>
-                  <li>stipula tutti gli atti e i contratti di ogni genere inerenti l'attività sociale;</li>
-                  <li>delibera circa l'ammissione, la sospensione, la radiazione e l'espulsione dei soci;</li>
-                  <li>determina l'ammontare delle quote annue associative e le modalità di versamento;</li>
-                  <li>delibera su ogni altra questione riguardante l'attività dell'Associazione per l'attuazione delle sue finalità secondo le direttive dell'assemblea, assumendo tutte le iniziative necessarie;</li>
-                  <li>delibera sugli assetti organizzativi interni al Consiglio Direttivo in rapporto alle esigenze di funzionalità della Associazione.</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 19. Presidente</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Al Presidente del Consiglio Direttivo compete la legale rappresentanza dell'Associazione. Egli presiede e convoca l'assemblea ordinaria, straordinaria e il Consiglio Direttivo. In caso di sua assenza o di impedimento, tutte le mansioni spettano al Vice Presidente.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 20. Revisori dei Conti</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  La gestione dell'Associazione è controllata da un Collegio di Revisori dei Conti, composto da due membri effettivi e un supplente eletti dall'assemblea, fra i soci maggiorenni.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>I Revisori devono:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li>vigilare sull'amministrazione dell'Associazione;</li>
-                  <li>redigere ed approvare una relazione al bilancio annuale.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Collegio dei Revisori dei Conti dura in carica tre anni ed i suoi membri sono rieleggibili.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 21. Probiviri</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  Il Collegio dei probiviri decide in via definitiva sui ricorsi in materia di sanzioni a carico dei soci nei casi e con le modalità di cui all'articolo 22.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  Esso è composto da tre membri eletti dall'assemblea. Qualora nella composizione del Collegio si verificassero vacanze, le sostituzioni avverranno con il subentro automatico di coloro che alle elezioni hanno riportato il maggior numero dei voti.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Collegio dei Probiviri elegge nel proprio seno il Presidente.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 22. Sanzioni a carico dei soci</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  In caso di violazione da parte dei soci delle norme sancite dal presente Statuto e dai regolamenti interni, nonché di inosservanza delle comuni regole di educazione, il Consiglio direttivo potrà applicare le seguenti sanzioni:
-                </p>
-                <ul class="list-disc pl-6 space-y-1 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li><strong>a)</strong> richiamo;</li>
-                  <li><strong>b)</strong> sospensione dalle attività per un periodo non superiore a sei mesi;</li>
-                  <li><strong>c)</strong> esclusione definitiva da socio dell'Associazione.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Contro le sanzioni di cui al comma 1 l'interessato può, entro quindici giorni dalla data di notificazione del provvedimento, fare ricorso al Collegio dei probiviri che è tenuto a pronunciarsi entro trenta giorni dalla ricezione del ricorso.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 17.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Consiglio Direttivo si riunisce ogni qual volta il Presidente o la maggioranza dei propri componenti lo ritengano necessario ed è presieduto dal Presidente o, in sua assenza, dal Vice Presidente. Le riunioni sono valide con la presenza di almeno la metà dei componenti. Le deliberazioni si adottano a maggioranza semplice.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 18.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>Il Consiglio Direttivo:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4">
-                  <li>redige i programmi di attività sociale previsti dallo statuto sulla base delle linee approvate dall'assemblea dei soci;</li>
-                  <li>cura l'esecuzione delle deliberazioni dell'assemblea;</li>
-                  <li>redige i bilanci da sottoporre al Collegio dei Revisori dei Conti e quindi all'approvazione all'assemblea dei soci;</li>
-                  <li>stipula tutti gli atti e i contratti di ogni genere inerenti l'attività sociale;</li>
-                  <li>delibera circa l'ammissione, la sospensione, la radiazione e l'espulsione dei soci;</li>
-                  <li>determina l'ammontare delle quote annue associative e le modalità di versamento;</li>
-                  <li>delibera su ogni altra questione riguardante l'attività dell'Associazione per l'attuazione delle sue finalità secondo le direttive dell'assemblea, assumendo tutte le iniziative necessarie;</li>
-                  <li>delibera sugli assetti organizzativi interni al Consiglio Direttivo in rapporto alle esigenze di funzionalità della Associazione.</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 19. Presidente</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Al Presidente del Consiglio Direttivo compete la legale rappresentanza dell'Associazione. Egli presiede e convoca l'assemblea ordinaria, straordinaria e il Consiglio Direttivo. In caso di sua assenza o di impedimento, tutte le mansioni spettano al Vice Presidente.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 20. Revisori dei Conti</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  La gestione dell'Associazione è controllata da un Collegio di Revisori dei Conti, composto da due membri effettivi e un supplente eletti dall'assemblea, fra i soci maggiorenni.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>I Revisori devono:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li>vigilare sull'amministrazione dell'Associazione;</li>
-                  <li>redigere ed approvare una relazione al bilancio annuale.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Collegio dei Revisori dei Conti dura in carica tre anni ed i suoi membri sono rieleggibili.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 21. Probiviri</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  Il Collegio dei probiviri decide in via definitiva sui ricorsi in materia di sanzioni a carico dei soci nei casi e con le modalità di cui all'articolo 22.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  Esso è composto da tre membri eletti dall'assemblea. Qualora nella composizione del Collegio si verificassero vacanze, le sostituzioni avverranno con il subentro automatico di coloro che alle elezioni hanno riportato il maggior numero dei voti.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il Collegio dei Probiviri elegge nel proprio seno il Presidente.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 22. Sanzioni a carico dei soci</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  In caso di violazione da parte dei soci delle norme sancite dal presente Statuto e dai regolamenti interni, nonché di inosservanza delle comuni regole di educazione, il Consiglio direttivo potrà applicare le seguenti sanzioni:
-                </p>
-                <ul class="list-disc pl-6 space-y-1 text-gray-600 mb-4 text-justify text-sm md:text-base">
-                  <li><strong>a)</strong> richiamo;</li>
-                  <li><strong>b)</strong> sospensione dalle attività per un periodo non superiore a sei mesi;</li>
-                  <li><strong>c)</strong> esclusione definitiva da socio dell'Associazione.</li>
-                </ul>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Contro le sanzioni di cui al comma 1 l'interessato può, entro quindici giorni dalla data di notificazione del provvedimento, fare ricorso al Collegio dei probiviri che è tenuto a pronunciarsi entro trenta giorni dalla ricezione del ricorso.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Patrimonio dell'Associazione -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Patrimonio dell'Associazione
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 23.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3">
-                  <strong>Il fondo patrimoniale dell'Associazione è indivisibile ed è costituito:</strong>
-                </p>
-                <ul class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4">
-                  <li>dal patrimonio mobiliare ed immobiliare di proprietà dell'Associazione;</li>
-                  <li>dai contributi annuali e straordinari degli associati;</li>
-                  <li>dai contributi, erogazioni e lasciti diversi;</li>
-                  <li>da raccolte pubbliche di fondi effettuate occasionalmente;</li>
-                  <li>da tutti gli altri proventi, conseguiti dall'Associazione per il perseguimento o il supporto dell'attività istituzionale, previsti dalle normative vigenti in materia.</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 24.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Le somme versate per la tessera sociale e le quote annuali di adesione all'Associazione non sono rimborsabili in nessun caso e sono, insieme a tutti gli altri contributi associativi, intrasmissibili e non rivalutabili.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Rendiconto economico-finanziario -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Rendiconto economico-finanziario
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 25.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il rendiconto economico-finanziario comprende l'esercizio sociale dal primo gennaio al trentuno dicembre di ogni anno e deve essere presentato dal Consiglio Direttivo all'assemblea dei soci per la sua approvazione, di norma entro il trentuno marzo dell'anno successivo e da questa approvato in sede di riunione ordinaria.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Scioglimento dell'Associazione -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Scioglimento dell'Associazione
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 26.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Lo scioglimento dell'Associazione deve essere deliberato dall'assemblea dei soci con le modalità previste all'articolo 14 del presente statuto.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 27.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4">
-                  In caso di scioglimento deliberato dall'assemblea, il patrimonio sociale, soddisfatto ogni creditore dell'Associazione, verrà devoluto ad altra associazione con finalità analoghe e conformi alle finalità dell'Associazione o a fini di pubblica utilità, sentito l'organismo di controllo di cui all'articolo 3 comma 190 della legge 23 dicembre 1996 n. 662 o altra destinazione imposta dalla legge.
-                </p>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Il presente statuto viene redatto tenendo conto delle norme previste dal D.L. 4/12/97 n. 460 per le Associazioni no-profit.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Controversie -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Controversie
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 28.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  In caso di controversie fra i soci o fra i soci e l'Associazione, relativamente al presente statuto, sarà competente un Collegio di tre Arbitri, nominati uno per ciascuno delle parti ed il terzo di comune accordo, il quale giudicherà secondo equità e senza formalità di procedure, salvo che tali controversie non siano per legge demandate al giudizio dell'autorità giudiziaria. La decisione presa a maggioranza, viene dal Consiglio Direttivo, comunicata per iscritto all'interessato.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Disposizioni finali -->
-          <div class="space-y-6">
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2">
-              Disposizioni finali
-            </h2>
-            
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-lg font-bold text-gray-800 mb-2">Art. 29.</h3>
-                <p class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg">
-                  Per tutto quanto non previsto espressamente dal presente statuto, si rimanda alla normativa vigente in materia.
-                </p>
-              </div>
-            </div>
-          </div>
-
           </div>
         </div>
+        <!-- end collapsible-body -->
       </div>
+      <!-- end collapsible-content -->
     </section>
-
-    <!-- Sezione Documenti spostata sopra: qui non duplico -->
   </main>
+
+  <!-- Sezione Documenti spostata sopra: qui non duplico -->
 </DefaultLayout>
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-    const dateFrom = document.getElementById('dateFrom');
-    const dateTo = document.getElementById('dateTo');
+  // Funzione toggle per lo Statuto collassabile
+  function toggleStatuto(header) {
+    const content = header.closest(".collapsible-content");
+    const body = content.querySelector(".collapsible-body");
+    const icon = header.querySelector(".expand-icon");
+
+    if (body.style.display === "none") {
+      body.style.display = "block";
+      icon.style.transform = "rotate(180deg)";
+    } else {
+      body.style.display = "none";
+      icon.style.transform = "rotate(0deg)";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    const dateFrom = document.getElementById("dateFrom");
+    const dateTo = document.getElementById("dateTo");
     // applyBtn removed
-    const resetBtn = document.getElementById('clearFilter');
-    const items = Array.from(document.querySelectorAll('.doc-item'));
-    const filterEmptyMessage = document.getElementById('filterEmptyMessage');
+    const resetBtn = document.getElementById("clearFilter");
+    const items = Array.from(document.querySelectorAll(".doc-item"));
+    const filterEmptyMessage = document.getElementById("filterEmptyMessage");
 
     function filterDocs() {
-      const q = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase().trim();
-      const fromDate = (dateFrom && dateFrom.value) ? new Date(dateFrom.value) : null;
-      const toDate = (dateTo && dateTo.value) ? new Date(dateTo.value) : null;
+      const q = (searchInput && searchInput.value ? searchInput.value : "")
+        .toLowerCase()
+        .trim();
+      const fromDate =
+        dateFrom && dateFrom.value ? new Date(dateFrom.value) : null;
+      const toDate = dateTo && dateTo.value ? new Date(dateTo.value) : null;
       let visibleCount = 0;
 
       items.forEach((item) => {
-        const name = (item.dataset && item.dataset.name ? item.dataset.name : '').toLowerCase();
-        const itemDateStr = (item.dataset && item.dataset.date ? item.dataset.date : '');
+        const name = (
+          item.dataset && item.dataset.name ? item.dataset.name : ""
+        ).toLowerCase();
+        const itemDateStr =
+          item.dataset && item.dataset.date ? item.dataset.date : "";
         const itemDate = itemDateStr ? new Date(itemDateStr) : null;
         let show = true;
         if (q && !name.includes(q)) show = false;
         if (fromDate && itemDate && itemDate < fromDate) show = false;
         if (toDate && itemDate && itemDate > toDate) show = false;
 
-        item.style.display = show ? 'block' : 'none';
+        item.style.display = show ? "block" : "none";
         if (show) visibleCount++;
       });
 
       if (filterEmptyMessage) {
-        filterEmptyMessage.classList.toggle('hidden', visibleCount !== 0);
+        filterEmptyMessage.classList.toggle("hidden", visibleCount !== 0);
       }
     }
 
     // if (applyBtn) applyBtn.addEventListener('click', filterDocs);
-    if (searchInput) searchInput.addEventListener('input', filterDocs);
-    if (dateFrom) dateFrom.addEventListener('input', filterDocs);
-    if (dateTo) dateTo.addEventListener('input', filterDocs);
-    if (resetBtn) resetBtn.addEventListener('click', () => {
-      if (searchInput) searchInput.value = '';
-      if (dateFrom) dateFrom.value = '';
-      if (dateTo) dateTo.value = '';
-      filterDocs();
-    });
+    if (searchInput) searchInput.addEventListener("input", filterDocs);
+    if (dateFrom) dateFrom.addEventListener("input", filterDocs);
+    if (dateTo) dateTo.addEventListener("input", filterDocs);
+    if (resetBtn)
+      resetBtn.addEventListener("click", () => {
+        if (searchInput) searchInput.value = "";
+        if (dateFrom) dateFrom.value = "";
+        if (dateTo) dateTo.value = "";
+        filterDocs();
+      });
 
     // Prima esecuzione per allineare stato messaggio
     filterDocs();

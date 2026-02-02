@@ -3,6 +3,7 @@ SISTEMA CONTENUTI: soprattutto programma del mese e bilancio, pag info sito meno
 SISTEMA ESTETICA:
     - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento: tag pagine di dimensioni diverse (es eventi vs terremoto)
     - Responsivness
+    - verifica tutte le icone
 
 __________________________________________________
 
