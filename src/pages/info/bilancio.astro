@@ -89,16 +89,513 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
             Consulta il bilancio
           </p>
         </div>
+      </div>
+    </section>
 
-        <!-- Bilancio Corrente -->
-        <section class="py-4 px-4 sm:px-8 lg:px-8">
-          <div class="max-w-6xl mx-auto">
+    <!-- Bilancio Corrente -->
+    <section class="py-4 px-4 sm:px-8 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        <div
+          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12 mb-16"
+        >
+          <div class="flex items-center space-x-4 mb-8">
             <div
-              class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12 mb-16"
+              class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center"
             >
-              <div class="flex items-center space-x-4 mb-8">
+              <svg
+                class="w-6 h-6 sm:w-8 sm:h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
+              Bilancio {safeCurrentYear}
+            </h2>
+          </div>
+
+          <!-- Tabella Bilancio -->
+          <div class="overflow-x-auto">
+            <!-- Desktop Table -->
+            <table
+              class="hidden md:table w-full bg-white rounded-xl shadow-lg overflow-hidden"
+            >
+              <!-- Header -->
+              <thead
+                class="bg-gradient-to-r from-green-600 to-emerald-600 text-white"
+              >
+                <tr>
+                  <th class="px-6 py-4 text-left text-lg font-bold">Voce</th>
+                  <th class="px-6 py-4 text-center text-lg font-bold"
+                    >Entrate</th
+                  >
+                  <th class="px-6 py-4 text-center text-lg font-bold">Uscite</th
+                  >
+                </tr>
+              </thead>
+
+              <!-- Body -->
+              <tbody class="divide-y divide-gray-200">
+                <!-- Avanzo gestione al 31.12.2023 -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Avanzo gestione al 31.12.2023</td
+                  >
+                  <td class="px-6 py-4 text-center text-green-700 font-bold"
+                    >€ 4.302,99</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                </tr>
+
+                <!-- Manutenzione Campo Sportivo -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Manutenzione Campo Sportivo 2024 - Campo Pallavolo - Fari
+                    solari</td
+                  >
+                  <td class="px-6 py-4 text-center text-green-700 font-bold"
+                    >€ 165,00</td
+                  >
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 509,67</td
+                  >
+                </tr>
+
+                <!-- Quote Associative -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Quote Associative n° 124</td
+                  >
+                  <td class="px-6 py-4 text-center text-green-700 font-bold"
+                    >€ 5.835,00</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                </tr>
+
+                <!-- Arredo Urbano -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Arredo Urbano - 35 sedie - ricostruzione carretto - Sfalcio
+                    Erba Parco Giochi</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 1.087,81</td
+                  >
+                </tr>
+
+                <!-- Sagome Presepe -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Sagome Presepe, Albero Natale, Accensione</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 494,87</td
+                  >
+                </tr>
+
+                <!-- Ruota della Fortuna -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Ruota della Fortuna - Torneo Burraco - Gioco fagioli</td
+                  >
+                  <td class="px-6 py-4 text-center text-green-700 font-bold"
+                    >€ 1.671,00</td
+                  >
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 954,79</td
+                  >
+                </tr>
+
+                <!-- Cancelleria -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Cancelleria, fotocopie, blocchetti ricevute, sacchi
+                    cestini, spese c/c e varie</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 378,41</td
+                  >
+                </tr>
+
+                <!-- Accoglienza CAI -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Accoglienza Escursione CAI Leonessa 10.08.2024</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 32,32</td
+                  >
+                </tr>
+
+                <!-- Panini salsiccia -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Panini salsiccia, fettucine</td
+                  >
+                  <td class="px-6 py-4 text-center text-green-700 font-bold"
+                    >€ 210,00</td
+                  >
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 1.485,77</td
+                  >
+                </tr>
+
+                <!-- Bollette ENEL -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Bollette ENEL 2023-2024</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 1.179,05</td
+                  >
+                </tr>
+
+                <!-- Deposizione Corona -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Deposizione Corona ai Caduti e rinfresco alpini</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 165,64</td
+                  >
+                </tr>
+
+                <!-- Giochi della Gioventù -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Giochi della Gioventù - Pomeriggio Mago</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 420,67</td
+                  >
+                </tr>
+
+                <!-- Assicurazione -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Assicurazione anno 2024/2025</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 560,00</td
+                  >
+                </tr>
+
+                <!-- Offerta Parrocchia -->
+                <tr class="hover:bg-gray-50 transition-colors">
+                  <td class="px-6 py-4 text-gray-900 font-medium text-left"
+                    >Offerta Parrocchia per uso strutture</td
+                  >
+                  <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
+                  <td class="px-6 py-4 text-center text-red-700 font-bold"
+                    >€ 400,00</td
+                  >
+                </tr>
+              </tbody>
+
+              <!-- Footer con totali -->
+              <tfoot class="bg-gray-100 border-t-2 border-gray-300">
+                <tr>
+                  <td class="px-6 py-4 text-gray-900 font-bold text-lg"
+                    >TOTALI</td
+                  >
+                  <td
+                    class="px-6 py-4 text-center text-green-700 font-bold text-lg"
+                    >€ 12.183,99</td
+                  >
+                  <td
+                    class="px-6 py-4 text-center text-red-700 font-bold text-lg"
+                    >€ 7.669,00</td
+                  >
+                </tr>
+              </tfoot>
+            </table>
+
+            <!-- Mobile Cards -->
+            <div class="md:hidden space-y-4">
+              <!-- Avanzo -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Avanzo gestione al 31.12.2023
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-green-700">€ 4.302,99</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Manutenzione Campo -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Manutenzione Campo Sportivo 2024 - Campo Pallavolo - Fari
+                  solari
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-green-700">€ 165,00</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 509,67</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quote Associative -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Quote Associative n° 124
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-green-700">€ 5.835,00</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Arredo Urbano -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Arredo Urbano - 35 sedie - ricostruzione carretto - Sfalcio
+                  Erba Parco Giochi
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 1.087,81</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sagome Presepe -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Sagome Presepe, Albero Natale, Accensione
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 494,87</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Ruota della Fortuna -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Ruota della Fortuna - Torneo Burraco - Gioco fagioli
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-green-700">€ 1.671,00</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 954,79</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cancelleria -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Cancelleria, fotocopie, blocchetti ricevute, sacchi cestini,
+                  spese c/c e varie
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 378,41</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accoglienza CAI -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Accoglienza Escursione CAI Leonessa 10.08.2024
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 32,32</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panini -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Panini salsiccia, fettucine
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-green-700">€ 210,00</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 1.485,77</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bollette -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Bollette ENEL 2023-2024
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 1.179,05</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Deposizione Corona -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Deposizione Corona ai Caduti e rinfresco alpini
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 165,64</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Giochi gioventù -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Giochi della Gioventù - Pomeriggio Mago
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 420,67</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assicurazione -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm text-left">
+                  Assicurazione anno 2024/2025
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 560,00</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Offerta Parrocchia -->
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <h4 class="font-semibold text-gray-900 mb-3 text-sm">
+                  Offerta Parrocchia per uso strutture
+                </h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Entrate</p>
+                    <p class="font-bold text-gray-400">€ 0</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500 mb-1">Uscite</p>
+                    <p class="font-bold text-red-700">€ 400,00</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Totali Mobile -->
+              <div
+                class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl p-4 border-2 border-gray-300"
+              >
+                <h4 class="font-bold text-gray-900 mb-3 text-center">TOTALI</h4>
+                <div class="flex justify-between items-center">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-600 mb-1">Entrate Totali</p>
+                    <p class="font-bold text-green-700 text-lg">€ 12.183,99</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-600 mb-1">Uscite Totali</p>
+                    <p class="font-bold text-red-700 text-lg">€ 7.669,00</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risultato -->
+          <div
+            class="mt-8 p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-gray-200"
+          >
+            <!-- Layout Desktop -->
+            <div class="hidden md:flex items-center justify-between">
+              <div class="flex items-center space-x-4">
                 <div
-                  class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center"
+                  class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center"
                 >
                   <svg
                     class="w-6 h-6 sm:w-8 sm:h-8 text-white"
@@ -110,677 +607,56 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                     ></path>
                   </svg>
                 </div>
-                <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
-                  Bilancio {safeCurrentYear}
-                </h2>
+                <div>
+                  <h3 class="text-1xl sm:text-3xl font-bold text-gray-900">
+                    Risultato di Gestione {safeCurrentYear}
+                  </h3>
+                  <p class="text-gray-600">
+                    Avanzo destinato alle attività future
+                  </p>
+                </div>
               </div>
 
-              <!-- Tabella Bilancio -->
-              <div class="overflow-x-auto">
-                <!-- Desktop Table -->
-                <table
-                  class="hidden md:table w-full bg-white rounded-xl shadow-lg overflow-hidden"
+              <div class="flex items-center space-x-6">
+                <!-- Composizione del risultato -->
+                <div
+                  class="bg-white rounded-lg p-4 shadow-sm border border-gray-200 min-w-[280px] text-left"
                 >
-                  <!-- Header -->
-                  <thead
-                    class="bg-gradient-to-r from-green-600 to-emerald-600 text-white"
-                  >
-                    <tr>
-                      <th class="px-6 py-4 text-left text-lg font-bold">Voce</th
-                      >
-                      <th class="px-6 py-4 text-center text-lg font-bold"
-                        >Entrate</th
-                      >
-                      <th class="px-6 py-4 text-center text-lg font-bold"
-                        >Uscite</th
-                      >
-                    </tr>
-                  </thead>
-
-                  <!-- Body -->
-                  <tbody class="divide-y divide-gray-200">
-                    <!-- Avanzo gestione al 31.12.2023 -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Avanzo gestione al 31.12.2023</td
-                      >
-                      <td class="px-6 py-4 text-center text-green-700 font-bold"
-                        >€ 4.302,99</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                    </tr>
-
-                    <!-- Manutenzione Campo Sportivo -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Manutenzione Campo Sportivo 2024 - Campo Pallavolo -
-                        Fari solari</td
-                      >
-                      <td class="px-6 py-4 text-center text-green-700 font-bold"
-                        >€ 165,00</td
-                      >
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 509,67</td
-                      >
-                    </tr>
-
-                    <!-- Quote Associative -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Quote Associative n° 124</td
-                      >
-                      <td class="px-6 py-4 text-center text-green-700 font-bold"
-                        >€ 5.835,00</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                    </tr>
-
-                    <!-- Arredo Urbano -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Arredo Urbano - 35 sedie - ricostruzione carretto -
-                        Sfalcio Erba Parco Giochi</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 1.087,81</td
-                      >
-                    </tr>
-
-                    <!-- Sagome Presepe -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Sagome Presepe, Albero Natale, Accensione</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 494,87</td
-                      >
-                    </tr>
-
-                    <!-- Ruota della Fortuna -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Ruota della Fortuna - Torneo Burraco - Gioco fagioli</td
-                      >
-                      <td class="px-6 py-4 text-center text-green-700 font-bold"
-                        >€ 1.671,00</td
-                      >
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 954,79</td
-                      >
-                    </tr>
-
-                    <!-- Cancelleria -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Cancelleria, fotocopie, blocchetti ricevute, sacchi
-                        cestini, spese c/c e varie</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 378,41</td
-                      >
-                    </tr>
-
-                    <!-- Accoglienza CAI -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Accoglienza Escursione CAI Leonessa 10.08.2024</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 32,32</td
-                      >
-                    </tr>
-
-                    <!-- Panini salsiccia -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Panini salsiccia, fettucine</td
-                      >
-                      <td class="px-6 py-4 text-center text-green-700 font-bold"
-                        >€ 210,00</td
-                      >
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 1.485,77</td
-                      >
-                    </tr>
-
-                    <!-- Bollette ENEL -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Bollette ENEL 2023-2024</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 1.179,05</td
-                      >
-                    </tr>
-
-                    <!-- Deposizione Corona -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Deposizione Corona ai Caduti e rinfresco alpini</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 165,64</td
-                      >
-                    </tr>
-
-                    <!-- Giochi della Gioventù -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Giochi della Gioventù - Pomeriggio Mago</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 420,67</td
-                      >
-                    </tr>
-
-                    <!-- Assicurazione -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Assicurazione anno 2024/2025</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 560,00</td
-                      >
-                    </tr>
-
-                    <!-- Offerta Parrocchia -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                      <td class="px-6 py-4 text-gray-900 font-medium text-left"
-                        >Offerta Parrocchia per uso strutture</td
-                      >
-                      <td class="px-6 py-4 text-center text-gray-400">€ 0</td>
-                      <td class="px-6 py-4 text-center text-red-700 font-bold"
-                        >€ 400,00</td
-                      >
-                    </tr>
-                  </tbody>
-
-                  <!-- Footer con totali -->
-                  <tfoot class="bg-gray-100 border-t-2 border-gray-300">
-                    <tr>
-                      <td class="px-6 py-4 text-gray-900 font-bold text-lg"
-                        >TOTALI</td
-                      >
-                      <td
-                        class="px-6 py-4 text-center text-green-700 font-bold text-lg"
-                        >€ 12.183,99</td
-                      >
-                      <td
-                        class="px-6 py-4 text-center text-red-700 font-bold text-lg"
-                        >€ 7.669,00</td
-                      >
-                    </tr>
-                  </tfoot>
-                </table>
-
-                <!-- Mobile Cards -->
-                <div class="md:hidden space-y-4">
-                  <!-- Avanzo -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Avanzo gestione al 31.12.2023
-                    </h4>
+                  <h4 class="text-sm font-semibold text-gray-600 mb-3">
+                    Composizione:
+                  </h4>
+                  <div class="space-y-2 text-sm">
                     <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-green-700">€ 4.302,99</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
+                      <span class="text-gray-600">C/C Postale:</span>
+                      <span class="font-medium text-gray-900">€ 3.982,21</span>
                     </div>
-                  </div>
-
-                  <!-- Manutenzione Campo -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Manutenzione Campo Sportivo 2024 - Campo Pallavolo - Fari
-                      solari
-                    </h4>
                     <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-green-700">€ 165,00</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 509,67</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Quote Associative -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Quote Associative n° 124
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-green-700">€ 5.835,00</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Arredo Urbano -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Arredo Urbano - 35 sedie - ricostruzione carretto -
-                      Sfalcio Erba Parco Giochi
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 1.087,81</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Sagome Presepe -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Sagome Presepe, Albero Natale, Accensione
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 494,87</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Ruota della Fortuna -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Ruota della Fortuna - Torneo Burraco - Gioco fagioli
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-green-700">€ 1.671,00</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 954,79</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Cancelleria -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Cancelleria, fotocopie, blocchetti ricevute, sacchi
-                      cestini, spese c/c e varie
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 378,41</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Accoglienza CAI -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Accoglienza Escursione CAI Leonessa 10.08.2024
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 32,32</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Panini -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Panini salsiccia, fettucine
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-green-700">€ 210,00</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 1.485,77</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Bollette -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Bollette ENEL 2023-2024
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 1.179,05</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Deposizione Corona -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Deposizione Corona ai Caduti e rinfresco alpini
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 165,64</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Giochi gioventù -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Giochi della Gioventù - Pomeriggio Mago
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 420,67</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Assicurazione -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4
-                      class="font-semibold text-gray-900 mb-3 text-sm text-left"
-                    >
-                      Assicurazione anno 2024/2025
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 560,00</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Offerta Parrocchia -->
-                  <div class="bg-white rounded-xl p-4 border border-gray-200">
-                    <h4 class="font-semibold text-gray-900 mb-3 text-sm">
-                      Offerta Parrocchia per uso strutture
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Entrate</p>
-                        <p class="font-bold text-gray-400">€ 0</p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-500 mb-1">Uscite</p>
-                        <p class="font-bold text-red-700">€ 400,00</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Totali Mobile -->
-                  <div
-                    class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl p-4 border-2 border-gray-300"
-                  >
-                    <h4 class="font-bold text-gray-900 mb-3 text-center">
-                      TOTALI
-                    </h4>
-                    <div class="flex justify-between items-center">
-                      <div class="text-center">
-                        <p class="text-xs text-gray-600 mb-1">Entrate Totali</p>
-                        <p class="font-bold text-green-700 text-lg">
-                          € 12.183,99
-                        </p>
-                      </div>
-                      <div class="text-center">
-                        <p class="text-xs text-gray-600 mb-1">Uscite Totali</p>
-                        <p class="font-bold text-red-700 text-lg">€ 7.669,00</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Risultato -->
-              <div
-                class="mt-8 p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-gray-200"
-              >
-                <!-- Layout Desktop -->
-                <div class="hidden md:flex items-center justify-between">
-                  <div class="flex items-center space-x-4">
-                    <div
-                      class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center"
-                    >
-                      <svg
-                        class="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                        ></path>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 class="text-1xl sm:text-3xl font-bold text-gray-900">
-                        Risultato di Gestione {safeCurrentYear}
-                      </h3>
-                      <p class="text-gray-600">
-                        Avanzo destinato alle attività future
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="flex items-center space-x-6">
-                    <!-- Composizione del risultato -->
-                    <div
-                      class="bg-white rounded-lg p-4 shadow-sm border border-gray-200 min-w-[280px] text-left"
-                    >
-                      <h4 class="text-sm font-semibold text-gray-600 mb-3">
-                        Composizione:
-                      </h4>
-                      <div class="space-y-2 text-sm">
-                        <div class="flex justify-between items-center">
-                          <span class="text-gray-600">C/C Postale:</span>
-                          <span class="font-medium text-gray-900"
-                            >€ 3.982,21</span
-                          >
-                        </div>
-                        <div class="flex justify-between items-center">
-                          <span class="text-gray-600">Contanti:</span>
-                          <span class="font-medium text-gray-900">€ 532,78</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Risultato e pulsante download -->
-                    <div class="text-right flex flex-col items-end space-y-3">
-                      <span class="text-3xl font-bold text-green-700"
-                        >+ € 4.514,99</span
-                      >
-
-                      <!-- Pulsante Anteprima Bilancio -->
-                      <div class="flex flex-col space-y-3">
-                        <button
-                          id="previewBtn2024"
-                          data-image={safeCurrentPath}
-                          data-title={`Bilancio ${safeCurrentYear}`}
-                          class="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        >
-                          <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                            ></path>
-                          </svg>
-                          <span>Anteprima Bilancio</span>
-                        </button>
-                      </div>
+                      <span class="text-gray-600">Contanti:</span>
+                      <span class="font-medium text-gray-900">€ 532,78</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Layout Mobile -->
-                <div class="md:hidden space-y-4">
-                  <!-- Header Mobile -->
-                  <div class="flex items-center space-x-3">
-                    <div
-                      class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center"
-                    >
-                      <svg
-                        class="w-5 h-5 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                        ></path>
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 class="text-lg font-bold text-gray-900">
-                        Risultato di Gestione {safeCurrentYear}
-                      </h3>
-                      <p class="text-sm text-gray-600">
-                        Avanzo destinato alle attività future
-                      </p>
-                    </div>
-                  </div>
-
-                  <!-- Risultato Mobile -->
-                  <div class="text-center py-2">
-                    <span class="text-1xl sm:text-3xl font-bold text-green-700"
-                      >+ € 4.514,99</span
-                    >
-                  </div>
-
-                  <!-- Composizione Mobile -->
-                  <div
-                    class="bg-white rounded-lg p-3 shadow-sm border border-gray-200 text-left"
+                <!-- Risultato e pulsante download -->
+                <div class="text-right flex flex-col items-end space-y-3">
+                  <span class="text-3xl font-bold text-green-700"
+                    >+ € 4.514,99</span
                   >
-                    <h4 class="text-sm font-semibold text-gray-600 mb-2">
-                      Composizione:
-                    </h4>
-                    <div class="space-y-2 text-sm">
-                      <div class="flex justify-between items-center">
-                        <span class="text-gray-600">C/C Postale:</span>
-                        <span class="font-medium text-gray-900">€ 3.982,21</span
-                        >
-                      </div>
-                      <div class="flex justify-between items-center">
-                        <span class="text-gray-600">Contanti:</span>
-                        <span class="font-medium text-gray-900">€ 532,78</span>
-                      </div>
-                    </div>
-                  </div>
 
-                  <!-- Pulsanti Mobile -->
-                  <div class="space-y-2">
+                  <!-- Pulsante Anteprima Bilancio -->
+                  <div class="flex flex-col space-y-3">
                     <button
-                      id="previewBtn2024Mobile"
+                      id="previewBtn2024"
                       data-image={safeCurrentPath}
                       data-title={`Bilancio ${safeCurrentYear}`}
-                      class="w-full inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300"
+                      class="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                     >
                       <svg
-                        class="w-4 h-4"
+                        class="w-5 h-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -803,187 +679,273 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
                 </div>
               </div>
             </div>
-            <!-- Bilanci Precedenti -->
-            <div class="max-w-6xl mx-auto mb-8 md:mb-16">
-              <!-- Box principale -->
-              <div
-                class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
-              >
-                <!-- Titolo -->
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 mb-8 text-center"
-                >
-                  Bilanci Precedenti
-                </h2>
 
-                <!-- Contenitore dei singoli bilanci -->
+            <!-- Layout Mobile -->
+            <div class="md:hidden space-y-4">
+              <!-- Header Mobile -->
+              <div class="flex items-center space-x-3">
                 <div
-                  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                  {
-                    previousBudgets.map((bilancio) => (
-                      <div class="bg-white/60 rounded-xl shadow-md p-4 hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center space-x-4 mb-6">
-                          <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg flex items-center justify-center">
-                            <span class="text-base sm:text-lg font-bold text-white">
-                              {bilancio.anno}
-                            </span>
-                          </div>
-                          <h3 class="text-xl font-bold text-gray-900">
-                            Bilancio {bilancio.anno}
-                          </h3>
-                        </div>
-
-                        <div class="mt-6 space-y-2">
-                          <button
-                            data-image={bilancio.path}
-                            data-title={`Bilancio ${bilancio.anno}`}
-                            class="preview-btn w-full bg-orange-50 hover:bg-orange-100 text-orange-600 py-2 px-4 rounded-lg transition-colors duration-300 border border-orange-200"
-                          >
-                            Visualizza
-                          </button>
-                        </div>
-                      </div>
-                    ))
-                  }
-
-                  {
-                    previousBudgets.length === 0 && (
-                      <div class="col-span-full text-center py-8 text-gray-500">
-                        Nessun bilancio precedente disponibile.
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
-            </div>
-
-            <!-- Informazioni e Note -->
-            <div
-              class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl sm:rounded-2xl p-6 md:p-12 space-y-6"
-            >
-              <!-- Nota importante -->
-              <div
-                class="bg-white/60 rounded-lg p-4 md:p-6 border-l-4 border-green-600"
-              >
-                <h3
-                  class="font-bold text-gray-900 mb-3 text-sm md:text-base flex items-center"
+                  class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center"
                 >
                   <svg
-                    class="w-5 h-5 md:w-6 md:h-6 mr-2 text-green-600"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
+                    class="w-5 h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                      clip-rule="evenodd"></path>
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                    ></path>
                   </svg>
-                  Nota Importante
-                </h3>
-                <p class="text-gray-700 text-sm md:text-base leading-relaxed">
-                  I bilanci fino al 2025 sono stati gestiti dalla precedente
-                  amministrazione della Pro Loco.<br />
-                  Il nuovo consiglio direttivo è entrato in carica nel 2026 e il relativo
-                  bilancio sarà il primo redatto dalla nuova amministrazione.
-                </p>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold text-gray-900">
+                    Risultato di Gestione {safeCurrentYear}
+                  </h3>
+                  <p class="text-sm text-gray-600">
+                    Avanzo destinato alle attività future
+                  </p>
+                </div>
               </div>
 
-              <!-- Informazioni di contatto -->
-              <div class="text-center">
-                <p
-                  class="font-semibold text-gray-900 text-sm md:text-base leading-relaxed"
+              <!-- Risultato Mobile -->
+              <div class="text-center py-2">
+                <span class="text-1xl sm:text-3xl font-bold text-green-700"
+                  >+ € 4.514,99</span
                 >
-                  Per ulteriori informazioni sui bilanci o per richiedere
-                  documentazione aggiuntiva,<br class="hidden md:block" />
-                  è possibile contattare direttamente l'organizzazione.<br
-                    class="mt-2"
-                  />
-                  <span class="block mt-2"
-                    >Tutti i documenti sono disponibili per la consultazione
-                    pubblica.</span
+              </div>
+
+              <!-- Composizione Mobile -->
+              <div
+                class="bg-white rounded-lg p-3 shadow-sm border border-gray-200 text-left"
+              >
+                <h4 class="text-sm font-semibold text-gray-600 mb-2">
+                  Composizione:
+                </h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">C/C Postale:</span>
+                    <span class="font-medium text-gray-900">€ 3.982,21</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Contanti:</span>
+                    <span class="font-medium text-gray-900">€ 532,78</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pulsanti Mobile -->
+              <div class="space-y-2">
+                <button
+                  id="previewBtn2024Mobile"
+                  data-image={safeCurrentPath}
+                  data-title={`Bilancio ${safeCurrentYear}`}
+                  class="w-full inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                </p>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    ></path>
+                  </svg>
+                  <span>Anteprima Bilancio</span>
+                </button>
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+        <!-- Bilanci Precedenti -->
+        <div class="max-w-6xl mx-auto mb-8 md:mb-16">
+          <!-- Box principale -->
+          <div
+            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
+          >
+            <!-- Titolo -->
+            <h2
+              class="text-1xl sm:text-3xl font-bold text-gray-900 mb-8 text-center"
+            >
+              Bilanci Precedenti
+            </h2>
 
-      <!-- Modal per anteprima PDF -->
-      <div
-        id="pdfModal"
-        class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden cursor-pointer"
-      >
-        <div class="relative w-full h-full max-w-6xl max-h-[90vh] m-4">
-          <!-- Contenitore immagine -->
-          <div class="w-full h-full flex items-center justify-center">
-            <img
-              id="modalImage"
-              src=""
-              alt=""
-              class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-            />
+            <!-- Contenitore dei singoli bilanci -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {
+                previousBudgets.map((bilancio) => (
+                  <div class="bg-white/60 rounded-xl shadow-md p-4 hover:shadow-lg transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-6">
+                      <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg flex items-center justify-center">
+                        <span class="text-base sm:text-lg font-bold text-white">
+                          {bilancio.anno}
+                        </span>
+                      </div>
+                      <h3 class="text-xl font-bold text-gray-900">
+                        Bilancio {bilancio.anno}
+                      </h3>
+                    </div>
+
+                    <div class="mt-6 space-y-2">
+                      <button
+                        data-image={bilancio.path}
+                        data-title={`Bilancio ${bilancio.anno}`}
+                        class="preview-btn w-full bg-orange-50 hover:bg-orange-100 text-orange-600 py-2 px-4 rounded-lg transition-colors duration-300 border border-orange-200"
+                      >
+                        Visualizza
+                      </button>
+                    </div>
+                  </div>
+                ))
+              }
+
+              {
+                previousBudgets.length === 0 && (
+                  <div class="col-span-full text-center py-8 text-gray-500">
+                    Nessun bilancio precedente disponibile.
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Informazioni e Note -->
+        <div
+          class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl sm:rounded-2xl p-6 md:p-12 space-y-6"
+        >
+          <!-- Nota importante -->
+          <div
+            class="bg-white/60 rounded-lg p-4 md:p-6 border-l-4 border-green-600"
+          >
+            <h3
+              class="font-bold text-gray-900 mb-3 text-sm md:text-base flex items-center"
+            >
+              <svg
+                class="w-5 h-5 md:w-6 md:h-6 mr-2 text-green-600"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              Nota Importante
+            </h3>
+            <p class="text-gray-700 text-sm md:text-base leading-relaxed">
+              I bilanci fino al 2025 sono stati gestiti dalla precedente
+              amministrazione della Pro Loco.<br />
+              Il nuovo consiglio direttivo è entrato in carica nel 2026 e il relativo
+              bilancio sarà il primo redatto dalla nuova amministrazione.
+            </p>
+          </div>
+
+          <!-- Informazioni di contatto -->
+          <div class="text-center">
+            <p
+              class="font-semibold text-gray-900 text-sm md:text-base leading-relaxed"
+            >
+              Per ulteriori informazioni sui bilanci o per richiedere
+              documentazione aggiuntiva,<br class="hidden md:block" />
+              è possibile contattare direttamente l'organizzazione.<br
+                class="mt-2"
+              />
+              <span class="block mt-2"
+                >Tutti i documenti sono disponibili per la consultazione
+                pubblica.</span
+              >
+            </p>
           </div>
         </div>
       </div>
-
-      <script>
-        // Aspetta che il DOM sia caricato
-        document.addEventListener("DOMContentLoaded", function () {
-          // Gestione unificata di tutti i pulsanti di anteprima (Corrente Desktop, Corrente Mobile, Precedenti)
-          const allPreviewButtons = document.querySelectorAll(
-            "#previewBtn2024, #previewBtn2024Mobile, .preview-btn",
-          );
-
-          allPreviewButtons.forEach((btn) => {
-            btn.addEventListener("click", function (this: HTMLElement) {
-              const imageSrc = this.getAttribute("data-image") || "";
-              const title = this.getAttribute("data-title") || "";
-              if (imageSrc) {
-                openPdfModal(imageSrc, title);
-              }
-            });
-          });
-
-          // Chiudi il modal cliccando ovunque
-          const modal = document.getElementById("pdfModal");
-          if (modal) {
-            modal.addEventListener("click", function () {
-              closePdfModal();
-            });
-          }
-        });
-
-        function openPdfModal(imageSrc: string, title: string) {
-          const modal = document.getElementById("pdfModal");
-          const modalImage = document.getElementById(
-            "modalImage",
-          ) as HTMLImageElement;
-
-          if (modal && modalImage) {
-            modalImage.src = imageSrc;
-            modalImage.alt = title;
-            modal.classList.remove("hidden");
-            document.body.style.overflow = "hidden";
-          }
-        }
-
-        function closePdfModal() {
-          const modal = document.getElementById("pdfModal");
-          if (modal) {
-            modal.classList.add("hidden");
-            document.body.style.overflow = "unset";
-          }
-        }
-
-        // Chiudi il modal con il tasto Escape
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape") {
-            closePdfModal();
-          }
-        });
-      </script>
     </section>
-  </main></DefaultLayout
->
+  </main>
+
+  <!-- Modal per anteprima PDF -->
+  <div
+    id="pdfModal"
+    class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden cursor-pointer"
+  >
+    <div class="relative w-full h-full max-w-6xl max-h-[90vh] m-4">
+      <!-- Contenitore immagine -->
+      <div class="w-full h-full flex items-center justify-center">
+        <img
+          id="modalImage"
+          src=""
+          alt=""
+          class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+        />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Aspetta che il DOM sia caricato
+    document.addEventListener("DOMContentLoaded", function () {
+      // Gestione unificata di tutti i pulsanti di anteprima (Corrente Desktop, Corrente Mobile, Precedenti)
+      const allPreviewButtons = document.querySelectorAll(
+        "#previewBtn2024, #previewBtn2024Mobile, .preview-btn",
+      );
+
+      allPreviewButtons.forEach((btn) => {
+        btn.addEventListener("click", function (this: HTMLElement) {
+          const imageSrc = this.getAttribute("data-image") || "";
+          const title = this.getAttribute("data-title") || "";
+          if (imageSrc) {
+            openPdfModal(imageSrc, title);
+          }
+        });
+      });
+
+      // Chiudi il modal cliccando ovunque
+      const modal = document.getElementById("pdfModal");
+      if (modal) {
+        modal.addEventListener("click", function () {
+          closePdfModal();
+        });
+      }
+    });
+
+    function openPdfModal(imageSrc: string, title: string) {
+      const modal = document.getElementById("pdfModal");
+      const modalImage = document.getElementById(
+        "modalImage",
+      ) as HTMLImageElement;
+
+      if (modal && modalImage) {
+        modalImage.src = imageSrc;
+        modalImage.alt = title;
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+    }
+
+    function closePdfModal() {
+      const modal = document.getElementById("pdfModal");
+      if (modal) {
+        modal.classList.add("hidden");
+        document.body.style.overflow = "unset";
+      }
+    }
+
+    // Chiudi il modal con il tasto Escape
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        closePdfModal();
+      }
+    });
+  </script>
+</DefaultLayout>

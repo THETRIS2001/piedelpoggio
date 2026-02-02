@@ -1754,11 +1754,40 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       });
       updateSizeLimitInfo();
     }
+    // Helper per validare immagini
+    function isImageFile(file: File) {
+      return (
+        file.type.startsWith("image/") ||
+        file.name.toLowerCase().endsWith(".bmp")
+      );
+    }
+
     document.getElementById("files")?.addEventListener("change", (e) => {
       const input = e.target as HTMLInputElement;
       const summary = document.getElementById("filesSummary");
+
+      // Validazione file selezionati via dialog
+      if (input.files) {
+        const invalidFiles = Array.from(input.files).filter(
+          (f) => !isImageFile(f),
+        );
+        if (invalidFiles.length > 0) {
+          alert(
+            `Alcuni file non sono immagini supportate e saranno ignorati: ${invalidFiles.map((f) => f.name).join(", ")}`,
+          );
+          // Reset input se ci sono file non validi per costringere a riselezionare pulito,
+          // oppure si potrebbe accettare solo quelli validi se si usasse un array separato per tutto.
+          // Dato che input.files è readonly, resettiamo per semplicità se l'utente forza file non immagini.
+          input.value = "";
+          externalFiles = [];
+          if (summary) summary.textContent = "";
+          updateSubmitEnabled();
+          return;
+        }
+      }
+
       const count = input.files ? input.files.length : 0;
-      externalFiles = [];
+      externalFiles = []; // Reset external files on new input selection to avoid confusion mixing both
       if (summary)
         summary.textContent = count > 0 ? `${count} file selezionati` : "";
       console.log("files:inputChange", { count });
@@ -1782,7 +1811,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const summary = document.getElementById("filesSummary");
       const files = (e as DragEvent).dataTransfer?.files;
       if (input && files) {
-        externalFiles = Array.from(files);
+        const droppedFiles = Array.from(files);
+        const validFiles = droppedFiles.filter(isImageFile);
+        const invalidFiles = droppedFiles.filter((f) => !isImageFile(f));
+
+        if (invalidFiles.length > 0) {
+          alert(
+            `I seguenti file non sono stati aggiunti perché non sono immagini: ${invalidFiles.map((f) => f.name).join(", ")}`,
+          );
+        }
+
+        externalFiles = validFiles;
+        // Nota: input.files non può essere modificato programmaticamente per aggiungere file droppati
+        // Quindi externalFiles gestisce quelli del drop.
+
         const countInput = input.files ? input.files.length : 0;
         const countDrop = externalFiles.length;
         const total = countInput + countDrop;
