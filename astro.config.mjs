@@ -9,6 +9,7 @@ export default defineConfig({
   integrations: [tailwind(), react(), sitemap()],
   site: 'https://piedelpoggio.org',
   output: 'server',
+  trailingSlash: 'never',
   adapter: cloudflare({
     platformProxy: {
       enabled: true,

@@ -4,8 +4,6 @@ SISTEMA ESTETICA:
     - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento: tag pagine di dimensioni diverse (es eventi vs terremoto)
     - Responsivness
 
-    - Indicizzato google
-
 __________________________________________________
 
 Remove-Item -Recurse -Force node_modules\.vite -ErrorAction SilentlyContinue
