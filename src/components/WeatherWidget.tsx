@@ -729,7 +729,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-          Il Meteo
+          Il Meteo.it
         </a>
         <a
           href="https://www.meteoam.it/it/meteo-citta/leonessa"
@@ -740,7 +740,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-          Meteo AM
+          Meteo Aeronautica
         </a>
         <a
           href="https://www.accuweather.com/it/it/piedelpoggio/1547795/daily-weather-forecast/1547795"
