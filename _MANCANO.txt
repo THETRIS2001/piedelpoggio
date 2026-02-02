@@ -1,8 +1,7 @@
 SISTEMA ESTETICA:
-    - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento: tag pagine di dimensioni diverse (es eventi vs terremoto)
+    - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento e ombre box
     - Responsivness
-    - verifica tutte le icone
-    - ombre box
+    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video
 
 __________________________________________________
 
