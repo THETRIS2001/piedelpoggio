@@ -15,6 +15,15 @@ export interface ProgrammaPrecedente {
     path: string;
 }
 
+export interface DocumentoProloco {
+    data: Date;
+    dataString: string; // DD-MM-YYYY
+    nome: string;
+    filename: string;
+    path: string;
+    ext: string;
+}
+
 /**
  * Parse Eventi Frazioni filename
  * Format: "Luogo - DD-MM-YYYY - Nome evento.[jpg|jpeg|png]"
@@ -134,4 +143,61 @@ export function formatDateBadge(dataString: string): string {
     const monthName = monthNames[month] || month;
 
     return `${day} ${monthName} ${year}`;
+}
+
+/**
+ * Parse Documento Pro Loco filename
+ * Format: "DD-MM-YYYY - Nome documento.pdf"
+ * Example: "24-11-2025 - Rinuncia EMANUELA.pdf"
+ */
+export function parseDocumentoProloco(filename: string, basePath: string): DocumentoProloco | null {
+    try {
+        // Skip .keep and other non-document files
+        if (filename.startsWith('.') || !filename.toLowerCase().endsWith('.pdf')) {
+            return null;
+        }
+
+        // Remove extension
+        const nameWithoutExt = filename.replace(/\.pdf$/i, '');
+
+        // Split by " - " (space-dash-space)
+        const parts = nameWithoutExt.split(' - ');
+
+        if (parts.length < 2) {
+            console.warn(`Invalid documento filename format: ${filename}`);
+            return null;
+        }
+
+        const [dataString, ...nameParts] = parts;
+        const nome = nameParts.join(' - '); // Rejoin in case name contains " - "
+
+        // Parse date DD-MM-YYYY
+        const dateParts = dataString.split('-');
+        if (dateParts.length !== 3) {
+            console.warn(`Invalid date format in filename: ${filename}`);
+            return null;
+        }
+
+        const [day, month, year] = dateParts.map(Number);
+        const data = new Date(year, month - 1, day); // month is 0-indexed
+
+        return {
+            data,
+            dataString,
+            nome: nome.trim(),
+            filename,
+            path: `${basePath}/${encodeURIComponent(filename)}`,
+            ext: 'PDF'
+        };
+    } catch (error) {
+        console.error(`Error parsing documento filename: ${filename}`, error);
+        return null;
+    }
+}
+
+/**
+ * Sort documenti by date descending (most recent first)
+ */
+export function sortDocumentiByDate(documenti: DocumentoProloco[]): DocumentoProloco[] {
+    return documenti.sort((a, b) => b.data.getTime() - a.data.getTime());
 }
