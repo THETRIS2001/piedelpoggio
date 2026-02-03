@@ -100,14 +100,12 @@ import PDFViewer from "../../components/PDFViewer.tsx";
             sostenere le attività e gli eventi organizzati per la comunità.
           </p>
 
-          <div
-            class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 text-center mb-6"
-          >
+          <div class="flex justify-center mb-6">
             <div
-              class="inline-flex items-center space-x-3 text-base md:text-2xl font-bold text-amber-800 mb-3"
+              class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl px-5 py-2.5 text-center inline-flex items-center space-x-2.5 border border-amber-100/50 shadow-sm"
             >
               <svg
-                class="w-8 h-8 flex-shrink-0"
+                class="w-6 h-6 text-amber-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -116,16 +114,12 @@ import PDFViewer from "../../components/PDFViewer.tsx";
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M14.25 7.756a4.5 4.5 0 100 8.488M7.5 10.5h5.25m-5.25 3h5.25M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="font-mono tracking-wide"
+              <span class="font-bold text-amber-800 text-lg tracking-wide"
                 >Prossimamente in arrivo</span
               >
             </div>
-            <p class="text-gray-700 text-lg">
-              Intestazione: <span class="font-bold">Pro Loco Piedelpoggio</span>
-            </p>
           </div>
           <p class="text-sm md:text-base text-gray-700 text-justify">
             Dopo aver effettuato il bonifico, vi chiediamo gentilmente di
@@ -166,7 +160,7 @@ import PDFViewer from "../../components/PDFViewer.tsx";
               </svg>
             </div>
             <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
-              Membri della Pro Loco
+              Contatti
             </h2>
           </div>
 
@@ -175,7 +169,7 @@ import PDFViewer from "../../components/PDFViewer.tsx";
             potete contattare direttamente i membri della Pro Loco:
           </p>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div
               class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 text-center h-full flex flex-col"
             >
@@ -359,61 +353,34 @@ import PDFViewer from "../../components/PDFViewer.tsx";
               </a>
             </div>
           </div>
-        </div>
-
-        <!-- Email Pro Loco -->
-        <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
-        >
-          <div class="flex items-center space-x-4 mb-6">
+          <div class="mt-8 border-t border-gray-100 pt-8">
             <div
-              class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl flex items-center justify-center"
+              class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 text-center"
             >
-              <svg
-                class="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <a
+                href="mailto:pro.piedelpoggio@gmail.com"
+                class="inline-flex items-center space-x-3 text-base md:text-2xl font-semibold text-blue-700 hover:text-blue-800 transition-colors duration-300"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                ></path>
-              </svg>
+                <svg
+                  class="w-8 h-8 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span class="break-all">pro.piedelpoggio@gmail.com</span>
+              </a>
+              <p class="text-gray-600 mt-2 text-sm md:text-base">
+                Per richieste generali, informazioni su eventi e attività della
+                comunità
+              </p>
             </div>
-            <h2 class="text-1xl sm:text-3xl font-bold text-gray-900">
-              Email Pro Loco
-            </h2>
-          </div>
-
-          <div
-            class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-6 text-center"
-          >
-            <a
-              href="mailto:pro.piedelpoggio@gmail.com"
-              class="inline-flex items-center space-x-3 text-base md:text-2xl font-semibold text-blue-700 hover:text-blue-800 transition-colors duration-300"
-            >
-              <svg
-                class="w-8 h-8"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                ></path>
-              </svg>
-              <span>pro.piedelpoggio@gmail.com</span>
-            </a>
-            <p class="text-gray-600 mt-4">
-              Per richieste generali, informazioni su eventi e attività della
-              comunità
-            </p>
           </div>
         </div>
 
@@ -502,11 +469,11 @@ import PDFViewer from "../../components/PDFViewer.tsx";
               <div
                 class="flex items-center justify-between bg-white/70 rounded-lg px-4 py-1"
               >
-                <span class="font-medium text-gray-900">Rifugio Fontenova</span>
+                <span class="font-medium text-gray-900">Guardia Medica</span>
                 <a
-                  href="tel:0746922129"
+                  href="tel:0746922543"
                   class="flex items-center text-orange-600 hover:text-orange-700 font-semibold whitespace-nowrap"
-                  >0746 922 129</a
+                  >0746 922 543</a
                 >
               </div>
             </div>
@@ -539,114 +506,8 @@ import PDFViewer from "../../components/PDFViewer.tsx";
             </h2>
           </div>
 
-          <!-- Sito Autolinee Troiani -->
-          <div class="mb-8">
-            <h3 class="text-lg md:text-xl font-semibold text-gray-900 mb-4">
-              Consulta gli orari aggiornati
-            </h3>
-            <p class="text-gray-600 mb-6 text-sm md:text-lg">
-              Consulta direttamente gli orari aggiornati del servizio navetta
-              per Piedelpoggio gestito dalle Autolinee Troiani.
-            </p>
-
-            <!-- Iframe navigabile del sito Autolinee Troiani -->
-            <div
-              class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-blue-200/50 mb-8"
-            >
-              <div
-                class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white p-4 flex items-center justify-between"
-              >
-                <div class="flex items-center space-x-3">
-                  <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
-                    ></path>
-                  </svg>
-                  <h4 class="font-semibold">
-                    Autolinee Troiani - Servizio Urbano
-                  </h4>
-                </div>
-                <a
-                  href="https://autolineetroiani.com/tpl/#servizio-urbano"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-white hover:text-blue-200 transition-colors"
-                  title="Apri in una nuova finestra"
-                >
-                  <svg
-                    class="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    ></path>
-                  </svg>
-                </a>
-              </div>
-
-              <div class="relative">
-                <iframe
-                  src="https://autolineetroiani.com/tpl/#servizio-urbano"
-                  class="w-full h-96 border-0"
-                  title="Orari Autolinee Troiani"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                ></iframe>
-
-                <!-- Overlay per migliorare l'accessibilità -->
-                <div
-                  class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/20 to-transparent h-8 pointer-events-none"
-                >
-                </div>
-              </div>
-
-              <div class="bg-gray-50 p-3 text-center">
-                <p class="text-gray-600 text-sm">
-                  💡 <strong>Suggerimento:</strong> Scorri all'interno del riquadro
-                  per navigare nel sito delle Autolinee Troiani
-                </p>
-              </div>
-            </div>
-          </div>
-
           <!-- Documenti PDF -->
-          <div class="border-t border-gray-200 pt-8">
-            <div class="flex items-center space-x-3 mb-6">
-              <svg
-                class="w-8 h-8 text-black-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                ></path>
-              </svg>
-              <h3 class="text-1xl sm:text-3xl font-bold text-black-800">
-                Documenti e Orari
-              </h3>
-            </div>
-            <p class="text-black-700 mb-6 text-sm md:text-lg">
-              Scarica i documenti ufficiali con gli orari della navetta e
-              consulta le anteprime.
-            </p>
-
+          <div class="mt-8">
             <PDFViewer
               client:load
               documents={[
@@ -696,6 +557,64 @@ import PDFViewer from "../../components/PDFViewer.tsx";
                 },
               ]}
             />
+          </div>
+
+          <!-- Sito Autolinee Troiani -->
+          <div class="mt-8 border-t border-gray-200 pt-8">
+            <!-- Link esterno Autolinee Troiani -->
+            <div
+              class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4"
+            >
+              <div class="flex items-center gap-4">
+                <div
+                  class="bg-white p-3 rounded-lg shadow-sm border border-blue-100"
+                >
+                  <svg
+                    class="w-8 h-8 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="text-lg font-bold text-gray-900">
+                    Sito Ufficiale Autolinee Troiani
+                  </h4>
+                  <p class="text-sm text-gray-600">
+                    Consulta gli orari completi e aggiornati direttamente sul
+                    portale
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://autolineetroiani.com/tpl/#servizio-urbano"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg w-full sm:w-auto text-center"
+              >
+                <span>Vai al sito</span>
+                <svg
+                  class="w-5 h-5 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  ></path>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -22,11 +22,17 @@ export default defineConfig({
     cacheDir: '.vite-cache-astro-dev',
     resolve: {
       alias: {
-        'react-dom/server': 'react-dom/server.edge',
+        // Usa react-dom/server.edge solo in produzione per Cloudflare
+        ...(process.env.NODE_ENV === 'production' ? { 'react-dom/server': 'react-dom/server.edge' } : {}),
       },
     },
+    ssr: {
+      // Forziamo il bundling di queste dipendenze che usano CJS o hanno problemi in SSR locale
+      noExternal: ['motion', 'motion/react', 'framer-motion', 'gsap', '@astrojs/react']
+    },
     optimizeDeps: {
-      include: ['react', 'react-dom', 'motion', 'motion/react', 'gsap']
+      // Escludiamo dal pre-bundling per forzare il bundling SSR corretto
+      exclude: ['motion', 'motion/react', 'framer-motion', 'gsap']
     },
     server: {
       hmr: {
