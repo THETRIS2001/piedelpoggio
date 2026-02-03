@@ -95,7 +95,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ documents }) => {
                   href={`/documents/${doc.filename}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2"
+                  className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 py-2.5 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -106,7 +106,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ documents }) => {
                 <a
                   href={`/documents/${doc.filename}`}
                   download
-                  className="bg-emerald-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-600 transition-colors duration-200 flex items-center justify-center"
+                  className="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-2.5 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center text-sm"
                   title="Scarica documento"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

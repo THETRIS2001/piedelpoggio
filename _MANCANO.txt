@@ -4,6 +4,7 @@ SISTEMA ESTETICA:
     - Responsivness
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video
 
+
 __________________________________________________
 
 cambio 2008

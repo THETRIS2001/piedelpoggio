@@ -457,14 +457,14 @@ const BookingCalendar: React.FC = () => {
                   onClick={() => !isPastDay && setSelectedDate(key)}
                   disabled={isPastDay}
                   className={`aspect-square w-full sm:aspect-auto sm:h-24 rounded-xl border               transition-all duration-200 text-left p-2 focus:outline-none ${isPastDay
-                      ? 'border-gray-300 bg-gray-100 cursor-not-allowed opacity-60'
-                      : count > 0
-                        ? isSelected
-                          ? 'border-red-300 bg-red-100 focus:ring-2 focus:ring-red-500'
-                          : 'border-red-200 bg-red-50 hover:bg-red-100 focus:ring-2               focus:ring-red-500'
-                        : isSelected
-                          ? 'border-primary-300 bg-primary-50 focus:ring-2              focus:ring-primary-500'
-                          : 'border-gray-200 bg-white hover:bg-gray-50 focus:ring-2               focus:ring-primary-500'
+                    ? 'border-gray-300 bg-gray-100 cursor-not-allowed opacity-60'
+                    : count > 0
+                      ? isSelected
+                        ? 'border-red-300 bg-red-100 focus:ring-2 focus:ring-red-500'
+                        : 'border-red-200 bg-red-50 hover:bg-red-100 focus:ring-2               focus:ring-red-500'
+                      : isSelected
+                        ? 'border-primary-300 bg-primary-50 focus:ring-2              focus:ring-primary-500'
+                        : 'border-gray-200 bg-white hover:bg-gray-50 focus:ring-2               focus:ring-primary-500'
                     } ${isToday && !isPastDay ? 'shadow-inner' : ''}`}
                 >
                   <div className="flex flex-col h-full">
@@ -474,8 +474,8 @@ const BookingCalendar: React.FC = () => {
                       </span>
                       {count > 0 && (
                         <span className={`hidden sm:inline text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${isPastDay
-                            ? 'bg-gray-200 text-gray-500 border-gray-300'
-                            : 'bg-red-200 text-red-800 border-red-300'
+                          ? 'bg-gray-200 text-gray-500 border-gray-300'
+                          : 'bg-red-200 text-red-800 border-red-300'
                           }`}>
                           {count}
                         </span>
@@ -484,16 +484,16 @@ const BookingCalendar: React.FC = () => {
                     <div className="hidden sm:block flex-1 space-y-0.5">
                       {(bookingsByDate.get(key) || []).slice(0, 1).map((b, idx) => (
                         <div key={idx} className={`text-[10px] px-1.5 py-0.5 rounded ${isPastDay
-                            ? 'bg-gray-200 text-gray-500'
-                            : 'bg-red-200 text-red-800'
+                          ? 'bg-gray-200 text-gray-500'
+                          : 'bg-red-200 text-red-800'
                           } truncate`}>
                           {removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)}
                         </div>
                       ))}
                       {(count > 1) && (
                         <div className={`text-[10px] px-1.5 py-0.5 rounded ${isPastDay
-                            ? 'bg-gray-200 text-gray-500'
-                            : 'bg-red-200 text-red-800'
+                          ? 'bg-gray-200 text-gray-500'
+                          : 'bg-red-200 text-red-800'
                           }`}>
                           +{count - 1} altr{count > 2 ? 'e' : 'o'}
                         </div>
@@ -509,28 +509,7 @@ const BookingCalendar: React.FC = () => {
       </div>
 
       <div className="mt-6 space-y-4">
-        <div className="rounded-2xl border border-amber-200/70 bg-gradient-to-r from-amber-50 via-yellow-50 to-white p-5 shadow-sm">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-amber-200 to-amber-100 flex items-center justify-center shadow-inner ring-1 ring-amber-300/40">
-                <svg className="w-8 h-8 text-amber-900" viewBox="0 0 24 24">
-                  <text x="12" y="16" textAnchor="middle" fontSize="16" fontWeight="700" fill="currentColor">€</text>
-                </svg>
-              </div>
-              <div>
-                <div className="text-xs sm:text-sm font-semibold text-amber-900">Costo Prenotazione</div>
-                <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-amber-800">20€</div>
 
-              </div>
-            </div>
-            <a href="/info/contatti" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-amber-300 bg-white text-amber-700 hover:bg-amber-50 shadow-sm">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span>Contatti Pagamento</span>
-            </a>
-          </div>
-        </div>
         <div>
           <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
             <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -663,7 +642,7 @@ const BookingCalendar: React.FC = () => {
       {showBookingForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl transform transition-all">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Nuova Prenotazione</h3>
+
 
             {/* Alert errore dentro la modale per massima visibilità */}
             {message && message.type === 'error' && (
@@ -712,11 +691,55 @@ const BookingCalendar: React.FC = () => {
                   placeholder="Es: Cena brace (opzionale)"
                 />
               </div>
-              <div className="bg-gray-50 p-3 rounded-lg">
-                <div className="text-sm text-gray-600">
-                  <strong>Riepilogo:</strong><br />
-                  Data: {selectedDate}<br />
-                  Orario: {removeSecondsFromTime(startTime)} - {removeSecondsFromTime(endTime)}
+              <div className="space-y-3">
+                <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                    Riepilogo Prenotazione
+                  </h4>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-green-50 flex-shrink-0 flex items-center justify-center text-green-600">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Data</p>
+                        <p className="text-sm font-semibold text-gray-900 capitalize">
+                          {new Date(selectedDate).toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-green-50 flex-shrink-0 flex items-center justify-center text-green-600">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Orario</p>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {removeSecondsFromTime(startTime)} - {removeSecondsFromTime(endTime)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 p-4 rounded-xl shadow-sm relative overflow-hidden group">
+                  {/* Decorative circle */}
+                  <div className="absolute -right-6 -top-6 w-20 h-20 bg-amber-100/50 rounded-full blur-xl group-hover:bg-amber-200/50 transition-colors duration-500"></div>
+
+                  <div className="flex items-start gap-4 relative z-10">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-amber-100 flex-shrink-0 flex items-center justify-center text-amber-600 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1 opacity-80">Importo da versare</h4>
+                      <div className="flex items-baseline gap-1 mb-1">
+                        <span className="text-2xl font-black text-amber-900 tracking-tight">25€</span>
+                        <span className="text-xs font-semibold text-amber-700">/ prenotazione</span>
+                      </div>
+                      <p className="text-xs text-amber-800/90 leading-relaxed font-medium">
+                        da consegnare ad un membro della Pro Loco
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -765,8 +788,8 @@ const BookingCalendar: React.FC = () => {
                   setCancelError(''); // Clear error when user types
                 }}
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${cancelError
-                    ? 'border-red-300 focus:ring-red-500'
-                    : 'border-gray-300 focus:ring-red-500'
+                  ? 'border-red-300 focus:ring-red-500'
+                  : 'border-gray-300 focus:ring-red-500'
                   }`}
                 placeholder="Numero di telefono"
                 autoFocus

@@ -26,11 +26,19 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               class="hidden md:flex w-20 h-20 rounded-xl sm:rounded-2xl items-center justify-center shadow-xl mr-6"
               style="background: linear-gradient(135deg, #FF2400, #E01E00);"
             >
-              <img
-                src="/assets/icons/galleria-foto.png"
-                alt="Galleria Foto"
-                class="w-12 h-12 object-contain"
-              />
+              <svg
+                class="w-12 h-12 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.75"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
+              </svg>
             </div>
             <h1
               class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
@@ -72,6 +80,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             <div
               class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6"
             >
+              <!-- Filtri -->
               <div
                 class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end max-w-full"
               >
@@ -82,8 +91,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   <input
                     id="searchEvents"
                     type="text"
-                    placeholder="Es. Festa di Agosto"
-                    class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                    placeholder="Es. Crocetta"
+                    class="w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
                 <div class="min-w-0 overflow-hidden">
@@ -93,7 +102,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   <input
                     id="dateFrom"
                     type="date"
-                    class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                    class="w-full max-w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
                 <div class="min-w-0 overflow-hidden">
@@ -103,7 +112,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   <input
                     id="dateTo"
                     type="date"
-                    class="w-full max-w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                    class="w-full max-w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
                 <div
@@ -171,7 +180,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   <button
                     id="clearFilter"
                     type="button"
-                    class="px-4 py-2 rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90"
+                    class="px-4 py-2 !rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90 focus:outline-none focus:ring-0"
                     >Reset</button
                   >
                 </div>
@@ -357,33 +366,44 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             <h2 class="text-xl font-semibold text-gray-900 mb-4">
               Carica contenuti
             </h2>
-            <form id="uploadForm" class="space-y-4" autocomplete="off">
-              <div class="mb-4">
-                <div class="flex items-center gap-2 mb-3">
-                  <button
-                    id="modeExisting"
-                    type="button"
-                    class="px-3 py-1.5 rounded-full text-sm font-medium text-white"
-                    style="background: linear-gradient(135deg, #FF2400, #E01E00);"
-                    >Aggiungi a evento esistente</button
-                  >
-                  <button
-                    id="modeNew"
-                    type="button"
-                    class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300"
-                    >Crea nuovo evento</button
-                  >
-                  <button
-                    type="button"
-                    aria-label="Info"
-                    class="ml-auto flex-shrink-0 w-8 aspect-square rounded-full border border-red-300 text-red-700 hover:bg-red-50 flex items-center justify-center"
-                    data-info="event"
-                  >
-                    <span class="text-sm font-bold">i</span>
-                  </button>
-                </div>
-                <div id="existingBox" class="mt-4 space-y-3">
-                  <label class="block text-sm font-medium text-gray-700 mb-1"
+            <form
+              id="uploadForm"
+              class="flex flex-col gap-6"
+              autocomplete="off"
+            >
+              <!-- Sezione 1: Selezione Modalità -->
+              <div class="flex items-center gap-2">
+                <button
+                  id="modeExisting"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full text-sm font-medium text-white"
+                  style="background: linear-gradient(135deg, #FF2400, #E01E00);"
+                  >Aggiungi a evento esistente</button
+                >
+                <button
+                  id="modeNew"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300"
+                  >Crea nuovo evento</button
+                >
+                <button
+                  type="button"
+                  aria-label="Info"
+                  class="ml-auto flex-shrink-0 w-8 aspect-square !rounded-full border border-red-300 text-red-700 hover:bg-red-50 flex items-center justify-center focus:outline-none focus:ring-0"
+                  data-info="event"
+                >
+                  <span class="text-sm font-bold">i</span>
+                </button>
+              </div>
+
+              <hr class="border-gray-200" />
+
+              <!-- Sezione 2: Campi Evento -->
+              <div class="block">
+                <div id="existingBox" class="space-y-3">
+                  <label
+                    for="comboInput"
+                    class="block text-sm font-medium text-gray-700 mb-1"
                     >Evento esistente <span class="text-red-600">*</span></label
                   >
                   <div class="flex items-center gap-2">
@@ -395,7 +415,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         autocomplete="off"
                         autocapitalize="off"
                         spellcheck="false"
-                        class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                        class="w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 appearance-none"
                       />
                       <input
                         id="existingFolderHidden"
@@ -418,9 +438,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                   </div>
                 </div>
-                <div id="newEventFields" class="hidden mt-4">
+
+                <div id="newEventFields" class="hidden">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                    <label
+                      for="eventName"
+                      class="block text-sm font-medium text-gray-700 mb-1"
                       >Evento <span class="text-red-600">*</span></label
                     >
                     <input
@@ -443,6 +466,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   >
                     <div class="min-w-0 overflow-hidden">
                       <label
+                        for="date"
                         class="block text-sm font-medium text-gray-700 mb-1"
                         >Data evento <span class="text-red-600">*</span></label
                       >
@@ -457,7 +481,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     </div>
                   </div>
                   <div class="mt-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                    <label
+                      for="description"
+                      class="block text-sm font-medium text-gray-700 mb-1"
                       >Descrizione</label
                     >
                     <textarea
@@ -475,61 +501,72 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   </div>
                 </div>
               </div>
-              <input
-                name="files"
-                id="files"
-                type="file"
-                multiple
-                accept="image/*,.bmp"
-                autocomplete="off"
-                class="sr-only"
-              />
-              <label class="block text-sm font-medium text-gray-700 mb-1"
-                >File <span class="text-red-600">*</span></label
-              >
-              <div
-                id="dropzone"
-                class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-8 text-center hover:bg-red-50"
-              >
-                <div class="flex flex-col items-center justify-center gap-3">
-                  <p class="text-sm text-gray-700">
-                    Trascina qui le immagini oppure <button
-                      type="button"
-                      id="pickFiles"
-                      class="text-red-600 hover:text-red-700 underline"
-                      >carica file</button
-                    >
-                  </p>
-                  <div id="filesSummary" class="text-sm text-gray-600"></div>
-                </div>
-              </div>
-              <div class="text-xs text-gray-600 mt-2">
-                Limite caricamento: <span class="font-semibold">1GB</span> totali
-              </div>
-              <div id="sizeLimitMsg" class="text-xs text-gray-600 mt-1"></div>
-              <div
-                id="uploadStatus"
-                class="hidden text-sm font-medium rounded-xl border px-3 py-2 mt-2"
-              >
-              </div>
-              <div id="uploadProgress" class="hidden mt-3">
-                <div class="text-xs text-gray-700 mb-1" id="uploadNote">
-                  Caricamento in corso — non chiudere la pagina
-                </div>
-                <div
-                  class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
+
+              <hr class="border-gray-200" />
+
+              <!-- Sezione 3: Upload File -->
+              <div class="space-y-3">
+                <input
+                  name="files"
+                  id="files"
+                  type="file"
+                  multiple
+                  accept="image/*,.bmp"
+                  autocomplete="off"
+                  class="sr-only"
+                />
+                <label
+                  for="files"
+                  class="block text-sm font-medium text-gray-700 !mt-0"
+                  >File <span class="text-red-600">*</span></label
                 >
-                  <div
-                    id="uploadBar"
-                    class="bg-red-600 h-2 rounded-full"
-                    style="width:0%"
-                  >
+                <div
+                  id="dropzone"
+                  class="rounded-2xl border-2 border-dashed border-gray-300 bg-white p-8 text-center hover:bg-red-50"
+                >
+                  <div class="flex flex-col items-center justify-center gap-3">
+                    <p class="text-sm text-gray-700">
+                      Trascina qui le immagini oppure <button
+                        type="button"
+                        id="pickFiles"
+                        class="text-red-600 hover:text-red-700 underline"
+                        >carica file</button
+                      >
+                    </p>
+                    <div id="filesSummary" class="text-sm text-gray-600"></div>
                   </div>
                 </div>
-                <div id="uploadPercent" class="text-xs text-gray-700 mt-1">
-                  0%
+                <div
+                  id="sizeLimitMsg"
+                  class="text-xs text-gray-500 mt-2 text-center"
+                >
+                  Selezionati 0 B su 1GB (max)
+                </div>
+                <div
+                  id="uploadStatus"
+                  class="hidden text-sm font-medium rounded-xl border px-3 py-2"
+                >
+                </div>
+                <div id="uploadProgress" class="hidden">
+                  <div class="text-xs text-gray-700 mb-1" id="uploadNote">
+                    Caricamento in corso — non chiudere la pagina
+                  </div>
+                  <div
+                    class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
+                  >
+                    <div
+                      id="uploadBar"
+                      class="bg-red-600 h-2 rounded-full"
+                      style="width:0%"
+                    >
+                    </div>
+                  </div>
+                  <div id="uploadPercent" class="text-xs text-gray-700 mt-1">
+                    0%
+                  </div>
                 </div>
               </div>
+
               <button
                 id="submitBtn"
                 type="submit"
@@ -1088,17 +1125,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         if (uploadMode === "existing") {
           mE.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
           mE.className =
-            "px-3 py-1.5 rounded-full text-sm font-medium text-white";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0";
           mN.style.background = "";
           mN.className =
-            "px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0";
         } else {
           mN.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
           mN.className =
-            "px-3 py-1.5 rounded-full text-sm font-medium text-white";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0";
           mE.style.background = "";
           mE.className =
-            "px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0";
         }
       }
     }
@@ -1430,11 +1467,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const bytes = totalSelectedBytes();
       const over = bytes > MAX_TOTAL_BYTES;
       msg.textContent = over
-        ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB`
-        : `Selezionati ${formatBytes(bytes)} su 1GB`;
+        ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB (max)`
+        : `Selezionati ${formatBytes(bytes)} su 1GB (max)`;
       msg.className = over
-        ? "text-xs text-red-700 mt-1"
-        : "text-xs text-gray-600 mt-1";
+        ? "text-xs text-red-600 mt-2 text-center font-semibold"
+        : "text-xs text-gray-500 mt-2 text-center";
     }
     document
       .getElementById("uploadForm")

@@ -245,9 +245,9 @@ body {
 
 /* Enhanced Focus Styles */
 *:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-  border-radius: 8px;
+  outline: none !important;
+  /* box-shadow: none !important; - RIMOSSO SU RICHIESTA UTENTE */
+  /* border-radius: inherit; - RIMOSSO SU RICHIESTA UTENTE */
 }
 
 /* Hide Scrollbar Completely */
