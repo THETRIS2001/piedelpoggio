@@ -164,116 +164,259 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                 Cronologia degli Eventi Principali
               </h3>
 
-              <div class="relative">
-                <!-- Linea verticale della timeline -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 14 Gennaio 1703 -->
                 <div
-                  class="absolute left-2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-400 via-orange-400 to-red-600"
+                  class="bg-red-50 rounded-xl p-6 border border-red-200 shadow-sm hover:shadow-md transition-all duration-300"
                 >
+                  <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-xl font-bold text-red-900">
+                      14 Gennaio 1703
+                    </h4>
+                    <span
+                      class="px-3 py-1 text-xs font-semibold bg-red-200 text-red-800 rounded-full"
+                    >
+                      Prima Scossa
+                    </span>
+                  </div>
+                  <p class="text-red-800 text-sm leading-relaxed">
+                    Violenta scossa alle ore 3 del mattino. Colpisce Umbria
+                    meridionale, Lazio settentrionale e Abruzzo orientale. 800
+                    morti nel distretto di Leonessa.
+                  </p>
                 </div>
 
-                <!-- Eventi della timeline -->
-                <div class="space-y-8">
-                  <!-- 14 Gennaio 1703 -->
-                  <div class="relative flex items-start">
-                    <div
-                      class="absolute left-0 w-4 h-4 bg-red-600 rounded-full border-4 border-white shadow-lg"
+                <!-- 16 Gennaio 1703 -->
+                <div
+                  class="bg-orange-50 rounded-xl p-6 border border-orange-200 shadow-sm hover:shadow-md transition-all duration-300"
+                >
+                  <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-xl font-bold text-orange-900">
+                      16 Gennaio 1703
+                    </h4>
+                    <span
+                      class="px-3 py-1 text-xs font-semibold bg-orange-200 text-orange-800 rounded-full"
                     >
+                      Seconda Scossa
+                    </span>
+                  </div>
+                  <p class="text-orange-800 text-sm leading-relaxed">
+                    Nuova devastante scossa nella stessa area. Ulteriori
+                    distruzioni e crolli. Diciannove centri rasi al suolo.
+                  </p>
+                </div>
+
+                <!-- 2 Febbraio 1703 -->
+                <div
+                  class="bg-yellow-50 rounded-xl p-6 border border-yellow-200 shadow-sm hover:shadow-md transition-all duration-300"
+                >
+                  <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-xl font-bold text-yellow-900">
+                      2 Febbraio 1703
+                    </h4>
+                    <span
+                      class="px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full"
+                    >
+                      Scossa Principale
+                    </span>
+                  </div>
+                  <p class="text-yellow-900 text-sm leading-relaxed">
+                    <strong>Ore 11:05</strong> - Magnitudo 6.65. Devastazione di L'Aquila.
+                    <strong>Piedelpoggio distrutto</strong> insieme a Viesci e San
+                    Clemente.
+                  </p>
+                </div>
+
+                <!-- 1703-1705 -->
+                <div
+                  class="bg-stone-50 rounded-xl p-6 border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300"
+                >
+                  <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-xl font-bold text-stone-900">1703-1705</h4>
+                    <span
+                      class="px-3 py-1 text-xs font-semibold bg-stone-200 text-stone-800 rounded-full"
+                    >
+                      Sequenza Sismica
+                    </span>
+                  </div>
+                  <p class="text-stone-800 text-sm leading-relaxed">
+                    La sequenza sismica continua per oltre due anni con scosse
+                    frequenti fino al 1705, seminando terrore in tutto
+                    l'Appennino centrale.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sezione Documenti Storici -->
+            <div class="mt-12 pt-8 border-t border-gray-200">
+              <h3 class="text-xl font-bold text-gray-900 mb-8 text-center">
+                Documenti Storici
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Terremoto effetti ambiente.pdf -->
+                <div
+                  class="group bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-green-200 flex flex-col h-full"
+                >
+                  <div class="flex items-start space-x-4 mb-4 flex-1">
+                    <div
+                      class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
+                    >
+                      <svg
+                        class="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
+                        ></path>
+                      </svg>
                     </div>
-                    <div
-                      class="ml-6 bg-red-50 rounded-xl p-6 border border-red-200"
-                    >
-                      <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-lg font-bold text-red-900">
-                          14 Gennaio 1703
-                        </h4>
-                        <span
-                          class="px-3 py-1 text-xs md:text-sm font-medium bg-red-200 text-red-800 rounded-full text-sm font-medium"
-                          >Prima Scossa</span
-                        >
-                      </div>
-                      <p class="text-red-800 text-sm">
-                        Violenta scossa alle ore 3 del mattino. Colpisce Umbria
-                        meridionale, Lazio settentrionale e Abruzzo orientale.
-                        800 morti nel distretto di Leonessa.
+                    <div>
+                      <h3 class="text-lg font-semibold text-green-900 mb-1">
+                        Effetti Ambientali
+                      </h3>
+                      <p class="text-green-700 text-sm">
+                        Impatto del terremoto sull'ambiente e territorio
                       </p>
                     </div>
                   </div>
+                  <div class="pl-16 mt-auto">
+                    <a
+                      href="/documents/Terremoto/Terremoto%20effetti%20ambiente.pdf"
+                      target="_blank"
+                      class="pdf-button inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium w-full justify-center sm:w-auto shadow-sm hover:shadow-md"
+                    >
+                      <svg
+                        class="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        ></path>
+                      </svg>
+                      Visualizza PDF
+                    </a>
+                  </div>
+                </div>
 
-                  <!-- 16 Gennaio 1703 -->
-                  <div class="relative flex items-start">
+                <!-- terremoto notizie demografiche.pdf -->
+                <div
+                  class="group bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-blue-200 flex flex-col h-full"
+                >
+                  <div class="flex items-start space-x-4 mb-4 flex-1">
                     <div
-                      class="absolute left-0 w-4 h-4 bg-orange-600 rounded-full border-4 border-white shadow-lg"
+                      class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
                     >
+                      <svg
+                        class="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        ></path>
+                      </svg>
                     </div>
-                    <div
-                      class="ml-6 bg-orange-50 rounded-xl p-6 border border-orange-200"
-                    >
-                      <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-lg font-bold text-orange-900">
-                          16 Gennaio 1703
-                        </h4>
-                        <span
-                          class="px-3 py-1 text-xs md:text-sm font-medium bg-orange-200 text-orange-800 rounded-full text-sm font-medium"
-                          >Seconda Scossa</span
-                        >
-                      </div>
-                      <p class="text-orange-800 text-sm">
-                        Nuova devastante scossa nella stessa area. Ulteriori
-                        distruzioni e crolli. Diciannove centri rasi al suolo.
+                    <div>
+                      <h3 class="text-lg font-semibold text-blue-900 mb-1">
+                        Notizie Demografiche
+                      </h3>
+                      <p class="text-blue-700 text-sm">
+                        Dati demografici e statistiche delle vittime
                       </p>
                     </div>
                   </div>
+                  <div class="pl-16 mt-auto">
+                    <a
+                      href="/documents/Terremoto/terremoto%20notizie%20demografiche.pdf"
+                      target="_blank"
+                      class="pdf-button inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium w-full justify-center sm:w-auto shadow-sm hover:shadow-md"
+                    >
+                      <svg
+                        class="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        ></path>
+                      </svg>
+                      Visualizza PDF
+                    </a>
+                  </div>
+                </div>
 
-                  <!-- 2 Febbraio 1703 -->
-                  <div class="relative flex items-start">
+                <!-- terremoto risposte istituzioniali.pdf -->
+                <div
+                  class="group bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-purple-200 flex flex-col h-full"
+                >
+                  <div class="flex items-start space-x-4 mb-4 flex-1">
                     <div
-                      class="absolute left-0 w-4 h-4 bg-red-800 rounded-full border-4 border-white shadow-lg"
+                      class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
                     >
+                      <svg
+                        class="w-6 h-6 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        ></path>
+                      </svg>
                     </div>
-                    <div
-                      class="ml-6 bg-red-100 rounded-xl p-6 border border-red-300"
-                    >
-                      <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-lg font-bold text-red-900">
-                          2 Febbraio 1703
-                        </h4>
-                        <span
-                          class="px-3 py-1 text-xs md:text-sm font-medium bg-red-300 text-red-900 rounded-full text-sm font-medium"
-                          >Scossa Principale</span
-                        >
-                      </div>
-                      <p class="text-red-900 text-sm">
-                        <strong>Ore 11:05</strong> - Magnitudo 6.65. Devastazione
-                        di L'Aquila. <strong>Piedelpoggio distrutto</strong> insieme
-                        a Viesci e San Clemente.
+                    <div>
+                      <h3 class="text-lg font-semibold text-purple-900 mb-1">
+                        Risposte Istituzionali
+                      </h3>
+                      <p class="text-purple-700 text-sm">
+                        Interventi e misure adottate dalle istituzioni
                       </p>
                     </div>
                   </div>
-
-                  <!-- 1703-1705 -->
-                  <div class="relative flex items-start">
-                    <div
-                      class="absolute left-0 w-4 h-4 bg-gray-600 rounded-full border-4 border-white shadow-lg"
+                  <div class="pl-16 mt-auto">
+                    <a
+                      href="/documents/Terremoto/terremoto%20risposte%20istituzioniali.pdf"
+                      target="_blank"
+                      class="pdf-button inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 text-sm font-medium w-full justify-center sm:w-auto shadow-sm hover:shadow-md"
                     >
-                    </div>
-                    <div
-                      class="ml-6 bg-gray-50 rounded-xl p-6 border border-gray-200"
-                    >
-                      <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-lg font-bold text-gray-900">
-                          1703-1705
-                        </h4>
-                        <span
-                          class="px-3 py-1 text-xs md:text-sm font-medium bg-gray-200 text-gray-800 rounded-full text-sm font-medium"
-                          >Sequenza Sismica</span
-                        >
-                      </div>
-                      <p class="text-gray-800 text-sm">
-                        La sequenza sismica continua per oltre due anni con
-                        scosse frequenti fino al 1705, seminando terrore in
-                        tutto l'Appennino centrale.
-                      </p>
-                    </div>
+                      <svg
+                        class="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        ></path>
+                      </svg>
+                      Visualizza PDF
+                    </a>
                   </div>
                 </div>
               </div>
@@ -327,87 +470,96 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
 
-            <div
-              class="bg-white/90 rounded-xl sm:rounded-2xl p-6 md:p-8 shadow-inner border border-amber-100"
-            >
-              <div class="text-center mb-8">
-                <p class="text-lg font-semibold text-amber-800 mb-2">I.M.I</p>
-                <p class="text-xl font-bold text-amber-900">
+            <div class="mt-8">
+              <div class="text-center mb-10">
+                <p class="text-lg font-semibold text-gray-400 mb-2">I.M.I</p>
+                <p class="text-2xl font-bold text-gray-900 tracking-tight">
                   Ad perpetuam rei memoriam
                 </p>
-                <p class="text-lg text-amber-700 mt-2">14 gennaio 1703</p>
+                <p class="text-lg text-gray-500 mt-2 font-medium">
+                  14 gennaio 1703
+                </p>
               </div>
 
               <div
-                class="prose prose-amber max-w-none text-gray-800 leading-relaxed space-y-6 text-justify"
+                class="prose prose-slate max-w-none text-gray-700 leading-relaxed space-y-6 text-justify"
               >
-                <p class="text-sm md:text-lg italic">
-                  Circa le due ore della notte, giorno di domenica li 14 gennaio
-                  1703 fù così terribile terremoto, che si credè essere già la
-                  vigilia del giorno del giudizio universale, perché con lo
-                  strepitio e sgomento dello scotimento della terra ci fù
-                  accompagnato un vento grandissimo ed una pioggia tanto grande,
-                  che convenne a molti perire sotto le macerie e ruine del
+                <p class="text-base md:text-lg italic text-gray-700">
+                  Circa le due ore della notte, giorno di domenica li <strong
+                    >14 gennaio 1703</strong
+                  > fù così <strong>terribile terremoto</strong>, che si credè
+                  essere già la vigilia del giorno del giudizio universale,
+                  perché con lo strepitio e sgomento dello scotimento della
+                  terra ci fù accompagnato un <strong
+                    >vento grandissimo ed una pioggia tanto grande</strong
+                  >, che convenne a molti perire sotto le macerie e ruine del
                   terremoto per non restare annegati nell'acqua.
                 </p>
 
-                <p class="text-sm md:text-lg">
+                <p class="text-base md:text-lg">
                   Fù cosi terribile terremoto che alle prime scosse di ore tre
                   che furono in un medesimo tempo, che restarono morti nel
-                  distretto di Leonessa ottocento persone, numero grande di
-                  animali, il castello di Terzone, S. Angelo, Pianezza, Colle
-                  Secco e Vallimpuni spianati affatto; e l'altre ville parte
-                  diroccate e parte con le case mezze rotte.
+                  <strong>distretto di Leonessa ottocento persone</strong>,
+                  numero grande di animali, il castello di <strong
+                    >Terzone, S. Angelo, Pianezza, Colle Secco e Vallimpuni
+                    spianati affatto</strong
+                  >; e l'altre ville parte diroccate e parte con le case mezze
+                  rotte.
                 </p>
 
-                <p class="text-sm md:text-lg">
-                  Solo questa villa di Casanova e Vallunga con il piano di
-                  Leonessa restarono in piedi.
+                <p class="text-base md:text-lg">
+                  Solo questa villa di <strong>Casanova e Vallunga</strong> con il
+                  piano di Leonessa <strong>restarono in piedi</strong>.
                 </p>
 
-                <p class="text-sm md:text-lg">
-                  Leonessa restò dannificata dentro di essa con la ruina di
-                  S.Pietro che cadè la chiesa, la tribuna di S.Francesco, il
-                  palazzo priorale, quello della cura di S.Spirito, e molte case
-                  caderono, li morti dentro di essa furono quarantadue.
+                <p class="text-base md:text-lg">
+                  <strong>Leonessa restò dannificata</strong> dentro di essa con la
+                  ruina di S.Pietro che cadè la chiesa, la tribuna di S.Francesco,
+                  il palazzo priorale, quello della cura di S.Spirito, e molte case
+                  caderono, li <strong
+                    >morti dentro di essa furono quarantadue</strong
+                  >.
                 </p>
 
-                <p class="text-sm md:text-lg">
-                  A quella sera seguì il moto continuo della terra per
-                  quarantotto ore di moto che fù forzata ogni persona uscir
-                  fuori in campagna con lasciare la casa e le sue robe in
-                  abbandono per salvare la propria vita.
+                <p class="text-base md:text-lg">
+                  A quella sera seguì il <strong
+                    >moto continuo della terra per quarantotto ore</strong
+                  > di moto che fù forzata ogni persona uscir fuori in campagna con
+                  lasciare la casa e le sue robe in abbandono per salvare la propria
+                  vita.
                 </p>
 
-                <p class="text-sm md:text-lg">
+                <p class="text-base md:text-lg">
                   E fra le dette quarantotto ore vi furono quasi ad ogni ora
                   scosse di terra che pare volesse aprirsi.
                 </p>
 
-                <p class="text-sm md:text-lg">
+                <p class="text-base md:text-lg">
                   Passate le quarantotto ore, ogni giorno si fecero sentire
                   altre scosse con così grave timore che ognuno aveva la morte
                   davanti gli occhi e seguitarono notte e giorno dedicato alla
                   B. vergine Maria.
                 </p>
 
-                <p class="text-sm md:text-lg">
+                <p class="text-base md:text-lg">
                   Già si credeva che Dio avesse per sua misericordia placato il
-                  suo sdegno, quando circa le 18 ore del detto 2 febbraio si fè
-                  sentire si terribile e così lungo terremoto con scosse in un
-                  medesimo tempo che quelle ville e case che non erano cadute
-                  nelli antecedenti terremoti, caddero e in quei interno
-                  restarono distrutte, Viesci, San Clemente e Piedelpoggio.
+                  suo sdegno, quando circa le 18 ore del detto <strong
+                    >2 febbraio</strong
+                  > si fè sentire si terribile e così lungo terremoto con scosse in
+                  un medesimo tempo che quelle ville e case che non erano cadute nelli
+                  antecedenti terremoti, caddero e in quei interno restarono distrutte,
+                  <strong>Viesci, San Clemente e Piedelpoggio</strong>.
                 </p>
 
-                <p class="text-sm md:text-lg">
-                  Si senti poi che la città di Aquila restò subissata e vi
-                  morirono circa quattromila persone e come si dice, si è fatto
-                  il conto che nei luoghi offesi dal terremoto in tutto siano
-                  morti circa 22000 persone.
+                <p class="text-base md:text-lg">
+                  Si senti poi che la <strong
+                    >città di Aquila restò subissata</strong
+                  > e vi morirono circa <strong>quattromila persone</strong> e come
+                  si dice, si è fatto il conto che nei luoghi offesi dal terremoto
+                  in tutto siano morti circa <strong>22000 persone</strong>.
                 </p>
 
-                <p class="text-sm md:text-lg">
+                <p class="text-base md:text-lg">
                   A quello del 2 febbraio oltre agli altri seguiti ogni dì
                   mediocri e gagliardi ne seguì un altro parimenti terribile nel
                   giorno di Pasqua e poi sempre seguirono ma non con tanta
@@ -416,20 +568,23 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   data memorabile.
                 </p>
 
-                <p class="text-sm md:text-lg">
-                  Questa villa di Casanova che rimase tutta in piedi senza
-                  perire nessuna persona fecero voto assieme al curato, e
-                  solenne giuramento di celebrare la festività del SS.mo nome di
-                  Gesù il 14 gennaio di ogni anno con quella pietà e
+                <p class="text-base md:text-lg">
+                  Questa villa di Casanova che <strong
+                    >rimase tutta in piedi</strong
+                  > senza perire nessuna persona fecero <strong
+                    >voto assieme al curato</strong
+                  >, e solenne giuramento di celebrare la festività del SS.mo
+                  nome di Gesù il 14 gennaio di ogni anno con quella pietà e
                   magnificenza che lo permetterà la devozione di confessarsi e
-                  comunicarsi in ringraziamento di tanto benefizio ricevuto, per
-                  restare tutti vivi e salvi e non aver ricevuto offesa ne alla
-                  vita e ne nella roba.
+                  comunicarsi in ringraziamento di tanto <strong
+                    >benefizio ricevuto</strong
+                  >, per restare tutti vivi e salvi e non aver ricevuto offesa
+                  ne alla vita e ne nella roba.
                 </p>
               </div>
 
-              <div class="mt-8 pt-6 border-t border-amber-200">
-                <p class="text-sm text-amber-700 italic text-center">
+              <div class="mt-12 pt-8 border-t border-gray-100 italic">
+                <p class="text-sm text-gray-500 text-center leading-relaxed">
                   La presente memoria è stata copiata sull'originale fatta dal
                   Giovannantonio Petroni, conservata nell'archivio parrocchiale
                   di Vallunga.<br />
@@ -440,256 +595,80 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             </div>
           </div>
         </div>
-
-        <!-- Sezione Documenti -->
-        <div class="max-w-6xl mx-auto">
-          <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
-          >
-            <h2
-              class="text-1xl md:text-1xl sm:text-3xl font-bold text-gray-900 mb-8 text-center"
-            >
-              Documenti Storici
-            </h2>
-
-            <div
-              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:p-12"
-            >
-              <!-- Terremoto effetti ambiente.pdf -->
-              <div
-                class="group bg-gradient-to-br from-green-50 to-green-100 rounded-xl sm:rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-green-200"
-              >
-                <div class="flex items-start space-x-4">
-                  <div
-                    class="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
-                  >
-                    <svg
-                      class="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-green-900 mb-2">
-                      Effetti Ambientali
-                    </h3>
-                    <p class="text-green-700 text-sm mb-4">
-                      Impatto del terremoto sull'ambiente e territorio
-                    </p>
-                    <a
-                      href="/documents/Terremoto/Terremoto%20effetti%20ambiente.pdf"
-                      target="_blank"
-                      class="pdf-button inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium"
-                    >
-                      <svg
-                        class="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        ></path>
-                      </svg>
-                      Visualizza PDF
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- terremoto notizie demografiche.pdf -->
-              <div
-                class="group bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl sm:rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-blue-200"
-              >
-                <div class="flex items-start space-x-4">
-                  <div
-                    class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
-                  >
-                    <svg
-                      class="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-blue-900 mb-2">
-                      Notizie Demografiche
-                    </h3>
-                    <p class="text-blue-700 text-sm mb-4">
-                      Dati demografici e statistiche delle vittime
-                    </p>
-                    <a
-                      href="/documents/Terremoto/terremoto%20notizie%20demografiche.pdf"
-                      target="_blank"
-                      class="pdf-button inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium"
-                    >
-                      <svg
-                        class="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        ></path>
-                      </svg>
-                      Visualizza PDF
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- terremoto risposte istituzioniali.pdf -->
-              <div
-                class="group bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl sm:rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-purple-200"
-              >
-                <div class="flex items-start space-x-4">
-                  <div
-                    class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300"
-                  >
-                    <svg
-                      class="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-purple-900 mb-2">
-                      Risposte Istituzionali
-                    </h3>
-                    <p class="text-purple-700 text-sm mb-4">
-                      Interventi e misure adottate dalle istituzioni
-                    </p>
-                    <a
-                      href="/documents/Terremoto/terremoto%20risposte%20istituzioniali.pdf"
-                      target="_blank"
-                      class="pdf-button inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 text-sm font-medium"
-                    >
-                      <svg
-                        class="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        ></path>
-                      </svg>
-                      Visualizza PDF
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </main>
+
+  <style>
+    .animate-fade-in {
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Assicura che i pulsanti PDF siano visibili */
+    .pdf-button {
+      position: relative !important;
+      z-index: 10 !important;
+      display: inline-flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      background-color: inherit !important;
+      color: white !important;
+      border: none !important;
+      outline: none !important;
+    }
+
+    /* Stili specifici per ogni colore di pulsante */
+    .bg-green-600 {
+      background-color: #059669 !important;
+    }
+
+    .bg-blue-600 {
+      background-color: #2563eb !important;
+    }
+
+    .bg-purple-600 {
+      background-color: #9333ea !important;
+    }
+
+    /* Assicura che il titolo sia visibile */
+    h1,
+    h2,
+    h3 {
+      visibility: visible !important;
+      opacity: 1 !important;
+      display: block !important;
+    }
+
+    /* Forza la visibilità di tutti gli elementi di testo */
+    .text-transparent {
+      background-clip: text !important;
+      -webkit-background-clip: text !important;
+      color: transparent !important;
+      background-image: linear-gradient(
+        to right,
+        #7f1d1d,
+        #dc2626,
+        #ea580c
+      ) !important;
+    }
+
+    /* Migliora la giustificazione del testo */
+    .text-justify {
+      text-align: justify !important;
+      text-justify: inter-word;
+      hyphens: auto;
+    }
+  </style>
 </DefaultLayout>
-
-<style>
-  .animate-fade-in {
-    animation: fadeIn 1s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Assicura che i pulsanti PDF siano visibili */
-  .pdf-button {
-    position: relative !important;
-    z-index: 10 !important;
-    display: inline-flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    background-color: inherit !important;
-    color: white !important;
-    border: none !important;
-    outline: none !important;
-  }
-
-  /* Stili specifici per ogni colore di pulsante */
-  .bg-green-600 {
-    background-color: #059669 !important;
-  }
-
-  .bg-blue-600 {
-    background-color: #2563eb !important;
-  }
-
-  .bg-purple-600 {
-    background-color: #9333ea !important;
-  }
-
-  /* Assicura che il titolo sia visibile */
-  h1,
-  h2,
-  h3 {
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: block !important;
-  }
-
-  /* Forza la visibilità di tutti gli elementi di testo */
-  .text-transparent {
-    background-clip: text !important;
-    -webkit-background-clip: text !important;
-    color: transparent !important;
-    background-image: linear-gradient(
-      to right,
-      #7f1d1d,
-      #dc2626,
-      #ea580c
-    ) !important;
-  }
-
-  /* Migliora la giustificazione del testo */
-  .text-justify {
-    text-align: justify !important;
-    text-justify: inter-word;
-    hyphens: auto;
-  }
-</style>
