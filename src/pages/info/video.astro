@@ -2,24 +2,41 @@
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
 type VideoItem =
-  | { type: "youtube"; id: string; title: string; params?: string; src?: never }
-  | { type: "r2"; src: string; title: string; id?: never; params?: never };
+  | {
+      type: "youtube";
+      id: string;
+      title: string;
+      params?: string;
+      date?: string;
+      src?: never;
+    }
+  | {
+      type: "r2";
+      src: string;
+      title: string;
+      date?: string;
+      id?: never;
+      params?: never;
+    };
 
 const piedelpoggioVideos: VideoItem[] = [
   {
     type: "youtube",
     id: "o5aT_IRUZQw",
+    date: "2018-12-09T08:35:04-08:00",
     title: "Ripresa Aerea",
     params: "t=1s",
   },
   {
     type: "youtube",
     id: "uCusK9YDWsg",
+    date: "2021-01-30T14:03:09-08:00",
     title: "Ripresa Aerea dintorni innevati",
   },
   {
     type: "youtube",
     id: "9Nf5yItDOW4",
+    date: "2024-12-12T02:49:38-08:00",
     title: "Presepe di Piedelpoggio",
     params: "t=1s",
   },
@@ -31,32 +48,38 @@ const piedelpoggioVideos: VideoItem[] = [
   {
     type: "youtube",
     id: "WhGKGI3w444",
+    date: "2018-12-03T14:28:29-08:00",
     title: "Presepe",
   },
   {
     type: "youtube",
     id: "e6bBeBgOo90",
+    date: "2016-09-22T15:02:39-07:00",
     title: "Processione",
   },
   {
     type: "youtube",
     id: "1O-Msg6-8w8",
+    date: "2015-09-07T07:56:47-07:00",
     title: "Processione",
   },
   {
     type: "youtube",
     id: "raNY-qjfC0o",
+    date: "2015-01-18T07:51:44-08:00",
     title: "Piedelpoggio",
   },
   {
     type: "youtube",
     id: "Lqx51iud3S8",
+    date: "2014-09-29T13:05:35-07:00",
     title: "Piedelpoggio Estate 2014",
     params: "t=2s",
   },
   {
     type: "youtube",
     id: "KAhvGAP3X2g",
+    date: "2013-09-17T13:29:42-07:00",
     title: "Piedelpoggio Gita 2013",
   },
 ];
@@ -65,221 +88,274 @@ const zoneLimitrofeVideos: VideoItem[] = [
   {
     type: "youtube",
     id: "jl-zfnjAnHM",
+    date: "2020-08-24T14:29:23-07:00",
     title: "In volo sopra la Crocetta",
   },
   {
     type: "youtube",
     id: "yHd0XOSO5_Q",
+    date: "2018-09-22T03:24:53-07:00",
     title: "Monte Tilia",
   },
   {
     type: "youtube",
     id: "NMCRVxzEVRA",
+    date: "2016-07-01T05:12:13-07:00",
     title: "Leonessa e la torre Angioina",
     params: "start=2",
   },
   {
     type: "youtube",
     id: "zI1skL3iL04",
+    date: "2014-05-06T17:09:13-07:00",
     title: "Leonessa",
     params: "start=1",
   },
   {
     type: "youtube",
     id: "_UhJcNnsvGw",
+    date: "2022-07-22T03:14:45-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "7AilWodzmvA",
+    date: "2023-05-14T10:07:58-07:00",
     title: "Leonessa",
     params: "t=8s",
   },
   {
     type: "youtube",
     id: "6lnc2vX_gt4",
+    date: "2019-07-27T08:07:47-07:00",
     title: "Leonessa",
     params: "t=1s",
   },
   {
     type: "youtube",
     id: "-Bm0LhSdaMM",
+    date: "2023-02-06T04:46:25-08:00",
     title: "Leonessa e Dintorni innevati",
   },
   {
     type: "youtube",
     id: "2yrBcjuXB1o",
+    date: "2018-08-30T01:42:16-07:00",
     title: "Paesaggio Leonessa",
   },
   {
     type: "youtube",
     id: "6wrh-uOIUEA",
+    date: "2009-06-24T04:57:43-07:00",
     title: "Leonessa anni 60-70",
   },
   {
     type: "youtube",
     id: "_izbsbf-pQY",
+    date: "2011-07-14T04:47:23-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "QJTJ3uDNWzA",
+    date: "2022-01-02T09:00:11-08:00",
     title: "Leonessa",
     params: "start=50",
   },
   {
     type: "youtube",
     id: "8yJphzYlmgs",
+    date: "2020-12-30T13:03:25-08:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "gfLL3bp_-CQ",
+    date: "2024-02-05T01:10:48-08:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "XCym2QyoylY",
+    date: "2018-07-26T06:52:08-07:00",
     title: "Crocetta",
   },
   {
     type: "youtube",
     id: "3EA1X5awmHw",
+    date: "2018-03-26T04:33:30-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "uXvb3Zw51v8",
+    date: "2023-07-31T00:26:13-07:00",
     title: "Albaneto",
   },
   {
     type: "youtube",
     id: "4uCgesq-l1Q",
+    date: "2022-07-04T02:10:09-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "x3ySuZiHTz4",
+    date: "2010-12-28T00:20:12-08:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "3S6b95izRk4",
+    date: "2024-06-16T09:38:22-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "-GxmLh5NvMo",
+    date: "2025-10-14T05:19:31-07:00",
     title: "Leonessa Sagra Patata TGR",
   },
   {
     type: "youtube",
     id: "RGVFjdztX8M",
+    date: "2023-03-13T01:15:26-07:00",
     title: "Leonessa",
     params: "start=291",
   },
   {
     type: "youtube",
     id: "5Lq8gjApNtY",
+    date: "2025-08-24T00:05:26-07:00",
     title: "Leonessa Cammino San Benedetto",
   },
   {
     type: "youtube",
     id: "aTD9smiJdQE",
+    date: "2016-10-22T04:24:41-07:00",
     title: "Leonessa Sagra della Patata",
   },
   {
     type: "youtube",
     id: "8uHF2lNV4iA",
+    date: "2018-03-07T09:45:28-08:00",
     title: "Leonessa e Campo Stella",
   },
   {
     type: "youtube",
     id: "TiMLkC36DCU",
+    date: "2025-04-25T04:00:28-07:00",
     title: "Leonessa Cerimonia 25 Aprile",
   },
   {
     type: "youtube",
     id: "igaFZZb3Qfk",
+    date: "2019-09-18T08:14:50-07:00",
     title: "Leonessa e Campo stella",
   },
   {
     type: "youtube",
     id: "8Kbq3GvUi20",
+    date: "2017-03-13T10:59:35-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "Pem_TOuc5uw",
+    date: "2009-08-27T09:11:44-07:00",
     title: "Leonessa Poeti A Braccio 1972",
   },
   {
     type: "youtube",
     id: "6YftYXVs9uQ",
+    date: "2015-07-06T09:05:23-07:00",
     title: "Palio del Velluto",
   },
   {
     type: "youtube",
     id: "YvHkeIaW-I0",
+    date: "2010-03-11T12:21:48-08:00",
     title: "Leonessa Neve 6/03/2010",
   },
   {
     type: "youtube",
     id: "AiS2QTmD4kw",
+    date: "2010-09-17T08:49:07-07:00",
     title: "Leonessa Processione di San Giuseppe 3",
   },
   {
     type: "youtube",
     id: "qmG-LhN0cDc",
+    date: "2008-01-08T12:09:02-08:00",
     title: "Villa Bigioni",
   },
   {
     type: "youtube",
     id: "pj-wlLg1U38",
+    date: "2020-06-24T06:11:38-07:00",
     title: "Leonessa Storia",
   },
 
   {
     type: "youtube",
     id: "cvyoDWwpBAw",
+    date: "2018-07-01T13:39:14-07:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "UAyQ6NmaY4o",
+    date: "2016-11-27T01:41:21-08:00",
     title: "Leonessa",
   },
   {
     type: "youtube",
     id: "va8Joewi5YY",
+    date: "2016-06-23T00:43:43-07:00",
     title: "Ostaria de Poggio 2016",
   },
   {
     type: "youtube",
     id: "BOWis-fZjG4",
+    date: "2014-06-27T03:47:27-07:00",
     title: "Ostaria de Poggio 2014",
   },
   {
     type: "youtube",
     id: "LWeDwGbeGIY",
+    date: "2016-02-07T13:40:13-08:00",
     title: "Carnevale a Leonessa",
   },
   {
     type: "youtube",
     id: "zJ-K367zles",
+    date: "2015-10-13T05:03:22-07:00",
     title: "Sagra della patata 2015",
   },
   {
     type: "youtube",
     id: "lN3LRvST3Gc",
+    date: "2013-02-12T13:02:38-08:00",
     title: "Leonessa in maschera 2013",
   },
   {
     type: "youtube",
     id: "a56xdWUIznk",
+    date: "2013-01-08T12:22:46-08:00",
     title: "Leonessa a Natale 2013",
   },
 ];
+
+// Funzione per ordinare i video per data decrescente
+const sortVideos = (a: VideoItem, b: VideoItem) => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+};
+
+// Applica l'ordinamento
+piedelpoggioVideos.sort(sortVideos);
+zoneLimitrofeVideos.sort(sortVideos);
 ---
 
 <DefaultLayout
@@ -416,9 +492,33 @@ const zoneLimitrofeVideos: VideoItem[] = [
                       )}
                     </div>
                     <div class="p-4">
-                      <h3 class="text-lg font-bold text-gray-900">
+                      <h3 class="text-lg font-bold text-gray-900 leading-snug">
                         {video.title}
                       </h3>
+                      {video.date && (
+                        <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-gray-500">
+                          <svg
+                            class="w-3.5 h-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <span>
+                            {new Date(video.date).toLocaleDateString("it-IT", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))
@@ -493,9 +593,33 @@ const zoneLimitrofeVideos: VideoItem[] = [
                       )}
                     </div>
                     <div class="p-4">
-                      <h3 class="text-lg font-bold text-gray-900">
+                      <h3 class="text-lg font-bold text-gray-900 leading-snug">
                         {video.title}
                       </h3>
+                      {video.date && (
+                        <div class="flex items-center gap-1.5 mt-2 text-xs font-medium text-gray-500">
+                          <svg
+                            class="w-3.5 h-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <span>
+                            {new Date(video.date).toLocaleDateString("it-IT", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))

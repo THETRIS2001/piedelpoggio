@@ -254,14 +254,14 @@ const limitrofeCams = webcamData
     </section>
 
     <!-- Webcam Section -->
-    <section class="py-6 px-4 sm:px-6 lg:px-8">
+    <section class="pt-4 pb-16 px-4 sm:px-6 lg:px-8">
       <div class="max-w-6xl mx-auto space-y-12">
         <!-- Webcam di Piedelpoggio - Box con ombra -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
+          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300"
         >
-          <div class="p-8">
-            <div class="flex items-center space-x-4 mb-4 md:mb-8">
+          <div class="p-6 md:p-12">
+            <div class="flex items-center space-x-4 mb-8">
               <div
                 class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-xl flex items-center justify-center"
               >
@@ -284,11 +284,11 @@ const limitrofeCams = webcamData
               </h2>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {
                 piedelpoggioCams.map((webcam) => (
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300">
-                    <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
+                  <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <div class="aspect-video bg-black overflow-hidden">
                       <iframe
                         src={webcam.url}
                         class="w-full h-full border-0"
@@ -296,17 +296,44 @@ const limitrofeCams = webcamData
                         title={`Webcam ${webcam.title}`}
                       />
                     </div>
-                    <div class="p-4 md:p-8">
-                      <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">
                         {webcam.title}
                       </h3>
                       <p class="text-gray-600 leading-relaxed mb-3">
                         {webcam.description}
                       </p>
                       <div class="flex items-center">
-                        <span class="text-sm text-gray-500">
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${webcam.lat},${webcam.lng}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-sm text-gray-500 hover:text-orange-600 hover:underline transition-colors flex items-center gap-1 group"
+                          title="Vedi su Google Maps"
+                        >
+                          <svg
+                            class="w-4 h-4 text-gray-400 group-hover:text-orange-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <>
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                              />
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
+                            </>
+                          </svg>
                           Coordinate: {webcam.coordinates}
-                        </span>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -318,10 +345,10 @@ const limitrofeCams = webcamData
 
         <!-- Webcam Zone Limitrofe - Box con ombra -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
+          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300"
         >
-          <div class="p-8">
-            <div class="flex items-center space-x-4 mb-4 md:mb-8">
+          <div class="p-6 md:p-12">
+            <div class="flex items-center space-x-4 mb-8">
               <div
                 class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-xl flex items-center justify-center"
               >
@@ -344,11 +371,11 @@ const limitrofeCams = webcamData
               </h2>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {
                 limitrofeCams.map((webcam) => (
-                  <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300">
-                    <div class="aspect-video bg-black rounded-t-2xl overflow-hidden">
+                  <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                    <div class="aspect-video bg-black overflow-hidden">
                       <iframe
                         src={webcam.url}
                         class="w-full h-full border-0"
@@ -356,17 +383,44 @@ const limitrofeCams = webcamData
                         title={`Webcam ${webcam.title}`}
                       />
                     </div>
-                    <div class="p-4 md:p-8">
-                      <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">
+                    <div class="p-6">
+                      <h3 class="text-xl font-bold text-gray-900 mb-2">
                         {webcam.title}
                       </h3>
                       <p class="text-gray-600 leading-relaxed mb-3">
                         {webcam.description}
                       </p>
                       <div class="flex items-center justify-between">
-                        <span class="text-sm text-gray-500">
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${webcam.lat},${webcam.lng}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-sm text-gray-500 hover:text-orange-600 hover:underline transition-colors flex items-center gap-1 group"
+                          title="Vedi su Google Maps"
+                        >
+                          <svg
+                            class="w-4 h-4 text-gray-400 group-hover:text-orange-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <>
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                              />
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
+                            </>
+                          </svg>
                           Coordinate: {webcam.coordinates}
-                        </span>
+                        </a>
                         <div class="flex items-center space-x-1 bg-primary-50 px-3 py-1 text-xs md:text-sm font-medium rounded-full">
                           <svg
                             class="w-4 h-4 text-primary-600"
@@ -402,10 +456,10 @@ const limitrofeCams = webcamData
 
         <!-- Mappa Interattiva - Box con ombra -->
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
+          class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300"
         >
-          <div class="p-8">
-            <div class="flex items-center space-x-4 mb-4 md:mb-8">
+          <div class="p-6 md:p-12">
+            <div class="flex items-center space-x-4 mb-8">
               <div
                 class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center"
               >
@@ -496,7 +550,7 @@ const limitrofeCams = webcamData
       const centerLng = (12.995 + 12.994 + 13.003) / 3;
 
       // Inizializza la mappa
-      const map = L.map("webcam-map").setView([centerLat, centerLng], 13);
+      const map = L.map("webcam-map").setView([centerLat, centerLng], 10);
 
       // Aggiungi tile layer
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {

@@ -2,9 +2,16 @@ SISTEMA ESTETICA:
     - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento e ombre box
     - pagina bilancio ha uno sfumato che parte dall'alto molto piu lungo degli altri
     - Responsivness
-    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video
+    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli
 
+valuta coerenza pagine con menu a tendina: poesie, sentieri, statuto, universita agraria
 
+pagine finite esteticamente versione DESKTOP:
+- TUTTE quelle nella barra di sopra
+- video
+- webcam
+- montagna sentieri e informazioni
+- parrocchia
 __________________________________________________
 
 cambio 2008
