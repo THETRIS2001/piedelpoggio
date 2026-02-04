@@ -644,7 +644,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
                 <!-- Risultato e pulsante download -->
                 <div class="text-right flex flex-col items-end space-y-3">
                   <span class="text-3xl font-bold text-green-700"
-                    >+ € 4.514,99</span
+                    >€ 4.514,99</span
                   >
 
                   <!-- Pulsante Anteprima Bilancio -->
@@ -714,7 +714,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
               <!-- Risultato Mobile -->
               <div class="text-center py-2">
                 <span class="text-1xl sm:text-3xl font-bold text-green-700"
-                  >+ € 4.514,99</span
+                  >€ 4.514,99</span
                 >
               </div>
 
@@ -776,11 +776,27 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
             class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
           >
             <!-- Titolo -->
-            <h2
-              class="text-1xl sm:text-3xl font-bold text-gray-900 mb-8 text-center"
-            >
-              Bilanci Precedenti
-            </h2>
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center bg-gray-100"
+              >
+                <svg
+                  class="w-6 h-6 sm:w-8 sm:h-8 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                Bilanci Precedenti
+              </h2>
+            </div>
 
             <!-- Contenitore dei singoli bilanci -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

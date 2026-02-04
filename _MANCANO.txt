@@ -6,12 +6,26 @@ SISTEMA ESTETICA:
 
 valuta coerenza pagine con menu a tendina: poesie, sentieri, statuto, universita agraria
 
-pagine finite esteticamente versione DESKTOP:
-- TUTTE quelle nella barra di sopra
-- video
-- webcam
-- montagna sentieri e informazioni
-- parrocchia
+
+✅ significa ok su DESKTOP
+✅✅ ok su mobile anche
+
+home ✅
+foto ✅
+programma ✅
+prenotazione ✅
+contatti e info ✅
+suggerisci un'idea ✅
+La Storia
+Terremoto 1703
+Poesie, Tradizioni, Testimonianze e Canzoni
+Documenti Pro Loco
+Bilancio ✅
+Parrocchia S.M. Cerreto ✅
+Video ✅
+Webcam Live ✅
+Università Agraria
+Montagna, Sentieri e Informazioni ✅
 __________________________________________________
 
 cambio 2008
