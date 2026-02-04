@@ -361,21 +361,29 @@ const docs = docsSorted.map((doc, idx) => {
             style="display: none;"
           >
             <div id="statutoContent" class="space-y-8">
-              <!-- Sede, costituzione, durata, oggetto sociale -->
-              <div class="mt-6 md:mt-10 space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 1: Sede, costituzione... -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Sede, costituzione, durata, oggetto sociale
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    1
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Sede, costituzione, durata, oggetto sociale
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 1.
-                    </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Art 1 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 1</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       È costituita l'Associazione Culturale e del Tempo Libero
                       Associazione Pro Pie del Poggio ed è costituito ai sensi e
@@ -386,12 +394,13 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 2.
-                    </h3>
+                  <!-- Art 2 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 2</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       L'Associazione ha sede in Piedelpoggio (RI), attualmente
                       in Via A.F. Maccheroni snc e può essere trasferita dal
@@ -400,12 +409,13 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 3.
-                    </h3>
+                  <!-- Art 3 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 3</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       L'Associazione non ha fini di lucro. È vietato
                       distribuire, anche in modo indiretto, utili o avanzi di
@@ -415,12 +425,13 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 4.
-                    </h3>
+                  <!-- Art 4 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 4</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-4"
                     >
                       L'Associazione è un'associazione non riconosciuta senza
                       fini di lucro. L'associazione si propone di promuovere e
@@ -430,7 +441,7 @@ const docs = docsSorted.map((doc, idx) => {
                       personalità.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-4"
                     >
                       L'associazione favorisce anche lo scambio di idee e di
                       solidarietà fra i propri iscritti promuovendo iniziative
@@ -440,12 +451,12 @@ const docs = docsSorted.map((doc, idx) => {
                       coordina le attività degli associati.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-3 font-semibold"
                     >
-                      <strong>A tal fine, l'associazione potrà:</strong>
+                      A tal fine, l'associazione potrà:
                     </p>
                     <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                      class="list-disc pl-5 space-y-2 text-gray-600 text-sm text-justify mb-4 marker:text-blue-500"
                     >
                       <li>
                         promuovere e realizzare iniziative di carattere
@@ -501,43 +512,53 @@ const docs = docsSorted.map((doc, idx) => {
                         associati e dei cittadini tutti.
                       </li>
                     </ul>
-                    <p
-                      class="text-gray-600 leading-relaxed mt-4 text-justify text-sm md:text-base"
+                    <div
+                      class="bg-blue-50 p-4 rounded-lg border border-blue-100"
                     >
-                      L'Associazione è affiliata alla FITeL Regionale del Lazio
-                      e tramite questa alla FITeL Nazionale. Per raggiungere gli
-                      scopi sociali, l'Associazione può aderire ad iniziative
-                      promosse da altre Associazioni, Enti, Fondazioni,
-                      Federazioni, Circoli Aziendali, sportivi e culturali, che
-                      hanno come finalità istituzionale gli stessi scopi sociali
-                      della FITeL.
-                    </p>
+                      <p
+                        class="text-blue-800 text-sm leading-relaxed text-justify"
+                      >
+                        L'Associazione è affiliata alla FITeL Regionale del
+                        Lazio e tramite questa alla FITeL Nazionale. Per
+                        raggiungere gli scopi sociali, l'Associazione può
+                        aderire ad iniziative promosse da altre Associazioni,
+                        Enti, Fondazioni, Federazioni, Circoli Aziendali,
+                        sportivi e culturali, che hanno come finalità
+                        istituzionale gli stessi scopi sociali della FITeL.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Soci -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 2: Soci -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Soci
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    2
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">Soci</h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 5.
-                    </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Art 5 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 5</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-3"
                     >
                       Possono essere soci dell'Associazione, tutti i cittadini
                       che condividano le motivazioni e gli scopi
                       dell'Associazione stessa.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-3"
                     >
                       I Soci acquisiscono il diritto ad ottenere il rilascio
                       della tessera ed usufruire dei servizi dell'Associazione
@@ -546,7 +567,7 @@ const docs = docsSorted.map((doc, idx) => {
                       qualità di soci.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Tutti i soci hanno diritto di voto e possono partecipare
                       alle iniziative dell'Associazione, ricoprire incarichi
@@ -559,21 +580,29 @@ const docs = docsSorted.map((doc, idx) => {
                 </div>
               </div>
 
-              <!-- Diritti e doveri dei Soci -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 3: Diritti e doveri dei Soci -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Diritti e doveri dei Soci
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    3
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Diritti e doveri dei Soci
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 6.
-                    </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Art 6 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 6</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-3"
                     >
                       L'appartenenza all'Associazione implica per i Soci
                       l'accettazione incondizionata del presente Statuto e delle
@@ -582,29 +611,45 @@ const docs = docsSorted.map((doc, idx) => {
                       delle norme che disciplinano le singole attività,
                       iniziative o manifestazioni hanno diritto di:
                     </p>
-                    <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
-                    >
-                      <li>
-                        <strong>A)</strong> frequentare i locali e usare le attrezzature
-                        messe a disposizione dall'Associazione;
+                    <ul class="list-none space-y-3 mb-4 text-justify">
+                      <li class="flex items-start gap-3">
+                        <span
+                          class="font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-xs mt-0.5"
+                          >A</span
+                        >
+                        <span class="text-gray-600 text-sm"
+                          >frequentare i locali e usare le attrezzature messe a
+                          disposizione dall'Associazione;</span
+                        >
                       </li>
-                      <li>
-                        <strong>B)</strong> partecipare a tutte le attività promosse
-                        dall'Associazione e beneficiare dei servizi, provvidenze ed
-                        agevolazioni da essa assicurati, nel rispetto delle norme
-                        e dei regolamenti interni;
+                      <li class="flex items-start gap-3">
+                        <span
+                          class="font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-xs mt-0.5"
+                          >B</span
+                        >
+                        <span class="text-gray-600 text-sm"
+                          >partecipare a tutte le attività promosse
+                          dall'Associazione e beneficiare dei servizi,
+                          provvidenze ed agevolazioni da essa assicurati, nel
+                          rispetto delle norme e dei regolamenti interni;</span
+                        >
                       </li>
-                      <li>
-                        <strong>C)</strong> partecipare alle attività di altre Associazioni,
-                        Enti, Fondazioni, Federazioni e Circoli Aziendali, sportivi
-                        e culturali aderenti alla FITeL, con le quali si sia stabilito
-                        un rapporto di reciprocità, alle condizioni stabilite dai
-                        singoli Organismi.
+                      <li class="flex items-start gap-3">
+                        <span
+                          class="font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded text-xs mt-0.5"
+                          >C</span
+                        >
+                        <span class="text-gray-600 text-sm"
+                          >partecipare alle attività di altre Associazioni,
+                          Enti, Fondazioni, Federazioni e Circoli Aziendali,
+                          sportivi e culturali aderenti alla FITeL, con le quali
+                          si sia stabilito un rapporto di reciprocità, alle
+                          condizioni stabilite dai singoli Organismi.</span
+                        >
                       </li>
                     </ul>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify border-t border-gray-50 pt-3"
                     >
                       Tutti i Soci sono tenuti a comunicare all'Associazione
                       ogni modificazione dei requisiti previsti dal presente
@@ -612,26 +657,22 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 7.
-                    </h3>
+                  <!-- Art 7 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 7</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2"
                     >
                       È esclusa la partecipazione temporanea alla vita
-                      associativa.
+                      associativa. Il socio rimane tale fino a quando lo stesso
+                      non recede dall'Associazione o non si verifichi una delle
+                      cause che ne prevedono l'esclusione, come stabilito dal
+                      successivo art. 9.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
-                    >
-                      Il socio rimane tale fino a quando lo stesso non recede
-                      dall'Associazione o non si verifichi una delle cause che
-                      ne prevedono l'esclusione, come stabilito dal successivo
-                      art. 9.
-                    </p>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Tutti gli associati che abbiano compiuto la maggiore età e
                       sono in regola con i pagamenti hanno diritto di voto in
@@ -641,12 +682,13 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 8.
-                    </h3>
+                  <!-- Art 8 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">Art. 8</h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       I soci hanno diritto di ricevere all'atto dell'ammissione,
                       la tessera sociale della validità di un anno e sono tenuti
@@ -656,70 +698,91 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 9.
+                  <!-- Art 9 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 9 - Perdita qualifica Socio
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-3 font-semibold"
                     >
-                      <strong
-                        >La qualifica di socio si perde per i seguenti motivi:</strong
-                      >
+                      La qualifica di socio si perde per i seguenti motivi:
                     </p>
-                    <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
-                    >
-                      <li>per dimissioni;</li>
-                      <li>
-                        quando non ottemperino alle disposizioni del presente
-                        statuto, ai regolamenti interni o alle deliberazioni
-                        prese dagli organi sociali;
+                    <ul class="grid grid-cols-1 gap-2 pl-0 mb-4 text-justify">
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0"
+                        ></span>per dimissioni;
                       </li>
-                      <li>
-                        quando si rendano morosi del pagamento della tessera e
-                        delle quote sociali senza giustificato motivo;
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0"
+                        ></span>quando non ottemperino alle disposizioni del
+                        presente statuto, ai regolamenti interni o alle
+                        deliberazioni prese dagli organi sociali;
                       </li>
-                      <li>
-                        quando, in qualunque modo, arrechino danni morali o
-                        materiali all'Associazione.
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0"
+                        ></span>quando si rendano morosi del pagamento della
+                        tessera e delle quote sociali senza giustificato motivo;
+                      </li>
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0"
+                        ></span>quando, in qualunque modo, arrechino danni
+                        morali o materiali all'Associazione.
                       </li>
                     </ul>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
-                    >
-                      Le espulsioni e le radiazioni sono decise dal consiglio
-                      direttivo a maggioranza dei suoi membri. I soci radiati
-                      per morosità potranno, dietro domanda, essere riammessi,
-                      pagando una nuova quota di iscrizione. I soci espulsi o
-                      radiati potranno ricorrere contro il provvedimento secondo
-                      le modalità di cui all'art. 21 del presente Statuto e del
-                      Regolamento interno.
-                    </p>
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-100">
+                      <p
+                        class="text-red-800 text-sm leading-relaxed text-justify"
+                      >
+                        Le espulsioni e le radiazioni sono decise dal consiglio
+                        direttivo a maggioranza dei suoi membri. I soci radiati
+                        per morosità potranno, dietro domanda, essere riammessi,
+                        pagando una nuova quota di iscrizione. I soci espulsi o
+                        radiati potranno ricorrere contro il provvedimento
+                        secondo le modalità di cui all'art. 21 del presente
+                        Statuto e del Regolamento interno.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Organi dell'Associazione -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 4: Organi dell'Associazione -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Organi dell'Associazione
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    4
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Organi dell'Associazione
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 10.
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Art 10 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 10 - Organi
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2 font-semibold"
                     >
-                      <strong>Gli organi dell'Associazione sono:</strong>
+                      Gli organi dell'Associazione sono:
                     </p>
                     <ul
-                      class="list-disc pl-6 space-y-1 text-gray-600 text-justify"
+                      class="list-disc pl-5 space-y-1 text-gray-600 text-sm marker:text-blue-500"
                     >
                       <li>l'Assemblea dei Soci;</li>
                       <li>il Consiglio Direttivo;</li>
@@ -729,17 +792,20 @@ const docs = docsSorted.map((doc, idx) => {
                     </ul>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 11.
+                  <!-- Art 11 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 11 - Assemblea
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2"
                     >
                       L'Assemblea dei soci può essere ordinaria o straordinaria.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       La comunicazione della convocazione deve essere effettuata
                       con avviso affisso nei locali dell'Associazione almeno
@@ -750,139 +816,159 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 12.
+                  <!-- Art 12 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 12 - Assemblea Ordinaria
                     </h3>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
-                    >
-                      L'assemblea ordinaria è convocata dal Presidente del
-                      Consiglio direttivo almeno una volta l'anno. Essa è
-                      presieduta dal Presidente del Consiglio Direttivo, il
-                      quale nomina a sua volta fra i soci un segretario
-                      verbalizzante.
-                    </p>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
-                    >
-                      <strong>Essa approva:</strong>
-                    </p>
-                    <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
-                    >
-                      <li>
-                        le linee generali del programma di attività per l'anno
-                        sociale;
-                      </li>
-                      <li>
-                        elegge e revoca il Consiglio Direttivo, il Collegio dei
-                        Revisori dei Conti;
-                      </li>
-                      <li>
-                        approva il bilancio, il quale, viene esposto nella sede
-                        sociale, a disposizione dei soci, almeno quindici giorni
-                        prima e dopo la sua approvazione;
-                      </li>
-                      <li>
-                        approva e modifica il Regolamento interno
-                        dell'Associazione;
-                      </li>
-                      <li>
-                        delibera su ogni argomento attinente alla gestione ad
-                        essa sottoposta dal Consiglio Direttivo e su quant'altro
-                        ad essa demandato per legge o per statuto.
-                      </li>
-                    </ul>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
-                    >
-                      Le delibere assembleari, oltre ad essere debitamente
-                      trascritte nel libro verbale delle assemblee dei soci,
-                      rimangono affisse nei locali dell'associazione durante i
-                      quindici giorni che seguono l'assemblea.
-                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p
+                          class="text-gray-600 text-sm leading-relaxed text-justify mb-3"
+                        >
+                          L'assemblea ordinaria è convocata dal Presidente del
+                          Consiglio direttivo almeno una volta l'anno. Essa è
+                          presieduta dal Presidente del Consiglio Direttivo, il
+                          quale nomina a sua volta fra i soci un segretario
+                          verbalizzante.
+                        </p>
+                        <p
+                          class="text-gray-600 text-sm leading-relaxed text-justify"
+                        >
+                          Le delibere assembleari, oltre ad essere debitamente
+                          trascritte nel libro verbale delle assemblee dei soci,
+                          rimangono affisse nei locali dell'associazione durante
+                          i quindici giorni che seguono l'assemblea.
+                        </p>
+                      </div>
+                      <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-gray-700 text-sm font-semibold mb-2">
+                          Essa approva:
+                        </p>
+                        <ul
+                          class="list-disc pl-5 space-y-1 text-gray-600 text-sm marker:text-blue-500"
+                        >
+                          <li>
+                            le linee generali del programma di attività per
+                            l'anno sociale;
+                          </li>
+                          <li>
+                            elegge e revoca il Consiglio Direttivo, il Collegio
+                            dei Revisori dei Conti;
+                          </li>
+                          <li>
+                            approva il bilancio, il quale, viene esposto nella
+                            sede sociale, a disposizione dei soci, almeno
+                            quindici giorni prima e dopo la sua approvazione;
+                          </li>
+                          <li>
+                            approva e modifica il Regolamento interno
+                            dell'Associazione;
+                          </li>
+                          <li>
+                            delibera su ogni argomento attinente alla gestione
+                            ad essa sottoposta dal Consiglio Direttivo e su
+                            quant'altro ad essa demandato per legge o per
+                            statuto.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 13.
+                  <!-- Art 13 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 13 - Assemblea Straordinaria
                     </h3>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
-                    >
-                      <strong
-                        >L'Assemblea straordinaria è convocata per deliberare:</strong
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                      <div class="flex-1">
+                        <p
+                          class="text-gray-600 text-sm leading-relaxed text-justify mb-2 font-semibold"
+                        >
+                          L'Assemblea straordinaria è convocata per deliberare:
+                        </p>
+                        <ul
+                          class="list-disc pl-5 space-y-1 text-gray-600 text-sm marker:text-red-500 mb-4"
+                        >
+                          <li>sulle modifiche dello statuto;</li>
+                          <li>sullo scioglimento dell'Associazione;</li>
+                          <li>
+                            su ogni altro argomento di carattere straordinario
+                            sottoposto alla sua approvazione dal Consiglio
+                            Direttivo.
+                          </li>
+                        </ul>
+                      </div>
+                      <div
+                        class="flex-1 bg-yellow-50 p-4 rounded-lg border border-yellow-100"
                       >
-                    </p>
-                    <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
-                    >
-                      <li>sulle modifiche dello statuto;</li>
-                      <li>sullo scioglimento dell'Associazione;</li>
-                      <li>
-                        su ogni altro argomento di carattere straordinario
-                        sottoposto alla sua approvazione dal Consiglio
-                        Direttivo.
-                      </li>
-                    </ul>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
-                    >
-                      Le delibere assembleari, sia in sede ordinaria che
-                      straordinaria, prese in conformità al presente statuto
-                      obbligano tutti i soci anche se assenti, dissenzienti o
-                      astenuti dal voto.
-                    </p>
+                        <p
+                          class="text-gray-700 text-sm leading-relaxed text-justify italic"
+                        >
+                          "Le delibere assembleari, sia in sede ordinaria che
+                          straordinaria, prese in conformità al presente statuto
+                          obbligano tutti i soci anche se assenti, dissenzienti
+                          o astenuti dal voto."
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 14.
+                  <!-- Art 14 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 14 - Validità Assemblee
                     </h3>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                    <div
+                      class="space-y-4 text-sm text-gray-600 leading-relaxed text-justify"
                     >
-                      In prima convocazione l'Assemblea ordinaria è regolarmente
-                      costituita con la presenza di almeno la metà più uno dei
-                      soci e delibera validamente a maggioranza assoluta dei
-                      presenti, su tutte le questioni poste all'ordine del
-                      giorno.
-                    </p>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
-                    >
-                      In seconda convocazione, l'assemblea ordinaria è
-                      regolarmente costituita qualunque sia il numero dei soci
-                      intervenuti e delibera validamente a maggioranza dei soci
-                      presenti su tutte le questioni poste all'ordine del
-                      giorno.
-                    </p>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
-                    >
-                      La seconda convocazione, sia essa per l'assemblea
-                      ordinaria, sia per quella straordinaria non può avere
-                      luogo se non sono trascorse almeno tre ore dopo l'orario
-                      previsto dalla prima convocazione.
-                    </p>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
-                    >
-                      L'assemblea straordinaria si costituisce validamente
-                      quando intervengono in prima convocazione 2/3 dei soci, in
-                      seconda convocazione la metà più uno e in terza
-                      convocazione qualunque sia il numero dei soci intervenuti;
-                      essa delibera a maggioranza dei soci presenti.
-                    </p>
+                      <p>
+                        In prima convocazione l'Assemblea ordinaria è
+                        regolarmente costituita con la presenza di almeno la
+                        metà più uno dei soci e delibera validamente a
+                        maggioranza assoluta dei presenti, su tutte le questioni
+                        poste all'ordine del giorno.
+                      </p>
+                      <p>
+                        In seconda convocazione, l'assemblea ordinaria è
+                        regolarmente costituita qualunque sia il numero dei soci
+                        intervenuti e delibera validamente a maggioranza dei
+                        soci presenti su tutte le questioni poste all'ordine del
+                        giorno.
+                      </p>
+                      <p>
+                        La seconda convocazione, sia essa per l'assemblea
+                        ordinaria, sia per quella straordinaria non può avere
+                        luogo se non sono trascorse almeno tre ore dopo l'orario
+                        previsto dalla prima convocazione.
+                      </p>
+                      <p>
+                        L'assemblea straordinaria si costituisce validamente
+                        quando intervengono in prima convocazione 2/3 dei soci,
+                        in seconda convocazione la metà più uno e in terza
+                        convocazione qualunque sia il numero dei soci
+                        intervenuti; essa delibera a maggioranza dei soci
+                        presenti.
+                      </p>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 15.
+                  <!-- Art 15 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 15 - Votazioni
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Le votazioni possono avvenire per alzata di mano o a
                       scrutinio segreto, quando ne faccia richiesta almeno un
@@ -897,28 +983,34 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 16.
+                  <!-- Art 16 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 16 - Consiglio Direttivo
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Il Consiglio Direttivo è composto da un minimo di tre ad
                       un massimo di quattordici Consiglieri, eletti
-                      dall'assemblea ordinaria fra i soci e resta in carica
-                      perire anni. I membri del consiglio sono rieleggibili.
-                      Nella sua prima seduta il Consiglio Direttivo elegge, fra
-                      i suoi membri, il Presidente, il Vice Presidente.
+                      dall'assemblea ordinaria fra i soci e resta in carica per
+                      tre anni. I membri del consiglio sono rieleggibili. Nella
+                      sua prima seduta il Consiglio Direttivo elegge, fra i suoi
+                      membri, il Presidente, il Vice Presidente.
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 17.
+                  <!-- Art 17 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 17 - Riunioni CD
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Il Consiglio Direttivo si riunisce ogni qual volta il
                       Presidente o la maggioranza dei propri componenti lo
@@ -929,63 +1021,66 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 18.
+                  <!-- Art 18 (Compiti CD) -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 18 - Compiti Consiglio Direttivo
                     </h3>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
-                    >
-                      <strong>Il Consiglio Direttivo:</strong>
-                    </p>
-                    <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
-                    >
-                      <li>
-                        redige i programmi di attività sociale previsti dallo
-                        statuto sulla base delle linee approvate dall'assemblea
-                        dei soci;
-                      </li>
-                      <li>
-                        cura l'esecuzione delle deliberazioni dell'assemblea;
-                      </li>
-                      <li>
-                        redige i bilanci da sottoporre al Collegio dei Revisori
-                        dei Conti e quindi all'approvazione all'assemblea dei
-                        soci;
-                      </li>
-                      <li>
-                        stipula tutti gli atti e i contratti di ogni genere
-                        inerenti l'attività sociale;
-                      </li>
-                      <li>
-                        delibera circa l'ammissione, la sospensione, la
-                        radiazione e l'espulsione dei soci;
-                      </li>
-                      <li>
-                        determina l'ammontare delle quote annue associative e le
-                        modalità di versamento;
-                      </li>
-                      <li>
-                        delibera su ogni altra questione riguardante l'attività
-                        dell'Associazione per l'attuazione delle sue finalità
-                        secondo le direttive dell'assemblea, assumendo tutte le
-                        iniziative necessarie;
-                      </li>
-                      <li>
-                        delibera sugli assetti organizzativi interni al
-                        Consiglio Direttivo in rapporto alle esigenze di
-                        funzionalità della Associazione.
-                      </li>
-                    </ul>
+                    <div class="columns-1 md:columns-2 gap-6 space-y-2">
+                      <ul
+                        class="list-disc pl-5 space-y-2 text-gray-600 text-sm marker:text-blue-500 break-inside-avoid"
+                      >
+                        <li>
+                          redige i programmi di attività sociale previsti dallo
+                          statuto sulla base delle linee approvate
+                          dall'assemblea dei soci;
+                        </li>
+                        <li>
+                          cura l'esecuzione delle deliberazioni dell'assemblea;
+                        </li>
+                        <li>
+                          redige i bilanci da sottoporre al Collegio dei
+                          Revisori dei Conti e quindi all'approvazione
+                          all'assemblea dei soci;
+                        </li>
+                        <li>
+                          stipula tutti gli atti e i contratti di ogni genere
+                          inerenti l'attività sociale;
+                        </li>
+                        <li>
+                          delibera circa l'ammissione, la sospensione, la
+                          radiazione e l'espulsione dei soci;
+                        </li>
+                        <li>
+                          determina l'ammontare delle quote annue associative e
+                          le modalità di versamento;
+                        </li>
+                        <li>
+                          delibera su ogni altra questione riguardante
+                          l'attività dell'Associazione per l'attuazione delle
+                          sue finalità secondo le direttive dell'assemblea,
+                          assumendo tutte le iniziative necessarie;
+                        </li>
+                        <li>
+                          delibera sugli assetti organizzativi interni al
+                          Consiglio Direttivo in rapporto alle esigenze di
+                          funzionalità della Associazione.
+                        </li>
+                      </ul>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 19. Presidente
+                  <!-- Art 19 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 19 - Presidente
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Al Presidente del Consiglio Direttivo compete la legale
                       rappresentanza dell'Associazione. Egli presiede e convoca
@@ -995,12 +1090,15 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 20. Revisori dei Conti
+                  <!-- Art 20 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 20 - Revisori dei Conti
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2"
                     >
                       La gestione dell'Associazione è controllata da un Collegio
                       di Revisori dei Conti, composto da due membri effettivi e
@@ -1008,12 +1106,12 @@ const docs = docsSorted.map((doc, idx) => {
                       maggiorenni.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                      class="text-gray-600 text-sm leading-relaxed text-justify font-semibold mb-2"
                     >
-                      <strong>I Revisori devono:</strong>
+                      I Revisori devono:
                     </p>
                     <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                      class="list-disc pl-5 text-gray-600 text-sm marker:text-blue-500 mb-2"
                     >
                       <li>vigilare sull'amministrazione dell'Associazione;</li>
                       <li>
@@ -1021,26 +1119,29 @@ const docs = docsSorted.map((doc, idx) => {
                       </li>
                     </ul>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Il Collegio dei Revisori dei Conti dura in carica tre anni
                       ed i suoi membri sono rieleggibili.
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 21. Probiviri
+                  <!-- Art 21 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 21 - Probiviri
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2"
                     >
                       Il Collegio dei probiviri decide in via definitiva sui
                       ricorsi in materia di sanzioni a carico dei soci nei casi
                       e con le modalità di cui all'articolo 22.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2"
                     >
                       Esso è composto da tre membri eletti dall'assemblea.
                       Qualora nella composizione del Collegio si verificassero
@@ -1049,19 +1150,22 @@ const docs = docsSorted.map((doc, idx) => {
                       maggior numero dei voti.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Il Collegio dei Probiviri elegge nel proprio seno il
                       Presidente.
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 22. Sanzioni a carico dei soci
+                  <!-- Art 22 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 22 - Sanzioni
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2"
                     >
                       In caso di violazione da parte dei soci delle norme
                       sancite dal presente Statuto e dai regolamenti interni,
@@ -1070,7 +1174,7 @@ const docs = docsSorted.map((doc, idx) => {
                       sanzioni:
                     </p>
                     <ul
-                      class="list-disc pl-6 space-y-1 text-gray-600 mb-4 text-justify text-sm md:text-base"
+                      class="list-disc pl-5 space-y-1 text-gray-600 mb-4 text-justify text-sm"
                     >
                       <li><strong>a)</strong> richiamo;</li>
                       <li>
@@ -1081,57 +1185,80 @@ const docs = docsSorted.map((doc, idx) => {
                         <strong>c)</strong> esclusione definitiva da socio dell'Associazione.
                       </li>
                     </ul>
-                    <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
-                    >
-                      Contro le sanzioni di cui al comma 1 l'interessato può,
-                      entro quindici giorni dalla data di notificazione del
-                      provvedimento, fare ricorso al Collegio dei probiviri che
-                      è tenuto a pronunciarsi entro trenta giorni dalla
-                      ricezione del ricorso.
-                    </p>
+                    <div class="bg-red-50 p-3 rounded-lg border border-red-100">
+                      <p class="text-red-800 text-xs text-justify">
+                        Contro le sanzioni di cui al comma 1 l'interessato può,
+                        entro quindici giorni dalla data di notificazione del
+                        provvedimento, fare ricorso al Collegio dei probiviri
+                        che è tenuto a pronunciarsi entro trenta giorni dalla
+                        ricezione del ricorso.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Patrimonio dell'Associazione -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 5: Patrimonio -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Patrimonio dell'Associazione
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    5
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Patrimonio dell'Associazione
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 23.
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Art 23 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 23 - Fondo Patrimoniale
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-3"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-2 font-semibold"
                     >
-                      <strong
-                        >Il fondo patrimoniale dell'Associazione è indivisibile
-                        ed è costituito:</strong
-                      >
+                      Il fondo patrimoniale dell'Associazione è indivisibile ed
+                      è costituito:
                     </p>
                     <ul
-                      class="list-disc pl-6 space-y-2 text-gray-600 text-sm md:text-base text-justify mb-4"
+                      class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-0 mb-4 text-justify"
                     >
-                      <li>
-                        dal patrimonio mobiliare ed immobiliare di proprietà
-                        dell'Associazione;
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"
+                        ></span>dal patrimonio mobiliare ed immobiliare di
+                        proprietà dell'Associazione;
                       </li>
-                      <li>
-                        dai contributi annuali e straordinari degli associati;
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"
+                        ></span>dai contributi annuali e straordinari degli
+                        associati;
                       </li>
-                      <li>dai contributi, erogazioni e lasciti diversi;</li>
-                      <li>
-                        da raccolte pubbliche di fondi effettuate
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"
+                        ></span>dai contributi, erogazioni e lasciti diversi;
+                      </li>
+                      <li class="flex items-start gap-2 text-gray-600 text-sm">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"
+                        ></span>da raccolte pubbliche di fondi effettuate
                         occasionalmente;
                       </li>
-                      <li>
-                        da tutti gli altri proventi, conseguiti
+                      <li
+                        class="flex items-start gap-2 text-gray-600 text-sm sm:col-span-2"
+                      >
+                        <span
+                          class="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0"
+                        ></span>da tutti gli altri proventi, conseguiti
                         dall'Associazione per il perseguimento o il supporto
                         dell'attività istituzionale, previsti dalle normative
                         vigenti in materia.
@@ -1139,12 +1266,15 @@ const docs = docsSorted.map((doc, idx) => {
                     </ul>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 24.
+                  <!-- Art 24 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 24 - Quote
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Le somme versate per la tessera sociale e le quote annuali
                       di adesione all'Associazione non sono rimborsabili in
@@ -1155,21 +1285,31 @@ const docs = docsSorted.map((doc, idx) => {
                 </div>
               </div>
 
-              <!-- Rendiconto economico-finanziario -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 6: Rendiconto -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Rendiconto economico-finanziario
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    6
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Rendiconto economico-finanziario
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 25.
+                <div class="grid grid-cols-1 gap-6">
+                  <!-- Art 25 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 25
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Il rendiconto economico-finanziario comprende l'esercizio
                       sociale dal primo gennaio al trentuno dicembre di ogni
@@ -1182,21 +1322,31 @@ const docs = docsSorted.map((doc, idx) => {
                 </div>
               </div>
 
-              <!-- Scioglimento dell'Associazione -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 7: Scioglimento -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Scioglimento dell'Associazione
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    7
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Scioglimento dell'Associazione
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 26.
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <!-- Art 26 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 26
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Lo scioglimento dell'Associazione deve essere deliberato
                       dall'assemblea dei soci con le modalità previste
@@ -1204,12 +1354,15 @@ const docs = docsSorted.map((doc, idx) => {
                     </p>
                   </div>
 
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 27.
+                  <!-- Art 27 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 27
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg mb-4"
+                      class="text-gray-600 text-sm leading-relaxed text-justify mb-4"
                     >
                       In caso di scioglimento deliberato dall'assemblea, il
                       patrimonio sociale, soddisfatto ogni creditore
@@ -1221,7 +1374,7 @@ const docs = docsSorted.map((doc, idx) => {
                       imposta dalla legge.
                     </p>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Il presente statuto viene redatto tenendo conto delle
                       norme previste dal D.L. 4/12/97 n. 460 per le Associazioni
@@ -1231,21 +1384,29 @@ const docs = docsSorted.map((doc, idx) => {
                 </div>
               </div>
 
-              <!-- Controversie -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 8: Controversie -->
+              <div class="statuto-section mb-12">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Controversie
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    8
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">Controversie</h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 28.
+                <div class="grid grid-cols-1 gap-6">
+                  <!-- Art 28 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 28 - Arbitrato
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       In caso di controversie fra i soci o fra i soci e
                       l'Associazione, relativamente al presente statuto, sarà
@@ -1261,21 +1422,31 @@ const docs = docsSorted.map((doc, idx) => {
                 </div>
               </div>
 
-              <!-- Disposizioni finali -->
-              <div class="space-y-6">
-                <h2
-                  class="text-1xl sm:text-3xl font-bold text-gray-900 border-b-2 border-primary-500 pb-2"
+              <!-- SEZIONE 9: Disposizioni Finali -->
+              <div class="statuto-section">
+                <div
+                  class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200"
                 >
-                  Disposizioni finali
-                </h2>
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg flex-shrink-0"
+                  >
+                    9
+                  </div>
+                  <h2 class="text-2xl font-bold text-gray-900">
+                    Disposizioni finali
+                  </h2>
+                </div>
 
-                <div class="space-y-4">
-                  <div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2">
-                      Art. 29.
+                <div class="grid grid-cols-1 gap-6">
+                  <!-- Art 29 -->
+                  <div
+                    class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300"
+                  >
+                    <h3 class="text-lg font-bold text-blue-700 mb-3">
+                      Art. 29
                     </h3>
                     <p
-                      class="text-gray-600 leading-relaxed text-justify text-sm md:text-lg"
+                      class="text-gray-600 text-sm leading-relaxed text-justify"
                     >
                       Per tutto quanto non previsto espressamente dal presente
                       statuto, si rimanda alla normativa vigente in materia.
