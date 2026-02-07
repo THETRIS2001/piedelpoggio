@@ -6,6 +6,7 @@ SISTEMA ESTETICA:
 
 valuta coerenza pagine con menu a tendina: poesie, sentieri, statuto, universita agraria
 
+icone tutte come "storia"
 
 ✅ significa ok su DESKTOP
 ✅✅ ok su mobile anche
