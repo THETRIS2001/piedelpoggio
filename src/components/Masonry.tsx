@@ -12,9 +12,9 @@ const useMedia = (queries: string[], values: number[], defaultValue: number) => 
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     setValue(get());
-    
+
     const handler = () => setValue(get);
     queries.forEach(q => matchMedia(q).addEventListener('change', handler));
     return () => queries.forEach(q => matchMedia(q).removeEventListener('change', handler));
@@ -87,44 +87,44 @@ const Masonry: React.FC<MasonryProps> = ({
 
   useEffect(() => {
     if (source !== 'media') return
-    ;(async () => {
-      try {
-        const res = await fetch('/api/media?list=events')
-        const data = await res.json()
-        const events = Array.isArray(data.events) ? data.events : []
-        
-        const validImages: MasonryItem[] = []
+      ; (async () => {
+        try {
+          const res = await fetch('/api/media?list=events')
+          const data = await res.json()
+          const events = Array.isArray(data.events) ? data.events : []
 
-        for (const ev of events) {
-          const folder = String(ev.folder || '')
-          const files = Array.isArray(ev.files) ? ev.files : []
-          
-          for (const f of files) {
-            const name = String(f.name || '')
-            if (/\.(mp4|webm|ogg)$/i.test(name)) continue
-            
-            const size = Number(f.size || 0)
-            if (!size || size >= 1024 * 1024) continue
-            const url = String(f.url || '')
+          const validImages: MasonryItem[] = []
 
-            validImages.push({
-              id: `${folder}/${name}`,
-              img: url,
-              url: url,
-              height: getRandomHeight(),
-              orig: url,
-              folderHref: `/media/${folder}`
-            })
+          for (const ev of events) {
+            const folder = String(ev.folder || '')
+            const files = Array.isArray(ev.files) ? ev.files : []
+
+            for (const f of files) {
+              const name = String(f.name || '')
+              if (/\.(mp4|webm|ogg)$/i.test(name)) continue
+
+              const size = Number(f.size || 0)
+              if (!size || size >= 1024 * 1024) continue
+              const url = String(f.url || '')
+
+              validImages.push({
+                id: `${folder}/${name}`,
+                img: url,
+                url: url,
+                height: getRandomHeight(),
+                orig: url,
+                folderHref: `/media/${folder}`
+              })
+            }
           }
-        }
 
-        // 2. Mescola e prendi le prime N
-        const shuffled = validImages.sort(() => Math.random() - 0.5).slice(0, limit)
-        setItemsData(shuffled)
-      } catch (e) {
-        console.error("Masonry error:", e)
-      }
-    })()
+          // 2. Mescola e prendi le prime N
+          const shuffled = validImages.sort(() => Math.random() - 0.5).slice(0, limit)
+          setItemsData(shuffled)
+        } catch (e) {
+          console.error("Masonry error:", e)
+        }
+      })()
   }, [source, limit])
 
   const columns = useMedia(
@@ -139,32 +139,40 @@ const Masonry: React.FC<MasonryProps> = ({
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 
   const grid = useMemo(() => {
-    if (!width) return [];
+    if (!width) return { items: [], maxHeight: 0 };
 
     const colHeights = new Array(columns).fill(0);
     const gap = 16;
     const columnWidth = (width - gap * (columns - 1)) / columns;
 
-    const srcItems = source === 'media' ? itemsData : items
+    const srcItems = source === 'media' ? itemsData : items;
+
+    // Explicitly calculate positions using full height
     const gridItems = srcItems.map(child => {
-      const col = colHeights.indexOf(Math.min(...colHeights));
+      // Find the shortest column
+      const minH = Math.min(...colHeights);
+      const col = colHeights.indexOf(minH);
+
       const x = col * (columnWidth + gap);
-      const height = child.height / 2;
+      const height = child.height; // Use full height, no division
       const y = colHeights[col];
 
+      // Update column height
       colHeights[col] += height + gap;
 
       return { ...child, x, y, w: columnWidth, h: height };
     });
 
     const maxHeight = Math.max(...colHeights);
-    
-    if (containerRef.current) {
-      containerRef.current.style.height = `${maxHeight}px`;
-    }
 
-    return gridItems;
+    return { items: gridItems, maxHeight };
   }, [columns, items, itemsData, source, width]);
+
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.style.height = `${grid.maxHeight}px`;
+    }
+  }, [grid.maxHeight]);
 
   useEffect(() => {
     setMounted(true);
@@ -185,7 +193,7 @@ const Masonry: React.FC<MasonryProps> = ({
 
   return (
     <div className="masonry-container" ref={containerRef}>
-      {grid.map((item, index) => (
+      {grid.items.map((item, index) => (
         <div
           key={item.id}
           className={`masonry-item ${mounted ? 'masonry-item-visible' : ''}`}
@@ -199,7 +207,7 @@ const Masonry: React.FC<MasonryProps> = ({
             '--hover-scale': hoverScale,
           } as React.CSSProperties}
         >
-          <div 
+          <div
             onClick={() => handleImageClick(item)}
             style={{ cursor: 'pointer', width: '100%', height: '100%', background: '#fff' }}
           >
@@ -213,7 +221,7 @@ const Masonry: React.FC<MasonryProps> = ({
           </div>
         </div>
       ))}
-      
+
       <Lightbox
         isOpen={lightboxOpen}
         imageSrc={selectedImage?.src || ''}
