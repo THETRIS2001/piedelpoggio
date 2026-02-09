@@ -138,6 +138,17 @@ const Masonry: React.FC<MasonryProps> = ({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 
+  const [imageDimensions, setImageDimensions] = useState<Record<string, number>>({});
+
+  const handleImageLoad = (id: string, event: React.SyntheticEvent<HTMLImageElement>) => {
+    const { naturalWidth, naturalHeight } = event.currentTarget;
+    const ratio = naturalHeight / naturalWidth;
+    setImageDimensions(prev => {
+      if (prev[id] === ratio) return prev;
+      return { ...prev, [id]: ratio };
+    });
+  };
+
   const grid = useMemo(() => {
     if (!width) return { items: [], maxHeight: 0 };
 
@@ -154,7 +165,11 @@ const Masonry: React.FC<MasonryProps> = ({
       const col = colHeights.indexOf(minH);
 
       const x = col * (columnWidth + gap);
-      const height = child.height; // Use full height, no division
+
+      // Calculate height based on aspect ratio if available, otherwise use provided height
+      const ratio = imageDimensions[child.id];
+      const height = ratio ? columnWidth * ratio : child.height;
+
       const y = colHeights[col];
 
       // Update column height
@@ -166,7 +181,7 @@ const Masonry: React.FC<MasonryProps> = ({
     const maxHeight = Math.max(...colHeights);
 
     return { items: gridItems, maxHeight };
-  }, [columns, items, itemsData, source, width]);
+  }, [columns, items, itemsData, source, width, imageDimensions]);
 
   useLayoutEffect(() => {
     if (containerRef.current) {
@@ -216,6 +231,7 @@ const Masonry: React.FC<MasonryProps> = ({
               alt={`Foto di Piedelpoggio ${item.id}`}
               className="masonry-image"
               loading="lazy"
+              onLoad={(e) => handleImageLoad(item.id, e)}
             />
             {colorShiftOnHover && <div className="color-overlay" />}
           </div>
