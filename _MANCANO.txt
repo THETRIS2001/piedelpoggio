@@ -1,17 +1,8 @@
 SISTEMA ESTETICA:
-    - Coerenza stile, dimensioni, spazio e font tra le pagine con foglio riferimento e ombre box
     - pagina bilancio ha uno sfumato che parte dall'alto molto piu lungo degli altri
     - Responsivness
-    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli
-
-valuta coerenza pagine con menu a tendina: poesie, sentieri, statuto, universita agraria
-
-icone tutte come "storia"
-
-
-poesia Ritorno a Piedelpoggio non è alta come quella accanto: La Stalla è piu alta
-
-spaziature prima di ciao marta non simmetrica e anche per pietrolucci
+    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia
+    - valuta coerenza pagine con menu a tendina: poesie, sentieri, statuto, universita agraria
 
 
 ✅ significa ok su DESKTOP
@@ -25,7 +16,7 @@ contatti e info ✅
 suggerisci un'idea ✅
 La Storia ✅
 Terremoto 1703 ✅
-Poesie, Tradizioni, Testimonianze e Canzoni ❌
+Poesie, Tradizioni, Testimonianze e Canzoni ✅
 Documenti Pro Loco ✅
 Bilancio ✅
 Parrocchia S.M. Cerreto ✅
@@ -33,6 +24,9 @@ Video ✅
 Webcam Live ✅
 Università Agraria ❌
 Montagna, Sentieri e Informazioni ✅
+Footer ✅
+info sito ✅
+
 __________________________________________________
 
 cambio 2008

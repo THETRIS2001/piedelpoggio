@@ -81,7 +81,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         </section>
 
         <section class="pt-4 pb-16 px-4 sm:px-6 lg:px-8">
-            <div class="max-w-6xl mx-auto space-y-8">
+            <div class="max-w-6xl mx-auto space-y-12">
                 <div
                     class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden collapsible-content"
                 >
@@ -92,28 +92,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div
-                                    class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0"
+                                    class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl sm:rounded-2xl flex items-center justify-center mr-6 shadow-lg flex-shrink-0"
                                 >
                                     <svg
-                                        class="w-6 h-6 text-white"
+                                        class="w-6 h-6 sm:w-8 sm:h-8 text-white"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
-                                        ><path
+                                    >
+                                        <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path></svg
-                                    >
+                                        ></path>
+                                    </svg>
                                 </div>
                                 <div>
                                     <h3
-                                        class="text-xl md:text-2xl font-bold text-gray-900"
+                                        class="text-1xl sm:text-3xl font-bold text-gray-900"
                                     >
                                         Storia e Opere Sociali
                                     </h3>
-                                    <p class="text-sm text-gray-500 mt-1">
+                                    <p class="text-sm text-gray-500">
                                         Dalla fondazione del 1929 allo sviluppo
                                         infrastrutturale
                                     </p>
@@ -145,7 +146,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                             <div
                                 class="prose max-w-none text-gray-700 text-justify"
                             >
-                                <p class="text-base leading-relaxed mb-4">
+                                <p
+                                    class="text-sm md:text-lg leading-relaxed mb-4"
+                                >
                                     Costituita in Università Agraria nel <strong
                                         >1929</strong
                                     > insieme a quelle di S. Vito ed Albaneto, Piedelpoggio
@@ -159,7 +162,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                 <div
                                     class="bg-amber-50 p-4 rounded-lg border-l-4 border-amber-400"
                                 >
-                                    <p class="text-sm italic text-amber-900">
+                                    <p
+                                        class="text-sm md:text-lg italic text-amber-900"
+                                    >
                                         Il termine "Università" deriva da
                                         "universitas civium", ovvero la totalità
                                         dei cittadini che costituiscono un corpo
@@ -173,7 +178,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
                             <div>
                                 <h4
-                                    class="text-lg font-bold text-gray-800 mb-6"
+                                    class="text-xl font-bold text-gray-800 mb-6"
                                 >
                                     Cronologia delle Opere Pubbliche
                                 </h4>
@@ -187,11 +192,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                         </div>
                                         <div class="flex flex-col">
                                             <span
-                                                class="text-blue-600 font-bold text-lg mb-2"
+                                                class="text-blue-600 font-bold text-base md:text-lg mb-2"
                                                 >1947 - 1950: L'Acquedotto</span
                                             >
                                             <p
-                                                class="text-base text-gray-700 text-justify"
+                                                class="text-sm md:text-lg text-gray-700 text-justify"
                                             >
                                                 Opera motivata dall'estrema
                                                 necessità per uomini e animali.
@@ -215,11 +220,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                         </div>
                                         <div class="flex flex-col">
                                             <span
-                                                class="text-green-600 font-bold text-lg mb-2"
+                                                class="text-green-600 font-bold text-base md:text-lg mb-2"
                                                 >1948 - 1955: Sviluppo Sociale</span
                                             >
                                             <ul
-                                                class="list-disc list-inside text-base text-gray-700 space-y-2"
+                                                class="list-disc list-inside text-sm md:text-lg text-gray-700 space-y-2"
                                             >
                                                 <li>
                                                     <strong
@@ -257,12 +262,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                         </div>
                                         <div class="flex flex-col">
                                             <span
-                                                class="text-purple-600 font-bold text-lg mb-2"
+                                                class="text-purple-600 font-bold text-base md:text-lg mb-2"
                                                 >1999 - 2003: Progetto "Macchia
                                                 Grande"</span
                                             >
                                             <p
-                                                class="text-base text-gray-700 text-justify mb-3"
+                                                class="text-sm md:text-lg text-gray-700 text-justify mb-3"
                                             >
                                                 Progetto ambizioso (Obiettivo
                                                 5/b) per l'avviamento ad alto
@@ -299,28 +304,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div
-                                    class="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0"
+                                    class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl sm:rounded-2xl flex items-center justify-center mr-6 shadow-lg flex-shrink-0"
                                 >
                                     <svg
-                                        class="w-6 h-6 text-white"
+                                        class="w-6 h-6 sm:w-8 sm:h-8 text-white"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
-                                        ><path
+                                    >
+                                        <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                                        ></path></svg
-                                    >
+                                        ></path>
+                                    </svg>
                                 </div>
                                 <div>
                                     <h3
-                                        class="text-xl md:text-2xl font-bold text-gray-900"
+                                        class="text-1xl sm:text-3xl font-bold text-gray-900"
                                     >
                                         Il Territorio e i Domini Collettivi
                                     </h3>
-                                    <p class="text-sm text-gray-500 mt-1">
+                                    <p class="text-sm text-gray-500">
                                         Inquadramento geografico e analisi
                                         catastale dei sesti
                                     </p>
@@ -353,11 +359,13 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                 class="bg-cyan-50 rounded-xl p-6 border border-cyan-100"
                             >
                                 <h4
-                                    class="text-lg font-bold text-cyan-900 mb-4"
+                                    class="text-xl font-bold text-cyan-900 mb-4"
                                 >
                                     Caratteristiche Morfologiche
                                 </h4>
-                                <ul class="space-y-3 text-base text-gray-700">
+                                <ul
+                                    class="space-y-3 text-sm md:text-lg text-gray-700"
+                                >
                                     <li class="flex items-start">
                                         <span
                                             class="font-bold text-cyan-700 w-32 flex-shrink-0"
@@ -410,7 +418,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                 <div
                                     class="bg-gray-100 px-6 py-4 border-b border-gray-200"
                                 >
-                                    <h4 class="font-bold text-gray-800">
+                                    <h4 class="text-xl font-bold text-gray-800">
                                         Delimitazione del Territorio
                                     </h4>
                                 </div>
@@ -420,10 +428,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                             class="pb-4 border-b border-gray-100"
                                         >
                                             <span
-                                                class="block font-bold text-gray-900 mb-1"
+                                                class="block font-bold text-gray-900 mb-1 text-sm md:text-lg"
                                                 >Confine NORD</span
                                             >
-                                            <span class="text-gray-600"
+                                            <span
+                                                class="text-gray-600 text-sm md:text-lg"
                                                 >Fosso di S. Cristoforo, Strada
                                                 vicinale Cannotella-Rocchetta
                                                 fino al piccolo rio oltre strada
@@ -434,10 +443,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                             class="pb-4 border-b border-gray-100"
                                         >
                                             <span
-                                                class="block font-bold text-gray-900 mb-1"
+                                                class="block font-bold text-gray-900 mb-1 text-sm md:text-lg"
                                                 >Confine EST</span
                                             >
-                                            <span class="text-gray-600"
+                                            <span
+                                                class="text-gray-600 text-sm md:text-lg"
                                                 >Risalendo il rio fino alla
                                                 Strada vicinale di Macchia
                                                 Porana, Fonte di Macchia Porana
@@ -448,10 +458,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                             class="pb-4 border-b border-gray-100"
                                         >
                                             <span
-                                                class="block font-bold text-gray-900 mb-1"
+                                                class="block font-bold text-gray-900 mb-1 text-sm md:text-lg"
                                                 >Confine SUD</span
                                             >
-                                            <span class="text-gray-600"
+                                            <span
+                                                class="text-gray-600 text-sm md:text-lg"
                                                 >Prato Pecoraro, Prato Piccinino
                                                 (q. 1632) fino alla località
                                                 Laghetto.</span
@@ -459,10 +470,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                         </div>
                                         <div>
                                             <span
-                                                class="block font-bold text-gray-900 mb-1"
+                                                class="block font-bold text-gray-900 mb-1 text-sm md:text-lg"
                                                 >Confine OVEST</span
                                             >
-                                            <span class="text-gray-600"
+                                            <span
+                                                class="text-gray-600 text-sm md:text-lg"
                                                 >Colle della Croce (Eremo S.
                                                 Giuseppe), discesa lungo la
                                                 vecchia mulattiera fino al Fosso
@@ -475,12 +487,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
                             <div>
                                 <h4
-                                    class="text-lg font-bold text-gray-800 mb-4"
+                                    class="text-xl font-bold text-gray-800 mb-4"
                                 >
                                     Domini Collettivi in Godimento Promiscuo
                                 </h4>
                                 <p
-                                    class="text-base text-gray-700 mb-6 text-justify"
+                                    class="text-sm md:text-lg text-gray-700 mb-6 text-justify"
                                 >
                                     Esistono territori gestiti promiscuamente
                                     con altre frazioni (S. Clemente, Vallimpuni,
@@ -493,10 +505,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                     class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm"
                                 >
                                     <table
-                                        class="w-full text-base text-left text-gray-600"
+                                        class="w-full text-sm md:text-lg text-left text-gray-600"
                                     >
                                         <thead
-                                            class="bg-blue-600 text-white uppercase text-sm"
+                                            class="bg-blue-600 text-white uppercase text-sm md:text-base"
                                         >
                                             <tr>
                                                 <th class="px-6 py-4"
@@ -529,7 +541,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                                     class="px-6 py-4 text-center font-bold text-blue-600"
                                                     >50.03.10 ha</td
                                                 >
-                                                <td class="px-6 py-4 text-sm"
+                                                <td
+                                                    class="px-6 py-4 text-sm md:text-lg"
                                                     >Prevalenza Faggio Alto
                                                     Fusto (91%)</td
                                                 >
@@ -547,7 +560,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                                     class="px-6 py-4 text-center font-bold text-blue-600"
                                                     >39.35.10 ha</td
                                                 >
-                                                <td class="px-6 py-4 text-sm"
+                                                <td
+                                                    class="px-6 py-4 text-sm md:text-lg"
                                                     >Bosco alto fusto (80%)</td
                                                 >
                                             </tr>
@@ -565,7 +579,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                                     >89.38.20 ha</td
                                                 >
                                                 <td
-                                                    class="px-6 py-4 text-sm italic"
+                                                    class="px-6 py-4 text-sm md:text-lg italic"
                                                     >Secondo perizia Fedi (1971)</td
                                                 >
                                             </tr>
@@ -578,12 +592,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                 class="bg-yellow-50 p-6 rounded-xl border-l-4 border-yellow-400"
                             >
                                 <h5
-                                    class="font-bold text-yellow-800 text-base mb-2"
+                                    class="font-bold text-yellow-800 text-sm md:text-lg mb-2"
                                 >
                                     Nota sulle Discrepanze Catastali
                                 </h5>
                                 <p
-                                    class="text-sm text-yellow-800 leading-relaxed"
+                                    class="text-sm md:text-lg text-yellow-800 leading-relaxed"
                                 >
                                     Esiste una differenza tra i dati Catastali
                                     (441 ha boschivi) e quelli della Carta
@@ -610,28 +624,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div
-                                    class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0"
+                                    class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl sm:rounded-2xl flex items-center justify-center mr-6 shadow-lg flex-shrink-0"
                                 >
                                     <svg
-                                        class="w-6 h-6 text-white"
+                                        class="w-6 h-6 sm:w-8 sm:h-8 text-white"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
-                                        ><path
+                                    >
+                                        <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
-                                        ></path></svg
-                                    >
+                                        ></path>
+                                    </svg>
                                 </div>
                                 <div>
                                     <h3
-                                        class="text-xl md:text-2xl font-bold text-gray-900"
+                                        class="text-1xl sm:text-3xl font-bold text-gray-900"
                                     >
                                         Usi Civici e Gestione
                                     </h3>
-                                    <p class="text-sm text-gray-500 mt-1">
+                                    <p class="text-sm text-gray-500">
                                         Iter legale, sentenze e modelli
                                         associativi proposti
                                     </p>
@@ -662,7 +677,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         <div class="space-y-8">
                             <div>
                                 <h4
-                                    class="text-lg font-bold text-gray-800 mb-4"
+                                    class="text-xl font-bold text-gray-800 mb-4"
                                 >
                                     Il Contenzioso e il Commissariato
                                 </h4>
@@ -677,12 +692,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                                 class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"
                                             >
                                             </div>
-                                            <h5 class="font-bold text-gray-900">
+                                            <h5
+                                                class="font-bold text-gray-900 text-sm md:text-lg"
+                                            >
                                                 2 Marzo 1995: Ordinanza
                                                 Commissariale
                                             </h5>
                                             <p
-                                                class="text-base text-gray-600 mt-1"
+                                                class="text-sm md:text-lg text-gray-600 mt-1"
                                             >
                                                 Il Commissario Dr. Franco
                                                 Carletti nomina il Dr. Agr.
@@ -696,12 +713,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                                 class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"
                                             >
                                             </div>
-                                            <h5 class="font-bold text-gray-900">
+                                            <h5
+                                                class="font-bold text-gray-900 text-sm md:text-lg"
+                                            >
                                                 16 Maggio 1997: Incarico
                                                 Ufficiale
                                             </h5>
                                             <p
-                                                class="text-base text-gray-600 mt-1"
+                                                class="text-sm md:text-lg text-gray-600 mt-1"
                                             >
                                                 Obiettivo: "Rilevare i problemi
                                                 economici e gestionali e
@@ -714,11 +733,13 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                                 class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-2 border-white"
                                             >
                                             </div>
-                                            <h5 class="font-bold text-gray-900">
+                                            <h5
+                                                class="font-bold text-gray-900 text-sm md:text-lg"
+                                            >
                                                 Obiettivi Finali
                                             </h5>
                                             <p
-                                                class="text-base text-gray-600 mt-1"
+                                                class="text-sm md:text-lg text-gray-600 mt-1"
                                             >
                                                 Stabilire appartenenza e confini
                                                 certi per permettere una
@@ -734,12 +755,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
                             <div>
                                 <h4
-                                    class="text-lg font-bold text-gray-800 mb-4"
+                                    class="text-xl font-bold text-gray-800 mb-4"
                                 >
                                     Proposta Gestionale: Il Consorzio Forestale
                                 </h4>
                                 <p
-                                    class="text-base text-gray-700 mb-4 text-justify"
+                                    class="text-sm md:text-lg text-gray-700 mb-4 text-justify"
                                 >
                                     Considerando le 6 Università coinvolte
                                     (Piedelpoggio, Terzone S.Paolo, Terzone
@@ -753,11 +774,13 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                 <div
                                     class="bg-green-50 rounded-xl p-6 border border-green-200"
                                 >
-                                    <h5 class="font-bold text-green-900 mb-3">
+                                    <h5
+                                        class="font-bold text-green-900 mb-3 text-sm md:text-lg"
+                                    >
                                         Perché il Consorzio Forestale?
                                     </h5>
                                     <ul
-                                        class="space-y-3 text-base text-green-800"
+                                        class="space-y-3 text-sm md:text-lg text-green-800"
                                     >
                                         <li class="flex items-start">
                                             <svg
@@ -848,28 +871,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div
-                                    class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mr-5 shadow-md flex-shrink-0"
+                                    class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl sm:rounded-2xl flex items-center justify-center mr-6 shadow-lg flex-shrink-0"
                                 >
                                     <svg
-                                        class="w-6 h-6 text-white"
+                                        class="w-6 h-6 sm:w-8 sm:h-8 text-white"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
-                                        ><path
+                                    >
+                                        <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
                                             stroke-width="2"
                                             d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                        ></path></svg
-                                    >
+                                        ></path>
+                                    </svg>
                                 </div>
                                 <div>
                                     <h3
-                                        class="text-xl md:text-2xl font-bold text-gray-900"
+                                        class="text-1xl sm:text-3xl font-bold text-gray-900"
                                     >
                                         Analisi Economica e Potenzialità
                                     </h3>
-                                    <p class="text-sm text-gray-500 mt-1">
+                                    <p class="text-sm text-gray-500">
                                         Biomassa, zootecnia, sottobosco e
                                         turismo
                                     </p>
@@ -900,7 +924,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                         <div class="space-y-10">
                             <div>
                                 <h4
-                                    class="flex items-center text-lg font-bold text-green-800 mb-4"
+                                    class="flex items-center text-xl font-bold text-green-800 mb-4"
                                 >
                                     <span
                                         class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3 text-green-600"
@@ -912,7 +936,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                     class="bg-white rounded-xl shadow-sm border border-green-100 p-6"
                                 >
                                     <p
-                                        class="text-base text-gray-700 mb-6 text-justify"
+                                        class="text-sm md:text-lg text-gray-700 mb-6 text-justify"
                                     >
                                         L'analisi evidenzia un utilizzo attuale
                                         nettamente inferiore alla capacità
@@ -1010,7 +1034,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
                             <div>
                                 <h4
-                                    class="flex items-center text-lg font-bold text-blue-800 mb-4"
+                                    class="flex items-center text-xl font-bold text-blue-800 mb-4"
                                 >
                                     <span
                                         class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 text-blue-600"
@@ -1022,7 +1046,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                     class="bg-white rounded-xl shadow-sm border border-blue-100 overflow-hidden"
                                 >
                                     <div class="p-6">
-                                        <p class="text-base text-gray-700 mb-4">
+                                        <p
+                                            class="text-sm md:text-lg text-gray-700 mb-4"
+                                        >
                                             I pascoli (1.187 ha totali) sono
                                             attualmente <strong
                                                 >sottosfruttati</strong
@@ -1199,7 +1225,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
                             <div>
                                 <h4
-                                    class="flex items-center text-lg font-bold text-amber-800 mb-4"
+                                    class="flex items-center text-xl font-bold text-amber-800 mb-4"
                                 >
                                     <span
                                         class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-3 text-amber-600"
@@ -1213,12 +1239,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                     <div class="space-y-6">
                                         <div>
                                             <h5
-                                                class="font-bold text-gray-800 mb-2"
+                                                class="font-bold text-gray-800 mb-2 text-sm md:text-lg"
                                             >
                                                 Tartufi e Sottobosco
                                             </h5>
                                             <p
-                                                class="text-base text-gray-700 text-justify"
+                                                class="text-sm md:text-lg text-gray-700 text-justify"
                                             >
                                                 Attualmente l'unica risorsa
                                                 organizzata è il <strong
@@ -1235,12 +1261,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                                         <hr class="border-gray-100" />
                                         <div>
                                             <h5
-                                                class="font-bold text-gray-800 mb-2"
+                                                class="font-bold text-gray-800 mb-2 text-sm md:text-lg"
                                             >
                                                 Turismo e Ambiente
                                             </h5>
                                             <p
-                                                class="text-base text-gray-700 text-justify mb-3"
+                                                class="text-sm md:text-lg text-gray-700 text-justify mb-3"
                                             >
                                                 Nonostante la presenza di circa <strong
                                                     >1.000 turisti estivi</strong
