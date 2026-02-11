@@ -2,7 +2,6 @@ SISTEMA ESTETICA:
     - pagina bilancio ha uno sfumato che parte dall'alto molto piu lungo degli altri
     - Responsivness
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia
-    - valuta coerenza pagine con menu a tendina: poesie, sentieri, statuto, universita agraria
 
 
 ✅ significa ok su DESKTOP
