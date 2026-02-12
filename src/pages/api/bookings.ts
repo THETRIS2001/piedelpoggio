@@ -148,7 +148,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     try {
       const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
       if (RESEND_API_KEY) {
-        const subject = `Nuova prenotazione campo: ${newBooking.date} ${newBooking.start}–${newBooking.end}`;
+        const subject = `🗓️ Nuova prenotazione campo: ${newBooking.date} ${newBooking.start}–${newBooking.end}`;
         const html = buildNewBookingEmail({
           customerName: newBooking.customer_name,
           customerPhone: newBooking.customer_phone,
@@ -238,7 +238,7 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       if (booking) {
         const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
         if (RESEND_API_KEY) {
-          const subject = `Cancellazione prenotazione campo: ${booking.date} ${booking.start}–${booking.end}`;
+          const subject = `🚫 Cancellazione prenotazione campo: ${booking.date} ${booking.start}–${booking.end}`;
           const html = buildCancelBookingEmail({
             customerName: booking.customer_name,
             customerPhone: booking.customer_phone,

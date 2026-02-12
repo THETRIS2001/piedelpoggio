@@ -23,7 +23,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const subject = `Nuova idea da ${nome} ${cognome}`;
+    const subject = `💡 Nuova idea da ${nome} ${cognome}`;
     const html = buildIdeaEmail({ nome, cognome, email: email || undefined, telefono: telefono || undefined, idea });
 
     const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;

@@ -275,7 +275,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         if (RESEND_API_KEY) {
           const evName = (meta?.eventName) || eventNameInput || folder
           const evDate = (meta?.date) || dateInput || ''
-          const subject = `Upload completato: ${evName}`
+          const subject = `📸 Upload completato: ${evName}`
           const html = buildMediaUploadEmail({
             eventName: evName,
             date: evDate,
