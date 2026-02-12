@@ -140,13 +140,19 @@ function infoRow(label: string, value: string, iconColor: string): string {
   </tr>`;
 }
 
-// ─── Componente: Card con sfondo, bordo e ombra più marcata ───
+// ─── Componente: Card con sfondo, bordo e ombra 3D robusta ───
 function card(content: string, bgColor: string = colors.cardBg): string {
   return `
   <tr>
-    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 20px 60px -12px rgba(0,0,0,0.35);" class="content-cell">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-        ${content}
+    <td style="padding:0 24px 32px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:${bgColor};border-radius:16px;border:1px solid ${colors.border};box-shadow:0 20px 50px -12px rgba(0,0,0,0.5);">
+        <tr>
+          <td style="padding:28px 32px;" class="content-cell">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              ${content}
+            </table>
+          </td>
+        </tr>
       </table>
     </td>
   </tr>`;
