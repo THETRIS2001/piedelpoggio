@@ -100,7 +100,7 @@ function heroSection(title: string, subtitle: string, gradientStart: string, gra
         <tr>
           <td>
             <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1.3;letter-spacing:-0.3px;">
-              <span style="font-size:28px;vertical-align:middle;margin-right:10px;">${emoji}</span>${escapeHtml(title)}
+              <span style="font-size:28px;vertical-align:middle;margin-right:10px;text-shadow:1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000;">${emoji}</span>${escapeHtml(title)}
             </h1>
             <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.85);line-height:1.5;font-weight:400;">${escapeHtml(subtitle)}</p>
           </td>
@@ -128,11 +128,11 @@ function infoRow(label: string, value: string, iconColor: string): string {
   </tr>`;
 }
 
-// ─── Componente: Card con sfondo, bordo e ombra ───
+// ─── Componente: Card con sfondo, bordo e ombra più marcata ───
 function card(content: string, bgColor: string = colors.cardBg): string {
   return `
   <tr>
-    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 1px 3px rgba(0,0,0,0.06);" class="content-cell">
+    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);" class="content-cell">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         ${content}
       </table>
@@ -203,7 +203,7 @@ export function buildIdeaEmail(data: {
     ctaSection,
   ].filter(Boolean).join('');
 
-  return wrapEmail(content, `Nuovo suggerimento da ${nome} ${cognome}`);
+  return wrapEmail(content, `💡 Nuovo suggerimento da ${nome} ${cognome}`);
 }
 
 // ═══════════════════════════════════════════════
@@ -234,7 +234,7 @@ export function buildNewBookingEmail(data: {
   ].filter(Boolean).join('');
 
   const content = [
-    heroSection('Nuova prenotazione', `Campo sportivo prenotato per ${formattedDate}`, colors.success, colors.successDark, '🍴'),
+    heroSection('Nuova prenotazione', `Campo sportivo prenotato per ${formattedDate}`, colors.success, colors.successDark, '🗓️'),
     card(`
       <tr>
         <td style="padding-bottom:8px;">
@@ -248,7 +248,7 @@ export function buildNewBookingEmail(data: {
     `),
   ].join('');
 
-  return wrapEmail(content, `Nuova prenotazione: ${formattedDate} ${start}–${end}`);
+  return wrapEmail(content, `🗓️ Nuova prenotazione: ${formattedDate} ${start}–${end}`);
 }
 
 // ═══════════════════════════════════════════════
@@ -293,7 +293,7 @@ export function buildCancelBookingEmail(data: {
     `),
   ].join('');
 
-  return wrapEmail(content, `Prenotazione cancellata: ${formattedDate} ${start}–${end}`);
+  return wrapEmail(content, `🚫 Prenotazione cancellata: ${formattedDate} ${start}–${end}`);
 }
 
 // ═══════════════════════════════════════════════
@@ -343,5 +343,5 @@ export function buildMediaUploadEmail(data: {
     `, colors.borderLight),
   ].join('');
 
-  return wrapEmail(content, `Upload completato: ${eventName} (${files.length} file)`);
+  return wrapEmail(content, `📸 Upload completato: ${eventName} (${files.length} file)`);
 }
