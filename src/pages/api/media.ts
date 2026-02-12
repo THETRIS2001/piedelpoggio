@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro'
 import { createSlug } from '../../utils/slug'
+import { buildMediaUploadEmail } from '../../utils/emailTemplates'
 
 export const prerender = false
 
@@ -72,7 +73,7 @@ async function listAll(bucket: any, options: any) {
     }
     if (!cursor) break
   }
-  
+
   return { objects: allObjects, delimitedPrefixes: Array.from(allPrefixes) }
 }
 
@@ -96,30 +97,30 @@ export const GET: APIRoute = async ({ request, locals }) => {
       const mode = url.searchParams.get('mode')
       const listed = await listAll(bucket, { prefix, delimiter: '/' })
       const folders = new Set<string>()
-      
+
       // Use delimitedPrefixes to get folders directly
       for (const p of listed.delimitedPrefixes || []) {
         const rest = p.slice(prefix.length)
         const seg = rest.replace(/\/$/, '')
         if (seg) folders.add(seg)
       }
-      
+
       // Fallback: if delimitedPrefixes is empty (shouldn't happen with delimiter='/'), check objects too
       // just in case some files are at root level (though we want folders)
       for (const obj of listed.objects || []) {
-         const key = obj.key || ''
-         if (!key.startsWith(prefix)) continue
-         const rest = key.slice(prefix.length)
-         const parts = rest.split('/')
-         // If it has parts > 1, the first part is a folder, but it should have been in delimitedPrefixes
-         // If parts == 1, it's a file in root media/, we ignore it for "folders" list
-         if (parts.length > 1) {
-             folders.add(parts[0])
-         }
+        const key = obj.key || ''
+        if (!key.startsWith(prefix)) continue
+        const rest = key.slice(prefix.length)
+        const parts = rest.split('/')
+        // If it has parts > 1, the first part is a folder, but it should have been in delimitedPrefixes
+        // If parts == 1, it's a file in root media/, we ignore it for "folders" list
+        if (parts.length > 1) {
+          folders.add(parts[0])
+        }
       }
 
       const events: Array<{ folder: string; meta: Meta | null; files: Array<{ name: string; url: string }> }> = []
-      
+
       // Fetch metadata in parallel
       const folderList = Array.from(folders)
       const results = await Promise.all(folderList.map(async (folder) => {
@@ -132,26 +133,26 @@ export const GET: APIRoute = async ({ request, locals }) => {
             const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
             meta = JSON.parse(cleanTxt)
           }
-        } catch {}
-        
+        } catch { }
+
         if (!meta || !meta.eventName || !meta.date) {
           return null
         }
 
         let files: any[] = []
         if (mode !== 'meta') {
-            const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
-            files = (filesList.objects || [])
+          const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
+          files = (filesList.objects || [])
             .filter((o: any) => isAllowedFile(o.key || ''))
             .map((o: any) => {
-                const k = o.key as string
-                const name = k.split('/').pop() || ''
-                // Supporta sia 'size' che 'Size' per sicurezza
-                const size = o.size || o.Size || 0
-                return { name, url: `/media/${folder}/${name}`, size }
+              const k = o.key as string
+              const name = k.split('/').pop() || ''
+              // Supporta sia 'size' che 'Size' per sicurezza
+              const size = o.size || o.Size || 0
+              return { name, url: `/media/${folder}/${name}`, size }
             })
         }
-        
+
         return { folder, meta, files }
       }))
 
@@ -176,7 +177,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
           const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
           meta = JSON.parse(cleanTxt)
         }
-      } catch {}
+      } catch { }
       const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
       const files = (filesList.objects || [])
         .filter((o: any) => isAllowedFile(o.key || ''))
@@ -228,7 +229,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             files: (fd.getAll('files') || []).map((v) => String(v)),
           }
         }
-      } catch {}
+      } catch { }
       const folderInput = String(data?.folder || '')
       const eventNameInput = String(data?.eventName || '')
       const dateInput = String(data?.date || '')
@@ -254,7 +255,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
           meta = JSON.parse(cleanTxt)
         }
-      } catch {}
+      } catch { }
       if (meta && typeof descriptionInput !== 'undefined') {
         meta = { ...meta, description: descriptionInput }
         await bucket.put(`${prefix}${folder}/meta.txt`, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
@@ -267,22 +268,20 @@ export const POST: APIRoute = async ({ request, locals }) => {
             .map((o: any) => o.key as string)
             .map((k: string) => k.split('/').pop() || '')
             .filter((name: string) => isAllowedFile(name))
-        } catch {}
+        } catch { }
       }
       try {
         const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY
         if (RESEND_API_KEY) {
-          const subject = `Upload completato: ${(meta?.eventName) || eventNameInput || folder}`
-          const filesHtml = files.map((n) => `${n}`).join('<br>')
-          const html = `
-            <div style="font-family: Arial, sans-serif;">
-              <h2>Upload completato</h2>
-              <p><strong>Evento:</strong> ${(meta?.eventName) || eventNameInput || folder}</p>
-              <p><strong>Data evento:</strong> ${(meta?.date) || dateInput || ''}</p>
-              ${descriptionInput ? `<p><strong>Descrizione:</strong> ${descriptionInput}</p>` : ''}
-              <p><strong>File caricati (${files.length}):</strong><br>${filesHtml}</p>
-            </div>
-          `
+          const evName = (meta?.eventName) || eventNameInput || folder
+          const evDate = (meta?.date) || dateInput || ''
+          const subject = `Upload completato: ${evName}`
+          const html = buildMediaUploadEmail({
+            eventName: evName,
+            date: evDate,
+            description: descriptionInput,
+            files,
+          })
           const payload = {
             from: 'Upload Media <onboarding@resend.dev>',
             to: ['pro.piedelpoggio@gmail.com'],
@@ -298,7 +297,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             body: JSON.stringify(payload),
           })
         }
-      } catch {}
+      } catch { }
       return new Response(JSON.stringify({ ok: true, folder, files, meta }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' }
@@ -336,7 +335,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
             meta = JSON.parse(cleanTxt)
           }
-        } catch {}
+        } catch { }
         if (!meta && eventName && date) {
           const dateRegex = /^\d{4}-\d{2}-\d{2}$/
           if (dateRegex.test(date)) {
@@ -406,7 +405,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
           const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
           meta = JSON.parse(cleanTxt)
         }
-      } catch {}
+      } catch { }
       if (!meta && eventName && date) {
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/
         if (dateRegex.test(date)) {
@@ -493,7 +492,7 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
         try {
           await bucket.delete(key)
           deleted++
-        } catch {}
+        } catch { }
       }
     }
     return new Response(JSON.stringify({ ok: true, deleted }), {

@@ -616,35 +616,25 @@ const BookingCalendar: React.FC = () => {
                   cleanedTitle = cleanedTitle.replace(/^prenotazione\s*/i, '').trim()
                 }
                 return (
-                  <li key={i} className="group p-4 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative overflow-hidden">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500 rounded-l-xl"></div>
-                    <div className="flex items-start gap-3 pl-2 sm:pl-0 w-full sm:w-auto">
-                      {/* Avatar Placeholder */}
-                      <div className="w-10 h-10 rounded-full bg-red-50 flex-shrink-0 flex items-center justify-center text-red-600 font-bold text-sm shadow-inner">
-                        {masked.charAt(0).toUpperCase()}
-                      </div>
-
-                      <div className="flex flex-col gap-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-bold bg-gray-900 text-white shadow-sm">
-                            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            {removeSecondsFromTime(b.start)} – {removeSecondsFromTime(b.end)}
-                          </span>
-                          <span className="text-sm font-semibold text-gray-900 truncate">
-                            {masked}
-                          </span>
+                  <li key={i} className="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors duration-150 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="flex flex-col gap-1.5 min-w-0">
+                        <div className="flex items-center gap-2 text-base font-semibold text-gray-900">
+                          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                          <span>{removeSecondsFromTime(b.start)} – {removeSecondsFromTime(b.end)}</span>
+                          <span className="text-gray-300">·</span>
+                          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                          <span className="truncate">{masked}</span>
                         </div>
-
                         {cleanedTitle && (
-                          <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                            <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" /></svg>
-                            <span className="truncate">{cleanedTitle}</span>
-                          </div>
+                          <p className="text-sm text-gray-500 truncate pl-6">
+                            {cleanedTitle}
+                          </p>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-end sm:ml-auto pl-12 sm:pl-0">
+                    <div className="flex items-center sm:ml-auto sm:pl-4">
                       <button
                         onClick={() => handleCancelBooking(b.id)}
                         disabled={isLoading}
