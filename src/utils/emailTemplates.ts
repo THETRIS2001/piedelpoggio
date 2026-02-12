@@ -99,9 +99,12 @@ function heroSection(title: string, subtitle: string, gradientStart: string, gra
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1.3;letter-spacing:-0.3px;">
-              <span style="font-size:28px;vertical-align:middle;margin-right:10px;text-shadow:3px 3px 0 #000,-3px -3px 0 #000,3px -3px 0 #000,-3px 3px 0 #000,3px 0 0 #000,-3px 0 0 #000,0 3px 0 #000,0 -3px 0 #000;">${emoji}</span>${escapeHtml(title)}
-            </h1>
+            <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom:12px;">
+              <tr>
+                <td style="width:52px;height:52px;background-color:#FFFFFF;border:3px solid #1E293B;border-radius:50%;text-align:center;line-height:46px;font-size:24px;">${emoji}</td>
+              </tr>
+            </table>
+            <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1.3;letter-spacing:-0.3px;">${escapeHtml(title)}</h1>
             <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.85);line-height:1.5;font-weight:400;">${escapeHtml(subtitle)}</p>
           </td>
         </tr>
@@ -132,7 +135,7 @@ function infoRow(label: string, value: string, iconColor: string): string {
 function card(content: string, bgColor: string = colors.cardBg): string {
   return `
   <tr>
-    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 0 20px rgba(0,0,0,0.12);" class="content-cell">
+    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 0 30px rgba(0,0,0,0.2);" class="content-cell">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         ${content}
       </table>
