@@ -76,7 +76,7 @@ function wrapEmail(content: string, preheader?: string): string {
                       Pro Loco Piedelpoggio &middot; Frazione di Leonessa (RI)
                     </p>
                     <p style="margin:0;font-size:12px;color:${colors.textMuted};line-height:1.5;">
-                      Questa email è stata generata automaticamente da <a href="https://piedelpoggio.it" style="color:${colors.primary};text-decoration:none;">piedelpoggio.it</a>
+                      Questa email è stata generata automaticamente da <a href="https://piedelpoggio.org" style="color:${colors.primary};text-decoration:none;">piedelpoggio.org</a>
                     </p>
                   </td>
                 </tr>
@@ -128,11 +128,11 @@ function infoRow(label: string, value: string, iconColor: string): string {
   </tr>`;
 }
 
-// ─── Componente: Card con sfondo leggero ───
+// ─── Componente: Card con sfondo, bordo e ombra ───
 function card(content: string, bgColor: string = colors.cardBg): string {
   return `
   <tr>
-    <td style="background-color:${bgColor};padding:28px 32px;" class="content-cell">
+    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 1px 3px rgba(0,0,0,0.06);" class="content-cell">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         ${content}
       </table>
@@ -279,7 +279,7 @@ export function buildCancelBookingEmail(data: {
   ].filter(Boolean).join('');
 
   const content = [
-    heroSection('Prenotazione cancellata', `La prenotazione del ${formattedDate} è stata annullata`, colors.danger, colors.dangerDark, '❌'),
+    heroSection('Prenotazione cancellata', `La prenotazione del ${formattedDate} è stata annullata`, colors.danger, colors.dangerDark, '🚫'),
     card(`
       <tr>
         <td style="padding-bottom:8px;">
@@ -291,15 +291,6 @@ export function buildCancelBookingEmail(data: {
       <tr><td style="padding-top:24px;"><p style="margin:0 0 16px;font-size:16px;font-weight:700;color:${colors.textPrimary};">Contatto</p></td></tr>
       ${contactRows}
     `),
-    card(`
-      <tr>
-        <td style="background-color:#FEF2F2;border-radius:12px;padding:16px 20px;border:1px solid #FECACA;">
-          <p style="margin:0;font-size:13px;color:#991B1B;line-height:1.6;">
-            <strong>Nota:</strong> Lo slot orario ${escapeHtml(start)} – ${escapeHtml(end)} del ${escapeHtml(formattedDate)} è ora nuovamente disponibile per altre prenotazioni.
-          </p>
-        </td>
-      </tr>
-    `, colors.borderLight),
   ].join('');
 
   return wrapEmail(content, `Prenotazione cancellata: ${formattedDate} ${start}–${end}`);
