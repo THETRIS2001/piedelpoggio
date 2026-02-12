@@ -104,10 +104,10 @@ function heroSection(title: string, subtitle: string, gradientStart: string, gra
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td>
-            <div style="margin-bottom:16px;">
-              <div style="background-color:#FFFFFF;border-radius:50%;width:56px;height:56px;line-height:56px;text-align:center;font-size:28px;display:inline-block;box-shadow:0 4px 10px rgba(0,0,0,0.15);">${emoji}</div>
-            </div>
-            <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1.3;letter-spacing:-0.3px;">${escapeHtml(title)}</h1>
+            <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1.3;letter-spacing:-0.3px;">
+              <span style="background-color:#FFFFFF;border-radius:50%;width:48px;height:48px;line-height:52px;text-align:center;font-size:22px;display:inline-block;vertical-align:middle;margin-right:12px;box-shadow:0 4px 6px rgba(0,0,0,0.15);color:#000000;">${emoji}</span>
+              <span style="vertical-align:middle;">${escapeHtml(title)}</span>
+            </h1>
             <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.85);line-height:1.5;font-weight:400;">${escapeHtml(subtitle)}</p>
           </td>
         </tr>
