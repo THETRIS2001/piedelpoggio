@@ -105,7 +105,7 @@ function heroSection(title: string, subtitle: string, gradientStart: string, gra
         <tr>
           <td>
             <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#FFFFFF;line-height:1.3;letter-spacing:-0.3px;">
-              <span style="background-color:#FFFFFF;border-radius:50%;width:48px;height:48px;line-height:52px;text-align:center;font-size:22px;display:inline-block;vertical-align:middle;margin-right:12px;box-shadow:0 4px 6px rgba(0,0,0,0.15);color:#000000;">${emoji}</span>
+              <span style="background-color:#FFFFFF;border-radius:50%;width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;vertical-align:middle;margin-right:12px;box-shadow:0 4px 6px rgba(0,0,0,0.15);color:#000000;">${emoji}</span>
               <span style="vertical-align:middle;">${escapeHtml(title)}</span>
             </h1>
             <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.85);line-height:1.5;font-weight:400;">${escapeHtml(subtitle)}</p>
