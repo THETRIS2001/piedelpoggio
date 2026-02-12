@@ -1,7 +1,7 @@
 SISTEMA ESTETICA:
     - Responsivness
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
-
+    - cartelle con data sbagliata se ignota
 
 ✅ significa ok su DESKTOP
 ✅✅ ok su mobile anche
@@ -24,9 +24,6 @@ Università Agraria ✅
 Montagna, Sentieri e Informazioni ✅
 Footer ✅
 info sito ✅
-
-✅✅✅✅✅✅elimina foto caricate per test
-troppa ridondanza titolo email
 ______________________________________________
 
 cambio 2008
