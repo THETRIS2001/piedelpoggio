@@ -108,7 +108,7 @@ function heroSection(title: string, subtitle: string, gradientStart: string, gra
               <span style="display:inline-block;vertical-align:middle;margin-right:12px;width:48px;height:48px;background-color:#FFFFFF;border-radius:50%;box-shadow:0 4px 6px rgba(0,0,0,0.15);">
                 <table role="presentation" width="100%" height="100%" cellpadding="0" cellspacing="0" border="0" style="width:100% !important; height:100% !important; border-collapse:collapse;">
                   <tr>
-                    <td align="center" valign="middle" style="font-size:24px;line-height:1;padding:0;margin:0;color:#000000;">${emoji}</td>
+                    <td align="center" valign="middle" style="font-family:'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;font-size:24px;line-height:24px;mso-line-height-rule:exactly;padding:0;margin:0;color:#000000;">${emoji}</td>
                   </tr>
                 </table>
               </span>
