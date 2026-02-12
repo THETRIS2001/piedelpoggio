@@ -95,7 +95,7 @@ const CalendarHeader: React.FC<{ month: number; year: number; onPrev: () => void
             <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
-        <button onClick={onToday} className="px-3 py-1 text-xs md:text-sm font-medium.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200">Oggi</button>
+        <button onClick={onToday} className="px-4 py-1.5 text-sm md:text-base font-medium rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Oggi</button>
       </div>
     );
   };
@@ -512,15 +512,15 @@ const BookingCalendar: React.FC = () => {
 
         <div>
           <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               Dettagli prenotazione
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               <div>
-                <label className="text-xs text-gray-600">Giorno</label>
+                <label className="text-sm text-gray-600 block mb-1">Giorno</label>
                 <input
                   type="date"
                   min={toDateKey(new Date())}
@@ -538,16 +538,16 @@ const BookingCalendar: React.FC = () => {
                       }
                     }
                   }}
-                  className="mt-1 w-full px-3 py-2 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="mt-1 w-full px-3 py-2.5 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
               <div>
-                <label className="text-xs text-gray-600">Ora di inizio</label>
+                <label className="text-sm text-gray-600 block mb-1">Ora di inizio</label>
                 <div className="relative">
                   <select
                     value={startTime}
                     onChange={(e) => handleSelectStart(e.target.value)}
-                    className="mt-1 w-full px-3 py-2 pr-14 bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
+                    className="mt-1 w-full px-3 py-2.5 pr-14 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
                   >
                     <option value="">Seleziona</option>
                     {startOptions.map((s) => (
@@ -562,13 +562,13 @@ const BookingCalendar: React.FC = () => {
                 </div>
               </div>
               <div>
-                <label className="text-xs text-gray-600">Ora di fine</label>
+                <label className="text-sm text-gray-600 block mb-1">Ora di fine</label>
                 <div className="relative">
                   <select
                     value={endTime}
                     onChange={(e) => handleSelectEnd(e.target.value)}
                     disabled={!startTime || endOptions.length === 0}
-                    className={`mt-1 w-full px-3 py-2 pr-14 rounded-lg focus:outline-none focus:ring-2 appearance-none ${(!startTime || endOptions.length === 0) ? 'bg-gray-100 text-gray-400 border-gray-200' : 'bg-white border border-gray-200 text-gray-800 focus:ring-primary-500'}`}
+                    className={`mt-1 w-full px-3 py-2.5 pr-14 text-base rounded-lg focus:outline-none focus:ring-2 appearance-none ${(!startTime || endOptions.length === 0) ? 'bg-gray-100 text-gray-400 border-gray-200' : 'bg-white border border-gray-200 text-gray-800 focus:ring-primary-500'}`}
                   >
                     <option value="">Seleziona</option>
                     {endOptions.map((e) => (
@@ -588,12 +588,12 @@ const BookingCalendar: React.FC = () => {
                 <button
                   onClick={() => setShowBookingForm(true)}
                   disabled={isLoading}
-                  className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-2.5 text-base md:text-lg font-medium bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Caricamento...' : 'Prenota questo intervallo'}
                 </button>
               ) : (
-                <div className="w-full px-4 py-2 bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona inizio e fine</div>
+                <div className="w-full px-4 py-2.5 text-base font-medium bg-gray-200 text-gray-600 rounded-lg text-center">Seleziona inizio e fine</div>
               )}
             </div>
           </div>
@@ -602,9 +602,9 @@ const BookingCalendar: React.FC = () => {
 
       <div className="mt-6">
         <div className="p-4 bg-white rounded-xl border border-gray-200">
-          <h4 className="text-sm font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
+          <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
           {occupiedForDate.length === 0 ? (
-            <p className="text-sm text-gray-600">Nessuna prenotazione presente.</p>
+            <p className="text-base text-gray-600">Nessuna prenotazione presente.</p>
           ) : (
             <ul className="space-y-2">
               {occupiedForDate.map((b, i) => {
@@ -616,7 +616,7 @@ const BookingCalendar: React.FC = () => {
                   cleanedTitle = cleanedTitle.replace(/^prenotazione\s*/i, '').trim()
                 }
                 return (
-                  <li key={i} className="px-4 py-3 bg-white rounded-lg border border-gray-200 text-sm text-gray-800 flex items-center justify-between">
+                  <li key={i} className="px-4 py-3 bg-white rounded-lg border border-gray-200 text-base text-gray-800 flex items-center justify-between">
                     <div className="font-medium">
                       {removeSecondsFromTime(b.start)}–{removeSecondsFromTime(b.end)} · Prenotato da {masked}{cleanedTitle ? ` · ${cleanedTitle}` : ''}
                     </div>
@@ -692,8 +692,8 @@ const BookingCalendar: React.FC = () => {
                 />
               </div>
               <div className="space-y-3">
-                <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
-                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-md">
+                  <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
                     Riepilogo Prenotazione
                   </h4>
                   <div className="flex flex-col gap-3">
@@ -721,12 +721,12 @@ const BookingCalendar: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 p-4 rounded-xl shadow-sm relative overflow-hidden group">
+                <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 p-4 rounded-xl shadow-md relative overflow-hidden">
                   {/* Decorative circle */}
-                  <div className="absolute -right-6 -top-6 w-20 h-20 bg-amber-100/50 rounded-full blur-xl group-hover:bg-amber-200/50 transition-colors duration-500"></div>
+                  <div className="absolute -right-6 -top-6 w-20 h-20 bg-amber-100/50 rounded-full blur-xl"></div>
 
                   <div className="flex items-start gap-4 relative z-10">
-                    <div className="w-12 h-12 rounded-2xl bg-white border border-amber-100 flex-shrink-0 flex items-center justify-center text-amber-600 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-amber-100 flex-shrink-0 flex items-center justify-center text-amber-600 shadow-sm">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
                     <div className="flex-1">

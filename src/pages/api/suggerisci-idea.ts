@@ -1,16 +1,7 @@
 import type { APIRoute } from 'astro';
+import { buildIdeaEmail } from '../../utils/emailTemplates';
 
 export const prerender = false;
-
-// Semplice escape per evitare HTML injection nell'email
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
@@ -33,16 +24,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const subject = `Nuova idea da ${nome} ${cognome}`;
-    const html = `
-      <div style="font-family: Arial, sans-serif;">
-        <h2>Nuova idea ricevuta</h2>
-        <p><strong>Da:</strong> ${escapeHtml(nome)} ${escapeHtml(cognome)}</p>
-        ${email ? `<p><strong>Email:</strong> ${escapeHtml(email)}</p>` : ''}
-        ${telefono ? `<p><strong>Telefono:</strong> ${escapeHtml(telefono)}</p>` : ''}
-        <p><strong>Idea:</strong></p>
-        <div style="white-space: pre-wrap; line-height: 1.5;">${escapeHtml(idea)}</div>
-      </div>
-    `;
+    const html = buildIdeaEmail({ nome, cognome, email: email || undefined, telefono: telefono || undefined, idea });
 
     const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
     if (!RESEND_API_KEY) {
@@ -57,7 +39,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Invio email via Resend (compatibile con Cloudflare Workers)
     const payload = {
-      from: 'Suggerimenti Pro Loco <onboarding@resend.dev>', // Cambiabile con un dominio verificato
+      from: 'Suggerimenti Pro Loco <onboarding@resend.dev>',
       to: ['pro.piedelpoggio@gmail.com'],
       reply_to: email || undefined,
       subject,

@@ -1,16 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getBookings, createBooking, deleteBooking, checkBookingConflict, getBookingById, type Booking } from '../../lib/d1';
+import { buildNewBookingEmail, buildCancelBookingEmail } from '../../utils/emailTemplates';
 
 export const prerender = false;
-
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 
 function resolveDb(_request: Request, locals: any): { db: any; source: string; envKeys: string[] } {
   const runtimeLocals = locals?.runtime;
@@ -25,7 +17,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
   try {
     const { db, source, envKeys } = resolveDb(request, locals);
     if (!db) {
-      return new Response(JSON.stringify({ 
+      return new Response(JSON.stringify({
         error: 'Database configuration error',
         details: 'DB binding missing',
         source,
@@ -42,14 +34,14 @@ export const GET: APIRoute = async ({ request, locals }) => {
     const date = url.searchParams.get('date');
 
     const bookings = await getBookings(db);
-    
+
     // Filtra per data se specificata
-    const filteredBookings = date 
+    const filteredBookings = date
       ? bookings.filter(booking => booking.date === date)
       : bookings;
 
-    return new Response(JSON.stringify({ 
-      bookings: filteredBookings 
+    return new Response(JSON.stringify({
+      bookings: filteredBookings
     }), {
       status: 200,
       headers: {
@@ -58,7 +50,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
     });
   } catch (error) {
     console.error('Error in GET /api/bookings:', error);
-    return new Response(JSON.stringify({ 
+    return new Response(JSON.stringify({
       error: 'Failed to fetch bookings',
       details: error instanceof Error ? error.message : 'Unknown error'
     }), {
@@ -74,7 +66,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { db, source, envKeys } = resolveDb(request, locals);
     if (!db) {
-      return new Response(JSON.stringify({ 
+      return new Response(JSON.stringify({
         error: 'Database configuration error',
         details: 'DB binding missing',
         source,
@@ -87,13 +79,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
     const body = await request.json();
-    
+
     // Validazione dei dati richiesti
     const requiredFields = ['date', 'start', 'end', 'customerName', 'customerPhone'];
     for (const field of requiredFields) {
       if (!body[field]) {
-        return new Response(JSON.stringify({ 
-          error: `Missing required field: ${field}` 
+        return new Response(JSON.stringify({
+          error: `Missing required field: ${field}`
         }), {
           status: 400,
           headers: {
@@ -106,8 +98,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Validazione formato data
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(body.date)) {
-      return new Response(JSON.stringify({ 
-        error: 'Invalid date format. Use YYYY-MM-DD' 
+      return new Response(JSON.stringify({
+        error: 'Invalid date format. Use YYYY-MM-DD'
       }), {
         status: 400,
         headers: {
@@ -119,8 +111,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Validazione formato orario
     const timeRegex = /^\d{2}:\d{2}$/;
     if (!timeRegex.test(body.start) || !timeRegex.test(body.end)) {
-      return new Response(JSON.stringify({ 
-        error: 'Invalid time format. Use HH:mm' 
+      return new Response(JSON.stringify({
+        error: 'Invalid time format. Use HH:mm'
       }), {
         status: 400,
         headers: {
@@ -132,8 +124,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Controlla conflitti di orario
     const hasConflict = await checkBookingConflict(db, body.date, body.start, body.end);
     if (hasConflict) {
-      return new Response(JSON.stringify({ 
-        error: 'Time slot conflict. This time is already booked.' 
+      return new Response(JSON.stringify({
+        error: 'Time slot conflict. This time is already booked.'
       }), {
         status: 409,
         headers: {
@@ -157,16 +149,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
       if (RESEND_API_KEY) {
         const subject = `Nuova prenotazione campo: ${newBooking.date} ${newBooking.start}–${newBooking.end}`;
-        const html = `
-          <div style="font-family: Arial, sans-serif;">
-            <h2>Nuova prenotazione campo sportivo</h2>
-            <p><strong>Nome:</strong> ${escapeHtml(newBooking.customer_name)}</p>
-            <p><strong>Telefono:</strong> ${escapeHtml(newBooking.customer_phone)}</p>
-            ${newBooking.customer_email ? `<p><strong>Email:</strong> ${escapeHtml(newBooking.customer_email)}</p>` : ''}
-            <p><strong>Quando:</strong> ${escapeHtml(newBooking.date)} ${escapeHtml(newBooking.start)}–${escapeHtml(newBooking.end)}</p>
-            ${newBooking.title ? `<p><strong>Titolo:</strong> ${escapeHtml(newBooking.title)}</p>` : ''}
-          </div>
-        `;
+        const html = buildNewBookingEmail({
+          customerName: newBooking.customer_name,
+          customerPhone: newBooking.customer_phone,
+          customerEmail: newBooking.customer_email || undefined,
+          date: newBooking.date,
+          start: newBooking.start,
+          end: newBooking.end,
+          title: newBooking.title || undefined,
+        });
         const payload = {
           from: 'Prenotazioni Pro Loco <onboarding@resend.dev>',
           to: ['pro.piedelpoggio@gmail.com'],
@@ -186,9 +177,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       console.error('Email send error (create booking):', e);
     }
 
-    return new Response(JSON.stringify({ 
+    return new Response(JSON.stringify({
       booking: newBooking,
-      message: 'Booking created successfully' 
+      message: 'Booking created successfully'
     }), {
       status: 201,
       headers: {
@@ -198,7 +189,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   } catch (error) {
     console.error('Error in POST /api/bookings:', error);
-    return new Response(JSON.stringify({ 
+    return new Response(JSON.stringify({
       error: 'Failed to create booking',
       details: error instanceof Error ? error.message : 'Unknown error'
     }), {
@@ -214,7 +205,7 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
   try {
     const { db, source, envKeys } = resolveDb(request, locals);
     if (!db) {
-      return new Response(JSON.stringify({ 
+      return new Response(JSON.stringify({
         error: 'Database configuration error',
         details: 'DB binding missing',
         source,
@@ -230,8 +221,8 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
     const id = url.searchParams.get('id');
 
     if (!id) {
-      return new Response(JSON.stringify({ 
-        error: 'Missing booking ID' 
+      return new Response(JSON.stringify({
+        error: 'Missing booking ID'
       }), {
         status: 400,
         headers: {
@@ -248,16 +239,15 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
         const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
         if (RESEND_API_KEY) {
           const subject = `Cancellazione prenotazione campo: ${booking.date} ${booking.start}–${booking.end}`;
-          const html = `
-            <div style="font-family: Arial, sans-serif;">
-              <h2>Prenotazione cancellata</h2>
-              <p><strong>Nome:</strong> ${escapeHtml(booking.customer_name)}</p>
-              <p><strong>Telefono:</strong> ${escapeHtml(booking.customer_phone)}</p>
-              ${booking.customer_email ? `<p><strong>Email:</strong> ${escapeHtml(booking.customer_email)}</p>` : ''}
-              <p><strong>Quando:</strong> ${escapeHtml(booking.date)} ${escapeHtml(booking.start)}–${escapeHtml(booking.end)}</p>
-              ${booking.title ? `<p><strong>Titolo:</strong> ${escapeHtml(booking.title)}</p>` : ''}
-            </div>
-          `;
+          const html = buildCancelBookingEmail({
+            customerName: booking.customer_name,
+            customerPhone: booking.customer_phone,
+            customerEmail: booking.customer_email || undefined,
+            date: booking.date,
+            start: booking.start,
+            end: booking.end,
+            title: booking.title || undefined,
+          });
           const payload = {
             from: 'Prenotazioni Pro Loco <onboarding@resend.dev>',
             to: ['pro.piedelpoggio@gmail.com'],
@@ -278,8 +268,8 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
       console.error('Email send error (delete booking):', e);
     }
 
-    return new Response(JSON.stringify({ 
-      message: 'Booking deleted successfully' 
+    return new Response(JSON.stringify({
+      message: 'Booking deleted successfully'
     }), {
       status: 200,
       headers: {
@@ -289,7 +279,7 @@ export const DELETE: APIRoute = async ({ request, locals }) => {
 
   } catch (error) {
     console.error('Error in DELETE /api/bookings:', error);
-    return new Response(JSON.stringify({ 
+    return new Response(JSON.stringify({
       error: 'Failed to delete booking',
       details: error instanceof Error ? error.message : 'Unknown error'
     }), {
