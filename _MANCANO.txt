@@ -1,6 +1,6 @@
 SISTEMA ESTETICA:
     - Responsivness
-    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia
+    - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
 
 
 ✅ significa ok su DESKTOP
@@ -25,7 +25,6 @@ Montagna, Sentieri e Informazioni ✅
 Footer ✅
 info sito ✅
 
-____
 ✅✅✅✅✅✅elimina foto caricate per test
 ______________________________________________
 
