@@ -138,7 +138,7 @@ function infoRow(label: string, value: string, iconColor: string): string {
 function card(content: string, bgColor: string = colors.cardBg): string {
   return `
   <tr>
-    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 0 30px rgba(0,0,0,0.2);" class="content-cell">
+    <td style="background-color:${bgColor};padding:28px 32px;border:1px solid ${colors.border};box-shadow:0 20px 60px -12px rgba(0,0,0,0.35);" class="content-cell">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         ${content}
       </table>
@@ -209,7 +209,7 @@ export function buildIdeaEmail(data: {
     ctaSection,
   ].filter(Boolean).join('');
 
-  return wrapEmail(content, `💡 Nuovo suggerimento da ${nome} ${cognome}`);
+  return wrapEmail(content, ' ');
 }
 
 // ═══════════════════════════════════════════════
@@ -254,7 +254,7 @@ export function buildNewBookingEmail(data: {
     `),
   ].join('');
 
-  return wrapEmail(content, `🗓️ Nuova prenotazione: ${formattedDate} ${start}–${end}`);
+  return wrapEmail(content, ' ');
 }
 
 // ═══════════════════════════════════════════════
@@ -299,7 +299,7 @@ export function buildCancelBookingEmail(data: {
     `),
   ].join('');
 
-  return wrapEmail(content, `🚫 Prenotazione cancellata: ${formattedDate} ${start}–${end}`);
+  return wrapEmail(content, ' ');
 }
 
 // ═══════════════════════════════════════════════
@@ -349,5 +349,5 @@ export function buildMediaUploadEmail(data: {
     `, colors.borderLight),
   ].join('');
 
-  return wrapEmail(content, `📸 Upload completato: ${eventName} (${files.length} file)`);
+  return wrapEmail(content, ' ');
 }
