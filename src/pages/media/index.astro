@@ -705,7 +705,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         if (events.length > 0) {
           const dates = events
             .map((e) => e.meta?.date)
-            .filter((d) => d)
+            .filter((d): d is string => !!d)
             .sort();
           if (dates.length > 0) {
             const minDate = dates[0];
@@ -1337,7 +1337,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       if (events.length > 0) {
         const dates = events
           .map((e) => e.meta?.date)
-          .filter((d) => d)
+          .filter((d): d is string => !!d)
           .sort();
         if (dates.length > 0) {
           if (df) df.value = dates[0];
@@ -1409,7 +1409,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     const scrollToTop = () => {
       const target = document.getElementById("eventsTop");
       if (target) {
-        // Calcola posizione assoluta dell'elemento
+        // Fix mobile scrolling
+        if (window.innerWidth < 768) {
+          const rect = target.getBoundingClientRect();
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const absTop = rect.top + scrollTop;
+          window.scrollTo({
+            top: Math.max(0, absTop - 140), // Increased offset for mobile
+            behavior: "smooth",
+          });
+          return;
+        }
+
+        // Calcola posizione assoluta dell'elemento (DESKTOP)
         let top = 0;
         let el: HTMLElement | null = target;
         while (el) {

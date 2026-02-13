@@ -2,30 +2,30 @@ SISTEMA ESTETICA:
     - Responsivness
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
     - cartelle con data sbagliata se ignota
-    - foto e video menu laterale boh
 
-✅ significa ok su DESKTOP
-✅✅ ok su mobile anche
 
-home ✅✅
-foto ✅
-programma ✅
-prenotazione ✅
-contatti e info ✅
-suggerisci un'idea ✅
-La Storia ✅
-Terremoto 1703 ✅
-Poesie, Tradizioni, Testimonianze e Canzoni ✅
-Documenti Pro Loco ✅
-Bilancio ✅
-Parrocchia S.M. Cerreto ✅
-Video ✅
-Webcam Live ✅
-Università Agraria ✅
-Montagna, Sentieri e Informazioni ✅
-Footer ✅
-info sito ✅
+home ✅
+foto 
+programma 
+prenotazione 
+contatti e info 
+suggerisci un'idea 
+La Storia 
+Terremoto 1703 
+Poesie, Tradizioni, Testimonianze e Canzoni 
+Documenti Pro Loco 
+Bilancio 
+Parrocchia S.M. Cerreto 
+Video 
+Webcam Live 
+Università Agraria 
+Montagna, Sentieri e Informazioni 
+Footer 
+info sito 
 ______________________________________________
+
+
+FOTO MANCANTI:
 
 cambio 2008
 decoupage 2007
