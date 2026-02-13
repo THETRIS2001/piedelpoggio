@@ -114,34 +114,56 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   />
                 </div>
                 <div
-                  class="flex items-end justify-start min-w-0 overflow-hidden self-end"
+                  class="flex items-end justify-between min-w-0 overflow-hidden self-end sm:col-span-2 w-full"
                 >
-                  <input id="sortField" type="hidden" value="date" />
-                  <input id="sortOrder" type="hidden" value="desc" />
-                  <div
-                    id="sortSwitch"
-                    class="relative w-24 h-8 rounded-full border border-white shadow-sm overflow-hidden"
-                    style="background: linear-gradient(180deg, #fafafa 0%, #e9e9e9 100%); box-shadow: inset 0 2px 6px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.6);"
-                  >
+                  <div class="flex items-center justify-start">
+                    <input id="sortField" type="hidden" value="date" />
+                    <input id="sortOrder" type="hidden" value="desc" />
                     <div
-                      id="sortKnob"
-                      class="absolute top-0 left-0 w-12 h-8 text-white flex items-center justify-center rounded-full transition-all duration-200"
-                      style="background: linear-gradient(180deg, #ff5533 0%, #c31a00 100%); box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);"
+                      id="sortSwitch"
+                      class="relative w-24 h-8 rounded-full border border-white shadow-sm overflow-hidden"
+                      style="background: linear-gradient(180deg, #fafafa 0%, #e9e9e9 100%); box-shadow: inset 0 2px 6px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.6);"
                     >
+                      <div
+                        id="sortKnob"
+                        class="absolute top-0 left-0 w-12 h-8 text-white flex items-center justify-center rounded-full transition-all duration-200"
+                        style="background: linear-gradient(180deg, #ff5533 0%, #c31a00 100%); box-shadow: 0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);"
+                      >
+                      </div>
+                      <button
+                        id="sortNameBtn"
+                        type="button"
+                        class="absolute inset-y-0 left-0 w-12 text-xs font-semibold leading-none text-[#E01E00] focus:outline-none"
+                        >A–Z</button
+                      >
+                      <button
+                        id="sortDateBtn"
+                        type="button"
+                        class="absolute inset-y-0 right-0 w-12 leading-none text-[#E01E00] focus:outline-none"
+                      >
+                        <svg
+                          class="w-4 h-4 mx-auto"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          ><path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path></svg
+                        >
+                      </button>
                     </div>
                     <button
-                      id="sortNameBtn"
+                      id="sortDirBtn"
                       type="button"
-                      class="absolute inset-y-0 left-0 w-12 text-xs font-semibold leading-none text-[#E01E00] focus:outline-none"
-                      >A–Z</button
-                    >
-                    <button
-                      id="sortDateBtn"
-                      type="button"
-                      class="absolute inset-y-0 right-0 w-12 leading-none text-[#E01E00] focus:outline-none"
+                      class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white focus:outline-none"
+                      title="Direzione"
                     >
                       <svg
-                        class="w-4 h-4 mx-auto"
+                        id="sortDirIcon"
+                        class="w-4 h-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -149,38 +171,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path></svg
+                          d="M19 9l-7 7-7-7"></path></svg
                       >
                     </button>
                   </div>
-                  <button
-                    id="sortDirBtn"
-                    type="button"
-                    class="ml-2 px-2 py-1 rounded-full text-xs font-semibold bg-white text-[#E01E00] border border-white focus:outline-none"
-                    title="Direzione"
+                  <div
+                    class="flex items-center justify-end min-w-0 overflow-hidden"
                   >
-                    <svg
-                      id="sortDirIcon"
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      ><path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"></path></svg
+                    <button
+                      id="clearFilter"
+                      type="button"
+                      class="px-4 py-2 !rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90 focus:outline-none focus:ring-0"
+                      >Reset</button
                     >
-                  </button>
-                </div>
-                <div class="flex items-end justify-end min-w-0 overflow-hidden">
-                  <button
-                    id="clearFilter"
-                    type="button"
-                    class="px-4 py-2 !rounded-xl bg-white text-[#E01E00] border border-white hover:bg-white/90 focus:outline-none focus:ring-0"
-                    >Reset</button
-                  >
+                  </div>
                 </div>
               </div>
             </div>
@@ -1981,6 +1985,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     #sortDirBtn:focus {
       outline: none !important;
       box-shadow: none !important;
+    }
+    .items-end {
+      align-items: center;
     }
   </style>
 </DefaultLayout>

@@ -16,7 +16,7 @@ interface HourlyPrecipitationChartProps {
 const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ data, currentTime, showAllLabels = false }) => {
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4">
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg">
         <h3 className="text-black text-sm font-medium mb-4">Precipitazioni Orarie</h3>
         <div className="text-white/70 text-xs">Dati non disponibili</div>
       </div>
@@ -39,7 +39,7 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
 
   if (noPrecipitations) {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4 p-2 text-center">
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 text-center">
         <h3 className="text-black text-sm font-medium mb-2">Precipitazioni Orarie</h3>
         <div className="flex flex-col items-center justify-center py-4 bg-blue-50/30 rounded-lg border border-blue-100/50">
           <p className="text-blue-700 text-xl font-medium">Non sono previste precipitazioni nelle prossime 24 ore</p>
@@ -49,12 +49,12 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
   }
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg">
       <h3 className="text-black text-sm font-medium mb-6">Precipitazioni Orarie</h3>
 
       <div className="relative w-full h-20 mb-4">
         {/* Container del grafico */}
-        <div className="relative w-full h-full flex items-end justify-between px-2">
+        <div className="relative w-full h-full flex items-end justify-between px-2 pb-1.5">
           {data.map((point, index) => {
             const barHeight = (point.quantity / maxQuantity) * 50; // 50px max height per le barre
             const isCurrentHour = index === currentIndex;

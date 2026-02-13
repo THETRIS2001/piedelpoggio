@@ -15,7 +15,7 @@ interface HourlyTemperatureChartProps {
 const HourlyTemperatureChart: React.FC<HourlyTemperatureChartProps> = ({ data, currentTime, showAllLabels = false }) => {
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4">
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg">
         <h3 className="text-black text-sm font-medium mb-4">Temperatura Oraria</h3>
         <div className="text-white/70 text-xs">Dati non disponibili</div>
       </div>
@@ -36,12 +36,12 @@ const HourlyTemperatureChart: React.FC<HourlyTemperatureChartProps> = ({ data, c
   });
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg">
       <h3 className="text-black text-sm font-medium mb-6">Temperatura Oraria</h3>
 
       <div className="relative w-full h-20 mb-4">
         {/* Container del grafico */}
-        <div className="relative w-full h-full flex items-end justify-between px-2">
+        <div className="relative w-full h-full flex items-end justify-between px-2 pb-[6px]">
 
 
           {/* Canvas per la linea di connessione */}
@@ -76,7 +76,8 @@ const HourlyTemperatureChart: React.FC<HourlyTemperatureChartProps> = ({ data, c
                     const containerWidth = rect.width - 16;
                     const x = 8 + ((index + 0.5) / data.length) * containerWidth;
                     const height = ((point.temperature - minTemp) / tempRange) * 60;
-                    const y = rect.height - height;
+                    // Sottrai 6px per compensare il padding-bottom del container
+                    const y = rect.height - height - 6;
                     return { x, y };
                   });
 

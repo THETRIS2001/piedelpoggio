@@ -446,14 +446,7 @@ body {
     @apply px-3;
   }
 
-  /* Improve touch targets on mobile */
-  button,
-  a,
-  input,
-  select,
-  textarea {
-    @apply min-h-[44px];
-  }
+
 
   /* Better mobile navigation */
   nav {
