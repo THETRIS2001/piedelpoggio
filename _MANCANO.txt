@@ -2,11 +2,12 @@ SISTEMA ESTETICA:
     - Responsivness
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
     - cartelle con data sbagliata se ignota
+    - foto e video menu laterale boh
 
 ✅ significa ok su DESKTOP
 ✅✅ ok su mobile anche
 
-home ✅
+home ✅✅
 foto ✅
 programma ✅
 prenotazione ✅

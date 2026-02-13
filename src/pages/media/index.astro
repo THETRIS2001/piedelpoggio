@@ -528,12 +528,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                 >
                   <div class="flex flex-col items-center justify-center gap-3">
                     <p class="text-sm text-gray-700">
-                      Trascina qui le immagini oppure <button
+                      <span class="hidden sm:inline"
+                        >Trascina qui le immagini oppure
+                      </span>
+                      <button
                         type="button"
                         id="pickFiles"
                         class="text-red-600 hover:text-red-700 underline"
-                        >carica file</button
                       >
+                        <span class="inline sm:hidden">Carica file</span>
+                        <span class="hidden sm:inline">carica file</span>
+                      </button>
                     </p>
                     <div id="filesSummary" class="text-sm text-gray-600"></div>
                   </div>
@@ -695,6 +700,25 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           return;
         }
         events = Array.isArray(data.events) ? data.events : [];
+
+        // Calcola date min e max (oggi)
+        if (events.length > 0) {
+          const dates = events
+            .map((e) => e.meta?.date)
+            .filter((d) => d)
+            .sort();
+          if (dates.length > 0) {
+            const minDate = dates[0];
+            const today = new Date().toISOString().split("T")[0];
+
+            const df = document.getElementById("dateFrom") as HTMLInputElement;
+            const dt = document.getElementById("dateTo") as HTMLInputElement;
+
+            if (df) df.value = minDate;
+            if (dt) dt.value = today;
+          }
+        }
+
         currentPage = 1;
         renderEvents(events);
         renderComboSuggestions("");
