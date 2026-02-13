@@ -10,9 +10,10 @@ interface PrecipitationData {
 interface HourlyPrecipitationChartProps {
   data: PrecipitationData[];
   currentTime: string;
+  showAllLabels?: boolean;
 }
 
-const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ data, currentTime }) => {
+const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ data, currentTime, showAllLabels = false }) => {
   if (!data || data.length === 0) {
     return (
       <div className="bg-white/10 backdrop-blur-sm rounded-lg mb-4">
@@ -62,7 +63,7 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
               <div key={index} className="relative flex flex-col items-center justify-end flex-shrink-0" style={{ width: `${100 / data.length}%`, height: '100%' }}>
                 {/* Probabilità sopra la barra - mostra solo se quantity > 0 e ogni 3 ore per evitare sovrapposizioni */}
                 {point.quantity > 0 && (
-                  <div className={`text-xs text-gray-600 mb-1 font-medium absolute ${index % 3 !== 0 ? 'hidden sm:block' : ''}`} style={{ bottom: `${barHeight + 8}px`, left: '50%', transform: 'translateX(-50%)', fontSize: '10px' }}>
+                  <div className={`text-xs text-gray-600 mb-1 font-medium absolute ${!showAllLabels && index % 3 !== 0 ? 'hidden sm:block' : ''}`} style={{ bottom: `${barHeight + 8}px`, left: '50%', transform: 'translateX(-50%)', fontSize: '10px' }}>
                     {Math.round(point.probability)}%
                   </div>
                 )}
@@ -88,7 +89,7 @@ const HourlyPrecipitationChart: React.FC<HourlyPrecipitationChartProps> = ({ dat
       <div className="flex justify-between text-xs text-gray-600 px-2">
         {data.map((d, index) => (
           <div key={index} className="text-center" style={{ width: `${100 / data.length}%` }}>
-            <span className={`font-medium ${index % 3 !== 0 ? 'hidden sm:inline' : ''}`}>
+            <span className={`font-medium ${!showAllLabels && index % 3 !== 0 ? 'hidden sm:inline' : ''}`}>
               <span className="sm:hidden">
                 {new Date(d.time).getHours().toString().padStart(2, '0')}
               </span>

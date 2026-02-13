@@ -689,9 +689,9 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
         </div>
       </div>
 
-      {/* Grafici orari - spaziatura migliorata per mobile */}
+      {/* Grafici orari - Versione Desktop (24 ore) */}
       {weather && (
-        <div className="mt-6 space-y-6 sm:space-y-4 sm:mt-4">
+        <div className="mt-6 space-y-6 sm:space-y-4 sm:mt-4 hidden sm:block">
           <div className="bg-white/50 rounded-xl p-3 sm:p-2 border border-gray-200">
             <HourlyTemperatureChart
               data={hourlyData.temperatureData}
@@ -704,6 +704,72 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({ className = '' }) => {
               currentTime={weather.currentConditions.currentTime}
             />
           </div>
+        </div>
+      )}
+
+      {/* Grafici orari - Versione Mobile (Aggregati ogni 3 ore) */}
+      {weather && (
+        <div className="mt-6 space-y-6 block sm:hidden">
+          {(() => {
+            // Funzione per aggregare i dati ogni 3 ore
+            const aggregateData = () => {
+              const aggregatedTemp = [];
+              const aggregatedPrecip = [];
+
+              for (let i = 0; i < hourlyData.temperatureData.length; i += 3) {
+                // Prendi un blocco di 3 ore (o meno se siamo alla fine)
+                const chunkTemp = hourlyData.temperatureData.slice(i, i + 3);
+                const chunkPrecip = hourlyData.precipitationData.slice(i, i + 3);
+
+                if (chunkTemp.length === 0) continue;
+
+                // Calcola la media dei valori
+                const avgTemp = chunkTemp.reduce((sum, item) => sum + item.temperature, 0) / chunkTemp.length;
+                const avgProb = chunkPrecip.reduce((sum, item) => sum + item.probability, 0) / chunkPrecip.length;
+                const avgQuant = chunkPrecip.reduce((sum, item) => sum + item.quantity, 0) / chunkPrecip.length;
+
+                // Usa il tempo del primo elemento del blocco
+                const time = chunkTemp[0].time;
+                const isPast = chunkTemp[0].isPast;
+
+                aggregatedTemp.push({
+                  time,
+                  temperature: avgTemp,
+                  isPast
+                });
+
+                aggregatedPrecip.push({
+                  time,
+                  probability: avgProb,
+                  quantity: avgQuant,
+                  isPast
+                });
+              }
+
+              return { aggregatedTemp, aggregatedPrecip };
+            };
+
+            const { aggregatedTemp, aggregatedPrecip } = aggregateData();
+
+            return (
+              <>
+                <div className="bg-white/50 rounded-xl p-3 border border-gray-200">
+                  <HourlyTemperatureChart
+                    data={aggregatedTemp}
+                    currentTime={weather.currentConditions.currentTime}
+                    showAllLabels={true}
+                  />
+                </div>
+                <div className="bg-white/50 rounded-xl p-3 border border-gray-200">
+                  <HourlyPrecipitationChart
+                    data={aggregatedPrecip}
+                    currentTime={weather.currentConditions.currentTime}
+                    showAllLabels={true}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </div>
       )}
 
