@@ -1407,22 +1407,38 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     updateSortUI();
     // Scroll istantaneo alla sezione eventi
     const scrollToTop = () => {
-      const target = document.getElementById("eventsTop");
-      if (target) {
-        // Fix mobile scrolling
-        if (window.innerWidth < 768) {
+      // Verifica se siamo in visualizzazione mobile/tablet (dove l'ordine degli elementi cambia)
+      // La classe 'lg:order-1' su eventsListSection scatta a 1024px
+      if (window.innerWidth < 1024) {
+        const target = document.getElementById("eventsPaginationBarTop");
+        if (target) {
+          // Calcolo automatico offset header
+          // Cerca header sticky/fixed che potrebbe coprire il contenuto
+          const header =
+            document.querySelector("header") ||
+            document.querySelector(".sticky") ||
+            document.querySelector(".fixed");
+          const headerOffset = header ? header.clientHeight : 0;
+          const padding = 20; // Spazio extra per respiro
+
           const rect = target.getBoundingClientRect();
           const scrollTop =
             window.pageYOffset || document.documentElement.scrollTop;
           const absTop = rect.top + scrollTop;
+
+          // Scroll alla barra di paginazione - offset header - padding
           window.scrollTo({
-            top: Math.max(0, absTop - 140), // Increased offset for mobile
+            top: Math.max(0, absTop - headerOffset - padding),
             behavior: "smooth",
           });
-          return;
         }
+        return;
+      }
 
-        // Calcola posizione assoluta dell'elemento (DESKTOP)
+      // DESKTOP (Invariato come richiesto)
+      const target = document.getElementById("eventsTop");
+      if (target) {
+        // Calcola posizione assoluta dell'elemento
         let top = 0;
         let el: HTMLElement | null = target;
         while (el) {
