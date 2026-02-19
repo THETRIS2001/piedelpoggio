@@ -284,8 +284,8 @@ const capitalize = (s: string) => {
         id="lightboxImg"
         src=""
         alt=""
-        class="max-w-none max-h-none object-contain transition-transform duration-200 cursor-zoom-in"
-        style="max-width: 100vw; max-height: 100vh;"
+        class="max-w-none max-h-none object-contain"
+        style="max-width: 95vw; max-height: 90vh;"
       />
     </div>
   </main>
@@ -316,40 +316,6 @@ const capitalize = (s: string) => {
     ) as HTMLButtonElement | null;
 
     let current = 0;
-    let isZoomed = false;
-
-    // Aggiorna lo stato dello zoom (reset o attiva)
-    const updateZoomUI = () => {
-      if (!lb || !lbImg) return;
-      if (isZoomed) {
-        // Zoom attivo: rimuovi limiti dimensione per mostrare risoluzione nativa
-        lbImg.style.maxWidth = "none";
-        lbImg.style.maxHeight = "none";
-        lbImg.style.cursor = "zoom-out";
-        // Rimuovi centramento flex per permettere lo scroll
-        lb.classList.remove("items-center", "justify-center");
-        lb.classList.remove("bg-black/95");
-        lb.classList.add("bg-black");
-      } else {
-        // Zoom inattivo: adatta allo schermo
-        lbImg.style.maxWidth = "100vw";
-        lbImg.style.maxHeight = "100vh";
-        lbImg.style.cursor = "zoom-in";
-        // Ripristina centramento
-        lb.classList.add("items-center", "justify-center");
-        lb.classList.add("bg-black/95");
-        lb.classList.remove("bg-black");
-        // Reset scroll
-        lb.scrollTop = 0;
-        lb.scrollLeft = 0;
-      }
-    };
-
-    const toggleZoom = (e?: Event) => {
-      e?.stopPropagation();
-      isZoomed = !isZoomed;
-      updateZoomUI();
-    };
 
     const showIndex = (idx: number) => {
       if (!lb || !lbImg) return;
@@ -357,10 +323,6 @@ const capitalize = (s: string) => {
       const src = imgs[current];
       if (src) {
         lbImg.src = src;
-        // Reset zoom quando cambia immagine
-        isZoomed = false;
-        updateZoomUI();
-
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
@@ -372,18 +334,16 @@ const capitalize = (s: string) => {
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
-      // Reset zoom
-      isZoomed = false;
-      updateZoomUI();
-      // Clear src to stop memory leaks/loading
       if (lbImg) lbImg.src = "";
     };
 
+    // Click anywhere (including photo) closes lightbox
     lb?.addEventListener("click", (e) => {
-      if (e.target === lb) close();
+      const t = e.target as HTMLElement;
+      // Don't close if clicking prev/next buttons
+      if (t.closest("#prevBtn") || t.closest("#nextBtn")) return;
+      close();
     });
-
-    lbImg?.addEventListener("click", toggleZoom);
 
     document.addEventListener("keydown", (e) => {
       if (!lb || lb.classList.contains("hidden")) return;
@@ -405,12 +365,44 @@ const capitalize = (s: string) => {
       showIndex((current + 1) % imgs.length);
     });
 
-    // Window resize reset
-    window.addEventListener("resize", () => {
-      if (isZoomed) {
-        isZoomed = false;
-        updateZoomUI();
+    // Swipe gesture for mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    lb?.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length === 1) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          isSwiping = true;
+        } else {
+          isSwiping = false; // Multi-touch (pinch zoom) — don't swipe
+        }
+      },
+      { passive: true },
+    );
+
+    lb?.addEventListener("touchend", (e) => {
+      if (!isSwiping || e.changedTouches.length === 0) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      // Must be a horizontal swipe: min 50px, and more horizontal than vertical
+      if (absDx > 50 && absDx > absDy * 1.5) {
+        e.preventDefault();
+        if (dx > 0) {
+          // Swipe right -> previous
+          showIndex((current - 1 + imgs.length) % imgs.length);
+        } else {
+          // Swipe left -> next
+          showIndex((current + 1) % imgs.length);
+        }
       }
+      isSwiping = false;
     });
 
     async function ensureFflate() {

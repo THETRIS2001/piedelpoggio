@@ -643,8 +643,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       id="lightboxImg"
       src=""
       alt=""
-      class="max-w-none max-h-none object-contain transition-transform duration-200 cursor-zoom-in"
-      style="max-width: 100vw; max-height: 100vh;"
+      class="max-w-none max-h-none object-contain"
+      style="max-width: 95vw; max-height: 90vh;"
     />
   </div>
 
@@ -1461,7 +1461,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     // --- Lightbox Logic ---
     let lbFiles: MediaFile[] = [];
     let lbCurrent = 0;
-    let lbZoomed = false;
 
     const lb = document.getElementById("lightbox") as HTMLDivElement | null;
     const lbImg = document.getElementById(
@@ -1476,9 +1475,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
     function openLightbox(files: MediaFile[], idx: number) {
       if (!lb || !lbImg) return;
-      // Filter only images for lightbox navigation
       lbFiles = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
-      // Find the correct index in the filtered array based on the original file
       const originalFile = files[idx];
       const newIdx = lbFiles.findIndex((f) => f.name === originalFile.name);
 
@@ -1488,42 +1485,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
 
-    function updateZoomUI() {
-      if (!lb || !lbImg) return;
-      if (lbZoomed) {
-        lbImg.style.maxWidth = "none";
-        lbImg.style.maxHeight = "none";
-        lbImg.style.cursor = "zoom-out";
-        lb.classList.remove("items-center", "justify-center");
-        lb.classList.remove("bg-black/95");
-        lb.classList.add("bg-black");
-      } else {
-        lbImg.style.maxWidth = "100vw";
-        lbImg.style.maxHeight = "100vh";
-        lbImg.style.cursor = "zoom-in";
-        lb.classList.add("items-center", "justify-center");
-        lb.classList.add("bg-black/95");
-        lb.classList.remove("bg-black");
-        lb.scrollTop = 0;
-        lb.scrollLeft = 0;
-      }
-    }
-
-    function toggleZoom(e?: Event) {
-      e?.stopPropagation();
-      lbZoomed = !lbZoomed;
-      updateZoomUI();
-    }
-
     function showIndex(idx: number) {
       if (!lb || !lbImg || lbFiles.length === 0) return;
       lbCurrent = idx;
       const item = lbFiles[lbCurrent];
-      // Use low res if size > 1MB? standard logic uses cfLowRes but we want high res in lightbox
-      // Let's use original url for lightbox to allow zooming
       lbImg.src = item.url;
-      lbZoomed = false;
-      updateZoomUI();
 
       lb.classList.remove("hidden");
       lb.classList.add("flex");
@@ -1535,16 +1501,15 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
-      lbZoomed = false;
-      updateZoomUI();
       lbImg.src = "";
     }
 
+    // Click anywhere (including photo) closes lightbox
     lb?.addEventListener("click", (e) => {
-      if (e.target === lb) closeLightbox();
+      const t = e.target as HTMLElement;
+      if (t.closest("#prevBtn") || t.closest("#nextBtn")) return;
+      closeLightbox();
     });
-
-    lbImg?.addEventListener("click", toggleZoom);
 
     document.addEventListener("keydown", (e) => {
       if (!lb || lb.classList.contains("hidden")) return;
@@ -1567,11 +1532,41 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       showIndex((lbCurrent + 1) % lbFiles.length);
     });
 
-    window.addEventListener("resize", () => {
-      if (lbZoomed) {
-        lbZoomed = false;
-        updateZoomUI();
+    // Swipe gesture for mobile
+    let lbTouchStartX = 0;
+    let lbTouchStartY = 0;
+    let lbIsSwiping = false;
+
+    lb?.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length === 1) {
+          lbTouchStartX = e.touches[0].clientX;
+          lbTouchStartY = e.touches[0].clientY;
+          lbIsSwiping = true;
+        } else {
+          lbIsSwiping = false;
+        }
+      },
+      { passive: true },
+    );
+
+    lb?.addEventListener("touchend", (e) => {
+      if (!lbIsSwiping || e.changedTouches.length === 0) return;
+      const dx = e.changedTouches[0].clientX - lbTouchStartX;
+      const dy = e.changedTouches[0].clientY - lbTouchStartY;
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
+
+      if (absDx > 50 && absDx > absDy * 1.5) {
+        e.preventDefault();
+        if (dx > 0) {
+          showIndex((lbCurrent - 1 + lbFiles.length) % lbFiles.length);
+        } else {
+          showIndex((lbCurrent + 1) % lbFiles.length);
+        }
       }
+      lbIsSwiping = false;
     });
     // Scroll istantaneo alla sezione eventi
     const scrollToTop = () => {
