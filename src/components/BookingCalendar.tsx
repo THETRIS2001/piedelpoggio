@@ -519,7 +519,7 @@ const BookingCalendar: React.FC = () => {
               Dettagli prenotazione
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div>
+              <div className="min-w-0 w-full">
                 <label className="text-sm text-gray-600 block mb-1">Giorno</label>
                 <input
                   type="date"
@@ -538,7 +538,7 @@ const BookingCalendar: React.FC = () => {
                       }
                     }
                   }}
-                  className="mt-1 w-full max-w-full px-3 py-2.5 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="mt-1 block w-full max-w-full appearance-none px-3 py-2.5 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
               <div>
