@@ -742,24 +742,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         }
         events = Array.isArray(data.events) ? data.events : [];
 
-        // Calcola date min e max (oggi)
-        if (events.length > 0) {
-          const dates = events
-            .map((e) => e.meta?.date)
-            .filter((d): d is string => !!d)
-            .sort();
-          if (dates.length > 0) {
-            const minDate = dates[0];
-            const today = new Date().toISOString().split("T")[0];
-
-            const df = document.getElementById("dateFrom") as HTMLInputElement;
-            const dt = document.getElementById("dateTo") as HTMLInputElement;
-
-            if (df) df.value = minDate;
-            if (dt) dt.value = today;
-          }
-        }
-
         currentPage = 1;
         renderEvents(events);
         renderComboSuggestions("");
