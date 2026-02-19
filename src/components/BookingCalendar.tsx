@@ -519,27 +519,34 @@ const BookingCalendar: React.FC = () => {
               Dettagli prenotazione
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div className="min-w-0 w-full">
+              <div>
                 <label className="text-sm text-gray-600 block mb-1">Giorno</label>
-                <input
-                  type="date"
-                  min={toDateKey(new Date())}
-                  value={selectedDate}
-                  onChange={(e) => {
-                    const newDate = e.target.value;
-                    if (newDate) {
-                      setSelectedDate(newDate);
-                      const parts = newDate.split('-');
-                      if (parts.length === 3) {
-                        const y = parseInt(parts[0], 10);
-                        const m = parseInt(parts[1], 10) - 1;
-                        setVisibleMonth(m);
-                        setVisibleYear(y);
+                <div className="relative">
+                  <input
+                    type="date"
+                    min={toDateKey(new Date())}
+                    value={selectedDate}
+                    onChange={(e) => {
+                      const newDate = e.target.value;
+                      if (newDate) {
+                        setSelectedDate(newDate);
+                        const parts = newDate.split('-');
+                        if (parts.length === 3) {
+                          const y = parseInt(parts[0], 10);
+                          const m = parseInt(parts[1], 10) - 1;
+                          setVisibleMonth(m);
+                          setVisibleYear(y);
+                        }
                       }
-                    }
-                  }}
-                  className="mt-1 block w-full max-w-full appearance-none px-3 py-2.5 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
+                    }}
+                    className="mt-1 w-full px-3 py-2.5 pr-14 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
+                  />
+                  <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
               <div>
                 <label className="text-sm text-gray-600 block mb-1">Ora di inizio</label>
