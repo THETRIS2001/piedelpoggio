@@ -538,7 +538,7 @@ const BookingCalendar: React.FC = () => {
                       }
                     }
                   }}
-                  className="mt-1 w-full px-3 py-2.5 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="mt-1 w-full max-w-full px-3 py-2.5 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
               <div>
