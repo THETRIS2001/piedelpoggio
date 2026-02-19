@@ -135,7 +135,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
           }
         } catch { }
 
-        if (!meta || !meta.eventName || !meta.date) {
+        if (!meta || !meta.eventName) {
           return null
         }
 
