@@ -491,4 +491,11 @@ body {
     background: white !important;
     color: black !important;
   }
+
+  /* Hide native date picker icon to use custom overlay */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="date"]::-webkit-inner-spin-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+  }
 }
