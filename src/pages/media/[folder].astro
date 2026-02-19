@@ -99,6 +99,8 @@ if (meta?.date) {
   ];
   const dt = new Date(meta.date);
   formattedDate = `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
+} else {
+  formattedDate = "Data Sconosciuta";
 }
 
 const capitalize = (s: string) => {
@@ -152,7 +154,9 @@ const capitalize = (s: string) => {
           </div>
           <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
             <div
-              class="inline-flex items-center justify-center text-sm md:text-base font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-3 py-1 w-fit"
+              class={meta?.date
+                ? "inline-flex items-center justify-center text-sm md:text-base font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-3 py-1 w-fit"
+                : "inline-flex items-center justify-center text-sm md:text-base font-semibold text-gray-500 bg-gray-100 border border-gray-200 rounded-full px-3 py-1 w-fit"}
             >
               {formattedDate}
             </div>
