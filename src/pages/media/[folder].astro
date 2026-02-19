@@ -242,11 +242,13 @@ const capitalize = (s: string) => {
 
     <div
       id="lightbox"
-      class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50"
+      class="fixed inset-0 bg-black/95 hidden z-50 overflow-auto flex items-center justify-center touch-manipulation"
     >
       <button
         id="prevBtn"
-        class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center"
+        type="button"
+        class="fixed left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-sm transition-all z-[60]"
+        aria-label="Precedente"
       >
         <svg
           class="w-6 h-6"
@@ -262,7 +264,9 @@ const capitalize = (s: string) => {
       </button>
       <button
         id="nextBtn"
-        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center"
+        type="button"
+        class="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-sm transition-all z-[60]"
+        aria-label="Successiva"
       >
         <svg
           class="w-6 h-6"
@@ -280,7 +284,8 @@ const capitalize = (s: string) => {
         id="lightboxImg"
         src=""
         alt=""
-        class="max-w-[85vw] max-h-[85vh] rounded-xl shadow-strong"
+        class="max-w-none max-h-none object-contain transition-transform duration-200 cursor-zoom-in"
+        style="max-width: 100vw; max-height: 100vh;"
       />
     </div>
   </main>
@@ -311,22 +316,39 @@ const capitalize = (s: string) => {
     ) as HTMLButtonElement | null;
 
     let current = 0;
-    const setSizeForSrc = (src: string) => {
-      if (!lbImg) return;
-      const temp = new Image();
-      temp.onload = () => {
-        const maxW = window.innerWidth * 0.8;
-        const maxH = window.innerHeight * 0.8;
-        const scale = Math.min(
-          maxW / temp.naturalWidth,
-          maxH / temp.naturalHeight,
-        );
-        const w = Math.round(temp.naturalWidth * scale);
-        const h = Math.round(temp.naturalHeight * scale);
-        lbImg.style.width = w + "px";
-        lbImg.style.height = h + "px";
-      };
-      temp.src = src;
+    let isZoomed = false;
+
+    // Aggiorna lo stato dello zoom (reset o attiva)
+    const updateZoomUI = () => {
+      if (!lb || !lbImg) return;
+      if (isZoomed) {
+        // Zoom attivo: rimuovi limiti dimensione per mostrare risoluzione nativa
+        lbImg.style.maxWidth = "none";
+        lbImg.style.maxHeight = "none";
+        lbImg.style.cursor = "zoom-out";
+        // Rimuovi centramento flex per permettere lo scroll
+        lb.classList.remove("items-center", "justify-center");
+        lb.classList.remove("bg-black/95");
+        lb.classList.add("bg-black");
+      } else {
+        // Zoom inattivo: adatta allo schermo
+        lbImg.style.maxWidth = "100vw";
+        lbImg.style.maxHeight = "100vh";
+        lbImg.style.cursor = "zoom-in";
+        // Ripristina centramento
+        lb.classList.add("items-center", "justify-center");
+        lb.classList.add("bg-black/95");
+        lb.classList.remove("bg-black");
+        // Reset scroll
+        lb.scrollTop = 0;
+        lb.scrollLeft = 0;
+      }
+    };
+
+    const toggleZoom = (e?: Event) => {
+      e?.stopPropagation();
+      isZoomed = !isZoomed;
+      updateZoomUI();
     };
 
     const showIndex = (idx: number) => {
@@ -335,7 +357,10 @@ const capitalize = (s: string) => {
       const src = imgs[current];
       if (src) {
         lbImg.src = src;
-        setSizeForSrc(src);
+        // Reset zoom quando cambia immagine
+        isZoomed = false;
+        updateZoomUI();
+
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
@@ -347,9 +372,18 @@ const capitalize = (s: string) => {
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
+      // Reset zoom
+      isZoomed = false;
+      updateZoomUI();
+      // Clear src to stop memory leaks/loading
+      if (lbImg) lbImg.src = "";
     };
 
-    lb?.addEventListener("click", close);
+    lb?.addEventListener("click", (e) => {
+      if (e.target === lb) close();
+    });
+
+    lbImg?.addEventListener("click", toggleZoom);
 
     document.addEventListener("keydown", (e) => {
       if (!lb || lb.classList.contains("hidden")) return;
@@ -371,10 +405,12 @@ const capitalize = (s: string) => {
       showIndex((current + 1) % imgs.length);
     });
 
+    // Window resize reset
     window.addEventListener("resize", () => {
-      if (!lb || !lbImg || lb.classList.contains("hidden")) return;
-      const src = lbImg.getAttribute("src");
-      if (src) setSizeForSrc(src);
+      if (isZoomed) {
+        isZoomed = false;
+        updateZoomUI();
+      }
     });
 
     async function ensureFflate() {

@@ -2,6 +2,7 @@ SISTEMA ESTETICA:
     - Responsivness
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
     - cartelle con data sbagliata se ignota
+    - rimuovi margin frecce
 
 
 home ✅
