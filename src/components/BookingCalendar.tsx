@@ -539,7 +539,8 @@ const BookingCalendar: React.FC = () => {
                         }
                       }
                     }}
-                    className="mt-1 w-full px-3 py-2.5 pr-14 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none"
+                    className="mt-1 w-full px-3 py-2.5 pr-14 text-base bg-white rounded-lg border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500 appearance-none [&::-webkit-calendar-picker-indicator]:hidden"
+                    onClick={(e) => (e.target as HTMLInputElement).showPicker && (e.target as HTMLInputElement).showPicker()}
                   />
                   <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
