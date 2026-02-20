@@ -152,13 +152,17 @@ export function formatDateBadge(dataString: string): string {
  */
 export function parseDocumentoProloco(filename: string, basePath: string): DocumentoProloco | null {
     try {
-        // Skip .keep and other non-document files
-        if (filename.startsWith('.') || !filename.toLowerCase().endsWith('.pdf')) {
+        // Skip hidden files
+        if (filename.startsWith('.')) {
             return null;
         }
 
-        // Remove extension
-        const nameWithoutExt = filename.replace(/\.pdf$/i, '');
+        // Get extension and name without it
+        const lastDotIndex = filename.lastIndexOf('.');
+        if (lastDotIndex === -1) return null;
+
+        const extension = filename.substring(lastDotIndex + 1).toUpperCase();
+        const nameWithoutExt = filename.substring(0, lastDotIndex);
 
         // Split by " - " (space-dash-space)
         const parts = nameWithoutExt.split(' - ');
@@ -187,7 +191,7 @@ export function parseDocumentoProloco(filename: string, basePath: string): Docum
             nome: nome.trim(),
             filename,
             path: `${basePath}/${encodeURIComponent(filename)}`,
-            ext: 'PDF'
+            ext: extension
         };
     } catch (error) {
         console.error(`Error parsing documento filename: ${filename}`, error);

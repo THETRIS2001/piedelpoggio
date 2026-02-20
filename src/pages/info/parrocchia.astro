@@ -92,7 +92,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Costituzione Canonica -->
             <div
-              class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 text-center"
+              class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 text-center shadow-md border border-gray-200"
             >
               <div
                 class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -121,7 +121,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
             <!-- Riconoscimento Civile -->
             <div
-              class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 text-center"
+              class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 text-center shadow-md border border-gray-200"
             >
               <div
                 class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -151,7 +151,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
             <!-- Registrazione -->
             <div
-              class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 text-center"
+              class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 text-center shadow-md border border-gray-200"
             >
               <div
                 class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -182,7 +182,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
             <!-- Santo Patrono -->
             <div
-              class="bg-gradient-to-br from-yellow-50 to-orange-100 rounded-xl p-6 text-center"
+              class="bg-gradient-to-br from-yellow-50 to-orange-100 rounded-xl p-6 text-center shadow-md border border-gray-200"
             >
               <div
                 class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -245,7 +245,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <a
                 href="/documents/parrocchia/01-09-11 Rev. 1 Leonessa e il suo santo.pdf"
-                class="block bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-blue-200"
+                class="block bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -268,14 +268,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Leonessa e il suo santo
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 01/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>1 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/13-10-11 Rev. 1 Verbale Consegna Ufficio Postale da Scanner[1].pdf"
-                class="block bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-green-200"
+                class="block bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -298,14 +320,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Verbale Consegna Ufficio Postale
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 13/10/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>13 ottobre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/18-08-11 Esperienza di un restauro.pdf"
-                class="block bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-purple-200"
+                class="block bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -328,14 +372,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Esperienza di un restauro
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 18/08/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>18 agosto 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Certificato di Regolare Esecuzione dei Lavori.pdf"
-                class="block bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-orange-200"
+                class="block bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -358,14 +424,18 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Certificato Regolare Esecuzione Lavori
                     </h4>
-                    <p class="text-sm text-gray-600">PDF</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Programmazione campane.doc"
-                class="block bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-teal-200"
+                class="block bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -388,7 +458,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Programmazione campane
                     </h4>
-                    <p class="text-sm text-gray-600">DOC</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">DOC</p>
+                    </div>
                   </div>
                 </div>
               </a>
@@ -401,7 +475,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               Situazione Accatastamento Canonica
             </h3>
             <div
-              class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl p-6 mb-6"
+              class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl p-6 mb-6 border border-gray-200 shadow-md"
             >
               <p class="text-gray-600 mb-0">
                 Documentazione relativa alla situazione catastale e
@@ -411,7 +485,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 1 Inv. Stralcio Aereofogrammetrico da Scanner.pdf"
-                class="block bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-indigo-200"
+                class="block bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -434,14 +508,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Stralcio Aerofotogrammetrico
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 2 Inv. Stralcio Planimetrico Edificato Fg. 103 da Scanner.pdf"
-                class="block bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-pink-200"
+                class="block bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -464,14 +560,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Planimetrico Edificato Fg. 103
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 3 Inv. Stralcio Plaanimetrico Fg. 103 Terreni Parrocchia da Scanner.pdf"
-                class="block bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-yellow-200"
+                class="block bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -494,14 +612,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Terreni Parrocchia Fg. 103
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 4 Inv. Stralcio Planimetrico Fg. 103 Part 96 Terreni da Scanner.pdf"
-                class="block bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-red-200"
+                class="block bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -524,14 +664,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Planimetrico Part 96 Terreni
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 5 Inv. Visura per soggetto Beni Parrocchia da Scanner.pdf"
-                class="block bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-cyan-200"
+                class="block bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -554,14 +716,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Visura Beni Parrocchia
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 6 Inv. Visura per immobile Fg 103 Part 96 da Scanner.pdf"
-                class="block bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-emerald-200"
+                class="block bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -584,14 +768,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Visura Immobile Fg 103 Part 96
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/22-09-11 7 Inv. Interrogazione Particella Terreni Fg 102 Part 154 da Scanner.pdf"
-                class="block bg-gradient-to-br from-violet-50 to-violet-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-violet-200"
+                class="block bg-gradient-to-br from-violet-50 to-violet-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -614,14 +820,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Interrogazione Particella Fg 102
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 22/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>22 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
 
               <a
                 href="/documents/parrocchia/Situazione accatastamento canonica/26-09-11 Accatastamento Canonica-Sagrestia.da Scanner.pdf"
-                class="block bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group border border-slate-200"
+                class="block bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group border border-gray-200"
                 target="_blank"
               >
                 <div class="flex items-start space-x-4">
@@ -644,7 +872,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     >
                       Accatastamento Chiesa
                     </h4>
-                    <p class="text-sm text-gray-600">PDF • 26/09/2011</p>
+                    <div
+                      class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1"
+                    >
+                      <p class="text-xs font-medium text-gray-500">PDF</p>
+                      <div
+                        class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3"
+                      >
+                        <svg
+                          class="w-3.5 h-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span>26 settembre 2011</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>

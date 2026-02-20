@@ -59,8 +59,8 @@ const colorPalette = [
   },
 ];
 
-// Load all PDF files from proloco folder dynamically
-const docFiles = import.meta.glob("/public/documents/proloco/*.pdf", {
+// Load all files from proloco folder dynamically
+const docFiles = import.meta.glob("/public/documents/proloco/*", {
   eager: true,
 });
 const docArray: DocumentoProloco[] = [];
@@ -92,9 +92,9 @@ const docs = docsSorted.map((doc, idx) => {
     ext: doc.ext,
     dateISO: doc.data.toISOString(),
     dateDisplay: doc.data.toLocaleDateString("it-IT", {
+      day: "numeric",
+      month: "long",
       year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
     }),
     classes,
   };
@@ -335,9 +335,27 @@ const docs = docsSorted.map((doc, idx) => {
                           >
                             {doc.name}
                           </h4>
-                          <p class="text-sm text-gray-700">
-                            {doc.ext} • {doc.dateDisplay}
-                          </p>
+                          <div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-1">
+                            <p class="text-xs font-medium text-gray-500">
+                              {doc.ext}
+                            </p>
+                            <div class="flex items-center gap-1.5 text-xs font-medium text-gray-500 border-l border-gray-300 pl-3">
+                              <svg
+                                class="w-3.5 h-3.5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                              </svg>
+                              <span>{doc.dateDisplay}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </a>
