@@ -308,7 +308,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
               </tbody>
 
               <!-- Footer con totali -->
-              <tfoot class="bg-gray-100 border-t-2 border-gray-300">
+              <tfoot class="bg-gray-100 border-t border-gray-300">
                 <tr>
                   <td class="px-6 py-4 text-gray-900 font-bold text-lg"
                     >TOTALI</td
@@ -570,7 +570,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
 
               <!-- Totali Mobile -->
               <div
-                class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl p-4 border-2 border-gray-300"
+                class="bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl p-4 border border-gray-200"
               >
                 <h4 class="font-bold text-gray-900 mb-3 text-center">TOTALI</h4>
                 <div class="flex justify-between items-center">
@@ -589,7 +589,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
 
           <!-- Risultato -->
           <div
-            class="mt-8 p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-gray-200"
+            class="mt-8 p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow"
           >
             <!-- Layout Desktop -->
             <div class="hidden md:flex items-center justify-between">
@@ -713,7 +713,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
 
               <!-- Risultato Mobile -->
               <div class="text-center py-2">
-                <span class="text-1xl sm:text-3xl font-bold text-green-700"
+                <span class="text-3xl sm:text-4xl font-bold text-green-700"
                   >€ 4.514,99</span
                 >
               </div>
@@ -778,7 +778,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
             <!-- Titolo -->
             <div class="flex items-center gap-4 mb-8">
               <div
-                class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center bg-gray-100"
+                class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center bg-gray-100 shadow-md"
               >
                 <svg
                   class="w-6 h-6 sm:w-8 sm:h-8 text-gray-600"
@@ -802,7 +802,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {
                 previousBudgets.map((bilancio) => (
-                  <div class="bg-white/60 rounded-xl shadow-md p-4 hover:shadow-lg transition-all duration-300">
+                  <div class="bg-white/60 rounded-xl border border-gray-200 shadow-md p-4 hover:shadow-lg transition-all duration-300">
                     <div class="flex items-center space-x-4 mb-6">
                       <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-orange-600 to-orange-700 rounded-lg flex items-center justify-center">
                         <span class="text-base sm:text-lg font-bold text-white">
@@ -842,7 +842,7 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
         <!-- Nota Amministrativa e Trasparenza UNIFICATI -->
         <div class="mt-8 mb-8">
           <div
-            class="bg-blue-50/80 backdrop-blur-sm rounded-xl p-6 border border-blue-100 flex flex-col md:flex-row items-center gap-4 shadow-sm"
+            class="bg-blue-50/80 backdrop-blur-sm rounded-xl p-6 border border-blue-100 flex flex-row items-center gap-4 shadow-sm"
           >
             <div
               class="flex-shrink-0 w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"
@@ -861,14 +861,17 @@ const safeCurrentPath = currentBudget ? currentBudget.path : "";
                 ></path>
               </svg>
             </div>
-            <div class="flex-1 text-center md:text-left">
+            <div class="flex-1 text-left">
               <h3 class="text-lg font-bold text-gray-900 mb-1">
                 Trasparenza Amministrativa
               </h3>
               <p class="text-gray-600 text-sm md:text-base leading-snug">
-                I bilanci anteriori al 2026 fanno capo alla precedente
-                amministrazione. Tutti i documenti sono liberamente
-                consultabili; per approfondimenti contatta l'organizzazione.
+                I bilanci <strong>anteriori al 2026</strong> fanno capo alla <span
+                  class="text-blue-700 font-semibold"
+                  >precedente amministrazione</span
+                >. Tutti i documenti sono <strong
+                  >liberamente consultabili</strong
+                >; per approfondimenti contatta l'organizzazione.
               </p>
             </div>
           </div>
