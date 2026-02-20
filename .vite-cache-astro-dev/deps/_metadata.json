@@ -1,64 +1,64 @@
 {
-  "hash": "1ff3575b",
-  "configHash": "e6bb1f13",
+  "hash": "fb1b9b4d",
+  "configHash": "3b81e0c1",
   "lockfileHash": "cc1d2f2a",
-  "browserHash": "c7e55ad9",
+  "browserHash": "4f5cd8a9",
   "optimized": {
     "@astrojs/react/client.js": {
       "src": "../../node_modules/@astrojs/react/dist/client.js",
       "file": "@astrojs_react_client__js.js",
-      "fileHash": "e40b17c1",
+      "fileHash": "ce92b78b",
       "needsInterop": false
     },
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "c5a0ba5d",
+      "fileHash": "2d8af22f",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "204b7ab2",
+      "fileHash": "2a753655",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "54d46a06",
+      "fileHash": "edeb16ac",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "3dc21d11",
+      "fileHash": "a3ddb406",
       "needsInterop": true
     },
     "astro > cssesc": {
       "src": "../../node_modules/cssesc/cssesc.js",
       "file": "astro___cssesc.js",
-      "fileHash": "415ef08f",
+      "fileHash": "b6315e62",
       "needsInterop": true
     },
     "astro > aria-query": {
       "src": "../../node_modules/aria-query/lib/index.js",
       "file": "astro___aria-query.js",
-      "fileHash": "8c2f753e",
+      "fileHash": "2c18e7b6",
       "needsInterop": true
     },
     "astro > axobject-query": {
       "src": "../../node_modules/axobject-query/lib/index.js",
       "file": "astro___axobject-query.js",
-      "fileHash": "0a62401a",
+      "fileHash": "b856137c",
       "needsInterop": true
     }
   },
   "chunks": {
-    "chunk-L3UBB3JA": {
-      "file": "chunk-L3UBB3JA.js"
+    "chunk-ERVWL7JJ": {
+      "file": "chunk-ERVWL7JJ.js"
     },
-    "chunk-QYXY6RWP": {
-      "file": "chunk-QYXY6RWP.js"
+    "chunk-AEXN75XS": {
+      "file": "chunk-AEXN75XS.js"
     },
     "chunk-5WRI5ZAA": {
       "file": "chunk-5WRI5ZAA.js"
