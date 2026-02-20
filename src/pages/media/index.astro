@@ -76,7 +76,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             style="scroll-margin-top: 100px;"
           >
             <div
-              class="bg-[#E01E00] rounded-xl border border-gray-200 p-3 md:p-4 mb-6"
+              class="bg-[#E01E00] rounded-xl border border-gray-200 shadow-md p-3 md:p-4 mb-6"
             >
               <!-- Filtri -->
               <div
@@ -934,7 +934,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const card = document.createElement("div");
       card.dataset.folder = ev.folder;
       card.className =
-        "rounded-xl border border-gray-200 bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col";
+        "rounded-xl border border-gray-200 shadow-md bg-white/70 overflow-hidden hover:shadow-lg transition h-full flex flex-col";
       const cover = document.createElement("div");
 
       const filesArr = Array.isArray(ev.files) ? ev.files : [];
