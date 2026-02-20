@@ -7,49 +7,49 @@
     "@astrojs/react/client.js": {
       "src": "../../node_modules/@astrojs/react/dist/client.js",
       "file": "@astrojs_react_client__js.js",
-      "fileHash": "a9d8fa09",
+      "fileHash": "e40b17c1",
       "needsInterop": false
     },
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "04df69dc",
+      "fileHash": "c5a0ba5d",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "7066b171",
+      "fileHash": "204b7ab2",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "032d94ad",
+      "fileHash": "54d46a06",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "756c57e7",
+      "fileHash": "3dc21d11",
       "needsInterop": true
     },
     "astro > cssesc": {
       "src": "../../node_modules/cssesc/cssesc.js",
       "file": "astro___cssesc.js",
-      "fileHash": "a8fa4e51",
+      "fileHash": "415ef08f",
       "needsInterop": true
     },
     "astro > aria-query": {
       "src": "../../node_modules/aria-query/lib/index.js",
       "file": "astro___aria-query.js",
-      "fileHash": "4a097568",
+      "fileHash": "8c2f753e",
       "needsInterop": true
     },
     "astro > axobject-query": {
       "src": "../../node_modules/axobject-query/lib/index.js",
       "file": "astro___axobject-query.js",
-      "fileHash": "d3d4e21d",
+      "fileHash": "0a62401a",
       "needsInterop": true
     }
   },
