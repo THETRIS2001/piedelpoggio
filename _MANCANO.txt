@@ -2,26 +2,6 @@ SISTEMA ESTETICA:
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
     - sposta tutto ciò che è in public in cloudflare cosi è facile aggiungere nuove foto
 
-
-home ✅
-foto ✅
-programma ✅ 
-prenotazione ✅
-contatti e info ✅
-suggerisci un'idea ✅ 
-La Storia ✅
-Webcam Live ✅
-Terremoto 1703 ✅
-Poesie, Tradizioni, Testimonianze e Canzoni ✅
-Documenti Pro Loco ✅
-Bilancio ✅
-Parrocchia S.M. Cerreto ✅ 
-Video ✅
-Webcam Live ✅
-Università Agraria ✅
-Montagna, Sentieri e Informazioni ✅
-Footer ✅
-info sito                                   **
 ______________________________________________
 
 
