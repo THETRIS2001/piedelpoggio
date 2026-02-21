@@ -609,7 +609,7 @@ const BookingCalendar: React.FC = () => {
       </div>
 
       <div className="mt-6">
-        <div className="p-4 bg-white rounded-xl border border-gray-200">
+        <div className="p-4 bg-white rounded-xl border border-gray-200 shadow-md">
           <h4 className="text-base md:text-lg font-semibold text-gray-800 mb-2">Prenotazioni del giorno</h4>
           {occupiedForDate.length === 0 ? (
             <p className="text-base text-gray-600">Nessuna prenotazione presente.</p>
