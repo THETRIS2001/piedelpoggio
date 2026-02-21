@@ -28,11 +28,10 @@ export default defineConfig({
     },
     ssr: {
       // Forziamo il bundling di queste dipendenze che usano CJS o hanno problemi in SSR locale
-      noExternal: ['motion', 'motion/react', 'framer-motion', 'gsap', '@astrojs/react']
+      noExternal: ['motion', 'motion/react', 'framer-motion', 'gsap']
     },
     optimizeDeps: {
-      // Escludiamo dal pre-bundling per forzare il bundling SSR corretto
-      exclude: ['motion', 'motion/react', 'framer-motion', 'gsap']
+      // Empty or removed to allow Vite to pre-bundle React dependencies correctly
     },
     server: {
       hmr: {

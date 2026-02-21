@@ -1,67 +1,76 @@
 {
-  "hash": "fb1b9b4d",
-  "configHash": "3b81e0c1",
+  "hash": "7f777033",
+  "configHash": "1b827f51",
   "lockfileHash": "cc1d2f2a",
-  "browserHash": "4f5cd8a9",
+  "browserHash": "30dfbd66",
   "optimized": {
     "@astrojs/react/client.js": {
       "src": "../../node_modules/@astrojs/react/dist/client.js",
       "file": "@astrojs_react_client__js.js",
-      "fileHash": "ce92b78b",
+      "fileHash": "25e5c12e",
       "needsInterop": false
     },
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "2d8af22f",
+      "fileHash": "6e795f1c",
       "needsInterop": true
     },
     "react-dom": {
       "src": "../../node_modules/react-dom/index.js",
       "file": "react-dom.js",
-      "fileHash": "2a753655",
+      "fileHash": "f04107a1",
       "needsInterop": true
     },
     "react/jsx-dev-runtime": {
       "src": "../../node_modules/react/jsx-dev-runtime.js",
       "file": "react_jsx-dev-runtime.js",
-      "fileHash": "edeb16ac",
+      "fileHash": "a01e143d",
       "needsInterop": true
     },
     "react/jsx-runtime": {
       "src": "../../node_modules/react/jsx-runtime.js",
       "file": "react_jsx-runtime.js",
-      "fileHash": "a3ddb406",
+      "fileHash": "3950a042",
       "needsInterop": true
     },
     "astro > cssesc": {
       "src": "../../node_modules/cssesc/cssesc.js",
       "file": "astro___cssesc.js",
-      "fileHash": "b6315e62",
+      "fileHash": "565c2304",
       "needsInterop": true
     },
     "astro > aria-query": {
       "src": "../../node_modules/aria-query/lib/index.js",
       "file": "astro___aria-query.js",
-      "fileHash": "2c18e7b6",
+      "fileHash": "b67ae3f8",
       "needsInterop": true
     },
     "astro > axobject-query": {
       "src": "../../node_modules/axobject-query/lib/index.js",
       "file": "astro___axobject-query.js",
-      "fileHash": "b856137c",
+      "fileHash": "e750f94f",
       "needsInterop": true
+    },
+    "motion/react": {
+      "src": "../../node_modules/motion/dist/es/react.mjs",
+      "file": "motion_react.js",
+      "fileHash": "ffcc0dcf",
+      "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-ERVWL7JJ": {
-      "file": "chunk-ERVWL7JJ.js"
+    "chunk-OUFIRGDA": {
+      "file": "chunk-OUFIRGDA.js"
     },
-    "chunk-AEXN75XS": {
-      "file": "chunk-AEXN75XS.js"
+    "chunk-U3Y45WMH": {
+      "file": "chunk-U3Y45WMH.js"
     },
-    "chunk-5WRI5ZAA": {
-      "file": "chunk-5WRI5ZAA.js"
+    "chunk-3IFX6TK2": {
+      "file": "chunk-3IFX6TK2.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
     }
   }
 }
