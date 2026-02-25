@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import {
   parseDocumentoProloco,
@@ -59,18 +59,42 @@ const colorPalette = [
   },
 ];
 
-// Load all files from proloco folder dynamically
-const docFiles = import.meta.glob("/public/documents/proloco/*", {
-  eager: true,
-});
+// Legge i file dal bucket R2 a runtime
+function getBucket(locals: any): any | null {
+  try {
+    const runtimeEnv = (locals as any)?.runtime?.env as any;
+    if (runtimeEnv?.MEDIA_BUCKET) return runtimeEnv.MEDIA_BUCKET;
+    const directEnv = ((locals as any)?.env ||
+      (locals as any)?.cloudflare?.env) as any;
+    if (directEnv?.MEDIA_BUCKET) return directEnv.MEDIA_BUCKET;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function listAll(bucket: any, options: any) {
+  let cursor: string | undefined;
+  const objects: any[] = [];
+  do {
+    const res = await bucket.list({ ...options, cursor });
+    if (res.objects) objects.push(...res.objects);
+    cursor = res.truncated ? res.cursor : undefined;
+  } while (cursor);
+  return { objects };
+}
+
+const bucket = getBucket(Astro.locals);
 const docArray: DocumentoProloco[] = [];
 
-for (const path in docFiles) {
-  const filename = path.split("/").pop();
-  if (filename) {
-    const documento = parseDocumentoProloco(filename, "/documents/proloco");
-    if (documento) {
-      docArray.push(documento);
+if (bucket) {
+  const prefix = "documents/proloco/";
+  const result = await listAll(bucket, { prefix });
+  for (const obj of result.objects) {
+    const filename = (obj.key as string).slice(prefix.length);
+    if (filename && !filename.includes("/")) {
+      const documento = parseDocumentoProloco(filename, "/documents/proloco");
+      if (documento) docArray.push(documento);
     }
   }
 }

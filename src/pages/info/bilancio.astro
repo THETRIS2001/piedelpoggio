@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import {
@@ -8,19 +8,42 @@ import {
   type Bilancio,
 } from "../../utils/eventiParser";
 
-// Load all Bilancio files
-const bilanciFiles = import.meta.glob(
-  "/public/documents/Bilanci/*.(jpg|jpeg|png|pdf)",
-  { eager: true },
-);
+// Legge i file Bilanci dal bucket R2 a runtime
+function getBucket(locals: any): any | null {
+  try {
+    const runtimeEnv = (locals as any)?.runtime?.env as any;
+    if (runtimeEnv?.MEDIA_BUCKET) return runtimeEnv.MEDIA_BUCKET;
+    const directEnv = ((locals as any)?.env ||
+      (locals as any)?.cloudflare?.env) as any;
+    if (directEnv?.MEDIA_BUCKET) return directEnv.MEDIA_BUCKET;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function listAll(bucket: any, options: any) {
+  let cursor: string | undefined;
+  const objects: any[] = [];
+  do {
+    const res = await bucket.list({ ...options, cursor });
+    if (res.objects) objects.push(...res.objects);
+    cursor = res.truncated ? res.cursor : undefined;
+  } while (cursor);
+  return { objects };
+}
+
+const bucket = getBucket(Astro.locals);
 const bilanciArray: Bilancio[] = [];
 
-for (const path in bilanciFiles) {
-  const filename = path.split("/").pop();
-  if (filename) {
-    const bilancio = parseBilancio(filename, "/documents/Bilanci");
-    if (bilancio) {
-      bilanciArray.push(bilancio);
+if (bucket) {
+  const prefix = "documents/Bilanci/";
+  const result = await listAll(bucket, { prefix });
+  for (const obj of result.objects) {
+    const filename = (obj.key as string).slice(prefix.length);
+    if (filename && !filename.includes("/")) {
+      const bilancio = parseBilancio(filename, "/documents/Bilanci");
+      if (bilancio) bilanciArray.push(bilancio);
     }
   }
 }
@@ -29,7 +52,7 @@ const bilanciSorted = sortBilanciByYear(bilanciArray);
 const currentBudget = bilanciSorted.length > 0 ? bilanciSorted[0] : null;
 const previousBudgets = bilanciSorted.length > 1 ? bilanciSorted.slice(1) : [];
 
-// Fallback if no files found (though user has 2014 and 2024)
+// Fallback if no files found
 const safeCurrentYear = currentBudget ? currentBudget.anno : 2024;
 const safeCurrentPath = currentBudget ? currentBudget.path : "";
 ---

@@ -1,5 +1,5 @@
 ---
-export const prerender = true;
+export const prerender = false;
 
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import Lightbox from "../../components/Lightbox";
@@ -13,45 +13,66 @@ import {
   type ProgrammaPrecedente,
 } from "../../utils/eventiParser";
 
-// Load all files from Eventi Frazioni folder
-const eventiFiles = import.meta.glob(
-  "/public/documents/Eventi Frazioni/*.(jpg|jpeg|png)",
-  { eager: true },
-);
-const eventiArray: EventoFrazione[] = [];
+// Legge i file dal bucket R2 a runtime
+function getBucket(locals: any): any | null {
+  try {
+    const runtimeEnv = (locals as any)?.runtime?.env as any;
+    if (runtimeEnv?.MEDIA_BUCKET) return runtimeEnv.MEDIA_BUCKET;
+    const directEnv = ((locals as any)?.env ||
+      (locals as any)?.cloudflare?.env) as any;
+    if (directEnv?.MEDIA_BUCKET) return directEnv.MEDIA_BUCKET;
+    return null;
+  } catch {
+    return null;
+  }
+}
 
-for (const path in eventiFiles) {
-  const filename = path.split("/").pop();
-  if (filename) {
-    const evento = parseEventoFrazione(filename, "/documents/Eventi Frazioni");
-    if (evento) {
-      eventiArray.push(evento);
+async function listAll(bucket: any, options: any) {
+  let cursor: string | undefined;
+  const objects: any[] = [];
+  do {
+    const res = await bucket.list({ ...options, cursor });
+    if (res.objects) objects.push(...res.objects);
+    cursor = res.truncated ? res.cursor : undefined;
+  } while (cursor);
+  return { objects };
+}
+
+const bucket = getBucket(Astro.locals);
+const eventiArray: EventoFrazione[] = [];
+const programmiArray: ProgrammaPrecedente[] = [];
+
+if (bucket) {
+  // Load Eventi Frazioni
+  const eventiPrefix = "documents/Eventi Frazioni/";
+  const eventiResult = await listAll(bucket, { prefix: eventiPrefix });
+  for (const obj of eventiResult.objects) {
+    const filename = (obj.key as string).slice(eventiPrefix.length);
+    if (filename && !filename.includes("/")) {
+      const evento = parseEventoFrazione(
+        filename,
+        "/documents/Eventi Frazioni",
+      );
+      if (evento) eventiArray.push(evento);
+    }
+  }
+
+  // Load Programmi estivi
+  const progPrefix = "documents/Programmi estivi/";
+  const progResult = await listAll(bucket, { prefix: progPrefix });
+  for (const obj of progResult.objects) {
+    const filename = (obj.key as string).slice(progPrefix.length);
+    if (filename && !filename.includes("/")) {
+      const programma = parseProgrammaPrecedente(
+        filename,
+        "/documents/Programmi estivi",
+      );
+      if (programma) programmiArray.push(programma);
     }
   }
 }
 
 const eventiSorted = sortEventiByDate(eventiArray);
-
-// Load all files from Programmi estivi folder
-const programmiFiles = import.meta.glob(
-  "/public/documents/Programmi estivi/*.(jpg|jpeg|png)",
-  { eager: true },
-);
-const programmiArray: ProgrammaPrecedente[] = [];
-
-for (const path in programmiFiles) {
-  const filename = path.split("/").pop();
-  if (filename) {
-    const programma = parseProgrammaPrecedente(
-      filename,
-      "/documents/Programmi estivi",
-    );
-    if (programma) {
-      programmiArray.push(programma);
-    }
-  }
-}
-
 const programmiSorted = sortProgrammiByYear(programmiArray);
 
 // Current program file path
