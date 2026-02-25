@@ -1735,9 +1735,21 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           externalFiles.length > 0;
         if (!hasAnyFiles) {
           if (statusEl) {
-            statusEl.textContent = "Seleziona almeno un file";
+            statusEl.innerHTML = `
+              <div class="flex items-center gap-3 p-1">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center border border-amber-200">
+                  <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-bold text-amber-800 leading-tight">Attenzione</div>
+                  <div class="text-xs font-medium text-amber-600/90 mt-0.5">Seleziona almeno un file da caricare</div>
+                </div>
+              </div>
+            `;
             statusEl.className =
-              "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+              "text-sm rounded-2xl border border-amber-200 mt-4 bg-amber-50/80 backdrop-blur-md shadow-lg shadow-amber-900/5";
             statusEl.classList.remove("hidden");
           }
           setTimeout(() => {
@@ -1763,10 +1775,21 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         })();
         if (!isValidEvent) {
           if (statusEl) {
-            statusEl.textContent =
-              "Completa i dati evento o seleziona evento esistente";
+            statusEl.innerHTML = `
+              <div class="flex items-center gap-3 p-1">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center border border-amber-200">
+                  <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-bold text-amber-800 leading-tight">Dati mancanti</div>
+                  <div class="text-xs font-medium text-amber-600/90 mt-0.5">Completa i dati evento o seleziona un evento esistente</div>
+                </div>
+              </div>
+            `;
             statusEl.className =
-              "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+              "text-sm rounded-2xl border border-amber-200 mt-4 bg-amber-50/80 backdrop-blur-md shadow-lg shadow-amber-900/5";
             statusEl.classList.remove("hidden");
           }
           setTimeout(() => {
@@ -1784,10 +1807,21 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           const duplicate = isDuplicateNewEvent(name, date);
           if (duplicate) {
             if (statusEl) {
-              statusEl.textContent =
-                'Esiste già un evento con lo stesso nome e data. Usa "Evento esistente" oppure cambia nome/data.';
+              statusEl.innerHTML = `
+                <div class="flex items-center gap-3 p-1">
+                  <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center border border-amber-200">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-sm font-bold text-amber-800 leading-tight">Evento duplicato</div>
+                    <div class="text-xs font-medium text-amber-600/90 mt-0.5">Esiste già un evento con lo stesso nome e data. Usa "Evento esistente" o cambia i dati.</div>
+                  </div>
+                </div>
+              `;
               statusEl.className =
-                "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+                "text-sm rounded-2xl border border-amber-200 mt-4 bg-amber-50/80 backdrop-blur-md shadow-lg shadow-amber-900/5";
               statusEl.classList.remove("hidden");
             }
             setTimeout(() => {
@@ -1918,7 +1952,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             ? existing
             : `${clientCreateSlug(name)}-${date.replace(/-/g, "")}`;
           // Build files array with sizes for email notification
-          const filesWithSizes = allFiles.map((f) => ({ name: f.name, size: f.size || 0 }));
+          const filesWithSizes = allFiles.map((f) => ({
+            name: f.name,
+            size: f.size || 0,
+          }));
           try {
             await fetch("/api/media?notify=1", {
               method: "POST",
@@ -1947,12 +1984,21 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           // Reset completo sezione upload
           if (existingHidden) existingHidden.value = "";
-          if (comboInput) { comboInput.value = ""; comboInput.readOnly = false; }
+          if (comboInput) {
+            comboInput.value = "";
+            comboInput.readOnly = false;
+          }
           changeExisting?.classList.add("hidden");
           comboBox?.classList.add("hidden");
-          const evtNameReset = document.getElementById("eventName") as HTMLInputElement | null;
-          const dateReset = document.getElementById("date") as HTMLInputElement | null;
-          const descReset = document.getElementById("description") as HTMLTextAreaElement | null;
+          const evtNameReset = document.getElementById(
+            "eventName",
+          ) as HTMLInputElement | null;
+          const dateReset = document.getElementById(
+            "date",
+          ) as HTMLInputElement | null;
+          const descReset = document.getElementById(
+            "description",
+          ) as HTMLTextAreaElement | null;
           if (evtNameReset) evtNameReset.value = "";
           if (dateReset) dateReset.value = "";
           if (descReset) descReset.value = "";
@@ -1967,9 +2013,21 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           }
 
           if (statusEl) {
-            statusEl.textContent = "Caricamento completato — Grazie per il tuo prezioso contributo!";
+            statusEl.innerHTML = `
+              <div class="flex items-center gap-3 p-1">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 flex items-center justify-center border border-green-200 shadow-sm">
+                  <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-bold text-green-800 leading-tight">Caricamento completato</div>
+                  <div class="text-xs font-medium text-green-600/90 mt-0.5">Grazie per il tuo prezioso contributo!</div>
+                </div>
+              </div>
+            `;
             statusEl.className =
-              "text-sm font-medium rounded-xl border px-3 py-2 mt-3 bg-white/80 backdrop-blur-sm text-green-700 border-green-200 shadow-sm";
+              "text-sm rounded-2xl border border-green-200 mt-4 bg-green-50/80 backdrop-blur-md shadow-lg shadow-green-900/5 animate-fade-in";
             setTimeout(() => {
               statusEl.classList.remove("hidden");
             }, 150);
@@ -1978,9 +2036,21 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           const msg = (err as any)?.message || String(err || "");
           console.error("submit:error", msg);
           if (statusEl) {
-            statusEl.textContent = msg || "Errore nel caricamento";
+            statusEl.innerHTML = `
+              <div class="flex items-center gap-3 p-1">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center border border-red-200 shadow-sm">
+                  <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-bold text-red-800 leading-tight">Caricamento fallito</div>
+                  <div class="text-xs font-medium text-red-600/90 mt-0.5">${msg || "Si è verificato un errore imprevisto"}</div>
+                </div>
+              </div>
+            `;
             statusEl.className =
-              "text-sm font-medium rounded-xl border px-3 py-2 mt-2 bg-red-50 text-red-700 border-red-300";
+              "text-sm rounded-2xl border border-red-200 mt-4 bg-red-50/80 backdrop-blur-md shadow-lg shadow-red-900/5 animate-fade-in";
             statusEl.classList.remove("hidden");
           }
           progress?.classList.add("hidden");
