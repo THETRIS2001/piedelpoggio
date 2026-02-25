@@ -823,27 +823,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
 
       const photos = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
-      const firstTen = photos.slice(0, 10);
-      // Include files with size 0 or unknown in 'small' (original url) to ensure they are displayed
-      const small = firstTen.filter(
-        (f) => Number((f.size as number | undefined) || 0) <= 1024 * 1024,
-      );
-      const large = firstTen.filter(
-        (f) => Number((f.size as number | undefined) || 0) > 1024 * 1024,
-      );
+      // Ordina per peso crescente: le 3 più leggere come copertina per velocizzare il caricamento
+      const sorted = [...photos].sort((a, b) => {
+        const sa = Number((a.size as number | undefined) || 0);
+        const sb = Number((b.size as number | undefined) || 0);
+        return sa - sb;
+      });
+      const lightest = sorted.slice(0, 3);
 
       const selected: Array<{ file: MediaFile; transformed: boolean }> = [];
 
-      for (const f of small) {
-        if (selected.length >= 3) break;
-        selected.push({ file: f, transformed: false });
-      }
-
-      if (selected.length < 3 && small.length < 3) {
-        for (const f of large) {
-          if (selected.length >= 3) break;
-          selected.push({ file: f, transformed: true });
-        }
+      for (const f of lightest) {
+        const sz = Number((f.size as number | undefined) || 0);
+        // Se il file è <= 1MB usa URL originale, altrimenti usa la versione trasformata
+        selected.push({ file: f, transformed: sz > 1024 * 1024 });
       }
 
       if (selected.length === 0) {
@@ -1273,6 +1266,13 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         .filter((ev) => {
           const name = (ev.meta?.eventName || ev.folder || "").toLowerCase();
           return q ? name.includes(q.toLowerCase()) : true;
+        })
+        .sort((a, b) => {
+          const da = a.meta?.date || "";
+          const db = b.meta?.date || "";
+          if (!da && db) return 1;
+          if (da && !db) return -1;
+          return db.localeCompare(da);
         })
         .slice(0, 50);
       comboBox.innerHTML = "";
@@ -1917,6 +1917,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           const folder = existing
             ? existing
             : `${clientCreateSlug(name)}-${date.replace(/-/g, "")}`;
+          // Build files array with sizes for email notification
+          const filesWithSizes = allFiles.map((f) => ({ name: f.name, size: f.size || 0 }));
           try {
             await fetch("/api/media?notify=1", {
               method: "POST",
@@ -1926,7 +1928,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                 eventName: name,
                 date,
                 description: desc,
-                files: originals,
+                files: filesWithSizes,
               }),
             });
           } catch {}
@@ -1942,8 +1944,30 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           progress?.classList.add("hidden");
           if (bar) bar.style.width = "0%";
           if (pct) pct.textContent = "0%";
+
+          // Reset completo sezione upload
+          if (existingHidden) existingHidden.value = "";
+          if (comboInput) { comboInput.value = ""; comboInput.readOnly = false; }
+          changeExisting?.classList.add("hidden");
+          comboBox?.classList.add("hidden");
+          const evtNameReset = document.getElementById("eventName") as HTMLInputElement | null;
+          const dateReset = document.getElementById("date") as HTMLInputElement | null;
+          const descReset = document.getElementById("description") as HTMLTextAreaElement | null;
+          if (evtNameReset) evtNameReset.value = "";
+          if (dateReset) dateReset.value = "";
+          if (descReset) descReset.value = "";
+          uploadMode = "existing";
+          updateUploadVisibility();
+          updateSubmitEnabled();
+          // Reset indicatore MB selezionati
+          const sizeLimitEl = document.getElementById("sizeLimitMsg");
+          if (sizeLimitEl) {
+            sizeLimitEl.textContent = "Selezionati 0 B su 1GB (max)";
+            sizeLimitEl.className = "text-xs text-gray-500 mt-2 text-center";
+          }
+
           if (statusEl) {
-            statusEl.textContent = "Caricamento completato";
+            statusEl.textContent = "Caricamento completato — Grazie per il tuo prezioso contributo!";
             statusEl.className =
               "text-sm font-medium rounded-xl border px-3 py-2 mt-3 bg-white/80 backdrop-blur-sm text-green-700 border-green-200 shadow-sm";
             setTimeout(() => {

@@ -311,29 +311,46 @@ export function buildCancelBookingEmail(data: {
 // ═══════════════════════════════════════════════
 //  EMAIL 4: Upload Media Completato
 // ═══════════════════════════════════════════════
+function formatBytesEmail(b: number): string {
+  const u = ['B', 'KB', 'MB', 'GB'];
+  let i = 0;
+  let v = b;
+  while (v >= 1024 && i < u.length - 1) { v /= 1024; i++; }
+  return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`;
+}
+
 export function buildMediaUploadEmail(data: {
   eventName: string;
   date: string;
   description?: string;
-  files: string[];
+  files: Array<{name: string, size: number}> | string[];
 }): string {
-  const { eventName, date, description, files } = data;
+  const { eventName, date, description } = data;
   const formattedDate = date ? formatDateIT(date) : '';
+
+  // Normalizza files: supporta sia string[] (legacy) che {name, size}[]
+  const normalizedFiles: Array<{name: string, size: number}> = (data.files || []).map((f: any) => {
+    if (typeof f === 'string') return { name: f, size: 0 };
+    return { name: String(f.name || ''), size: Number(f.size || 0) };
+  });
+
+  const totalSize = normalizedFiles.reduce((acc, f) => acc + f.size, 0);
 
   const infoRows = [
     infoRow('Evento', escapeHtml(eventName), colors.blue),
     formattedDate ? infoRow('Data evento', escapeHtml(formattedDate), colors.blueDark) : '',
     description ? infoRow('Descrizione', escapeHtml(description), colors.accent) : '',
-    infoRow('File caricati', `${files.length} file`, colors.success),
+    infoRow('File caricati', `${normalizedFiles.length} file — ${formatBytesEmail(totalSize)}`, colors.success),
   ].filter(Boolean).join('');
 
-  // Lista file con pallini
-  const fileListHtml = files.map(f =>
-    `<tr><td style="padding:5px 0;font-size:13px;color:${colors.textPrimary};line-height:1.5;"><span style="color:${colors.blue};margin-right:8px;">●</span>${escapeHtml(f)}</td></tr>`
-  ).join('');
+  // Lista file con pallini e peso individuale
+  const fileListHtml = normalizedFiles.map(f => {
+    const sizeStr = f.size > 0 ? ` <span style="color:${colors.textMuted};font-size:12px;">(${formatBytesEmail(f.size)})</span>` : '';
+    return `<tr><td style="padding:5px 0;font-size:13px;color:${colors.textPrimary};line-height:1.5;"><span style="color:${colors.blue};margin-right:8px;">●</span>${escapeHtml(f.name)}${sizeStr}</td></tr>`;
+  }).join('');
 
   const content = [
-    heroSection('Upload completato', `${files.length} file caricati per ${eventName}`, colors.blue, colors.blueDark, '📸'),
+    heroSection('Upload completato', `${normalizedFiles.length} file caricati per ${eventName}`, colors.blue, colors.blueDark, '📸'),
     card(`
       <tr>
         <td style="padding-bottom:8px;">

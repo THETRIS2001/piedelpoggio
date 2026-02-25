@@ -260,14 +260,22 @@ export const POST: APIRoute = async ({ request, locals }) => {
         meta = { ...meta, description: descriptionInput }
         await bucket.put(`${prefix}${folder}/meta.txt`, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
       }
-      let files: string[] = Array.isArray(data?.files) ? data.files.map((x: any) => String(x)) : []
+      // Supporta sia string[] che {name, size}[] dal client
+      let files: Array<{ name: string, size: number }> = []
+      if (Array.isArray(data?.files) && data.files.length > 0) {
+        files = data.files.map((x: any) => {
+          if (typeof x === 'string') return { name: x, size: 0 }
+          return { name: String(x.name || ''), size: Number(x.size || 0) }
+        })
+      }
       if (files.length === 0) {
         try {
           const filesList = await listAll(bucket, { prefix: `${prefix}${folder}/` })
-          files = (filesList.objects || [])
-            .map((o: any) => o.key as string)
-            .map((k: string) => k.split('/').pop() || '')
-            .filter((name: string) => isAllowedFile(name))
+          const objs = (filesList.objects || []).filter((o: any) => isAllowedFile(o.key || ''))
+          files = objs.map((o: any) => ({
+            name: (o.key as string).split('/').pop() || '',
+            size: Number(o.size || o.Size || 0)
+          }))
         } catch { }
       }
       try {
