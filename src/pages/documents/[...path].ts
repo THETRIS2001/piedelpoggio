@@ -49,9 +49,9 @@ export const GET: APIRoute = async ({ params, locals }) => {
     if (!obj) {
         return new Response('Not found', { status: 404 })
     }
-    const body = await obj.arrayBuffer()
+    const body = obj.body
     const ct = (obj as any).httpMetadata?.contentType || contentTypeFor(decodedPath)
-    return new Response(body, {
+    return new Response(body as unknown as BodyInit, {
         status: 200,
         headers: {
             'Content-Type': ct,
