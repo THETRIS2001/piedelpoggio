@@ -97,8 +97,16 @@ if (meta?.date) {
     "Novembre",
     "Dicembre",
   ];
-  const dt = new Date(meta.date);
-  formattedDate = `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
+  const parts = String(meta.date).split("-");
+  if (parts.length === 1) {
+    formattedDate = parts[0];
+  } else if (parts.length === 2) {
+    const monthIndex = parseInt(parts[1], 10) - 1;
+    formattedDate = `${months[monthIndex]} ${parts[0]}`;
+  } else {
+    const dt = new Date(meta.date);
+    formattedDate = `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
+  }
 } else {
   formattedDate = "Data Sconosciuta";
 }

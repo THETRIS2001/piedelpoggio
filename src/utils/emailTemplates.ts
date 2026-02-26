@@ -172,10 +172,20 @@ function statusBadge(text: string, bgColor: string, textColor: string): string {
 
 // ─── Helper: formatta data in italiano ───
 function formatDateIT(dateStr: string): string {
-  const dateObj = new Date(dateStr + 'T00:00:00');
-  const giorni = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+  const parti = dateStr.split('-');
   const mesi = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
-  return `${giorni[dateObj.getDay()]} ${dateObj.getDate()} ${mesi[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+  
+  if (parti.length === 1) {
+    return parti[0];
+  } else if (parti.length === 2) {
+    const monthIndex = parseInt(parti[1], 10) - 1;
+    return `${mesi[monthIndex]} ${parti[0]}`;
+  } else {
+    const dateObj = new Date(dateStr + 'T00:00:00');
+    const giorni = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
+    if (isNaN(dateObj.getTime())) return dateStr;
+    return `${giorni[dateObj.getDay()]} ${dateObj.getDate()} ${mesi[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+  }
 }
 
 // ═══════════════════════════════════════════════
