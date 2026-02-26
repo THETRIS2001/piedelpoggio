@@ -712,6 +712,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         workers.push(process());
       }
       await Promise.all(workers);
+
+      // Una volta finito di scaricare asincronamente i dettagli e le cover di tutti gli eventi visibili,
+      // Forziamo un re-render in modo che l'ordine sia 100% garantito e sincronizzato con l'HTML corretto.
+      renderEvents(events);
     }
 
     async function loadEvents() {
@@ -921,7 +925,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const oldContainer = card.querySelector(".grid.grid-cols-3");
       if (oldContainer && oldContainer.parentNode) {
         const newContainer = buildImagesGrid(files, eventName);
-        oldContainer.parentNode.replaceChild(newContainer, oldContainer);
+        // Replace existing node safely without breaking flex/grid DOM order flow.
+        oldContainer.replaceWith(newContainer);
       }
 
       const photosCount = files.filter(
