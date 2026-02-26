@@ -1107,12 +1107,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         const ev = pageItems[i++];
         renderCard(grid, ev);
         if (i < pageItems.length) {
-          requestAnimationFrame(renderNext);
+          renderNext();
         }
       };
 
       if (pageItems.length > 0) {
-        requestAnimationFrame(renderNext);
+        renderNext();
       }
     }
     async function ensureFflate() {

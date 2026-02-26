@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # foto sito web
 FOTO SITO/
+
+# script batch
+*.bat
