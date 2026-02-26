@@ -3,3 +3,4 @@ SISTEMA ESTETICA:
 
 
     - dopo ricerca rimane in cima una cosa sbagliata
+    - indicizzazione
