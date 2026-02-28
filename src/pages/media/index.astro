@@ -1023,7 +1023,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       grid.appendChild(card);
     }
 
+    let _renderVersion = 0;
     function renderEvents(list: EventData[]) {
+      _renderVersion++;
+      const currentRender = _renderVersion;
+
       const grid = document.getElementById("eventsGrid");
       if (!grid) return;
       grid.innerHTML = "";
@@ -1049,7 +1053,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           if (!va && vb) return 1;
           if (va && !vb) return -1;
         }
-        const cmp = va.localeCompare(vb);
+        let cmp = va.localeCompare(vb);
+        if (cmp === 0 && field !== "name") {
+          const na = (a.meta?.eventName || a.folder || "").toLowerCase();
+          const nb = (b.meta?.eventName || b.folder || "").toLowerCase();
+          cmp = na.localeCompare(nb);
+        }
         const effOrder =
           field === "name" ? (order === "desc" ? "asc" : "desc") : order;
         return effOrder === "desc" ? -cmp : cmp;
@@ -1102,6 +1111,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
       let i = 0;
       const renderNext = () => {
+        if (_renderVersion !== currentRender) return;
         if (!grid) return;
         if (i >= pageItems.length) return;
         const ev = pageItems[i++];
