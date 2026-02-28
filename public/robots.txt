@@ -7,6 +7,7 @@ Sitemap: https://piedelpoggio.org/sitemap-index.xml
 # Disallow admin and build areas
 Disallow: /admin/
 Disallow: /_astro/
+Disallow: /cdn-cgi/
 
 # Allow important pages
 Allow: /

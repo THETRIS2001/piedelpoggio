@@ -1,8 +1,2 @@
 SISTEMA ESTETICA:
     - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
-
-
-    - ancora stesso problema! il primo risultato dovrebbe essere uno, ma se cerco qualocsa e cancello diventa un altro o addirittura altri 2 prima di quello corretto
-    - indicizzazione verifica se tutto ok: https://search.google.com/search-console/index?resource_id=https%3A%2F%2Fpiedelpoggio.org%2F
-    - alineamento scarica cartella
-    - reset mette data fine
