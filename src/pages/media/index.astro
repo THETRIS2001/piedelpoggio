@@ -1396,24 +1396,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const df = document.getElementById("dateFrom") as HTMLInputElement | null;
       const dt = document.getElementById("dateTo") as HTMLInputElement | null;
       if (s) s.value = "";
-
-      // Reset dates to min/today default
-      if (events.length > 0) {
-        const dates = events
-          .map((e) => e.meta?.date)
-          .filter((d): d is string => !!d)
-          .sort();
-        if (dates.length > 0) {
-          if (df) df.value = dates[0];
-          if (dt) dt.value = new Date().toISOString().split("T")[0];
-        } else {
-          if (df) df.value = "";
-          if (dt) dt.value = "";
-        }
-      } else {
-        if (df) df.value = "";
-        if (dt) dt.value = "";
-      }
+      if (df) df.value = "";
+      if (dt) dt.value = "";
 
       currentPage = 1;
       renderEvents(events);
