@@ -1,8 +1,8 @@
 ---
-import '../styles/tailwind.css';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_CONFIG } from '../utils/config';
+import "../styles/tailwind.css";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_CONFIG } from "../utils/config";
 
 export interface Props {
   title?: string;
@@ -10,76 +10,83 @@ export interface Props {
   image?: string;
 }
 
-const { 
-  title = SITE_CONFIG.title, 
+const {
+  title = SITE_CONFIG.title,
   description = SITE_CONFIG.description,
-  image = '/images/og-default.jpg'
+  image = "/images/og-default.jpg",
 } = Astro.props;
 
-const fullTitle = title === SITE_CONFIG.title ? title : `${title} | ${SITE_CONFIG.title}`;
+const fullTitle =
+  title === SITE_CONFIG.title ? title : `${title} | ${SITE_CONFIG.title}`;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{fullTitle}</title>
-  <meta name="description" content={description}>
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content={fullTitle}>
-  <meta property="og:description" content={description}>
-  <meta property="og:image" content={new URL(image, Astro.site)}>
-  <meta property="og:type" content="website">
-  <meta property="og:url" content={Astro.url}>
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content={fullTitle}>
-  <meta name="twitter:description" content={description}>
-  <meta name="twitter:image" content={new URL(image, Astro.site)}>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/jpeg" href="/favicon.png">
-  <link rel="alternate icon" href="/favicon.png">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-  
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Piedelpoggio",
-    "url": "https://piedelpoggio-site.pages.dev",
-    "logo": "https://piedelpoggio-site.pages.dev/images/logo.png",
-    "description": "Sito ufficiale di Piedelpoggio - Antico borgo nel cuore del Lazio",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Piedelpoggio",
-      "addressCountry": "IT"
-    },
-    "sameAs": []
-  }
-  </script>
-  
-  <!-- Additional SEO meta tags -->
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Piedelpoggio">
-  <meta name="keywords" content="Piedelpoggio, antico borgo, Lazio, montagna, ambiente, comunità">
-  <link rel="canonical" href={Astro.url}>
-</head>
-<body class=" bg-white flex flex-col">
-  <Navbar />
-  
-  <main class="flex-1">
-    <slot />
-  </main>
-  
-  <Footer />
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/favicon.png" />
+    <link rel="alternate icon" href="/favicon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Piedelpoggio",
+        "url": "https://piedelpoggio.org",
+        "logo": "https://piedelpoggio.org/images/logo.png",
+        "description": "Sito ufficiale di Piedelpoggio - Antico borgo nel cuore del Lazio",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Piedelpoggio",
+          "addressCountry": "IT"
+        },
+        "sameAs": []
+      }
+    </script>
+
+    <!-- Additional SEO meta tags -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Piedelpoggio" />
+    <meta
+      name="keywords"
+      content="Piedelpoggio, antico borgo, Lazio, montagna, ambiente, comunità"
+    />
+    <link rel="canonical" href={Astro.url} />
+  </head>
+  <body class="bg-white flex flex-col">
+    <Navbar />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
 </html>
