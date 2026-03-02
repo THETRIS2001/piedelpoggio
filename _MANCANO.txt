@@ -1,2 +1,3 @@
 - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
+
 - verifica comportamento altri dispositivi
