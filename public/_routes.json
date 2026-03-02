@@ -5,8 +5,6 @@
   ],
   "exclude": [
     "/_astro/**",
-    "/images/**",
-    "/documents/**",
     "/data/**",
     "/favicon.png",
     "/favicon.svg",
