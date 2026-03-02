@@ -40,11 +40,16 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
 
   const lightboxContent = (
     <div className="lightbox-overlay" onClick={onClose}>
-      <div className="lightbox-container">
+      <div className="lightbox-container relative w-full h-full flex items-center justify-center">
+        {!isLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center z-[105] pointer-events-none transition-opacity duration-300">
+            <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+          </div>
+        )}
         <img
           src={imageSrc}
           alt={imageAlt}
-          className="lightbox-image"
+          className="lightbox-image relative z-[106]"
           style={{
             maxWidth: '95vw',
             maxHeight: '90vh',
@@ -53,7 +58,9 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
             transition: 'opacity 0.2s ease-in-out'
           }}
           onLoad={() => setIsLoaded(true)}
-          onClick={onClose}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         />
         {folderHref && (
           <a

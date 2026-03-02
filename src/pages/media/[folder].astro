@@ -292,11 +292,20 @@ const capitalize = (s: string) => {
             d="M9 5l7 7-7 7"></path></svg
         >
       </button>
+      <div
+        id="lightboxLoader"
+        class="absolute inset-0 flex items-center justify-center z-[105] pointer-events-none transition-opacity duration-300 opacity-0 w-full h-full"
+      >
+        <div
+          class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"
+        >
+        </div>
+      </div>
       <img
         id="lightboxImg"
         src=""
         alt=""
-        class="max-w-none max-h-none object-contain"
+        class="max-w-none max-h-none object-contain relative z-[106]"
         style="max-width: 95vw; max-height: 90vh;"
       />
     </div>
@@ -334,10 +343,14 @@ const capitalize = (s: string) => {
       current = idx;
       const src = imgs[current];
       if (src) {
+        const loader = document.getElementById("lightboxLoader");
+        if (loader) loader.style.opacity = "1";
+
         lbImg.style.opacity = "0";
         lbImg.style.transition = "opacity 0.2s ease-in-out";
         lbImg.onload = () => {
           lbImg.style.opacity = "1";
+          if (loader) loader.style.opacity = "0";
         };
         lbImg.src = src;
         lb.classList.remove("hidden");
@@ -352,6 +365,8 @@ const capitalize = (s: string) => {
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
       if (lbImg) lbImg.src = "";
+      const loader = document.getElementById("lightboxLoader");
+      if (loader) loader.style.opacity = "0";
     };
 
     // Click anywhere (including photo) closes lightbox
