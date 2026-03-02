@@ -12,7 +12,11 @@ interface LightboxProps {
 }
 
 const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose, folderHref }) => {
-  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(false);
+  }, [imageSrc]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -24,35 +28,13 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
       document.body.style.overflow = 'hidden';
-
-      // Carica l'immagine per ottenere le dimensioni originali
-      const img = new Image();
-      img.onload = () => {
-        const maxWidth = window.innerWidth * 0.8; // 80vw
-        const maxHeight = window.innerHeight * 0.8; // 80vh
-
-        const originalWidth = img.naturalWidth;
-        const originalHeight = img.naturalHeight;
-
-        // Calcola il fattore di scala basato sulla dimensione maggiore
-        const scaleWidth = maxWidth / originalWidth;
-        const scaleHeight = maxHeight / originalHeight;
-        const scale = Math.min(scaleWidth, scaleHeight);
-
-        // Applica il fattore di scala mantenendo le proporzioni
-        const newWidth = originalWidth * scale;
-        const newHeight = originalHeight * scale;
-
-        setImageSize({ width: newWidth, height: newHeight });
-      };
-      img.src = imageSrc;
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose, imageSrc]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -64,9 +46,13 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
           alt={imageAlt}
           className="lightbox-image"
           style={{
-            width: imageSize.width,
-            height: imageSize.height,
+            maxWidth: '95vw',
+            maxHeight: '90vh',
+            objectFit: 'contain',
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 0.2s ease-in-out'
           }}
+          onLoad={() => setIsLoaded(true)}
           onClick={onClose}
         />
         {folderHref && (

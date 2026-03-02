@@ -1491,17 +1491,22 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
     }
 
-    function showIndex(idx: number) {
-      if (!lb || !lbImg || lbFiles.length === 0) return;
+    const showIndex = (idx: number) => {
+      if (!lb || !lbImg) return;
       lbCurrent = idx;
-      const item = lbFiles[lbCurrent];
-      lbImg.src = item.url;
-
-      lb.classList.remove("hidden");
-      lb.classList.add("flex");
-      document.body.style.overflow = "hidden";
-    }
-
+      const src = lbFiles[lbCurrent].url;
+      if (src) {
+        lbImg.style.opacity = "0";
+        lbImg.style.transition = "opacity 0.2s ease-in-out";
+        lbImg.onload = () => {
+          lbImg.style.opacity = "1";
+        };
+        lbImg.src = src;
+        lb.classList.remove("hidden");
+        lb.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+    };
     function closeLightbox() {
       if (!lb || !lbImg) return;
       lb.classList.add("hidden");

@@ -1,3 +1,2 @@
 - verifica tutte le icone: icona pag immagini e quando apro galleria c'è icona video, anche smussatura angoli. tutte come storia (poi elimina doc temporaneo)
-- cambia immagine subito, poi in caso aspetta il caricamento dopo
 - verifica comportamento altri dispositivi

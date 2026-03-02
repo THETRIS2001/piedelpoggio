@@ -334,6 +334,11 @@ const capitalize = (s: string) => {
       current = idx;
       const src = imgs[current];
       if (src) {
+        lbImg.style.opacity = "0";
+        lbImg.style.transition = "opacity 0.2s ease-in-out";
+        lbImg.onload = () => {
+          lbImg.style.opacity = "1";
+        };
         lbImg.src = src;
         lb.classList.remove("hidden");
         lb.classList.add("flex");
