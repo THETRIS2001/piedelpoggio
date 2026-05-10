@@ -344,22 +344,28 @@ import PDFViewer from "../../components/PDFViewer.tsx";
 
           <div class="flex justify-center mb-6">
             <div
-              class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl px-5 py-2.5 text-center inline-flex items-center space-x-2.5 border border-gray-200 shadow-md hover:shadow-lg transition-shadow"
+              class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl px-5 py-2.5 text-center inline-flex flex-col items-center space-y-1 border border-gray-200 shadow-md hover:shadow-lg transition-shadow"
             >
-              <svg
-                class="w-6 h-6 text-amber-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <span class="font-bold text-amber-800 text-lg tracking-wide"
-                >Prossimamente in arrivo</span
+              <div class="flex items-center space-x-2.5">
+                <svg
+                  class="w-6 h-6 text-amber-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                  ></path>
+                </svg>
+                <span class="font-bold text-amber-800 text-lg tracking-wide"
+                  >IBAN Pro Loco Piedelpoggio</span
+                >
+              </div>
+              <span class="font-mono text-sm md:text-base text-gray-800 select-all"
+                >IT42F07601032000001080387952</span
               >
             </div>
           </div>
