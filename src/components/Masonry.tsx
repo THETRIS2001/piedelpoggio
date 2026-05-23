@@ -136,7 +136,7 @@ const Masonry: React.FC<MasonryProps> = ({
   const [containerRef, { width }] = useMeasure();
   const [mounted, setMounted] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const [selectedIdx, setSelectedIdx] = useState<number>(-1);
 
   const [imageDimensions, setImageDimensions] = useState<Record<string, number>>({});
 
@@ -193,18 +193,30 @@ const Masonry: React.FC<MasonryProps> = ({
     setMounted(true);
   }, []);
 
-  const [selectedFolderHref, setSelectedFolderHref] = useState<string | undefined>(undefined)
-  const handleImageClick = (item: MasonryItem) => {
-    const src = item.orig || item.img
-    setSelectedImage({ src, alt: `Foto di Piedelpoggio ${item.id}` });
-    setSelectedFolderHref(item.folderHref)
+  const handleImageClick = (item: MasonryItem, index: number) => {
+    setSelectedIdx(index);
     setLightboxOpen(true);
   };
 
   const closeLightbox = () => {
     setLightboxOpen(false);
-    setSelectedImage(null);
+    setSelectedIdx(-1);
   };
+
+  const handlePrev = () => {
+    if (grid.items.length === 0) return;
+    setSelectedIdx(prev => (prev - 1 + grid.items.length) % grid.items.length);
+  };
+
+  const handleNext = () => {
+    if (grid.items.length === 0) return;
+    setSelectedIdx(prev => (prev + 1) % grid.items.length);
+  };
+
+  const currentItem = selectedIdx >= 0 ? grid.items[selectedIdx] : null;
+  const imageSrc = currentItem ? (currentItem.orig || currentItem.img) : '';
+  const imageAlt = currentItem ? `Foto di Piedelpoggio ${currentItem.id}` : '';
+  const folderHref = currentItem?.folderHref;
 
   return (
     <div className="masonry-container" ref={containerRef}>
@@ -223,7 +235,7 @@ const Masonry: React.FC<MasonryProps> = ({
           } as React.CSSProperties}
         >
           <div
-            onClick={() => handleImageClick(item)}
+            onClick={() => handleImageClick(item, index)}
             style={{ cursor: 'pointer', width: '100%', height: '100%', background: '#fff' }}
           >
             <img
@@ -240,10 +252,12 @@ const Masonry: React.FC<MasonryProps> = ({
 
       <Lightbox
         isOpen={lightboxOpen}
-        imageSrc={selectedImage?.src || ''}
-        imageAlt={selectedImage?.alt || ''}
+        imageSrc={imageSrc}
+        imageAlt={imageAlt}
         onClose={closeLightbox}
-        folderHref={selectedFolderHref}
+        folderHref={folderHref}
+        onPrev={grid.items.length > 1 ? handlePrev : undefined}
+        onNext={grid.items.length > 1 ? handleNext : undefined}
       />
     </div>
   );
