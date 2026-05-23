@@ -46,30 +46,32 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
             <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
           </div>
         )}
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          className="lightbox-image relative z-[106]"
-          style={{
-            maxWidth: '95vw',
-            maxHeight: '90vh',
-            objectFit: 'contain',
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.2s ease-in-out'
-          }}
-          onLoad={() => setIsLoaded(true)}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        />
-        {folderHref && (
-          <a
-            href={folderHref}
-            className="lightbox-cta"
-          >
-            Apri galleria
-          </a>
-        )}
+        <div 
+          className="relative max-w-[95vw] max-h-[90vh] flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            className="lightbox-image relative z-[106]"
+            style={{
+              maxWidth: '95vw',
+              maxHeight: '90vh',
+              objectFit: 'contain',
+              opacity: isLoaded ? 1 : 0,
+              transition: 'opacity 0.2s ease-in-out'
+            }}
+            onLoad={() => setIsLoaded(true)}
+          />
+          {folderHref && isLoaded && (
+            <a
+              href={folderHref}
+              className="lightbox-cta z-[107]"
+            >
+              Apri galleria
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
