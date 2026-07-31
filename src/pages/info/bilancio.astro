@@ -37,13 +37,23 @@ const bucket = getBucket(Astro.locals);
 const bilanciArray: Bilancio[] = [];
 
 if (bucket) {
-  const prefix = "documents/Bilanci/";
-  const result = await listAll(bucket, { prefix });
-  for (const obj of result.objects) {
-    const filename = (obj.key as string).slice(prefix.length);
-    if (filename && !filename.includes("/")) {
-      const bilancio = parseBilancio(filename, "/documents/Bilanci");
-      if (bilancio) bilanciArray.push(bilancio);
+  let cursor: string | undefined;
+  const allObjects: any[] = [];
+  do {
+    const res = await bucket.list({ prefix: "documents/", cursor });
+    if (res.objects) allObjects.push(...res.objects);
+    cursor = res.truncated ? res.cursor : undefined;
+  } while (cursor);
+
+  for (const obj of allObjects) {
+    const key = obj.key as string;
+    if (key.toLowerCase().includes("documents/bilanci/")) {
+      const idx = key.toLowerCase().indexOf("documents/bilanci/");
+      const filename = key.slice(idx + "documents/bilanci/".length);
+      if (filename && !filename.includes("/")) {
+        const bilancio = parseBilancio(filename, "/documents/Bilanci");
+        if (bilancio) bilanciArray.push(bilancio);
+      }
     }
   }
 }
