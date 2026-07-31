@@ -31,36 +31,31 @@ function getContentType(filename: string, mimeTypeHint?: string): string {
     return 'application/octet-stream'
 }
 
-// Regex di convalida dei nomi file lato server per garantire compatibilità 100% con il parser del sito
+// Regex di convalida dei nomi file lato server per le 4 sezioni dinamiche del sito
 const FILENAME_PATTERNS: Record<string, { regex: RegExp, allowedExts: string[], errorMsg: string }> = {
     '1': {
-        regex: /^Programma estivo corrente\.(png|jpg|jpeg|webp)$/i,
-        allowedExts: ['.png', '.jpg', '.jpeg', '.webp'],
-        errorMsg: 'Il nome file per il Programma Attuale deve essere "Programma estivo corrente.png" (o .jpg/.webp).'
-    },
-    '2': {
         regex: /^Programma estivo \d{4}\.(png|jpg|jpeg|webp)$/i,
         allowedExts: ['.png', '.jpg', '.jpeg', '.webp'],
-        errorMsg: 'Il nome file per i Programmi Precedenti deve seguire il formato "Programma estivo AAAA.ext" (es. Programma estivo 2025.png).'
+        errorMsg: 'Il nome file per i Programmi Estivi deve seguire il formato "Programma estivo AAAA.ext" (es. Programma estivo 2026.png).'
     },
-    '3': {
+    '2': {
         regex: /^\d{2}-\d{2}-\d{4} - .+\.(pdf|doc|docx)$/i,
         allowedExts: ['.pdf', '.doc', '.docx'],
         errorMsg: 'Il nome file per i Documenti Pro Loco deve seguire il formato "GG-MM-AAAA - Titolo.pdf" (es. 15-08-2026 - Verbale.pdf).'
     },
-    '4': {
+    '3': {
         regex: /^Bilancio - \d{4}\.(pdf|png|jpg|jpeg|webp)$/i,
         allowedExts: ['.pdf', '.png', '.jpg', '.jpeg', '.webp'],
         errorMsg: 'Il nome file per il Bilancio deve seguire il formato "Bilancio - AAAA.pdf" (es. Bilancio - 2026.pdf).'
     },
-    '5': {
+    '4': {
         regex: /^.+ - \d{2}-\d{2}-\d{4} - .+\.(png|jpg|jpeg|webp)$/i,
         allowedExts: ['.png', '.jpg', '.jpeg', '.webp'],
         errorMsg: 'Il nome file per gli Eventi Frazioni deve seguire il formato "Luogo - GG-MM-AAAA - Nome Evento.jpg" (es. Leonessa - 07-12-2025 - Festa.jpg).'
     }
 }
 
-// GET: Elenco flessibile (case-insensitive) dei file presenti in R2 per tutte le sezioni
+// GET: Elenco flessibile (case-insensitive) dei file presenti in R2 per le 4 sezioni
 export const GET: APIRoute = async ({ locals }) => {
     const bucket = getBucket(locals)
     if (!bucket) {
@@ -88,11 +83,10 @@ export const GET: APIRoute = async ({ locals }) => {
         }
 
         const data = {
-            sec1: getFilesForCategory('programmi estivi').filter((f) => f.toLowerCase().includes('corrente')),
-            sec2: getFilesForCategory('programmi estivi').filter((f) => !f.toLowerCase().includes('corrente')),
-            sec3: getFilesForCategory('proloco'),
-            sec4: getFilesForCategory('bilanci'),
-            sec5: getFilesForCategory('eventi frazioni'),
+            sec1: getFilesForCategory('programmi estivi'),
+            sec2: getFilesForCategory('proloco'),
+            sec3: getFilesForCategory('bilanci'),
+            sec4: getFilesForCategory('eventi frazioni'),
         }
 
         return new Response(JSON.stringify(data), {
@@ -135,7 +129,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
         const rule = FILENAME_PATTERNS[section]
         if (!rule) {
-            return new Response(JSON.stringify({ error: 'Sezione non valida (selezionare da 1 a 5).' }), { status: 400 })
+            return new Response(JSON.stringify({ error: 'Sezione non valida (selezionare da 1 a 4).' }), { status: 400 })
         }
 
         if (!rule.allowedExts.includes(ext.toLowerCase())) {
@@ -153,32 +147,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
         let prefix = ''
         switch (section) {
             case '1':
-            case '2':
                 prefix = 'documents/Programmi estivi/'
                 break
-            case '3':
+            case '2':
                 prefix = 'documents/proloco/'
                 break
-            case '4':
+            case '3':
                 prefix = 'documents/Bilanci/'
                 break
-            case '5':
+            case '4':
                 prefix = 'documents/Eventi Frazioni/'
                 break
-        }
-
-        // Per la Sezione 1 (Programma Estivo Attuale), rimuoviamo eventuali vecchie versioni (es. .png se ora carichiamo .jpg)
-        if (section === '1') {
-            try {
-                const oldList = await bucket.list({ prefix: 'documents/Programmi estivi/' })
-                if (oldList.objects) {
-                    for (const oldObj of oldList.objects) {
-                        if (oldObj.key.toLowerCase().includes('programma estivo corrente.')) {
-                            await bucket.delete(oldObj.key)
-                        }
-                    }
-                }
-            } catch {}
         }
 
         const key = `${prefix}${targetFilename}`

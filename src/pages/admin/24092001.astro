@@ -40,27 +40,27 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
             <div class="flex items-center space-x-2.5">
               <span class="w-7 h-7 bg-red-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">1</span>
-              <h2 class="text-base font-bold text-gray-900">Programma Estivo Attuale</h2>
+              <h2 class="text-base font-bold text-gray-900">Programmi Estivi</h2>
             </div>
             <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo corrente.png</code>. Sostituisce la locandina in primo piano in alto su <code class="font-mono">/programma</code>.
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo AAAA.ext</code> (Es. <code class="font-mono">Programma estivo 2026.png</code>). L'anno più recente diventa in automatico il <strong>Programma Estivo Attuale</strong> su <code class="font-mono">/programma</code>, mentre gli anni più vecchi scivolano nell'archivio storico.
           </p>
 
           <form class="upload-form space-y-3" data-section="1">
             <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagine</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagini (puoi selezionarne più di una)</label>
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
-            <div id="fileListContainer-sec1" class="space-y-2"></div>
+            <!-- Contenitore dinamico singoli file selezionati -->
+            <div id="fileListContainer-sec1" class="space-y-3"></div>
 
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-              <span class="text-gray-600">Nome finale: <strong class="font-mono text-red-700 font-bold break-all" id="preview-sec1">Programma estivo corrente.[ext]</strong></span>
-              <button type="submit" disabled class="submit-btn-sec1 w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0 opacity-50 cursor-not-allowed">
-                Carica
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
+              <button type="submit" disabled class="submit-btn-sec1 w-full bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
+                Carica File
               </button>
             </div>
           </form>
@@ -77,27 +77,27 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
           <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
             <div class="flex items-center space-x-2.5">
-              <span class="w-7 h-7 bg-orange-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">2</span>
-              <h2 class="text-base font-bold text-gray-900">Programmi Estivi Precedenti</h2>
+              <span class="w-7 h-7 bg-blue-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">2</span>
+              <h2 class="text-base font-bold text-gray-900">Documenti Pro Loco</h2>
             </div>
-            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
+            <a href="/info/documenti-pro-loco" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /info/documenti-pro-loco ↗</a>
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo AAAA.ext</code> (Es. <code class="font-mono">Programma estivo 2025.png</code>). Finisce nell'archivio storico di <code class="font-mono">/programma</code>.
+            <strong>Formato:</strong> <code class="font-mono font-semibold">GG-MM-AAAA - Titolo.pdf</code>. Ordinati automaticamente dal più recente al più vecchio su <code class="font-mono">/info/documenti-pro-loco</code>.
           </p>
 
           <form class="upload-form space-y-3" data-section="2">
             <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagini (puoi selezionarne più di una)</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (puoi selezionarne più di uno)</label>
+              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <!-- Contenitore dinamico singoli file selezionati -->
             <div id="fileListContainer-sec2" class="space-y-3"></div>
 
             <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
-              <button type="submit" disabled class="submit-btn-sec2 w-full bg-orange-600 hover:bg-orange-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
+              <button type="submit" disabled class="submit-btn-sec2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
                 Carica File
               </button>
             </div>
@@ -115,27 +115,27 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
           <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
             <div class="flex items-center space-x-2.5">
-              <span class="w-7 h-7 bg-blue-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">3</span>
-              <h2 class="text-base font-bold text-gray-900">Documenti Pro Loco</h2>
+              <span class="w-7 h-7 bg-emerald-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">3</span>
+              <h2 class="text-base font-bold text-gray-900">Bilanci Pro Loco</h2>
             </div>
-            <a href="/info/documenti-pro-loco" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /info/documenti-pro-loco ↗</a>
+            <a href="/info/bilancio" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /info/bilancio ↗</a>
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">GG-MM-AAAA - Titolo.pdf</code>. Ordinati automaticamente dal più recente al più vecchio su <code class="font-mono">/info/documenti-pro-loco</code>.
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Bilancio - AAAA.pdf</code>. L'anno più recente diventa in automatico il <strong>"Bilancio Corrente"</strong> in alto su <code class="font-mono">/info/bilancio</code>, mentre gli anni più vecchi scivolano in basso tra i bilanci precedenti.
           </p>
 
           <form class="upload-form space-y-3" data-section="3">
             <div>
               <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (puoi selezionarne più di uno)</label>
-              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <!-- Contenitore dinamico singoli file selezionati -->
             <div id="fileListContainer-sec3" class="space-y-3"></div>
 
             <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
-              <button type="submit" disabled class="submit-btn-sec3 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
+              <button type="submit" disabled class="submit-btn-sec3 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
                 Carica File
               </button>
             </div>
@@ -149,49 +149,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
         </div>
 
-        <!-- ================= SEZIONE 4 (Dx) ================= -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
-          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
-            <div class="flex items-center space-x-2.5">
-              <span class="w-7 h-7 bg-emerald-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">4</span>
-              <h2 class="text-base font-bold text-gray-900">Bilanci Pro Loco</h2>
-            </div>
-            <a href="/info/bilancio" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /info/bilancio ↗</a>
-          </div>
-
-          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Bilancio - AAAA.pdf</code>. L'anno più recente diventa in automatico il <strong>"Bilancio Corrente"</strong> in alto su <code class="font-mono">/info/bilancio</code>, mentre gli anni più vecchi scivolano in basso tra i bilanci precedenti.
-          </p>
-
-          <form class="upload-form space-y-3" data-section="4">
-            <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (puoi selezionarne più di uno)</label>
-              <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
-            </div>
-
-            <!-- Contenitore dinamico singoli file selezionati -->
-            <div id="fileListContainer-sec4" class="space-y-3"></div>
-
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
-              <button type="submit" disabled class="submit-btn-sec4 w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
-                Carica File
-              </button>
-            </div>
-          </form>
-
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
-            <ul id="files-sec4" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
-              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- ================= SEZIONE 5 (Full width / Sx su 2-cols) ================= -->
+        <!-- ================= SEZIONE 4 (Full width / Sx su 2-cols) ================= -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5 lg:col-span-2">
           <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
             <div class="flex items-center space-x-2.5">
-              <span class="w-7 h-7 bg-purple-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">5</span>
+              <span class="w-7 h-7 bg-purple-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">4</span>
               <h2 class="text-base font-bold text-gray-900">Eventi nelle Frazioni</h2>
             </div>
             <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
@@ -201,17 +163,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             <strong>Formato:</strong> <code class="font-mono font-semibold">Luogo - GG-MM-AAAA - Titolo.jpg</code>. Mostrato automaticamente in ordine di data decrescente nella griglia eventi su <code class="font-mono">/programma</code>.
           </p>
 
-          <form class="upload-form space-y-3" data-section="5">
+          <form class="upload-form space-y-3" data-section="4">
             <div>
               <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagini (puoi selezionarne più di una)</label>
               <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <!-- Contenitore dinamico singoli file selezionati -->
-            <div id="fileListContainer-sec5" class="space-y-3"></div>
+            <div id="fileListContainer-sec4" class="space-y-3"></div>
 
             <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
-              <button type="submit" disabled class="submit-btn-sec5 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
+              <button type="submit" disabled class="submit-btn-sec4 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
                 Carica File
               </button>
             </div>
@@ -219,7 +181,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           <div class="mt-4 pt-3 border-t border-gray-100">
             <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
-            <ul id="files-sec5" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 text-xs font-mono text-gray-700">
+            <ul id="files-sec4" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 text-xs font-mono text-gray-700">
               <li class="italic text-gray-400 col-span-2">Caricamento...</li>
             </ul>
           </div>
@@ -232,12 +194,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 </DefaultLayout>
 
 <script>
-  // Patterns Regex per rilevamento e validazione automatica dei nomi file originali
+  // Patterns Regex per le 4 sezioni dinamiche del sito
   const SECTION_PATTERNS: Record<string, { regex: RegExp, expectedFormat: string }> = {
-    '2': { regex: /^Programma estivo \d{4}\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Programma estivo AAAA.ext' },
-    '3': { regex: /^\d{2}-\d{2}-\d{4} - .+\.(pdf|doc|docx)$/i, expectedFormat: 'GG-MM-AAAA - Titolo.pdf' },
-    '4': { regex: /^Bilancio - \d{4}\.(pdf|png|jpg|jpeg|webp)$/i, expectedFormat: 'Bilancio - AAAA.pdf' },
-    '5': { regex: /^.+ - \d{2}-\d{2}-\d{4} - .+\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Luogo - GG-MM-AAAA - Titolo.jpg' }
+    '1': { regex: /^Programma estivo \d{4}\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Programma estivo AAAA.ext' },
+    '2': { regex: /^\d{2}-\d{2}-\d{4} - .+\.(pdf|doc|docx)$/i, expectedFormat: 'GG-MM-AAAA - Titolo.pdf' },
+    '3': { regex: /^Bilancio - \d{4}\.(pdf|png|jpg|jpeg|webp)$/i, expectedFormat: 'Bilancio - AAAA.pdf' },
+    '4': { regex: /^.+ - \d{2}-\d{2}-\d{4} - .+\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Luogo - GG-MM-AAAA - Titolo.jpg' }
   };
 
   function formatDateDDMMYYYY(dateStr: string): string {
@@ -272,7 +234,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
   // Struttura dati in memoria per i file attualmente selezionati e i loro parametri individuali
   const selectedFilesMap: Record<string, { file: File, useOriginal: boolean, anno?: string, data?: string, titolo?: string, luogo?: string }[]> = {
-    '1': [], '2': [], '3': [], '4': [], '5': []
+    '1': [], '2': [], '3': [], '4': []
   };
 
   function renderFileListUI(section: string) {
@@ -282,7 +244,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     
     const list = selectedFilesMap[section] || [];
 
-    // Abilita/Disabilita pulsante Carica in base alla presenza di file selezionati
     if (submitBtn) {
       if (list.length === 0) {
         submitBtn.disabled = true;
@@ -310,16 +271,16 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
       let fieldsHtml = '';
       if (!item.useOriginal) {
-        if (section === '2') {
+        if (section === '1') {
           fieldsHtml = `
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
               <div>
-                <label class="block text-[10px] font-bold uppercase text-gray-500">Anno</label>
-                <input type="number" data-idx="${idx}" name="item-anno" value="${item.anno || ''}" min="1990" max="2050" placeholder="Es. 2025" class="w-full px-2 py-1 border border-gray-300 rounded text-xs outline-none" />
+                <label class="block text-[10px] font-bold uppercase text-gray-500">Anno Programma</label>
+                <input type="number" data-idx="${idx}" name="item-anno" value="${item.anno || ''}" min="1990" max="2050" placeholder="Es. 2026" class="w-full px-2 py-1 border border-gray-300 rounded text-xs outline-none" />
               </div>
             </div>
           `;
-        } else if (section === '3') {
+        } else if (section === '2') {
           fieldsHtml = `
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
               <div>
@@ -332,7 +293,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
           `;
-        } else if (section === '4') {
+        } else if (section === '3') {
           fieldsHtml = `
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
               <div>
@@ -341,7 +302,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
           `;
-        } else if (section === '5') {
+        } else if (section === '4') {
           fieldsHtml = `
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
               <div>
@@ -361,7 +322,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         }
       }
 
-      // Calcola nome target e verifica errori per questo singolo file
       const targetRes = calculateSingleFileTarget(section, item, idx);
 
       return `
@@ -371,14 +331,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             <span class="text-[10px] text-gray-500 font-mono flex-shrink-0 ml-2">${(f.size / 1024).toFixed(1)} KB</span>
           </div>
 
-          ${section !== '1' ? `
-            <div class="flex items-center gap-2">
-              <input type="checkbox" id="item-useOrig-${section}-${idx}" data-idx="${idx}" class="item-orig-checkbox w-3.5 h-3.5 text-blue-600 rounded border-gray-300 cursor-pointer" ${item.useOriginal ? 'checked' : ''} />
-              <label for="item-useOrig-${section}-${idx}" class="text-[11px] text-gray-700 font-medium cursor-pointer select-none">
-                Usa nome originale ${isAutoMatching ? '<span class="text-emerald-600 font-bold">(Rilevato corretto ✓)</span>' : ''}
-              </label>
-            </div>
-          ` : ''}
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="item-useOrig-${section}-${idx}" data-idx="${idx}" class="item-orig-checkbox w-3.5 h-3.5 text-blue-600 rounded border-gray-300 cursor-pointer" ${item.useOriginal ? 'checked' : ''} />
+            <label for="item-useOrig-${section}-${idx}" class="text-[11px] text-gray-700 font-medium cursor-pointer select-none">
+              Usa nome originale ${isAutoMatching ? '<span class="text-emerald-600 font-bold">(Rilevato corretto ✓)</span>' : ''}
+            </label>
+          </div>
 
           ${fieldsHtml}
 
@@ -391,7 +349,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       `;
     }).join('');
 
-    // Listener eventi sugli input dei singoli file
     container.querySelectorAll<HTMLInputElement>('.item-orig-checkbox').forEach(chk => {
       chk.addEventListener('change', (e) => {
         const idx = parseInt((e.target as HTMLElement).getAttribute('data-idx') || '0');
@@ -412,7 +369,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           if (name === 'item-data') item.data = inp.value;
           if (name === 'item-titolo') item.titolo = inp.value;
           if (name === 'item-luogo') item.luogo = inp.value;
-          // Aggiornamento reattivo senza ricreare il DOM per preservare il focus
+
           const parentCard = inp.closest('.p-3');
           if (parentCard) {
             const targetRes = calculateSingleFileTarget(section, item, idx);
@@ -435,15 +392,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     const ext = getExt(f);
     const pattern = SECTION_PATTERNS[section];
 
-    if (section === '1') {
-      const extension = ext || '.png';
-      const valid = ['.png', '.jpg', '.jpeg', '.webp'].includes(extension);
-      return {
-        filename: `Programma estivo corrente${extension}`,
-        error: valid ? undefined : 'Formato non valido per immagini. Usa PNG, JPG o WEBP.'
-      };
-    }
-
     if (item.useOriginal) {
       if (pattern && !pattern.regex.test(f.name)) {
         return {
@@ -454,16 +402,16 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return { filename: f.name };
     }
 
-    if (section === '2') {
+    if (section === '1') {
       const anno = item.anno?.trim() || '';
       if (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050) {
-        return { filename: '', error: 'Inserisci un anno valido a 4 cifre (es. 2025).' };
+        return { filename: '', error: 'Inserisci un anno valido a 4 cifre per il programma (es. 2026).' };
       }
       const extension = ext || '.png';
       return { filename: `Programma estivo ${anno}${extension}` };
     }
 
-    if (section === '3') {
+    if (section === '2') {
       const dateStr = formatDateDDMMYYYY(item.data?.trim() || '');
       const title = item.titolo?.trim() || '';
       const extension = ext || '.pdf';
@@ -478,7 +426,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return { filename: `${dateStr} - ${title}${extension}` };
     }
 
-    if (section === '4') {
+    if (section === '3') {
       const anno = item.anno?.trim() || '';
       if (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050) {
         return { filename: '', error: 'Inserisci un anno valido a 4 cifre (es. 2026).' };
@@ -487,7 +435,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return { filename: `Bilancio - ${anno}${extension}` };
     }
 
-    if (section === '5') {
+    if (section === '4') {
       const luogo = item.luogo?.trim() || '';
       const dateStr = formatDateDDMMYYYY(item.data?.trim() || '');
       const title = item.titolo?.trim() || '';
@@ -503,7 +451,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
   }
 
   function setupFileSelection() {
-    ['1', '2', '3', '4', '5'].forEach((section) => {
+    ['1', '2', '3', '4'].forEach((section) => {
       const form = document.querySelector(`.upload-form[data-section="${section}"]`) as HTMLFormElement;
       if (!form) return;
 
@@ -539,13 +487,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
       const prefixesMap: Record<string, string> = {
         '1': 'documents/Programmi estivi/',
-        '2': 'documents/Programmi estivi/',
-        '3': 'documents/proloco/',
-        '4': 'documents/Bilanci/',
-        '5': 'documents/Eventi Frazioni/'
+        '2': 'documents/proloco/',
+        '3': 'documents/Bilanci/',
+        '4': 'documents/Eventi Frazioni/'
       };
 
-      ['sec1', 'sec2', 'sec3', 'sec4', 'sec5'].forEach((secKey, idx) => {
+      ['sec1', 'sec2', 'sec3', 'sec4'].forEach((secKey, idx) => {
         const secNum = String(idx + 1);
         const ul = document.getElementById(`files-${secKey}`);
         if (!ul) return;
@@ -616,7 +563,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           return;
         }
 
-        // Calcola il plan per tutti i file selezionati
         const plan: { file: File, targetFilename: string, error?: string }[] = [];
         for (let i = 0; i < items.length; i++) {
           const res = calculateSingleFileTarget(section, items[i], i);
@@ -686,8 +632,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     setupForms();
     loadFileList();
 
-    // Inizializza lo stato disabilitato per tutti e 5 i pulsanti submit
-    ['1', '2', '3', '4', '5'].forEach(renderFileListUI);
+    ['1', '2', '3', '4'].forEach(renderFileListUI);
 
     const refreshBtn = document.getElementById('refreshFilesBtn');
     if (refreshBtn) {
