@@ -85,14 +85,22 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </p>
 
           <form class="upload-form space-y-3" data-section="2">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagine</label>
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+            </div>
+
+            <div class="flex items-center gap-2 bg-orange-50/50 p-2 rounded-lg border border-orange-100">
+              <input type="checkbox" name="useOriginal" id="useOrig-sec2" class="use-orig-checkbox w-4 h-4 text-orange-600 rounded border-gray-300 focus:ring-orange-500 cursor-pointer" />
+              <label for="useOrig-sec2" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
+                Usa il nome file originale (se è già rinominato correttamente)
+              </label>
+            </div>
+
+            <div id="fields-sec2" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Anno</label>
-                <input type="number" name="anno" min="1990" max="2050" placeholder="2025" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-orange-500" />
-              </div>
-              <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Immagine</label>
-                <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+                <input type="number" name="anno" min="1990" max="2050" placeholder="2025" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-orange-500" />
               </div>
             </div>
 
@@ -127,20 +135,27 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </p>
 
           <form class="upload-form space-y-3" data-section="3">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (PDF, DOC, DOCX)</label>
+              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+            </div>
+
+            <div class="flex items-center gap-2 bg-blue-50/50 p-2 rounded-lg border border-blue-100">
+              <input type="checkbox" name="useOriginal" id="useOrig-sec3" class="use-orig-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+              <label for="useOrig-sec3" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
+                Usa il nome file originale (se è già rinominato correttamente)
+              </label>
+            </div>
+
+            <div id="fields-sec3" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Data</label>
-                <input type="date" name="data" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" />
+                <input type="date" name="data" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
               <div class="sm:col-span-2">
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Titolo Documento</label>
-                <input type="text" name="titolo" placeholder="Es. Verbale Assemblea Soci" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" />
+                <input type="text" name="titolo" placeholder="Es. Verbale Assemblea Soci" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
-            </div>
-
-            <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">File (PDF, DOC, DOCX)</label>
-              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
@@ -174,14 +189,22 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </p>
 
           <form class="upload-form space-y-3" data-section="4">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (PDF, PNG, JPG)</label>
+              <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+            </div>
+
+            <div class="flex items-center gap-2 bg-emerald-50/50 p-2 rounded-lg border border-emerald-100">
+              <input type="checkbox" name="useOriginal" id="useOrig-sec4" class="use-orig-checkbox w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500 cursor-pointer" />
+              <label for="useOrig-sec4" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
+                Usa il nome file originale (se è già rinominato correttamente)
+              </label>
+            </div>
+
+            <div id="fields-sec4" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Anno Bilancio</label>
-                <input type="number" name="anno" min="1990" max="2050" placeholder="2026" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-emerald-500" />
-              </div>
-              <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">File (PDF, PNG, JPG)</label>
-                <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+                <input type="number" name="anno" min="1990" max="2050" placeholder="2026" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-emerald-500" />
               </div>
             </div>
 
@@ -216,24 +239,31 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </p>
 
           <form class="upload-form space-y-3" data-section="5">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagine (PNG, JPG, WEBP)</label>
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+            </div>
+
+            <div class="flex items-center gap-2 bg-purple-50/50 p-2 rounded-lg border border-purple-100">
+              <input type="checkbox" name="useOriginal" id="useOrig-sec5" class="use-orig-checkbox w-4 h-4 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer" />
+              <label for="useOrig-sec5" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
+                Usa il nome file originale (se è già rinominato correttamente)
+              </label>
+            </div>
+
+            <div id="fields-sec5" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Luogo</label>
-                <input type="text" name="luogo" placeholder="Es. Leonessa" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
+                <input type="text" name="luogo" placeholder="Es. Leonessa" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
               </div>
               <div>
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Data Evento</label>
-                <input type="date" name="data" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
+                <input type="date" name="data" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
               </div>
               <div>
                 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Nome Evento</label>
-                <input type="text" name="titolo" placeholder="Es. Programma Natalizio" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
+                <input type="text" name="titolo" placeholder="Es. Programma Natalizio" class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
               </div>
-            </div>
-
-            <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Immagine (PNG, JPG, WEBP)</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
@@ -259,6 +289,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 </DefaultLayout>
 
 <script>
+  // Patterns Regex per rilevamento e validazione automatica del nome file originale
+  const SECTION_PATTERNS: Record<string, { regex: RegExp, expectedFormat: string }> = {
+    '2': { regex: /^Programma estivo \d{4}\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Programma estivo AAAA.ext' },
+    '3': { regex: /^\d{2}-\d{2}-\d{4} - .+\.(pdf|doc|docx)$/i, expectedFormat: 'GG-MM-AAAA - Titolo.pdf' },
+    '4': { regex: /^Bilancio - \d{4}\.(pdf|png|jpg|jpeg|webp)$/i, expectedFormat: 'Bilancio - AAAA.pdf' },
+    '5': { regex: /^.+ - \d{2}-\d{2}-\d{4} - .+\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Luogo - GG-MM-AAAA - Titolo.jpg' }
+  };
+
   function formatDateDDMMYYYY(dateStr: string): string {
     if (!dateStr) return '';
     const parts = dateStr.split('-');
@@ -293,6 +331,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
     const file = fileInput?.files?.[0];
     const ext = getExt(file);
+    const useOriginalCheckbox = form.querySelector('input[name="useOriginal"]') as HTMLInputElement;
+    const isUseOriginal = useOriginalCheckbox?.checked;
 
     if (section === '1') {
       const extension = ext || '.png';
@@ -303,10 +343,23 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       };
     }
 
+    // Se l'utente ha spuntato "Usa nome file originale"
+    if (isUseOriginal && file) {
+      const originalName = file.name;
+      const pattern = SECTION_PATTERNS[section];
+      if (pattern && !pattern.regex.test(originalName)) {
+        return {
+          filename: originalName,
+          error: `Il nome file "${originalName}" non è conforme al formato richiesto (${pattern.expectedFormat}).`
+        };
+      }
+      return { filename: originalName };
+    }
+
     if (section === '2') {
       const annoInput = form.querySelector('input[name="anno"]') as HTMLInputElement;
       const anno = annoInput?.value?.trim() || '';
-      if (anno && (!/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050)) {
+      if (!isUseOriginal && (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050)) {
         return { filename: '', error: 'Inserisci un anno valido a 4 cifre (es. 2025).' };
       }
       const extension = ext || '.png';
@@ -323,6 +376,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const extension = ext || '.pdf';
       const valid = ['.pdf', '.doc', '.docx'].includes(extension);
       
+      if (!isUseOriginal && (!dateStr || !title)) {
+        return {
+          filename: `${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`,
+          error: !valid ? 'Per i Documenti Pro Loco sono ammessi solo file PDF, DOC o DOCX.' : 'Compila i campi Data e Titolo oppure spunta "Usa nome originale".'
+        };
+      }
       return {
         filename: `${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`,
         error: valid ? undefined : 'Per i Documenti Pro Loco sono ammessi solo file PDF, DOC o DOCX.'
@@ -332,7 +391,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     if (section === '4') {
       const annoInput = form.querySelector('input[name="anno"]') as HTMLInputElement;
       const anno = annoInput?.value?.trim() || '';
-      if (anno && (!/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050)) {
+      if (!isUseOriginal && (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050)) {
         return { filename: '', error: 'Inserisci un anno valido a 4 cifre per il bilancio (es. 2026).' };
       }
       const extension = ext || '.pdf';
@@ -350,6 +409,13 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const title = titleInput?.value?.trim() || '';
       const extension = ext || '.jpg';
 
+      if (!isUseOriginal && (!luogo || !dateStr || !title)) {
+        return {
+          filename: `${luogo || 'Luogo'} - ${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`,
+          error: 'Compila Luogo, Data e Titolo oppure spunta "Usa nome originale".'
+        };
+      }
+
       return {
         filename: `${luogo || 'Luogo'} - ${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`
       };
@@ -362,8 +428,23 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     document.querySelectorAll<HTMLFormElement>('.upload-form').forEach((form) => {
       const section = form.getAttribute('data-section') || '';
       const previewSpan = document.getElementById(`preview-sec${section}`);
-      
+      const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
+      const useOrigCheckbox = form.querySelector('input[name="useOriginal"]') as HTMLInputElement;
+      const fieldsContainer = document.getElementById(`fields-sec${section}`);
+
+      const toggleFields = () => {
+        if (fieldsContainer) {
+          if (useOrigCheckbox?.checked) {
+            fieldsContainer.classList.add('opacity-40', 'pointer-events-none');
+            fieldsContainer.querySelectorAll('input').forEach(i => i.removeAttribute('required'));
+          } else {
+            fieldsContainer.classList.remove('opacity-40', 'pointer-events-none');
+          }
+        }
+      };
+
       const update = () => {
+        toggleFields();
         if (previewSpan) {
           const res = getTargetFilename(form, section);
           if (res.error) {
@@ -375,6 +456,24 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           }
         }
       };
+
+      // Rilevamento automatico: se il file selezionato ha già il nome formattato correttamente, attiva la spunta!
+      if (fileInput) {
+        fileInput.addEventListener('change', () => {
+          const file = fileInput.files?.[0];
+          if (file && useOrigCheckbox && SECTION_PATTERNS[section]) {
+            const isMatchingPattern = SECTION_PATTERNS[section].regex.test(file.name);
+            if (isMatchingPattern) {
+              useOrigCheckbox.checked = true;
+            }
+          }
+          update();
+        });
+      }
+
+      if (useOrigCheckbox) {
+        useOrigCheckbox.addEventListener('change', update);
+      }
 
       form.querySelectorAll('input').forEach((input) => {
         input.addEventListener('input', update);
