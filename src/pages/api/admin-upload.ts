@@ -167,6 +167,20 @@ export const POST: APIRoute = async ({ request, locals }) => {
                 break
         }
 
+        // Per la Sezione 1 (Programma Estivo Attuale), rimuoviamo eventuali vecchie versioni (es. .png se ora carichiamo .jpg)
+        if (section === '1') {
+            try {
+                const oldList = await bucket.list({ prefix: 'documents/Programmi estivi/' })
+                if (oldList.objects) {
+                    for (const oldObj of oldList.objects) {
+                        if (oldObj.key.toLowerCase().includes('programma estivo corrente.')) {
+                            await bucket.delete(oldObj.key)
+                        }
+                    }
+                }
+            } catch {}
+        }
+
         const key = `${prefix}${targetFilename}`
         const buffer = await file.arrayBuffer()
         const contentType = getContentType(targetFilename, file.type)
