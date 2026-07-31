@@ -6,7 +6,13 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), sitemap()],
+  integrations: [
+    tailwind(),
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/admin'),
+    }),
+  ],
   site: 'https://piedelpoggio.org',
   output: 'server',
   trailingSlash: 'never',

@@ -8,12 +8,14 @@ export interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const {
   title = SITE_CONFIG.title,
   description = SITE_CONFIG.description,
   image = "/images/og-default.jpg",
+  noindex = false,
 } = Astro.props;
 
 const fullTitle =
@@ -72,7 +74,13 @@ const fullTitle =
     </script>
 
     <!-- Additional SEO meta tags -->
-    <meta name="robots" content="index, follow" />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+      ) : (
+        <meta name="robots" content="index, follow" />
+      )
+    }
     <meta name="author" content="Piedelpoggio" />
     <meta
       name="keywords"
