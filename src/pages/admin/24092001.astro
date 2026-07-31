@@ -46,7 +46,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> Salva come <code class="font-mono font-semibold">Programma estivo corrente.png</code> (o .jpg/.webp). Sostituisce la locandina principale.
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo corrente.png</code>. Sostituisce la locandina in primo piano in alto su <code class="font-mono">/programma</code>.
           </p>
 
           <form class="upload-form space-y-3" data-section="1">
@@ -81,7 +81,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo AAAA.ext</code> (Es. <code class="font-mono">Programma estivo 2025.png</code>)
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo AAAA.ext</code> (Es. <code class="font-mono">Programma estivo 2025.png</code>). Finisce nell'archivio storico di <code class="font-mono">/programma</code>.
           </p>
 
           <form class="upload-form space-y-3" data-section="2">
@@ -123,7 +123,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">GG-MM-AAAA - Titolo.pdf</code> (Es. <code class="font-mono">15-08-2026 - Verbale.pdf</code>)
+            <strong>Formato:</strong> <code class="font-mono font-semibold">GG-MM-AAAA - Titolo.pdf</code>. Ordinati automaticamente dal più recente al più vecchio su <code class="font-mono">/info/documenti-pro-loco</code>.
           </p>
 
           <form class="upload-form space-y-3" data-section="3">
@@ -170,7 +170,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Bilancio - AAAA.pdf</code> (Es. <code class="font-mono">Bilancio - 2026.pdf</code>)
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Bilancio - AAAA.pdf</code>. L'anno più recente diventa in automatico il <strong>"Bilancio Corrente"</strong> in alto su <code class="font-mono">/info/bilancio</code>, mentre gli anni più vecchi scivolano in basso tra i bilanci precedenti.
           </p>
 
           <form class="upload-form space-y-3" data-section="4">
@@ -212,7 +212,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
 
           <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Luogo - GG-MM-AAAA - Titolo.jpg</code> (Es. <code class="font-mono">Leonessa - 07-12-2025 - Festa.jpg</code>)
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Luogo - GG-MM-AAAA - Titolo.jpg</code>. Mostrato automaticamente in ordine di data decrescente nella griglia eventi su <code class="font-mono">/programma</code>.
           </p>
 
           <form class="upload-form space-y-3" data-section="5">
@@ -410,14 +410,23 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
         const prefix = prefixesMap[secNum];
         ul.innerHTML = files
-          .map((f) => `
-            <li class="flex items-center justify-between p-1.5 bg-gray-50 hover:bg-gray-100 rounded border border-gray-200 gap-1.5">
-              <span class="truncate font-mono text-[11px] text-gray-700" title="${f}">${f}</span>
-              <button type="button" class="delete-btn text-red-600 hover:text-red-800 text-[10px] font-bold uppercase px-1.5 py-0.5 bg-red-100 hover:bg-red-200 rounded transition-colors flex-shrink-0" data-key="${prefix}${f}">
-                Elimina
-              </button>
-            </li>
-          `)
+          .map((f) => {
+            const fullKey = `${prefix}${f}`;
+            const fileUrl = `/${fullKey.split('/').map(encodeURIComponent).join('/')}`;
+            return `
+              <li class="flex items-center justify-between p-1.5 bg-gray-50 hover:bg-gray-100 rounded border border-gray-200 gap-1.5">
+                <span class="truncate font-mono text-[11px] text-gray-700" title="${f}">${f}</span>
+                <div class="flex items-center gap-1 flex-shrink-0">
+                  <a href="${fileUrl}" target="_blank" class="text-blue-600 hover:text-blue-800 text-[10px] font-bold uppercase px-1.5 py-0.5 bg-blue-50 hover:bg-blue-100 rounded transition-colors flex items-center gap-0.5">
+                    Apri ↗
+                  </a>
+                  <button type="button" class="delete-btn text-red-600 hover:text-red-800 text-[10px] font-bold uppercase px-1.5 py-0.5 bg-red-100 hover:bg-red-200 rounded transition-colors" data-key="${fullKey}">
+                    Elimina
+                  </button>
+                </div>
+              </li>
+            `;
+          })
           .join('');
       });
 
