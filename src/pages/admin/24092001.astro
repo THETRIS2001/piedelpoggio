@@ -5,288 +5,248 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
 <DefaultLayout
   title="Gestione Upload Documenti - Piedelpoggio"
-  description="Pannello riservato per il caricamento dei documenti e delle locandine su Cloudflare R2"
+  description="Pannello per il caricamento dei documenti e delle locandine su Cloudflare R2"
 >
-  <main class="bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200 min-h-screen py-6 sm:py-10 px-3 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+  <main class="bg-slate-100 min-h-screen py-6 px-3 sm:px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto space-y-5">
       
-      <!-- Header Banner -->
-      <div class="bg-white rounded-2xl p-5 sm:p-8 shadow-xl border border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
+      <!-- Header Banner Compatto -->
+      <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div class="flex flex-wrap items-center gap-2 mb-2">
-            <span class="bg-blue-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Pannello Amministrativo</span>
-            <span class="text-xs text-gray-500 font-mono bg-gray-100 px-2 py-0.5 rounded">iPhone OK 📱</span>
-          </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Caricamento Documenti R2</h1>
-          <p class="text-gray-600 text-xs sm:text-sm mt-1">Carica e gestisci i file ufficiali per le 5 sezioni del sito direttamente dal PC o da iPhone.</p>
+          <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900">Gestione Documenti R2</h1>
+          <p class="text-xs text-gray-500 mt-0.5">Carica e gestisci i file ufficiali per le sezioni del sito.</p>
         </div>
         <button
           id="refreshFilesBtn"
           type="button"
-          class="w-full md:w-auto inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 active:scale-95 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl shadow transition-all"
+          class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-900 active:scale-95 text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow transition-all"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          Aggiorna Elenco File
+          Aggiorna Elenco
         </button>
       </div>
 
-      <!-- Feedback Banner / Alert Toast -->
-      <div id="statusAlert" class="hidden p-4 rounded-2xl shadow-lg border font-medium text-xs sm:text-sm transition-all duration-300"></div>
+      <!-- Feedback Alert -->
+      <div id="statusAlert" class="hidden p-3.5 rounded-xl shadow border font-medium text-xs transition-all duration-300"></div>
 
       <!-- GRID SEZIONI (1 to 5) -->
-      <div class="space-y-6 sm:space-y-8">
+      <div class="space-y-5">
 
         <!-- ================= SEZIONE 1 ================= -->
-        <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 sm:p-8">
-          <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-5">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-              <span class="w-9 h-9 sm:w-10 sm:h-10 bg-red-600 text-white rounded-xl font-bold flex items-center justify-center text-base sm:text-lg shadow-md flex-shrink-0">1</span>
-              <div>
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900">Programma Estivo Attuale</h2>
-                <p class="text-[11px] sm:text-xs text-gray-500">Percorso R2: <code class="bg-gray-100 px-1 py-0.5 rounded text-red-600 font-mono">documents/Programmi estivi/</code></p>
-              </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+            <div class="flex items-center space-x-2.5">
+              <span class="w-7 h-7 bg-red-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">1</span>
+              <h2 class="text-base font-bold text-gray-900">Programma Estivo Attuale</h2>
             </div>
-            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium flex-shrink-0">
-              Vedi /programma ↗
-            </a>
+            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
           </div>
 
-          <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 sm:p-4 rounded-r-xl text-xs text-amber-900 space-y-1 mb-5">
-            <p class="font-bold">ℹ️ Istruzioni e Formato:</p>
-            <p>Salvataggio automatico come: <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Programma estivo corrente.png</code> (o .jpg/.webp)</p>
-            <p class="text-amber-800">Sostituisce la locandina principale visibile in alto nella pagina Programma.</p>
-          </div>
+          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
+            <strong>Formato:</strong> Salva come <code class="font-mono font-semibold">Programma estivo corrente.png</code> (o .jpg/.webp). Sostituisce la locandina principale.
+          </p>
 
-          <form class="upload-form space-y-4" data-section="1">
+          <form class="upload-form space-y-3" data-section="1">
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Seleziona Locandina (PNG, JPG, WEBP)</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 border border-gray-200 rounded-xl bg-gray-50 p-1.5" />
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
-            <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <span class="text-xs text-gray-600">Nome finale su R2: <strong class="font-mono text-red-700 font-bold break-all block sm:inline" id="preview-sec1">Programma estivo corrente.[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 active:scale-95 text-white text-xs font-bold px-5 py-3 rounded-xl shadow transition-all flex-shrink-0">
-                Carica Programma Attuale
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+              <span class="text-gray-600">Nome finale: <strong class="font-mono text-red-700 font-bold break-all" id="preview-sec1">Programma estivo corrente.[ext]</strong></span>
+              <button type="submit" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+                Carica
               </button>
             </div>
           </form>
 
-          <div class="mt-5 pt-4 border-t border-gray-100">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">File Attualmente su R2:</h4>
-            <ul id="files-sec1" class="text-xs font-mono space-y-1.5 text-gray-600">
-              <li class="italic text-gray-400">Caricamento in corso...</li>
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
+            <ul id="files-sec1" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
+              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
             </ul>
           </div>
         </div>
 
         <!-- ================= SEZIONE 2 ================= -->
-        <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 sm:p-8">
-          <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-5">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-              <span class="w-9 h-9 sm:w-10 sm:h-10 bg-orange-600 text-white rounded-xl font-bold flex items-center justify-center text-base sm:text-lg shadow-md flex-shrink-0">2</span>
-              <div>
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900">Programmi Estivi Precedenti</h2>
-                <p class="text-[11px] sm:text-xs text-gray-500">Percorso R2: <code class="bg-gray-100 px-1 py-0.5 rounded text-orange-600 font-mono">documents/Programmi estivi/</code></p>
-              </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+            <div class="flex items-center space-x-2.5">
+              <span class="w-7 h-7 bg-orange-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">2</span>
+              <h2 class="text-base font-bold text-gray-900">Programmi Estivi Precedenti</h2>
             </div>
-            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium flex-shrink-0">
-              Vedi /programma ↗
-            </a>
+            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
           </div>
 
-          <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 sm:p-4 rounded-r-xl text-xs text-amber-900 space-y-1 mb-5">
-            <p class="font-bold">ℹ️ Formato Nome File Obbligatorio:</p>
-            <p><code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Programma estivo AAAA.ext</code></p>
-            <p class="text-amber-800">Esempio valido: <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Programma estivo 2025.png</code></p>
-          </div>
+          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Programma estivo AAAA.ext</code> (Es. <code class="font-mono">Programma estivo 2025.png</code>)
+          </p>
 
-          <form class="upload-form space-y-4" data-section="2">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <form class="upload-form space-y-3" data-section="2">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Anno (es. 2025)</label>
-                <input type="number" name="anno" min="1990" max="2050" placeholder="2025" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Anno</label>
+                <input type="number" name="anno" min="1990" max="2050" placeholder="2025" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-orange-500" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Seleziona Immagine (PNG, JPG, WEBP)</label>
-                <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-xl bg-gray-50 p-1.5" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Immagine</label>
+                <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
               </div>
             </div>
 
-            <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <span class="text-xs text-gray-600">Nome generato: <strong id="preview-sec2" class="font-mono text-orange-700 font-bold break-all block sm:inline">Programma estivo [Anno].[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 active:scale-95 text-white text-xs font-bold px-5 py-3 rounded-xl shadow transition-all flex-shrink-0">
-                Carica Programma Precedente
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+              <span class="text-gray-600">Nome finale: <strong id="preview-sec2" class="font-mono text-orange-700 font-bold break-all">Programma estivo [Anno].[ext]</strong></span>
+              <button type="submit" class="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+                Carica
               </button>
             </div>
           </form>
 
-          <div class="mt-5 pt-4 border-t border-gray-100">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">File Attualmente su R2:</h4>
-            <ul id="files-sec2" class="text-xs font-mono space-y-1.5 text-gray-600">
-              <li class="italic text-gray-400">Caricamento in corso...</li>
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
+            <ul id="files-sec2" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
+              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
             </ul>
           </div>
         </div>
 
         <!-- ================= SEZIONE 3 ================= -->
-        <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 sm:p-8">
-          <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-5">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-              <span class="w-9 h-9 sm:w-10 sm:h-10 bg-blue-600 text-white rounded-xl font-bold flex items-center justify-center text-base sm:text-lg shadow-md flex-shrink-0">3</span>
-              <div>
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900">Documenti Pro Loco</h2>
-                <p class="text-[11px] sm:text-xs text-gray-500">Percorso R2: <code class="bg-gray-100 px-1 py-0.5 rounded text-blue-600 font-mono">documents/proloco/</code></p>
-              </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+            <div class="flex items-center space-x-2.5">
+              <span class="w-7 h-7 bg-blue-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">3</span>
+              <h2 class="text-base font-bold text-gray-900">Documenti Pro Loco</h2>
             </div>
-            <a href="/info/documenti-pro-loco" target="_blank" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium flex-shrink-0">
-              Vedi /info/documenti-pro-loco ↗
-            </a>
+            <a href="/info/documenti-pro-loco" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /info/documenti-pro-loco ↗</a>
           </div>
 
-          <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 sm:p-4 rounded-r-xl text-xs text-amber-900 space-y-1 mb-5">
-            <p class="font-bold">ℹ️ Formato Nome File Obbligatorio:</p>
-            <p><code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">GG-MM-AAAA - Titolo.pdf</code></p>
-            <p class="text-amber-800">Esempio valido: <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">15-08-2026 - Verbale Assemblea.pdf</code></p>
-          </div>
+          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
+            <strong>Formato:</strong> <code class="font-mono font-semibold">GG-MM-AAAA - Titolo.pdf</code> (Es. <code class="font-mono">15-08-2026 - Verbale.pdf</code>)
+          </p>
 
-          <form class="upload-form space-y-4" data-section="3">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <form class="upload-form space-y-3" data-section="3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Data Documento</label>
-                <input type="date" name="data" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Data</label>
+                <input type="date" name="data" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Titolo Documento</label>
-                <input type="text" name="titolo" placeholder="Es. Verbale Assemblea Soci" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Titolo Documento</label>
+                <input type="text" name="titolo" placeholder="Es. Verbale Assemblea Soci" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-blue-500" />
               </div>
             </div>
 
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Seleziona File (PDF, DOC, DOCX)</label>
-              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required class="w-full text-xs text-gray-600 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-xl bg-gray-50 p-1.5" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">File (PDF, DOC, DOCX)</label>
+              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
-            <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <span class="text-xs text-gray-600">Nome generato: <strong id="preview-sec3" class="font-mono text-blue-700 font-bold break-all block sm:inline">GG-MM-AAAA - Titolo.[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold px-5 py-3 rounded-xl shadow transition-all flex-shrink-0">
-                Carica Documento Pro Loco
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+              <span class="text-gray-600">Nome finale: <strong id="preview-sec3" class="font-mono text-blue-700 font-bold break-all">GG-MM-AAAA - Titolo.[ext]</strong></span>
+              <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+                Carica
               </button>
             </div>
           </form>
 
-          <div class="mt-5 pt-4 border-t border-gray-100">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">File Attualmente su R2:</h4>
-            <ul id="files-sec3" class="text-xs font-mono space-y-1.5 text-gray-600">
-              <li class="italic text-gray-400">Caricamento in corso...</li>
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
+            <ul id="files-sec3" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
+              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
             </ul>
           </div>
         </div>
 
         <!-- ================= SEZIONE 4 ================= -->
-        <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 sm:p-8">
-          <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-5">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-              <span class="w-9 h-9 sm:w-10 sm:h-10 bg-emerald-600 text-white rounded-xl font-bold flex items-center justify-center text-base sm:text-lg shadow-md flex-shrink-0">4</span>
-              <div>
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900">Bilanci Pro Loco</h2>
-                <p class="text-[11px] sm:text-xs text-gray-500">Percorso R2: <code class="bg-gray-100 px-1 py-0.5 rounded text-emerald-600 font-mono">documents/Bilanci/</code></p>
-              </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+            <div class="flex items-center space-x-2.5">
+              <span class="w-7 h-7 bg-emerald-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">4</span>
+              <h2 class="text-base font-bold text-gray-900">Bilanci Pro Loco</h2>
             </div>
-            <a href="/info/bilancio" target="_blank" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium flex-shrink-0">
-              Vedi /info/bilancio ↗
-            </a>
+            <a href="/info/bilancio" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /info/bilancio ↗</a>
           </div>
 
-          <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 sm:p-4 rounded-r-xl text-xs text-amber-900 space-y-1 mb-5">
-            <p class="font-bold">ℹ️ Formato Nome File Obbligatorio:</p>
-            <p><code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Bilancio - AAAA.pdf</code></p>
-            <p class="text-amber-800">Esempio valido: <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Bilancio - 2026.pdf</code></p>
-          </div>
+          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Bilancio - AAAA.pdf</code> (Es. <code class="font-mono">Bilancio - 2026.pdf</code>)
+          </p>
 
-          <form class="upload-form space-y-4" data-section="4">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <form class="upload-form space-y-3" data-section="4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Anno del Bilancio</label>
-                <input type="number" name="anno" min="1990" max="2050" placeholder="2026" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Anno Bilancio</label>
+                <input type="number" name="anno" min="1990" max="2050" placeholder="2026" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-emerald-500" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Seleziona File (PDF, PNG, JPG)</label>
-                <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" required class="w-full text-xs text-gray-600 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-xl bg-gray-50 p-1.5" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">File (PDF, PNG, JPG)</label>
+                <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
               </div>
             </div>
 
-            <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <span class="text-xs text-gray-600">Nome generato: <strong id="preview-sec4" class="font-mono text-emerald-700 font-bold break-all block sm:inline">Bilancio - [Anno].[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-bold px-5 py-3 rounded-xl shadow transition-all flex-shrink-0">
-                Carica Bilancio
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+              <span class="text-gray-600">Nome finale: <strong id="preview-sec4" class="font-mono text-emerald-700 font-bold break-all">Bilancio - [Anno].[ext]</strong></span>
+              <button type="submit" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+                Carica
               </button>
             </div>
           </form>
 
-          <div class="mt-5 pt-4 border-t border-gray-100">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">File Attualmente su R2:</h4>
-            <ul id="files-sec4" class="text-xs font-mono space-y-1.5 text-gray-600">
-              <li class="italic text-gray-400">Caricamento in corso...</li>
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
+            <ul id="files-sec4" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
+              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
             </ul>
           </div>
         </div>
 
         <!-- ================= SEZIONE 5 ================= -->
-        <div class="bg-white rounded-2xl shadow-md border border-gray-200 p-5 sm:p-8">
-          <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-5">
-            <div class="flex items-center space-x-3 sm:space-x-4">
-              <span class="w-9 h-9 sm:w-10 sm:h-10 bg-purple-600 text-white rounded-xl font-bold flex items-center justify-center text-base sm:text-lg shadow-md flex-shrink-0">5</span>
-              <div>
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900">Eventi nelle Frazioni</h2>
-                <p class="text-[11px] sm:text-xs text-gray-500">Percorso R2: <code class="bg-gray-100 px-1 py-0.5 rounded text-purple-600 font-mono">documents/Eventi Frazioni/</code></p>
-              </div>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+            <div class="flex items-center space-x-2.5">
+              <span class="w-7 h-7 bg-purple-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">5</span>
+              <h2 class="text-base font-bold text-gray-900">Eventi nelle Frazioni</h2>
             </div>
-            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium flex-shrink-0">
-              Vedi /programma ↗
-            </a>
+            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
           </div>
 
-          <div class="bg-amber-50 border-l-4 border-amber-500 p-3.5 sm:p-4 rounded-r-xl text-xs text-amber-900 space-y-1 mb-5">
-            <p class="font-bold">ℹ️ Formato Nome File Obbligatorio:</p>
-            <p><code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Luogo - GG-MM-AAAA - Titolo.jpg</code></p>
-            <p class="text-amber-800">Esempio valido: <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-amber-300">Leonessa - 07-12-2025 - Programma Natalizio.jpg</code></p>
-          </div>
+          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
+            <strong>Formato:</strong> <code class="font-mono font-semibold">Luogo - GG-MM-AAAA - Titolo.jpg</code> (Es. <code class="font-mono">Leonessa - 07-12-2025 - Festa.jpg</code>)
+          </p>
 
-          <form class="upload-form space-y-4" data-section="5">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <form class="upload-form space-y-3" data-section="5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Luogo / Frazione</label>
-                <input type="text" name="luogo" placeholder="Es. Leonessa" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Luogo</label>
+                <input type="text" name="luogo" placeholder="Es. Leonessa" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
               </div>
               <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Data Evento</label>
-                <input type="date" name="data" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Data Evento</label>
+                <input type="date" name="data" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
               </div>
               <div>
-                <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Nome Evento</label>
-                <input type="text" name="titolo" placeholder="Es. Programma Natalizio" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Nome Evento</label>
+                <input type="text" name="titolo" placeholder="Es. Programma Natalizio" required class="w-full px-2.5 py-1.5 border border-gray-300 rounded-lg text-xs outline-none focus:ring-1 focus:ring-purple-500" />
               </div>
             </div>
 
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Seleziona Immagine (PNG, JPG, WEBP)</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-xl bg-gray-50 p-1.5" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Immagine (PNG, JPG, WEBP)</label>
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
-            <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <span class="text-xs text-gray-600">Nome generato: <strong id="preview-sec5" class="font-mono text-purple-700 font-bold break-all block sm:inline">Luogo - GG-MM-AAAA - Titolo.[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 active:scale-95 text-white text-xs font-bold px-5 py-3 rounded-xl shadow transition-all flex-shrink-0">
-                Carica Evento Frazione
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
+              <span class="text-gray-600">Nome finale: <strong id="preview-sec5" class="font-mono text-purple-700 font-bold break-all">Luogo - GG-MM-AAAA - Titolo.[ext]</strong></span>
+              <button type="submit" class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+                Carica
               </button>
             </div>
           </form>
 
-          <div class="mt-5 pt-4 border-t border-gray-100">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">File Attualmente su R2:</h4>
-            <ul id="files-sec5" class="text-xs font-mono space-y-1.5 text-gray-600">
-              <li class="italic text-gray-400">Caricamento in corso...</li>
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
+            <ul id="files-sec5" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
+              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
             </ul>
           </div>
         </div>
@@ -298,7 +258,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 </DefaultLayout>
 
 <script>
-  // Helper data DD-MM-YYYY
   function formatDateDDMMYYYY(dateStr: string): string {
     if (!dateStr) return '';
     const parts = dateStr.split('-');
@@ -306,14 +265,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     return `${parts[2]}-${parts[1]}-${parts[0]}`;
   }
 
-  // Estensione del file con fallback iOS/iPhone
   function getExt(file?: File | null): string {
     if (!file) return '';
     const name = file.name || '';
     const idx = name.lastIndexOf('.');
     if (idx >= 0) return name.slice(idx).toLowerCase();
     
-    // Fallback se il nome del file su iPhone Safari manca di estensione
     if (file.type?.includes('pdf')) return '.pdf';
     if (file.type?.includes('png')) return '.png';
     if (file.type?.includes('jpeg') || file.type?.includes('jpg')) return '.jpg';
@@ -321,18 +278,16 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     return '';
   }
 
-  // Mostra messaggio di stato (alert)
   function showStatus(msg: string, isError = false) {
     const box = document.getElementById('statusAlert');
     if (!box) return;
     box.innerHTML = msg.replace(/\n/g, '<br/>');
     box.className = isError
-      ? 'p-4 rounded-2xl shadow-lg border font-medium text-xs sm:text-sm bg-red-50 border-red-300 text-red-900 block mb-6 animate-fade-in'
-      : 'p-4 rounded-2xl shadow-lg border font-medium text-xs sm:text-sm bg-emerald-50 border-emerald-300 text-emerald-900 block mb-6 animate-fade-in';
+      ? 'p-3.5 rounded-xl shadow border font-medium text-xs bg-red-50 border-red-300 text-red-900 block mb-5 animate-fade-in'
+      : 'p-3.5 rounded-xl shadow border font-medium text-xs bg-emerald-50 border-emerald-300 text-emerald-900 block mb-5 animate-fade-in';
     box.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // Genera e valida il nome del file per ciascuna sezione
   function getTargetFilename(form: HTMLFormElement, section: string): { filename: string, error?: string } {
     const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
     const file = fileInput?.files?.[0];
@@ -402,7 +357,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     return { filename: file ? file.name : '' };
   }
 
-  // Aggiorna l'anteprima live
   function setupPreviews() {
     document.querySelectorAll<HTMLFormElement>('.upload-form').forEach((form) => {
       const section = form.getAttribute('data-section') || '';
@@ -413,10 +367,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           const res = getTargetFilename(form, section);
           if (res.error) {
             previewSpan.textContent = `❌ ${res.error}`;
-            previewSpan.className = 'font-mono text-red-600 font-bold break-all block sm:inline';
+            previewSpan.className = 'font-mono text-red-600 font-bold break-all';
           } else {
             previewSpan.textContent = res.filename;
-            previewSpan.className = 'font-mono text-blue-700 font-bold break-all block sm:inline';
+            previewSpan.className = 'font-mono text-blue-700 font-bold break-all';
           }
         }
       };
@@ -428,7 +382,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     });
   }
 
-  // Carica l'elenco dei file presenti su R2
   async function loadFileList() {
     try {
       const res = await fetch('/api/admin-upload');
@@ -450,16 +403,16 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
         const files: string[] = data[secKey] || [];
         if (files.length === 0) {
-          ul.innerHTML = '<li class="text-gray-400 italic">Nessun file presente su R2</li>';
+          ul.innerHTML = '<li class="text-gray-400 italic col-span-2">Nessun file su R2</li>';
           return;
         }
 
         const prefix = prefixesMap[secNum];
         ul.innerHTML = files
           .map((f) => `
-            <li class="flex items-center justify-between py-1.5 px-2.5 hover:bg-gray-50 rounded-lg border border-gray-100 group gap-2">
-              <span class="truncate font-mono text-[11px] sm:text-xs text-gray-700">${f}</span>
-              <button type="button" class="delete-btn text-red-600 hover:text-red-800 text-[10px] font-bold uppercase px-2 py-1 bg-red-50 hover:bg-red-100 rounded-md transition-colors flex-shrink-0" data-key="${prefix}${f}">
+            <li class="flex items-center justify-between p-1.5 bg-gray-50 hover:bg-gray-100 rounded border border-gray-200 gap-1.5">
+              <span class="truncate font-mono text-[11px] text-gray-700" title="${f}">${f}</span>
+              <button type="button" class="delete-btn text-red-600 hover:text-red-800 text-[10px] font-bold uppercase px-1.5 py-0.5 bg-red-100 hover:bg-red-200 rounded transition-colors flex-shrink-0" data-key="${prefix}${f}">
                 Elimina
               </button>
             </li>
@@ -467,35 +420,32 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           .join('');
       });
 
-      // Handlers eliminazione
       document.querySelectorAll<HTMLButtonElement>('.delete-btn').forEach((btn) => {
         btn.addEventListener('click', async () => {
           const key = btn.getAttribute('data-key');
-          if (!key || !confirm(`Confermi di voler eliminare definitivamente da R2 il file:\n\n${key}?`)) return;
+          if (!key || !confirm(`Eliminare definitivamente da R2 il file:\n${key}?`)) return;
 
           try {
-            showStatus('Eliminazione in corso su R2...');
+            showStatus('Eliminazione in corso...');
             const delRes = await fetch(`/api/admin-upload?key=${encodeURIComponent(key)}`, {
               method: 'DELETE'
             });
             const delData = await delRes.json();
             if (delRes.ok && delData.success) {
-              showStatus(`✓ File eliminato con successo dallo storage R2: "${key}"`);
+              showStatus(`✓ File eliminato da R2: "${key}"`);
               loadFileList();
             } else {
-              showStatus(`❌ Impossibile eliminare: ${delData.error || 'Errore durante l\'eliminazione'}`, true);
+              showStatus(`❌ Errore eliminazione: ${delData.error || 'Fallito'}`, true);
             }
           } catch (err: any) {
-            showStatus(`❌ Errore di rete durante l'eliminazione: ${err.message}`, true);
+            showStatus(`❌ Errore: ${err.message}`, true);
           }
         });
       });
     } catch {
-      // Ignora errori lettura
     }
   }
 
-  // Invia il Form
   function setupForms() {
     document.querySelectorAll<HTMLFormElement>('.upload-form').forEach((form) => {
       form.addEventListener('submit', async (e) => {
@@ -505,7 +455,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         const file = fileInput?.files?.[0];
 
         if (!file) {
-          showStatus('⚠️ Errore: Seleziona prima un file da caricare.', true);
+          showStatus('Seleziona prima un file da caricare.', true);
           return;
         }
 
@@ -519,10 +469,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
         const originalBtnText = submitBtn.textContent || '';
         submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Caricamento in corso...';
+        submitBtn.textContent = 'Caricamento...';
 
         try {
-          showStatus('⏳ Invio del file a Cloudflare R2 in corso...');
+          showStatus('Caricamento su Cloudflare R2...');
 
           const fd = new FormData();
           fd.append('section', section);
@@ -538,16 +488,16 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           if (res.ok && data.success) {
             const sizeKB = (data.size / 1024).toFixed(1);
-            showStatus(`🎉 UPLOAD COMPLETATO E VERIFICATO!\n\n• Nome File: ${data.filename}\n• Dimensione: ${sizeKB} KB\n• Percorso R2: ${data.key}\n\nIl file è ora visibile e scaricabile online sul sito!`);
+            showStatus(`✓ CARICATO CON SUCCESSO SU R2!\nFile: ${data.filename} (${sizeKB} KB)`);
             form.reset();
             const previewSpan = document.getElementById(`preview-sec${section}`);
             if (previewSpan) previewSpan.textContent = '';
             loadFileList();
           } else {
-            showStatus(`❌ UPLOAD FALLITO:\n${data.error || 'Errore sconosciuto durante il caricamento.'}`, true);
+            showStatus(`❌ Errore caricamento: ${data.error || 'Fallito'}`, true);
           }
         } catch (err: any) {
-          showStatus(`❌ ERRORE CONNESSIO NE O IPHONE:\n${err.message || 'Controlla la connessione internet e riprova.'}`, true);
+          showStatus(`❌ Errore di rete: ${err.message}`, true);
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = originalBtnText;
@@ -565,7 +515,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     if (refreshBtn) {
       refreshBtn.addEventListener('click', () => {
         loadFileList();
-        showStatus('✓ Elenco file R2 aggiornato con successo.');
+        showStatus('Elenco file aggiornato.');
       });
     }
   });
