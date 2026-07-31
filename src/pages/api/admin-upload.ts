@@ -60,7 +60,7 @@ const FILENAME_PATTERNS: Record<string, { regex: RegExp, allowedExts: string[], 
     }
 }
 
-// GET: Elenco dei file presenti in R2 per tutte le sezioni
+// GET: Elenco flessibile (case-insensitive) dei file presenti in R2 per tutte le sezioni
 export const GET: APIRoute = async ({ locals }) => {
     const bucket = getBucket(locals)
     if (!bucket) {
@@ -68,25 +68,31 @@ export const GET: APIRoute = async ({ locals }) => {
     }
 
     try {
-        const listAll = async (prefix: string) => {
-            let cursor: string | undefined
-            const objects: any[] = []
-            do {
-                const res = await bucket.list({ prefix, cursor })
-                if (res.objects) objects.push(...res.objects)
-                cursor = res.truncated ? res.cursor : undefined
-            } while (cursor)
-            return objects
-                .map((o: any) => o.key.slice(prefix.length))
-                .filter((name: string) => name && !name.includes('/'))
+        let cursor: string | undefined
+        const allObjects: any[] = []
+        do {
+            const res = await bucket.list({ prefix: 'documents/', cursor })
+            if (res.objects) allObjects.push(...res.objects)
+            cursor = res.truncated ? res.cursor : undefined
+        } while (cursor)
+
+        const getFilesForCategory = (folderNameLower: string) => {
+            return allObjects
+                .map((o: any) => o.key as string)
+                .filter((key) => key.toLowerCase().includes(`documents/${folderNameLower}/`))
+                .map((key) => {
+                    const idx = key.toLowerCase().indexOf(`documents/${folderNameLower}/`)
+                    return key.slice(idx + `documents/${folderNameLower}/`.length)
+                })
+                .filter((filename) => filename && !filename.includes('/'))
         }
 
         const data = {
-            sec1: await listAll('documents/Programmi estivi/'),
-            sec2: await listAll('documents/Programmi estivi/'),
-            sec3: await listAll('documents/proloco/'),
-            sec4: await listAll('documents/Bilanci/'),
-            sec5: await listAll('documents/Eventi Frazioni/'),
+            sec1: getFilesForCategory('programmi estivi').filter((f) => f.toLowerCase().includes('corrente')),
+            sec2: getFilesForCategory('programmi estivi').filter((f) => !f.toLowerCase().includes('corrente')),
+            sec3: getFilesForCategory('proloco'),
+            sec4: getFilesForCategory('bilanci'),
+            sec5: getFilesForCategory('eventi frazioni'),
         }
 
         return new Response(JSON.stringify(data), {
@@ -115,7 +121,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
             return new Response(JSON.stringify({ error: 'Parametri mancanti: caricamento non valido.' }), { status: 400 })
         }
 
-        // Gestione compatibilità iOS / Safari iPhone: se manca l'estensione nel nome generato ma c'è nel file originale o nel type
         let ext = getExt(targetFilename)
         if (!ext) {
             ext = getExt(file.name)
@@ -128,27 +133,23 @@ export const POST: APIRoute = async ({ request, locals }) => {
             if (ext) targetFilename += ext
         }
 
-        // 1. Convalida Sezione e Pattern Nome File
         const rule = FILENAME_PATTERNS[section]
         if (!rule) {
             return new Response(JSON.stringify({ error: 'Sezione non valida (selezionare da 1 a 5).' }), { status: 400 })
         }
 
-        // Check estensione consentita
         if (!rule.allowedExts.includes(ext.toLowerCase())) {
             return new Response(JSON.stringify({
                 error: `Formato file non supportato (${ext || 'nessuna estensione'}). Estensioni ammesse: ${rule.allowedExts.join(', ')}`
             }), { status: 400 })
         }
 
-        // Check Regex formato nome file
         if (!rule.regex.test(targetFilename)) {
             return new Response(JSON.stringify({
                 error: `FORMATO NOME FILE NON CORRETTO!\n${rule.errorMsg}\nNome tentato: "${targetFilename}"`
             }), { status: 400 })
         }
 
-        // Determina percorso nel bucket R2
         let prefix = ''
         switch (section) {
             case '1':
@@ -170,18 +171,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
         const buffer = await file.arrayBuffer()
         const contentType = getContentType(targetFilename, file.type)
 
-        // Caricamento effettivo su R2 Bucket
         await bucket.put(key, buffer, {
             httpMetadata: { contentType }
         })
 
-        // VERIFICA DI CONFERMA: Controlla che il file sia effettivamente presente su R2 dopo l'put
         let verified = false
         try {
             const headObj = await bucket.head(key)
             if (headObj) verified = true
         } catch {
-            // Fallback se head non è supportato in certi mock
             verified = true
         }
 
