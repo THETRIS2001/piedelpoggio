@@ -15,7 +15,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       <div class="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-gray-200 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900">Gestione Documenti R2</h1>
-          <p class="text-xs text-gray-500 mt-0.5">Carica e gestisci i file ufficiali per le sezioni del sito.</p>
+          <p class="text-xs text-gray-500 mt-0.5">Carica e gestisci i file ufficiali per le sezioni del sito. Supporta caricamenti multipli.</p>
         </div>
         <button
           id="refreshFilesBtn"
@@ -86,14 +86,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           <form class="upload-form space-y-3" data-section="2">
             <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagine</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagini (puoi selezionarne più di una)</label>
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <div class="flex items-center gap-2 bg-orange-50/50 p-2 rounded-lg border border-orange-100">
               <input type="checkbox" name="useOriginal" id="useOrig-sec2" class="use-orig-checkbox w-4 h-4 text-orange-600 rounded border-gray-300 focus:ring-orange-500 cursor-pointer" />
               <label for="useOrig-sec2" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
-                Usa il nome file originale (se è già rinominato correttamente)
+                Usa nomi file originali (se già rinominati correttamente)
               </label>
             </div>
 
@@ -104,9 +104,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
 
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-              <span class="text-gray-600">Nome finale: <strong id="preview-sec2" class="font-mono text-orange-700 font-bold break-all">Programma estivo [Anno].[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
+              <span class="text-gray-600">File da caricare: <div id="preview-sec2" class="font-mono text-orange-700 font-bold mt-1 break-all">Programma estivo [Anno].[ext]</div></span>
+              <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all mt-1">
                 Carica
               </button>
             </div>
@@ -136,14 +136,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           <form class="upload-form space-y-3" data-section="3">
             <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (PDF, DOC, DOCX)</label>
-              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (puoi selezionarne più di uno)</label>
+              <input type="file" name="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <div class="flex items-center gap-2 bg-blue-50/50 p-2 rounded-lg border border-blue-100">
               <input type="checkbox" name="useOriginal" id="useOrig-sec3" class="use-orig-checkbox w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
               <label for="useOrig-sec3" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
-                Usa il nome file originale (se è già rinominato correttamente)
+                Usa nomi file originali (se già rinominati correttamente)
               </label>
             </div>
 
@@ -158,9 +158,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
 
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-              <span class="text-gray-600">Nome finale: <strong id="preview-sec3" class="font-mono text-blue-700 font-bold break-all">GG-MM-AAAA - Titolo.[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
+              <span class="text-gray-600">File da caricare: <div id="preview-sec3" class="font-mono text-blue-700 font-bold mt-1 break-all">GG-MM-AAAA - Titolo.[ext]</div></span>
+              <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all mt-1">
                 Carica
               </button>
             </div>
@@ -190,14 +190,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           <form class="upload-form space-y-3" data-section="4">
             <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (PDF, PNG, JPG)</label>
-              <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona File (puoi selezionarne più di uno)</label>
+              <input type="file" name="file" accept=".pdf,image/png,image/jpeg,image/jpg,image/webp,application/pdf" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <div class="flex items-center gap-2 bg-emerald-50/50 p-2 rounded-lg border border-emerald-100">
               <input type="checkbox" name="useOriginal" id="useOrig-sec4" class="use-orig-checkbox w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500 cursor-pointer" />
               <label for="useOrig-sec4" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
-                Usa il nome file originale (se è già rinominato correttamente)
+                Usa nomi file originali (se già rinominati correttamente)
               </label>
             </div>
 
@@ -208,9 +208,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
 
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-              <span class="text-gray-600">Nome finale: <strong id="preview-sec4" class="font-mono text-emerald-700 font-bold break-all">Bilancio - [Anno].[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
+              <span class="text-gray-600">File da caricare: <div id="preview-sec4" class="font-mono text-emerald-700 font-bold mt-1 break-all">Bilancio - [Anno].[ext]</div></span>
+              <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all mt-1">
                 Carica
               </button>
             </div>
@@ -240,14 +240,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
           <form class="upload-form space-y-3" data-section="5">
             <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagine (PNG, JPG, WEBP)</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagini (puoi selezionarne più di una)</label>
+              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
             </div>
 
             <div class="flex items-center gap-2 bg-purple-50/50 p-2 rounded-lg border border-purple-100">
               <input type="checkbox" name="useOriginal" id="useOrig-sec5" class="use-orig-checkbox w-4 h-4 text-purple-600 rounded border-gray-300 focus:ring-purple-500 cursor-pointer" />
               <label for="useOrig-sec5" class="text-xs text-gray-800 font-semibold cursor-pointer select-none">
-                Usa il nome file originale (se è già rinominato correttamente)
+                Usa nomi file originali (se già rinominati correttamente)
               </label>
             </div>
 
@@ -266,9 +266,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               </div>
             </div>
 
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs">
-              <span class="text-gray-600">Nome finale: <strong id="preview-sec5" class="font-mono text-purple-700 font-bold break-all">Luogo - GG-MM-AAAA - Titolo.[ext]</strong></span>
-              <button type="submit" class="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all flex-shrink-0">
+            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
+              <span class="text-gray-600">File da caricare: <div id="preview-sec5" class="font-mono text-purple-700 font-bold mt-1 break-all">Luogo - GG-MM-AAAA - Titolo.[ext]</div></span>
+              <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold px-4 py-2 rounded-lg shadow transition-all mt-1">
                 Carica
               </button>
             </div>
@@ -289,7 +289,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 </DefaultLayout>
 
 <script>
-  // Patterns Regex per rilevamento e validazione automatica del nome file originale
+  // Patterns Regex per rilevamento e validazione automatica dei nomi file originali
   const SECTION_PATTERNS: Record<string, { regex: RegExp, expectedFormat: string }> = {
     '2': { regex: /^Programma estivo \d{4}\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Programma estivo AAAA.ext' },
     '3': { regex: /^\d{2}-\d{2}-\d{4} - .+\.(pdf|doc|docx)$/i, expectedFormat: 'GG-MM-AAAA - Titolo.pdf' },
@@ -327,107 +327,107 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     box.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  function getTargetFilename(form: HTMLFormElement, section: string): { filename: string, error?: string } {
+  interface FilePlanItem {
+    file: File;
+    targetFilename: string;
+    error?: string;
+  }
+
+  function getBatchFilePlan(form: HTMLFormElement, section: string): { plan: FilePlanItem[], hasError: boolean } {
     const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
-    const file = fileInput?.files?.[0];
-    const ext = getExt(file);
-    const useOriginalCheckbox = form.querySelector('input[name="useOriginal"]') as HTMLInputElement;
-    const isUseOriginal = useOriginalCheckbox?.checked;
+    const files = Array.from(fileInput?.files || []);
+    const useOrigCheckbox = form.querySelector('input[name="useOriginal"]') as HTMLInputElement;
+    const isUseOriginal = useOrigCheckbox?.checked;
 
-    if (section === '1') {
-      const extension = ext || '.png';
-      const valid = ['.png', '.jpg', '.jpeg', '.webp'].includes(extension);
-      return {
-        filename: `Programma estivo corrente${extension}`,
-        error: valid ? undefined : 'Formato non valido per immagini. Usa PNG, JPG o WEBP.'
-      };
+    if (files.length === 0) {
+      return { plan: [], hasError: false };
     }
 
-    // Se l'utente ha spuntato "Usa nome file originale"
-    if (isUseOriginal && file) {
-      const originalName = file.name;
-      const pattern = SECTION_PATTERNS[section];
-      if (pattern && !pattern.regex.test(originalName)) {
-        return {
-          filename: originalName,
-          error: `Il nome file "${originalName}" non è conforme al formato richiesto (${pattern.expectedFormat}).`
-        };
-      }
-      return { filename: originalName };
-    }
+    const pattern = SECTION_PATTERNS[section];
+    const plan: FilePlanItem[] = [];
 
-    if (section === '2') {
-      const annoInput = form.querySelector('input[name="anno"]') as HTMLInputElement;
-      const anno = annoInput?.value?.trim() || '';
-      if (!isUseOriginal && (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050)) {
-        return { filename: '', error: 'Inserisci un anno valido a 4 cifre (es. 2025).' };
-      }
-      const extension = ext || '.png';
-      return {
-        filename: `Programma estivo ${anno || 'AAAA'}${extension}`
-      };
-    }
+    files.forEach((file, index) => {
+      const ext = getExt(file);
+      let targetFilename = file.name;
+      let error: string | undefined = undefined;
 
-    if (section === '3') {
-      const dateInput = form.querySelector('input[name="data"]') as HTMLInputElement;
-      const titleInput = form.querySelector('input[name="titolo"]') as HTMLInputElement;
-      const dateStr = formatDateDDMMYYYY(dateInput?.value);
-      const title = titleInput?.value?.trim() || '';
-      const extension = ext || '.pdf';
-      const valid = ['.pdf', '.doc', '.docx'].includes(extension);
-      
-      if (!isUseOriginal && (!dateStr || !title)) {
-        return {
-          filename: `${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`,
-          error: !valid ? 'Per i Documenti Pro Loco sono ammessi solo file PDF, DOC o DOCX.' : 'Compila i campi Data e Titolo oppure spunta "Usa nome originale".'
-        };
-      }
-      return {
-        filename: `${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`,
-        error: valid ? undefined : 'Per i Documenti Pro Loco sono ammessi solo file PDF, DOC o DOCX.'
-      };
-    }
+      const isMatchingPattern = pattern ? pattern.regex.test(file.name) : false;
 
-    if (section === '4') {
-      const annoInput = form.querySelector('input[name="anno"]') as HTMLInputElement;
-      const anno = annoInput?.value?.trim() || '';
-      if (!isUseOriginal && (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050)) {
-        return { filename: '', error: 'Inserisci un anno valido a 4 cifre per il bilancio (es. 2026).' };
-      }
-      const extension = ext || '.pdf';
-      return {
-        filename: `Bilancio - ${anno || 'AAAA'}${extension}`
-      };
-    }
+      if (section === '1') {
+        const extension = ext || '.png';
+        const valid = ['.png', '.jpg', '.jpeg', '.webp'].includes(extension);
+        targetFilename = `Programma estivo corrente${extension}`;
+        if (!valid) error = `"${file.name}": Formato non valido per immagini. Usa PNG, JPG o WEBP.`;
+      } else if (isMatchingPattern || isUseOriginal) {
+        targetFilename = file.name;
+        if (pattern && !pattern.regex.test(targetFilename)) {
+          error = `"${file.name}" non è conforme al formato richiesto (${pattern.expectedFormat}).`;
+        }
+      } else {
+        // Calcolo dal modulo form se non spuntato il nome originale
+        if (section === '2') {
+          const annoInput = form.querySelector('input[name="anno"]') as HTMLInputElement;
+          const anno = annoInput?.value?.trim() || '';
+          if (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050) {
+            error = 'Inserisci un anno valido a 4 cifre (es. 2025).';
+          }
+          const extension = ext || '.png';
+          const suffix = files.length > 1 ? `_${index + 1}` : '';
+          targetFilename = `Programma estivo ${anno || 'AAAA'}${suffix}${extension}`;
+        } else if (section === '3') {
+          const dateInput = form.querySelector('input[name="data"]') as HTMLInputElement;
+          const titleInput = form.querySelector('input[name="titolo"]') as HTMLInputElement;
+          const dateStr = formatDateDDMMYYYY(dateInput?.value);
+          const title = titleInput?.value?.trim() || '';
+          const extension = ext || '.pdf';
+          const valid = ['.pdf', '.doc', '.docx'].includes(extension);
 
-    if (section === '5') {
-      const luogoInput = form.querySelector('input[name="luogo"]') as HTMLInputElement;
-      const dateInput = form.querySelector('input[name="data"]') as HTMLInputElement;
-      const titleInput = form.querySelector('input[name="titolo"]') as HTMLInputElement;
-      const luogo = luogoInput?.value?.trim() || '';
-      const dateStr = formatDateDDMMYYYY(dateInput?.value);
-      const title = titleInput?.value?.trim() || '';
-      const extension = ext || '.jpg';
+          if (!dateStr || !title) {
+            error = 'Compila Data e Titolo oppure spunta "Usa nomi file originali".';
+          } else if (!valid) {
+            error = `"${file.name}": Ammessi solo file PDF, DOC o DOCX.`;
+          }
 
-      if (!isUseOriginal && (!luogo || !dateStr || !title)) {
-        return {
-          filename: `${luogo || 'Luogo'} - ${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`,
-          error: 'Compila Luogo, Data e Titolo oppure spunta "Usa nome originale".'
-        };
+          const suffix = files.length > 1 ? ` (${index + 1})` : '';
+          targetFilename = `${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${suffix}${extension}`;
+        } else if (section === '4') {
+          const annoInput = form.querySelector('input[name="anno"]') as HTMLInputElement;
+          const anno = annoInput?.value?.trim() || '';
+          if (!anno || !/^\d{4}$/.test(anno) || parseInt(anno) < 1990 || parseInt(anno) > 2050) {
+            error = 'Inserisci un anno valido a 4 cifre per il bilancio (es. 2026).';
+          }
+          const extension = ext || '.pdf';
+          const suffix = files.length > 1 ? `_${index + 1}` : '';
+          targetFilename = `Bilancio - ${anno || 'AAAA'}${suffix}${extension}`;
+        } else if (section === '5') {
+          const luogoInput = form.querySelector('input[name="luogo"]') as HTMLInputElement;
+          const dateInput = form.querySelector('input[name="data"]') as HTMLInputElement;
+          const titleInput = form.querySelector('input[name="titolo"]') as HTMLInputElement;
+          const luogo = luogoInput?.value?.trim() || '';
+          const dateStr = formatDateDDMMYYYY(dateInput?.value);
+          const title = titleInput?.value?.trim() || '';
+          const extension = ext || '.jpg';
+
+          if (!luogo || !dateStr || !title) {
+            error = 'Compila Luogo, Data e Titolo oppure spunta "Usa nomi file originali".';
+          }
+
+          const suffix = files.length > 1 ? ` (${index + 1})` : '';
+          targetFilename = `${luogo || 'Luogo'} - ${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${suffix}${extension}`;
+        }
       }
 
-      return {
-        filename: `${luogo || 'Luogo'} - ${dateStr || 'GG-MM-AAAA'} - ${title || 'Titolo'}${extension}`
-      };
-    }
+      plan.push({ file, targetFilename, error });
+    });
 
-    return { filename: file ? file.name : '' };
+    const hasError = plan.some(p => p.error !== undefined);
+    return { plan, hasError };
   }
 
   function setupPreviews() {
     document.querySelectorAll<HTMLFormElement>('.upload-form').forEach((form) => {
       const section = form.getAttribute('data-section') || '';
-      const previewSpan = document.getElementById(`preview-sec${section}`);
+      const previewDiv = document.getElementById(`preview-sec${section}`);
       const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
       const useOrigCheckbox = form.querySelector('input[name="useOriginal"]') as HTMLInputElement;
       const fieldsContainer = document.getElementById(`fields-sec${section}`);
@@ -445,25 +445,44 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
       const update = () => {
         toggleFields();
-        if (previewSpan) {
-          const res = getTargetFilename(form, section);
-          if (res.error) {
-            previewSpan.textContent = `❌ ${res.error}`;
-            previewSpan.className = 'font-mono text-red-600 font-bold break-all';
+        if (previewDiv) {
+          const { plan, hasError } = getBatchFilePlan(form, section);
+          if (plan.length === 0) {
+            previewDiv.innerHTML = '<span class="text-gray-400 font-normal">Nessun file selezionato</span>';
+            return;
+          }
+
+          if (plan.length === 1) {
+            const item = plan[0];
+            if (item.error) {
+              previewDiv.innerHTML = `<span class="text-red-600">❌ ${item.error}</span>`;
+            } else {
+              previewDiv.innerHTML = `<span class="text-emerald-700">✓ ${item.targetFilename}</span>`;
+            }
           } else {
-            previewSpan.textContent = res.filename;
-            previewSpan.className = 'font-mono text-blue-700 font-bold break-all';
+            // Anteprima Batch per più file selezionati
+            const listHtml = plan.map((item) => {
+              if (item.error) {
+                return `<li class="text-red-600">❌ ${item.error}</li>`;
+              }
+              return `<li class="text-emerald-700">✓ ${item.targetFilename}</li>`;
+            }).join('');
+            
+            previewDiv.innerHTML = `
+              <div class="text-[11px] font-semibold text-gray-700 mb-1">${plan.length} file pronti:</div>
+              <ul class="space-y-0.5 font-mono text-xs max-h-32 overflow-y-auto">${listHtml}</ul>
+            `;
           }
         }
       };
 
-      // Rilevamento automatico: se il file selezionato ha già il nome formattato correttamente, attiva la spunta!
+      // Rilevamento automatico: se TUTTI i file selezionati hanno già nomi conformi, spunta automaticamente!
       if (fileInput) {
         fileInput.addEventListener('change', () => {
-          const file = fileInput.files?.[0];
-          if (file && useOrigCheckbox && SECTION_PATTERNS[section]) {
-            const isMatchingPattern = SECTION_PATTERNS[section].regex.test(file.name);
-            if (isMatchingPattern) {
+          const files = Array.from(fileInput.files || []);
+          if (files.length > 0 && useOrigCheckbox && SECTION_PATTERNS[section]) {
+            const allMatch = files.every(f => SECTION_PATTERNS[section].regex.test(f.name));
+            if (allMatch) {
               useOrigCheckbox.checked = true;
             }
           }
@@ -560,50 +579,60 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const section = form.getAttribute('data-section') || '';
-        const fileInput = form.querySelector('input[type="file"]') as HTMLInputElement;
-        const file = fileInput?.files?.[0];
+        const { plan, hasError } = getBatchFilePlan(form, section);
 
-        if (!file) {
-          showStatus('Seleziona prima un file da caricare.', true);
+        if (plan.length === 0) {
+          showStatus('Seleziona almeno un file da caricare.', true);
           return;
         }
 
-        const resCheck = getTargetFilename(form, section);
-        if (resCheck.error) {
-          showStatus(`⚠️ ${resCheck.error}`, true);
+        if (hasError) {
+          const firstError = plan.find(p => p.error !== undefined)?.error;
+          showStatus(`⚠️ Errore prima dell'invio:\n${firstError}`, true);
           return;
         }
 
-        const targetFilename = resCheck.filename;
         const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
         const originalBtnText = submitBtn.textContent || '';
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Caricamento...';
+
+        let successCount = 0;
+        let failCount = 0;
 
         try {
-          showStatus('Caricamento su Cloudflare R2...');
+          for (let i = 0; i < plan.length; i++) {
+            const item = plan[i];
+            submitBtn.textContent = `Caricamento ${i + 1}/${plan.length}...`;
+            showStatus(`Inviando file ${i + 1} di ${plan.length}: "${item.targetFilename}"...`);
 
-          const fd = new FormData();
-          fd.append('section', section);
-          fd.append('filename', targetFilename);
-          fd.append('file', file, file.name);
+            const fd = new FormData();
+            fd.append('section', section);
+            fd.append('filename', item.targetFilename);
+            fd.append('file', item.file, item.file.name);
 
-          const res = await fetch('/api/admin-upload', {
-            method: 'POST',
-            body: fd
-          });
+            const res = await fetch('/api/admin-upload', {
+              method: 'POST',
+              body: fd
+            });
 
-          const data = await res.json();
+            const data = await res.json();
+            if (res.ok && data.success) {
+              successCount++;
+            } else {
+              failCount++;
+              showStatus(`❌ Errore caricamento file "${item.targetFilename}": ${data.error || 'Fallito'}`, true);
+            }
+          }
 
-          if (res.ok && data.success) {
-            const sizeKB = (data.size / 1024).toFixed(1);
-            showStatus(`✓ CARICATO CON SUCCESSO SU R2!\nFile: ${data.filename} (${sizeKB} KB)`);
+          if (successCount > 0 && failCount === 0) {
+            showStatus(`✓ COMPLETATO CON SUCCESSO!\n${successCount} file caricati e verificati su R2.`);
             form.reset();
-            const previewSpan = document.getElementById(`preview-sec${section}`);
-            if (previewSpan) previewSpan.textContent = '';
+            const previewDiv = document.getElementById(`preview-sec${section}`);
+            if (previewDiv) previewDiv.innerHTML = '<span class="text-gray-400 font-normal">Nessun file selezionato</span>';
             loadFileList();
-          } else {
-            showStatus(`❌ Errore caricamento: ${data.error || 'Fallito'}`, true);
+          } else if (successCount > 0 && failCount > 0) {
+            showStatus(`⚠️ CARICAMENTO PARZIALE:\n${successCount} file caricati, ${failCount} falliti.`, true);
+            loadFileList();
           }
         } catch (err: any) {
           showStatus(`❌ Errore di rete: ${err.message}`, true);
