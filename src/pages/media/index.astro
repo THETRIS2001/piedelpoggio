@@ -1518,6 +1518,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
+        // Riabilita il pinch zoom, spento sul resto del sito.
+        document.documentElement.classList.add("lightbox-open");
         syncArrows();
       }
     };
@@ -1526,6 +1528,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
+      document.documentElement.classList.remove("lightbox-open");
       if (lbImg) lbImg.src = "";
       const loader = document.getElementById("lightboxLoader");
       if (loader) loader.style.opacity = "0";

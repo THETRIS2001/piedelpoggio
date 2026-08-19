@@ -34,11 +34,14 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+      // Riabilita il pinch zoom, spento sul resto del sito.
+      document.documentElement.classList.add('lightbox-open');
     }
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
+      document.documentElement.classList.remove('lightbox-open');
     };
   }, [isOpen, onClose, onPrev, onNext]);
 

@@ -499,3 +499,52 @@ body {
     -webkit-appearance: none !important;
   }
 }
+/* ─────────────────────────────────────────────────────────────────────────
+   COMPORTAMENTO DA APP SU MOBILE — niente zoom, né voluto né automatico.
+   Stesso approccio del blocco in Sito-andrea (src/styles/main.css).
+
+   Fuori da @layer di proposito: le utility Tailwind hanno specificità di
+   classe e vincerebbero su un selettore di elemento dentro @layer base.
+
+   Differenza voluta rispetto a Sito-andrea: qui NON si aggiunge
+   `maximum-scale=1, user-scalable=no` al meta viewport. Chrome su Android
+   quel meta lo rispetta e spegnerebbe il pinch ovunque, foto della galleria
+   incluse; il pinch sulle foto deve restare disponibile, quindi lo zoom si
+   governa solo via touch-action, che è anche l'unica leva che iOS ascolta.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* iOS zooma DA SOLO su qualunque campo che renderizza sotto i 16px: euristica
+   di accessibilità di Apple, non disattivabile. Col pinch spento qui sotto un
+   campo che sfugge lascerebbe l'utente incastrato sulla pagina ingrandita,
+   quindi la condizione è larga di proposito. */
+@media (pointer: coarse), (max-width: 1024px) {
+  input,
+  select,
+  textarea,
+  [contenteditable] {
+    font-size: 16px !important;
+  }
+}
+
+/* Niente pinch zoom né zoom da doppio tap. `pan-x pan-y` e non `pan-y`:
+   servono entrambi gli scroll, altrimenti si rompono i contenuti in
+   overflow-x. È l'assenza di `pinch-zoom` a spegnere lo zoom.
+   Selettore universale: il touch-action effettivo è l'intersezione fra
+   l'elemento toccato e tutti i suoi antenati, quindi non basta il body. */
+* {
+  touch-action: pan-x pan-y;
+}
+
+/* Unica eccezione: la foto aperta a tutto schermo nella galleria resta
+   zoomabile. La classe è messa da JS all'apertura e tolta alla chiusura.
+
+   Si riabilita il pinch sull'intero documento e non sulla sola immagine
+   perché il touch-action effettivo è l'intersezione lungo tutta la catena
+   degli antenati: basta un anello a `pan-x pan-y` e il pinch resta spento
+   (in /media/[folder] la lightbox sta dentro <main>, in /media no). Con la
+   lightbox aperta copre comunque tutto lo schermo e lo scroll del body è
+   bloccato, quindi allargare la regola non tocca nient'altro. */
+html.lightbox-open,
+html.lightbox-open * {
+  touch-action: pan-x pan-y pinch-zoom;
+}
