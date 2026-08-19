@@ -370,11 +370,16 @@ const capitalize = (s: string) => {
       if (loader) loader.style.opacity = "0";
     };
 
-    // Click anywhere (including photo) closes lightbox
+    // Si chiude solo cliccando fuori dalla foto: click sulla foto stessa
+    // e sui pulsanti freccia non chiudono la lightbox.
     lb?.addEventListener("click", (e) => {
       const t = e.target as HTMLElement;
-      // Don't close if clicking prev/next buttons
-      if (t.closest("#prevBtn") || t.closest("#nextBtn")) return;
+      if (
+        t.closest("#prevBtn") ||
+        t.closest("#nextBtn") ||
+        t.closest("#lightboxImg")
+      )
+        return;
       close();
     });
 
