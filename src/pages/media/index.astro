@@ -1518,6 +1518,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
+        syncArrows();
       }
     };
     function closeLightbox() {
@@ -1558,42 +1559,36 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       showIndex((lbCurrent + 1) % lbFiles.length);
     });
 
-    // Swipe gesture for mobile
-    let lbTouchStartX = 0;
-    let lbTouchStartY = 0;
-    let lbIsSwiping = false;
+    // Nessuna navigazione da swipe: si cambia foto solo con i pulsanti freccia.
 
-    lb?.addEventListener(
-      "touchstart",
-      (e) => {
-        if (e.touches.length === 1) {
-          lbTouchStartX = e.touches[0].clientX;
-          lbTouchStartY = e.touches[0].clientY;
-          lbIsSwiping = true;
-        } else {
-          lbIsSwiping = false;
-        }
-      },
-      { passive: true },
-    );
+    // Con il pinch-zoom si ingrandisce solo la foto: le frecce restano
+    // ancorate al visual viewport e con la stessa dimensione sullo schermo.
+    const vv = window.visualViewport;
 
-    lb?.addEventListener("touchend", (e) => {
-      if (!lbIsSwiping || e.changedTouches.length === 0) return;
-      const dx = e.changedTouches[0].clientX - lbTouchStartX;
-      const dy = e.changedTouches[0].clientY - lbTouchStartY;
-      const absDx = Math.abs(dx);
-      const absDy = Math.abs(dy);
+    function syncArrows() {
+      if (!vv || !lb || lb.classList.contains("hidden")) return;
+      const s = 1 / vv.scale;
+      const margin = (window.innerWidth >= 768 ? 16 : 8) * s;
+      const centerY = vv.offsetTop + vv.height / 2;
 
-      if (absDx > 50 && absDx > absDy * 1.5) {
-        e.preventDefault();
-        if (dx > 0) {
-          showIndex((lbCurrent - 1 + lbFiles.length) % lbFiles.length);
-        } else {
-          showIndex((lbCurrent + 1) % lbFiles.length);
-        }
+      for (const btn of [prevBtn, nextBtn]) {
+        if (!btn) continue;
+        const x =
+          btn === nextBtn
+            ? vv.offsetLeft + vv.width - margin - btn.offsetWidth * s
+            : vv.offsetLeft + margin;
+        btn.style.left = "0";
+        btn.style.right = "auto";
+        btn.style.top = "0";
+        btn.style.transformOrigin = "0 0";
+        btn.style.transform = `translate(${x}px, ${centerY}px) scale(${s}) translate(0, -50%)`;
       }
-      lbIsSwiping = false;
-    });
+    }
+
+    vv?.addEventListener("resize", syncArrows);
+    vv?.addEventListener("scroll", syncArrows);
+    window.addEventListener("resize", syncArrows);
+
     // Scroll istantaneo alla sezione eventi
     const scrollToTop = () => {
       // Verifica se siamo in visualizzazione mobile/tablet (dove l'ordine degli elementi cambia)

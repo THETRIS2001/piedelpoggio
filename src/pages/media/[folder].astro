@@ -356,6 +356,7 @@ const capitalize = (s: string) => {
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
+        syncArrows();
       }
     };
 
@@ -397,45 +398,35 @@ const capitalize = (s: string) => {
       showIndex((current + 1) % imgs.length);
     });
 
-    // Swipe gesture for mobile
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let isSwiping = false;
+    // Nessuna navigazione da swipe: si cambia foto solo con i pulsanti freccia.
 
-    lb?.addEventListener(
-      "touchstart",
-      (e) => {
-        if (e.touches.length === 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-          isSwiping = true;
-        } else {
-          isSwiping = false; // Multi-touch (pinch zoom) — don't swipe
-        }
-      },
-      { passive: true },
-    );
+    // Con il pinch-zoom si ingrandisce solo la foto: le frecce restano
+    // ancorate al visual viewport e con la stessa dimensione sullo schermo.
+    const vv = window.visualViewport;
 
-    lb?.addEventListener("touchend", (e) => {
-      if (!isSwiping || e.changedTouches.length === 0) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = e.changedTouches[0].clientY - touchStartY;
-      const absDx = Math.abs(dx);
-      const absDy = Math.abs(dy);
+    function syncArrows() {
+      if (!vv || !lb || lb.classList.contains("hidden")) return;
+      const s = 1 / vv.scale;
+      const margin = (window.innerWidth >= 768 ? 16 : 8) * s;
+      const centerY = vv.offsetTop + vv.height / 2;
 
-      // Must be a horizontal swipe: min 50px, and more horizontal than vertical
-      if (absDx > 50 && absDx > absDy * 1.5) {
-        e.preventDefault();
-        if (dx > 0) {
-          // Swipe right -> previous
-          showIndex((current - 1 + imgs.length) % imgs.length);
-        } else {
-          // Swipe left -> next
-          showIndex((current + 1) % imgs.length);
-        }
+      for (const btn of [prevBtn, nextBtn]) {
+        if (!btn) continue;
+        const x =
+          btn === nextBtn
+            ? vv.offsetLeft + vv.width - margin - btn.offsetWidth * s
+            : vv.offsetLeft + margin;
+        btn.style.left = "0";
+        btn.style.right = "auto";
+        btn.style.top = "0";
+        btn.style.transformOrigin = "0 0";
+        btn.style.transform = `translate(${x}px, ${centerY}px) scale(${s}) translate(0, -50%)`;
       }
-      isSwiping = false;
-    });
+    }
+
+    vv?.addEventListener("resize", syncArrows);
+    vv?.addEventListener("scroll", syncArrows);
+    window.addEventListener("resize", syncArrows);
 
     async function ensureFflate() {
       const g = window as WindowWithFflate;
