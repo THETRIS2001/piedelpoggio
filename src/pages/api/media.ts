@@ -27,11 +27,20 @@ function getExt(name: string): string {
   return i >= 0 ? name.slice(i).toLowerCase() : ''
 }
 
+const VIDEO_EXTS = ['.mp4', '.webm', '.ogg']
+
+// Limite per singolo video, non complessivo. Il controllo lato client è solo
+// un aiuto all'utente: questo è quello che fa testo.
+const MAX_VIDEO_BYTES = 250 * 1024 * 1024
+
+function isVideoFile(filename: string): boolean {
+  return VIDEO_EXTS.includes(getExt(filename))
+}
+
 function isAllowedFile(filename: string): boolean {
   const ext = getExt(filename)
   const images = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
-  const videos = ['.mp4', '.webm', '.ogg']
-  return images.includes(ext) || videos.includes(ext)
+  return images.includes(ext) || VIDEO_EXTS.includes(ext)
 }
 
 function sanitizeFilename(name: string): string {
@@ -370,6 +379,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
 
       const safe = sanitizeFilename(filename)
+      if (!isAllowedFile(safe)) {
+        return new Response(JSON.stringify({ error: 'Formato file non supportato' }), { status: 415 })
+      }
+      if (isVideoFile(safe)) {
+        const declared = Number(request.headers.get('content-length') || 0)
+        if (declared > MAX_VIDEO_BYTES) {
+          return new Response(JSON.stringify({ error: 'Il video supera il limite di 250MB' }), { status: 413 })
+        }
+      }
       const key = `${prefix}${folder}/${safe}`
       const body = request.body
       if (!body) {
@@ -446,6 +464,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       if (!isAllowedFile(f.name)) continue
       const safe = sanitizeFilename(f.name)
       if (!unique.has(safe)) unique.set(safe, f)
+    }
+
+    const oversizedVideo = Array.from(unique.entries()).find(
+      ([name, file]) => isVideoFile(name) && (file.size || 0) > MAX_VIDEO_BYTES
+    )
+    if (oversizedVideo) {
+      return new Response(
+        JSON.stringify({ error: `Il video ${oversizedVideo[0]} supera il limite di 250MB` }),
+        { status: 413 }
+      )
     }
 
     // Enforce total size limit 1GB and stream uploads to R2 to avoid high memory usage

@@ -523,7 +523,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   id="files"
                   type="file"
                   multiple
-                  accept="image/*,.bmp"
+                  accept="image/*,video/*,.bmp,.mp4,.webm,.ogg"
                   autocomplete="off"
                   class="sr-only"
                 />
@@ -539,7 +539,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   <div class="flex flex-col items-center justify-center gap-3">
                     <p class="text-sm text-gray-700">
                       <span class="hidden sm:inline"
-                        >Trascina qui le immagini oppure
+                        >Trascina qui foto o video oppure
                       </span>
                       <button
                         type="button"
@@ -1692,6 +1692,34 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     document
       .getElementById("pageNextBottom")
       ?.addEventListener("click", handleNext);
+    // Estensioni accettate: devono restare allineate a isAllowedFile()
+    // in src/pages/api/media.ts, che è ciò che il server applica davvero.
+    const IMAGE_EXTS = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
+    const VIDEO_EXTS = [".mp4", ".webm", ".ogg"];
+    const MAX_VIDEO_BYTES = 250 * 1024 * 1024;
+
+    function hasExt(file: File, exts: string[]) {
+      const n = file.name.toLowerCase();
+      return exts.some((e) => n.endsWith(e));
+    }
+    function isVideoFile(file: File) {
+      return file.type.startsWith("video/") || hasExt(file, VIDEO_EXTS);
+    }
+    function isMediaFile(file: File) {
+      return (
+        hasExt(file, IMAGE_EXTS) ||
+        hasExt(file, VIDEO_EXTS) ||
+        // Il tipo MIME da solo non basta: il server decide sull'estensione,
+        // quindi un file senza estensione nota va rifiutato comunque.
+        ((file.type.startsWith("image/") || file.type.startsWith("video/")) &&
+          hasExt(file, [...IMAGE_EXTS, ...VIDEO_EXTS]))
+      );
+    }
+    /** Video troppo pesanti: il limite è per singolo video, non complessivo. */
+    function oversizedVideos(files: File[]) {
+      return files.filter((f) => isVideoFile(f) && f.size > MAX_VIDEO_BYTES);
+    }
+
     const MAX_TOTAL_BYTES = 1024 * 1024 * 1024;
     function formatBytes(b: number) {
       const u = ["B", "KB", "MB", "GB"];
@@ -1704,23 +1732,25 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`;
     }
 
-    function totalSelectedBytes() {
+    function allSelectedFiles(): File[] {
       const input = document.getElementById("files") as HTMLInputElement | null;
-      const inputBytes =
-        input && input.files
-          ? Array.from(input.files).reduce((a, f) => a + (f.size || 0), 0)
-          : 0;
-      const dropBytes = externalFiles.reduce((a, f) => a + (f.size || 0), 0);
-      return inputBytes + dropBytes;
+      const fromInput = input && input.files ? Array.from(input.files) : [];
+      return [...fromInput, ...externalFiles];
+    }
+    function totalSelectedBytes() {
+      return allSelectedFiles().reduce((a, f) => a + (f.size || 0), 0);
     }
     function updateSizeLimitInfo() {
       const msg = document.getElementById("sizeLimitMsg");
       if (!msg) return;
       const bytes = totalSelectedBytes();
-      const over = bytes > MAX_TOTAL_BYTES;
-      msg.textContent = over
-        ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB (max)`
-        : `Selezionati ${formatBytes(bytes)} su 1GB (max)`;
+      const tooBig = oversizedVideos(allSelectedFiles());
+      const over = bytes > MAX_TOTAL_BYTES || tooBig.length > 0;
+      msg.textContent = tooBig.length
+        ? `Video oltre il limite di 250MB: ${tooBig.map((f) => f.name).join(", ")}`
+        : over
+          ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB (max)`
+          : `Selezionati ${formatBytes(bytes)} su 1GB (max)`;
       msg.className = over
         ? "text-xs text-red-600 mt-2 text-center font-semibold"
         : "text-xs text-gray-500 mt-2 text-center";
@@ -1937,6 +1967,12 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   } catch {
                     msg = xhr.responseText;
                   }
+                  if (xhr.status === 413) {
+                    // Un 413 può arrivare anche dal bordo Cloudflare prima del
+                    // nostro codice, e in quel caso il corpo è una pagina HTML:
+                    // meglio un messaggio nostro che l'HTML grezzo a schermo.
+                    msg = `"${file.name}" (${formatBytes(file.size || 0)}) è troppo grande per essere caricato.`;
+                  }
                   reject(new Error(msg || "Errore nel caricamento"));
                 }
               }
@@ -2118,7 +2154,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         uploadMode === "new"
           ? isDuplicateNewEvent(nameEl?.value || "", dateEl?.value || "")
           : false;
-      const sizeOk = totalSelectedBytes() <= MAX_TOTAL_BYTES;
+      const sizeOk =
+        totalSelectedBytes() <= MAX_TOTAL_BYTES &&
+        oversizedVideos(allSelectedFiles()).length === 0;
       const enabled = hasFiles && hasEventInfo && !hasDup && sizeOk;
       submitBtn && (submitBtn.disabled = !enabled);
       console.log("updateSubmitEnabled", {
@@ -2137,26 +2175,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       });
       updateSizeLimitInfo();
     }
-    // Helper per validare immagini
-    function isImageFile(file: File) {
-      return (
-        file.type.startsWith("image/") ||
-        file.name.toLowerCase().endsWith(".bmp")
-      );
-    }
-
     document.getElementById("files")?.addEventListener("change", (e) => {
       const input = e.target as HTMLInputElement;
       const summary = document.getElementById("filesSummary");
 
       // Validazione file selezionati via dialog
       if (input.files) {
-        const invalidFiles = Array.from(input.files).filter(
-          (f) => !isImageFile(f),
-        );
+        const picked = Array.from(input.files);
+        const tooBig = oversizedVideos(picked);
+        if (tooBig.length > 0) {
+          alert(
+            `Questi video superano il limite di 250MB: ${tooBig.map((f) => `${f.name} (${formatBytes(f.size)})`).join(", ")}`,
+          );
+          input.value = "";
+          externalFiles = [];
+          if (summary) summary.textContent = "";
+          updateSubmitEnabled();
+          updateSizeLimitInfo();
+          return;
+        }
+        const invalidFiles = picked.filter((f) => !isMediaFile(f));
         if (invalidFiles.length > 0) {
           alert(
-            `Alcuni file non sono immagini supportate e saranno ignorati: ${invalidFiles.map((f) => f.name).join(", ")}`,
+            `Alcuni file non sono foto o video supportati e saranno ignorati: ${invalidFiles.map((f) => f.name).join(", ")}`,
           );
           // Reset input se ci sono file non validi per costringere a riselezionare pulito,
           // oppure si potrebbe accettare solo quelli validi se si usasse un array separato per tutto.
@@ -2195,12 +2236,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const files = (e as DragEvent).dataTransfer?.files;
       if (input && files) {
         const droppedFiles = Array.from(files);
-        const validFiles = droppedFiles.filter(isImageFile);
-        const invalidFiles = droppedFiles.filter((f) => !isImageFile(f));
+        const tooBig = oversizedVideos(droppedFiles);
+        const validFiles = droppedFiles.filter(
+          (f) => isMediaFile(f) && !tooBig.includes(f),
+        );
+        const invalidFiles = droppedFiles.filter((f) => !isMediaFile(f));
 
         if (invalidFiles.length > 0) {
           alert(
-            `I seguenti file non sono stati aggiunti perché non sono immagini: ${invalidFiles.map((f) => f.name).join(", ")}`,
+            `I seguenti file non sono stati aggiunti perché non sono foto o video supportati: ${invalidFiles.map((f) => f.name).join(", ")}`,
+          );
+        }
+        if (tooBig.length > 0) {
+          alert(
+            `Questi video non sono stati aggiunti perché superano il limite di 250MB: ${tooBig.map((f) => `${f.name} (${formatBytes(f.size)})`).join(", ")}`,
           );
         }
 
