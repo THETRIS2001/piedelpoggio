@@ -10,11 +10,12 @@
  * Qui invece la pagina non zooma mai (touch-action spegne il pinch ovunque, il
  * meta viewport è bloccato): a trasformarsi è solo l'immagine. Tutto il resto
  * della lightbox, frecce comprese, resta DOM immobile.
+ *
+ * Si ingrandisce solo col pinch: il tap non zooma né rimette a posto. Per
+ * tornare a scala 1 si allontanano le dita, poi il tap sullo sfondo chiude.
  */
 
 const MAX_SCALE = 4;
-const DOUBLE_TAP_SCALE = 2.5;
-const DOUBLE_TAP_MS = 300;
 const MOVE_TOLERANCE = 8;
 
 export interface PhotoZoom {
@@ -40,7 +41,6 @@ export function attachPhotoZoom(
   let lastX = 0;
   let lastY = 0;
   let lastDist = 0;
-  let lastTapAt = 0;
   // Vero quando il tocco corrente è stato un gesto e non un tap: serve a non
   // far chiudere la lightbox con il click che segue un pinch o un pan.
   let gestured = false;
@@ -88,7 +88,10 @@ export function attachPhotoZoom(
 
     tx = ux - ratio * (ux - tx);
     ty = uy - ratio * (uy - ty);
-    scale = target;
+    // Aggancio esatto a 1: senza, gli arrotondamenti del pinch lasciano una
+    // scala tipo 1.0000000000000002, che tiene attiva una transform inutile e
+    // fa credere al codice che la foto sia ancora ingrandita.
+    scale = target <= 1 + 1e-6 ? 1 : target;
     if (scale === 1) {
       tx = 0;
       ty = 0;
@@ -153,27 +156,6 @@ export function attachPhotoZoom(
     }
     if (e.touches.length > 1) return;
 
-    if (!gestured && e.changedTouches.length === 1) {
-      const tap = e.changedTouches[0];
-      const onPhoto = (tap.target as HTMLElement | null)?.closest?.("img") === img;
-
-      if (scale > 1) {
-        // Da ingrandita un tap rimette a posto, e serve che sia un tap solo:
-        // a pieno zoom la foto copre lo schermo, quindi non c'è più uno sfondo
-        // da toccare per chiudere e senza questa via d'uscita si resterebbe
-        // bloccati dentro la foto.
-        zoomTo(1, tap.clientX, tap.clientY);
-        gestured = true;
-        lastTapAt = 0;
-      } else if (onPhoto && e.timeStamp - lastTapAt < DOUBLE_TAP_MS) {
-        // Doppio tap sulla foto: ingrandisce.
-        zoomTo(DOUBLE_TAP_SCALE, tap.clientX, tap.clientY);
-        gestured = true;
-        lastTapAt = 0;
-      } else {
-        lastTapAt = e.timeStamp;
-      }
-    }
     mode = "none";
     if (gestured) expireGestureSoon();
   };
