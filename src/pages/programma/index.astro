@@ -133,12 +133,10 @@ const currentProgramPath = currentProgram
     <section class="pt-4 pb-16">
       <div class="container mx-auto px-4">
         <!-- Sezione Programma Estivo -->
+        <!-- Contenuto senza riquadro esterno: i programmi precedenti si
+             estendono verso il basso quanto serve, scorrendo con la pagina. -->
         <div class="max-w-6xl mx-auto mb-12">
-          <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
-          >
-            <!-- Layout a 2 colonne su desktop, verticale su mobile -->
-            <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8">
               <!-- Colonna sinistra: Programma Corrente -->
               <div class="">
                 <div class="flex items-center gap-4 mb-6">
@@ -205,7 +203,7 @@ const currentProgramPath = currentProgram
                   </h3>
                 </div>
 
-                <div class="overflow-y-auto max-h-[60vh] lg:max-h-[calc(70vh-100px)] px-4 py-4 -mx-4 -my-4 space-y-4 scrollbar-hidden">
+                <div class="space-y-4">
                   {
                     previousPrograms.map((programma, index) => (
                       <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 hover:shadow-2xl transition-all duration-300">
@@ -256,7 +254,6 @@ const currentProgramPath = currentProgram
               </div>
             </div>
           </div>
-        </div>
 
       </div>
     </section>
@@ -276,6 +273,8 @@ const currentProgramPath = currentProgram
 </DefaultLayout>
 
 <script>
+  import { attachPhotoZoom } from "../../lib/photoZoom";
+
   document.addEventListener("DOMContentLoaded", () => {
     const programmaImg = document.getElementById(
       "programma-img",
@@ -287,7 +286,12 @@ const currentProgramPath = currentProgram
     ) as HTMLImageElement;
 
     if (programmaContainer && lightbox && lightboxImg && programmaImg) {
+      // Stesso zoom della galleria: pinch sulla sola immagine, la pagina non
+      // scala, così il programma si può leggere ingrandendolo.
+      const photoZoom = attachPhotoZoom(lightboxImg, lightbox);
+
       const openLightbox = (imgSrc: string) => {
+        photoZoom.reset();
         lightboxImg.src = imgSrc;
 
         const img = new Image();
@@ -322,15 +326,19 @@ const currentProgramPath = currentProgram
         });
       });
 
-      // Chiudi lightbox al click ovunque
-      lightbox.addEventListener("click", () => {
+      // Si chiude cliccando fuori dall'immagine: un tap sull'immagine no,
+      // altrimenti si chiuderebbe proprio mentre la si sta guardando da vicino.
+      lightbox.addEventListener("click", (e) => {
+        if ((e.target as HTMLElement | null)?.closest("#lightbox-img")) return;
         lightbox.style.display = "none";
         document.body.style.overflow = "unset";
+        photoZoom.reset();
       });
 
       // Chiudi con ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && lightbox.style.display === "flex") {
+          photoZoom.reset();
           lightbox.style.display = "none";
           document.body.style.overflow = "unset";
         }

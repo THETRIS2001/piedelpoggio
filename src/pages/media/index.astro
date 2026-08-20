@@ -935,6 +935,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return container;
     }
 
+    /** Porta il badge dallo stato scheletro al conteggio reale. */
+    function setPhotoCount(badge: HTMLElement, files: MediaFile[]) {
+      const photosCount = files.filter(
+        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
+      ).length;
+      badge.className =
+        "inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5";
+      badge.removeAttribute("aria-label");
+      badge.textContent = `Foto: ${photosCount}`;
+    }
+
     function updateCardImages(
       folder: string,
       files: MediaFile[],
@@ -950,15 +961,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         oldContainer.replaceWith(newContainer);
       }
 
-      const photosCount = files.filter(
-        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
-      ).length;
-      const badge = Array.from(card.querySelectorAll("span")).find((s) =>
-        s.textContent?.startsWith("Foto:"),
+      const badge = card.querySelector<HTMLElement>(
+        '[data-role="photo-count"]',
       );
-      if (badge) {
-        badge.textContent = `Foto: ${photosCount}`;
-      }
+      if (badge) setPhotoCount(badge, files);
     }
 
     function renderCard(grid: HTMLElement, ev: EventData) {
@@ -995,13 +1001,19 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
       badges.appendChild(date);
 
-      const photosCount = filesArr.filter(
-        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
-      ).length;
       const badgePhoto = document.createElement("span");
-      badgePhoto.className =
-        "inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5";
-      badgePhoto.textContent = `Foto: ${photosCount}`;
+      // Marcatore stabile: updateCardImages deve ritrovare questo badge anche
+      // mentre è uno scheletro e quindi non contiene ancora la scritta "Foto:".
+      badgePhoto.dataset.role = "photo-count";
+      if (filesArr.length > 0) {
+        setPhotoCount(badgePhoto, filesArr);
+      } else {
+        // L'elenco file non è ancora arrivato: "Foto: 0" sarebbe un numero
+        // falso, quindi si mostra un segnaposto che lampeggia.
+        badgePhoto.className =
+          "inline-flex h-[21px] w-16 rounded-full bg-gray-200 animate-pulse";
+        badgePhoto.setAttribute("aria-label", "Conteggio foto in caricamento");
+      }
       badges.appendChild(badgePhoto);
 
       info.appendChild(title);
