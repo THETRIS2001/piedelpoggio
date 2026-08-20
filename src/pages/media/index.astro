@@ -658,6 +658,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
   </div>
 
   <script>
+    import { attachPhotoZoom } from "../../lib/photoZoom";
+
     interface MediaFile {
       name: string;
       url: string;
@@ -1488,6 +1490,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       "nextBtn",
     ) as HTMLButtonElement | null;
 
+    // La pagina non zooma mai, quindi le frecce (position: fixed) restano
+    // immobili da sole: a ingrandirsi è solo la foto, qui sotto.
+    const photoZoom = lb && lbImg ? attachPhotoZoom(lbImg, lb) : null;
+
     function openLightbox(files: MediaFile[], idx: number) {
       if (!lb || !lbImg) return;
       lbFiles = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
@@ -1518,9 +1524,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
-        // Riabilita il pinch zoom, spento sul resto del sito.
-        document.documentElement.classList.add("lightbox-open");
-        syncArrows();
+        // Nuova foto: si riparte sempre da scala 1.
+        photoZoom?.reset();
       }
     };
     function closeLightbox() {
@@ -1528,7 +1533,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
-      document.documentElement.classList.remove("lightbox-open");
+      photoZoom?.reset();
       if (lbImg) lbImg.src = "";
       const loader = document.getElementById("lightboxLoader");
       if (loader) loader.style.opacity = "0";
@@ -1569,34 +1574,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     });
 
     // Nessuna navigazione da swipe: si cambia foto solo con i pulsanti freccia.
-
-    // Con il pinch-zoom si ingrandisce solo la foto: le frecce restano
-    // ancorate al visual viewport e con la stessa dimensione sullo schermo.
-    const vv = window.visualViewport;
-
-    function syncArrows() {
-      if (!vv || !lb || lb.classList.contains("hidden")) return;
-      const s = 1 / vv.scale;
-      const margin = (window.innerWidth >= 768 ? 16 : 8) * s;
-      const centerY = vv.offsetTop + vv.height / 2;
-
-      for (const btn of [prevBtn, nextBtn]) {
-        if (!btn) continue;
-        const x =
-          btn === nextBtn
-            ? vv.offsetLeft + vv.width - margin - btn.offsetWidth * s
-            : vv.offsetLeft + margin;
-        btn.style.left = "0";
-        btn.style.right = "auto";
-        btn.style.top = "0";
-        btn.style.transformOrigin = "0 0";
-        btn.style.transform = `translate(${x}px, ${centerY}px) scale(${s}) translate(0, -50%)`;
-      }
-    }
-
-    vv?.addEventListener("resize", syncArrows);
-    vv?.addEventListener("scroll", syncArrows);
-    window.addEventListener("resize", syncArrows);
 
     // Scroll istantaneo alla sezione eventi
     const scrollToTop = () => {

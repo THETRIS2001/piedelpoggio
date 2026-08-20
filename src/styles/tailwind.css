@@ -535,16 +535,15 @@ body {
   touch-action: pan-x pan-y;
 }
 
-/* Unica eccezione: la foto aperta a tutto schermo nella galleria resta
-   zoomabile. La classe è messa da JS all'apertura e tolta alla chiusura.
-
-   Si riabilita il pinch sull'intero documento e non sulla sola immagine
-   perché il touch-action effettivo è l'intersezione lungo tutta la catena
-   degli antenati: basta un anello a `pan-x pan-y` e il pinch resta spento
-   (in /media/[folder] la lightbox sta dentro <main>, in /media no). Con la
-   lightbox aperta copre comunque tutto lo schermo e lo scroll del body è
-   bloccato, quindi allargare la regola non tocca nient'altro. */
-html.lightbox-open,
-html.lightbox-open * {
-  touch-action: pan-x pan-y pinch-zoom;
+/* Le lightbox gestiscono da sé pinch e trascinamento sulla foto
+   (src/lib/photoZoom.ts): al browser non deve restare nessun gesto su di
+   loro, altrimenti scrolla o intercetta il tocco e interrompe la gesture.
+   A ingrandirsi è quindi la sola immagine, con una transform, e le frecce
+   di navigazione non si spostano di un pixel: lo zoom nativo scalava tutta
+   la pagina e nessuna correzione da JS può inseguirlo frame per frame. */
+#lightbox,
+#lightbox *,
+.lightbox-overlay,
+.lightbox-overlay * {
+  touch-action: none;
 }
