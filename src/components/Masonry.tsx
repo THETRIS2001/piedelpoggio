@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import './Masonry.css';
+import { isVideoName } from '../lib/mediaTypes';
 import Lightbox from './Lightbox';
 
 const useMedia = (queries: string[], values: number[], defaultValue: number) => {
@@ -101,7 +102,7 @@ const Masonry: React.FC<MasonryProps> = ({
 
             for (const f of files) {
               const name = String(f.name || '')
-              if (/\.(mp4|webm|ogg)$/i.test(name)) continue
+              if (isVideoName(name)) continue
 
               const size = Number(f.size || 0)
               if (!size || size >= 1024 * 1024) continue

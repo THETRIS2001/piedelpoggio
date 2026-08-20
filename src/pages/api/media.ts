@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro'
 import { createSlug } from '../../utils/slug'
+import { VIDEO_EXTS, isAllowedMedia, isVideoName, contentTypeForName } from '../../lib/mediaTypes'
 import { buildMediaUploadEmail } from '../../utils/emailTemplates'
 
 export const prerender = false
@@ -27,15 +28,11 @@ function getExt(name: string): string {
   return i >= 0 ? name.slice(i).toLowerCase() : ''
 }
 
-const VIDEO_EXTS = ['.mp4', '.webm', '.ogg']
-
 // Limite per singolo video, non complessivo. Il controllo lato client è solo
 // un aiuto all'utente: questo è quello che fa testo.
 const MAX_VIDEO_BYTES = 250 * 1024 * 1024
 
-function isVideoFile(filename: string): boolean {
-  return VIDEO_EXTS.includes(getExt(filename))
-}
+const isVideoFile = isVideoName
 
 // Cloudflare limita il corpo di una richiesta a 100MB sui piani Free e Pro,
 // quindi i file grossi vanno spezzati e ricomposti con il multipart di R2.
@@ -50,11 +47,7 @@ function isSafeFolder(folder: string): boolean {
   return /^[a-z0-9][a-z0-9-]*$/.test(folder)
 }
 
-function isAllowedFile(filename: string): boolean {
-  const ext = getExt(filename)
-  const images = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
-  return images.includes(ext) || VIDEO_EXTS.includes(ext)
-}
+const isAllowedFile = isAllowedMedia
 
 function sanitizeFilename(name: string): string {
   const i = name.lastIndexOf('.')
@@ -64,18 +57,7 @@ function sanitizeFilename(name: string): string {
   return `${slug}${ext.toLowerCase()}`
 }
 
-function contentTypeFor(name: string): string {
-  const ext = getExt(name)
-  if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
-  if (ext === '.png') return 'image/png'
-  if (ext === '.gif') return 'image/gif'
-  if (ext === '.bmp') return 'image/bmp'
-  if (ext === '.webp') return 'image/webp'
-  if (ext === '.mp4') return 'video/mp4'
-  if (ext === '.webm') return 'video/webm'
-  if (ext === '.ogg') return 'video/ogg'
-  return 'application/octet-stream'
-}
+const contentTypeFor = contentTypeForName
 
 type FolderResolution =
   | { ok: true, folder: string, meta: Meta | null }

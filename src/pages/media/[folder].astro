@@ -1,23 +1,11 @@
 ---
 export const prerender = false;
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
+import { isAllowedMedia, isVideoName } from "../../lib/mediaTypes";
 
 const folder = Astro.params.folder;
 
-const isAllowed = (name: string) => {
-  const i = name.lastIndexOf(".");
-  const ext = i >= 0 ? name.slice(i).toLowerCase() : "";
-  return [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-    ".mp4",
-    ".webm",
-    ".ogg",
-    ".bmp",
-  ].includes(ext);
-};
+const isAllowed = isAllowedMedia;
 
 let meta: any = null;
 let files: Array<{
@@ -72,7 +60,7 @@ try {
       .map((o: any) => {
         const key = String(o.key || "");
         const name = key.split("/").pop() || "";
-        const isVideo = /\.(mp4|webm|ogg)$/i.test(name);
+        const isVideo = isVideoName(name);
         const size = Number(
           (o.size as number | undefined) || (o.Size as number | undefined) || 0,
         );

@@ -45,6 +45,25 @@ export function attachPhotoZoom(
   // far chiudere la lightbox con il click che segue un pinch o un pan.
   let gestured = false;
   let gestureExpiry: ReturnType<typeof setTimeout> | undefined;
+  let rasterRelease: ReturnType<typeof setTimeout> | undefined;
+
+  /**
+   * Durante il gesto l'immagine viene promossa a livello di composizione.
+   * Senza, Chrome su Android ri-rasterizza la foto a ogni frame del pinch e si
+   * vede lampeggiare. Il `will-change` va però tolto a gesto finito: se resta,
+   * la foto continua a essere disegnata da una texture scalata dalla GPU e a
+   * forte ingrandimento appare sfocata invece di ridefinirsi.
+   */
+  const holdRaster = () => {
+    clearTimeout(rasterRelease);
+    img.style.willChange = "transform";
+  };
+  const releaseRaster = () => {
+    clearTimeout(rasterRelease);
+    rasterRelease = setTimeout(() => {
+      img.style.willChange = "";
+    }, 250);
+  };
 
   // Se dopo il gesto nessun click arriva a consumare il flag, scade da solo:
   // senza scadenza resterebbe alzato e mangerebbe il tap buono successivo.
@@ -115,6 +134,7 @@ export function attachPhotoZoom(
       gestured = true;
       lastDist = distance(e.touches);
     }
+    if (mode !== "none") holdRaster();
   };
 
   const onTouchMove = (e: TouchEvent) => {
@@ -157,6 +177,7 @@ export function attachPhotoZoom(
     if (e.touches.length > 1) return;
 
     mode = "none";
+    releaseRaster();
     if (gestured) expireGestureSoon();
   };
 
@@ -180,6 +201,8 @@ export function attachPhotoZoom(
   return {
     reset() {
       clearTimeout(gestureExpiry);
+      clearTimeout(rasterRelease);
+      img.style.willChange = "";
       scale = 1;
       tx = 0;
       ty = 0;
@@ -189,6 +212,8 @@ export function attachPhotoZoom(
     },
     destroy() {
       clearTimeout(gestureExpiry);
+      clearTimeout(rasterRelease);
+      img.style.willChange = "";
       surface.removeEventListener("touchstart", onTouchStart);
       surface.removeEventListener("touchmove", onTouchMove);
       surface.removeEventListener("touchend", onTouchEnd);

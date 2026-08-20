@@ -523,7 +523,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   id="files"
                   type="file"
                   multiple
-                  accept="image/*,video/*,.bmp,.mp4,.webm,.ogg"
+                  accept="image/*,video/*,.bmp,.mp4,.webm,.ogg,.mov"
                   autocomplete="off"
                   class="sr-only"
                 />
@@ -669,6 +669,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
   <script>
     import { attachPhotoZoom } from "../../lib/photoZoom";
+    import { IMAGE_EXTS, VIDEO_EXTS, isVideoName } from "../../lib/mediaTypes";
 
     interface MediaFile {
       name: string;
@@ -859,7 +860,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         return container;
       }
 
-      const photos = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
+      const photos = files.filter((f) => !isVideoName(f.name));
       // Ordina per peso crescente: le 3 più leggere come copertina per velocizzare il caricamento
       const sorted = [...photos].sort((a, b) => {
         const sa = Number((a.size as number | undefined) || 0);
@@ -938,7 +939,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     /** Porta il badge dallo stato scheletro al conteggio reale. */
     function setPhotoCount(badge: HTMLElement, files: MediaFile[]) {
       const photosCount = files.filter(
-        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
+        (f) => !isVideoName(f.name),
       ).length;
       badge.className =
         "inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5";
@@ -1518,7 +1519,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
     function openLightbox(files: MediaFile[], idx: number) {
       if (!lb || !lbImg) return;
-      lbFiles = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
+      lbFiles = files.filter((f) => !isVideoName(f.name));
       const originalFile = files[idx];
       const newIdx = lbFiles.findIndex((f) => f.name === originalFile.name);
 
@@ -1706,8 +1707,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       ?.addEventListener("click", handleNext);
     // Estensioni accettate: devono restare allineate a isAllowedFile()
     // in src/pages/api/media.ts, che è ciò che il server applica davvero.
-    const IMAGE_EXTS = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"];
-    const VIDEO_EXTS = [".mp4", ".webm", ".ogg"];
     const MAX_VIDEO_BYTES = 250 * 1024 * 1024;
 
     function hasExt(file: File, exts: string[]) {
@@ -1743,14 +1742,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
      * selezione i buoni si spostano nell'elenco gestito a mano.
      */
     function acceptFiles(picked: File[]) {
-      const tooBig = oversizedVideos(picked);
       const unsupported = picked.filter((f) => !isMediaFile(f));
+      // Il controllo sulla dimensione vale solo per ciò che sarebbe accettato:
+      // altrimenti un formato non supportato e troppo pesante finiva elencato
+      // due volte, con due motivi diversi per lo stesso file.
+      const tooBig = oversizedVideos(picked.filter((f) => isMediaFile(f)));
       rejectedFiles = [
+        ...unsupported.map((f) => ({
+          name: f.name,
+          motivo: "formato non supportato",
+        })),
         ...tooBig.map((f) => ({
           name: `${f.name} (${formatBytes(f.size)})`,
           motivo: "oltre 250MB",
         })),
-        ...unsupported.map((f) => ({ name: f.name, motivo: "formato non supportato" })),
       ];
       return picked.filter((f) => isMediaFile(f) && !tooBig.includes(f));
     }

@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro'
+import { contentTypeForName } from '../../lib/mediaTypes'
 
 export const prerender = false
 
@@ -19,16 +20,7 @@ function getExt(name: string): string {
   return i >= 0 ? name.slice(i).toLowerCase() : ''
 }
 
-function contentTypeFor(name: string): string {
-  const ext = getExt(name)
-  if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
-  if (ext === '.png') return 'image/png'
-  if (ext === '.gif') return 'image/gif'
-  if (ext === '.mp4') return 'video/mp4'
-  if (ext === '.webm') return 'video/webm'
-  if (ext === '.ogg') return 'video/ogg'
-  return 'application/octet-stream'
-}
+const contentTypeFor = contentTypeForName
 
 export const GET: APIRoute = async ({ params, locals }) => {
   const key = String(params.key || '')
