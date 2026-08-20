@@ -15,7 +15,7 @@
  * tornare a scala 1 si allontanano le dita, poi il tap sullo sfondo chiude.
  */
 
-const MAX_SCALE = 4;
+const MAX_SCALE = 15;
 const MOVE_TOLERANCE = 8;
 
 export interface PhotoZoom {
