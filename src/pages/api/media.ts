@@ -37,6 +37,19 @@ function isVideoFile(filename: string): boolean {
   return VIDEO_EXTS.includes(getExt(filename))
 }
 
+// Cloudflare limita il corpo di una richiesta a 100MB sui piani Free e Pro,
+// quindi i file grossi vanno spezzati e ricomposti con il multipart di R2.
+// PART_SIZE per MAX_PARTS dà esattamente il tetto per file: è questo, e non la
+// dimensione dichiarata dal client, a mettere il limite vero.
+const PART_SIZE = 25 * 1024 * 1024
+const MAX_PARTS = Math.ceil(MAX_VIDEO_BYTES / PART_SIZE)
+
+// I nomi cartella nascono sempre da createSlug(), quindi questo alfabeto basta
+// e impedisce a un client di comporre chiavi fuori dal prefisso media/.
+function isSafeFolder(folder: string): boolean {
+  return /^[a-z0-9][a-z0-9-]*$/.test(folder)
+}
+
 function isAllowedFile(filename: string): boolean {
   const ext = getExt(filename)
   const images = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
@@ -62,6 +75,62 @@ function contentTypeFor(name: string): string {
   if (ext === '.webm') return 'video/webm'
   if (ext === '.ogg') return 'video/ogg'
   return 'application/octet-stream'
+}
+
+type FolderResolution =
+  | { ok: true, folder: string, meta: Meta | null }
+  | { ok: false, error: string, status: number }
+
+/**
+ * Risolve la cartella dell'evento — riusando quella esistente o creandola con
+ * il suo meta.txt — e la restituisce insieme ai metadati. Condivisa dal ramo
+ * raw e da quello multipart, che avevano bisogno della stessa identica logica.
+ */
+async function resolveFolder(
+  bucket: any,
+  opts: { existingFolder?: string, eventName?: string, date?: string, description?: string }
+): Promise<FolderResolution> {
+  const prefix = 'media/'
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+  const { eventName = '', date = '', description } = opts
+  let folder = opts.existingFolder && opts.existingFolder.length > 0 ? opts.existingFolder : ''
+  let meta: Meta | null = null
+
+  if (folder) {
+    if (!isSafeFolder(folder)) {
+      return { ok: false, error: 'invalid folder', status: 400 }
+    }
+    const metaKey = `${prefix}${folder}/meta.txt`
+    try {
+      const metaObj = await bucket.get(metaKey)
+      if (metaObj) {
+        const txt = await metaObj.text()
+        // Remove BOM if present (code 65279 / 0xFEFF)
+        const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
+        meta = JSON.parse(cleanTxt)
+      }
+    } catch { }
+    if (!meta && eventName && date && dateRegex.test(date)) {
+      meta = { eventName, date, description }
+      await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+    }
+    if (meta && typeof description !== 'undefined') {
+      meta = { ...meta, description }
+      await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+    }
+    return { ok: true, folder, meta }
+  }
+
+  if (!eventName || !date) {
+    return { ok: false, error: 'missing fields', status: 400 }
+  }
+  if (!dateRegex.test(date)) {
+    return { ok: false, error: 'invalid date', status: 400 }
+  }
+  folder = `${createSlug(eventName)}-${date.replace(/-/g, '')}`
+  meta = { eventName, date, description }
+  await bucket.put(`${prefix}${folder}/meta.txt`, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+  return { ok: true, folder, meta }
 }
 
 async function listAll(bucket: any, options: any) {
@@ -320,6 +389,120 @@ export const POST: APIRoute = async ({ request, locals }) => {
         headers: { 'Content-Type': 'application/json' }
       })
     }
+    // --- Upload multipart -------------------------------------------------
+    // Serve per superare il tetto di 100MB per richiesta: il client spezza il
+    // file in parti da PART_SIZE e le manda una per volta. Ogni parte viene
+    // passata a R2 come stream, quindi i byte non entrano mai nella memoria
+    // del Worker e il tempo CPU non cresce con la dimensione del file.
+    const mp = url.searchParams.get('mp')
+    if (mp) {
+      const bucket = getBucket(locals)
+      if (!bucket) {
+        return new Response(JSON.stringify({ error: 'storage unavailable' }), { status: 503 })
+      }
+
+      const safe = sanitizeFilename(String(url.searchParams.get('filename') || ''))
+      if (!safe || !isAllowedFile(safe)) {
+        return new Response(JSON.stringify({ error: 'Formato file non supportato' }), { status: 415 })
+      }
+      const prefix = 'media/'
+
+      if (mp === 'create') {
+        const declared = Number(url.searchParams.get('size') || 0)
+        if (declared > MAX_VIDEO_BYTES) {
+          return new Response(
+            JSON.stringify({ error: `${isVideoFile(safe) ? 'Il video' : 'Il file'} supera il limite di 250MB` }),
+            { status: 413 }
+          )
+        }
+        const resolved = await resolveFolder(bucket, {
+          existingFolder: url.searchParams.get('existingFolder') || undefined,
+          eventName: String(url.searchParams.get('eventName') || ''),
+          date: String(url.searchParams.get('date') || ''),
+          description: url.searchParams.get('description') ? String(url.searchParams.get('description')) : undefined,
+        })
+        if (!resolved.ok) {
+          return new Response(JSON.stringify({ error: resolved.error }), { status: resolved.status })
+        }
+        const key = `${prefix}${resolved.folder}/${safe}`
+        const ct = String(url.searchParams.get('contentType') || '') || contentTypeFor(safe)
+        const upload = await bucket.createMultipartUpload(key, { httpMetadata: { contentType: ct } })
+        return new Response(
+          JSON.stringify({
+            uploadId: upload.uploadId,
+            folder: resolved.folder,
+            filename: safe,
+            partSize: PART_SIZE,
+            maxParts: MAX_PARTS,
+            meta: resolved.meta,
+          }),
+          { status: 201, headers: { 'Content-Type': 'application/json' } }
+        )
+      }
+
+      // Da qui in poi la cartella è già stata creata da 'create': la si
+      // riceve dal client e si ricompone la chiave lato server, senza mai
+      // accettarla così com'è.
+      const folder = String(url.searchParams.get('folder') || '')
+      if (!isSafeFolder(folder)) {
+        return new Response(JSON.stringify({ error: 'invalid folder' }), { status: 400 })
+      }
+      const uploadId = String(url.searchParams.get('uploadId') || '')
+      if (!uploadId) {
+        return new Response(JSON.stringify({ error: 'missing uploadId' }), { status: 400 })
+      }
+      const key = `${prefix}${folder}/${safe}`
+
+      if (mp === 'part') {
+        const partNumber = Number(url.searchParams.get('partNumber') || 0)
+        // Numero di parti e dimensione massima di ognuna sono il vero limite
+        // per file: insieme non lasciano superare MAX_PARTS * PART_SIZE.
+        if (!Number.isInteger(partNumber) || partNumber < 1 || partNumber > MAX_PARTS) {
+          return new Response(JSON.stringify({ error: 'Il file supera il limite di 250MB' }), { status: 413 })
+        }
+        if (Number(request.headers.get('content-length') || 0) > PART_SIZE) {
+          return new Response(JSON.stringify({ error: 'Parte troppo grande' }), { status: 413 })
+        }
+        const body = request.body
+        if (!body) {
+          return new Response(JSON.stringify({ error: 'missing body' }), { status: 400 })
+        }
+        const part = await bucket.resumeMultipartUpload(key, uploadId).uploadPart(partNumber, body)
+        return new Response(JSON.stringify({ partNumber: part.partNumber, etag: part.etag }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
+
+      if (mp === 'complete') {
+        let parts: Array<{ partNumber: number, etag: string }> = []
+        try {
+          const data = await request.json() as any
+          parts = Array.isArray(data?.parts) ? data.parts : []
+        } catch { }
+        if (parts.length === 0 || parts.length > MAX_PARTS) {
+          return new Response(JSON.stringify({ error: 'parti mancanti o troppe' }), { status: 400 })
+        }
+        await bucket.resumeMultipartUpload(key, uploadId).complete(
+          parts.map((x) => ({ partNumber: Number(x.partNumber), etag: String(x.etag) }))
+        )
+        return new Response(JSON.stringify({ folder, files: [safe] }), {
+          status: 201,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
+
+      if (mp === 'abort') {
+        // Senza abort le parti già caricate restano su R2 e vengono fatturate.
+        try {
+          await bucket.resumeMultipartUpload(key, uploadId).abort()
+        } catch { }
+        return new Response(JSON.stringify({ aborted: true }), { status: 200 })
+      }
+
+      return new Response(JSON.stringify({ error: 'azione multipart sconosciuta' }), { status: 400 })
+    }
+
     const raw = url.searchParams.get('raw')
     if (raw === '1') {
       const bucket = getBucket(locals)
@@ -338,45 +521,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
         return new Response(JSON.stringify({ error: 'missing filename' }), { status: 400 })
       }
 
-      let folder = existingFolder && existingFolder.length > 0 ? existingFolder : ''
-      let meta: Meta | null = null
-      const prefix = 'media/'
-
-      if (folder) {
-        const metaKey = `${prefix}${folder}/meta.txt`
-        try {
-          const metaObj = await bucket.get(metaKey)
-          if (metaObj) {
-            const txt = await metaObj.text()
-            // Remove BOM if present (code 65279 / 0xFEFF)
-            const cleanTxt = txt.charCodeAt(0) === 0xFEFF ? txt.slice(1) : txt
-            meta = JSON.parse(cleanTxt)
-          }
-        } catch { }
-        if (!meta && eventName && date) {
-          const dateRegex = /^\d{4}-\d{2}-\d{2}$/
-          if (dateRegex.test(date)) {
-            meta = { eventName, date, description }
-            await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
-          }
-        }
-        if (meta && typeof description !== 'undefined') {
-          meta = { ...meta, description }
-          await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
-        }
-      } else {
-        if (!eventName || !date) {
-          return new Response(JSON.stringify({ error: 'missing fields' }), { status: 400 })
-        }
-        const dateRegex = /^\d{4}-\d{2}-\d{2}$/
-        if (!dateRegex.test(date)) {
-          return new Response(JSON.stringify({ error: 'invalid date' }), { status: 400 })
-        }
-        folder = `${createSlug(eventName)}-${date.replace(/-/g, '')}`
-        meta = { eventName, date, description }
-        const metaKey = `${prefix}${folder}/meta.txt`
-        await bucket.put(metaKey, JSON.stringify(meta), { httpMetadata: { contentType: 'application/json' } })
+      const resolved = await resolveFolder(bucket, { existingFolder, eventName, date, description })
+      if (!resolved.ok) {
+        return new Response(JSON.stringify({ error: resolved.error }), { status: resolved.status })
       }
+      const { folder, meta } = resolved
+      const prefix = 'media/'
 
       const safe = sanitizeFilename(filename)
       if (!isAllowedFile(safe)) {

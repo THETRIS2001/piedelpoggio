@@ -557,7 +557,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   id="sizeLimitMsg"
                   class="text-xs text-gray-500 mt-2 text-center"
                 >
-                  Selezionati 0 B su 1GB (max)
+                  Selezionati 0 B su 1GB (max) · video fino a 250MB l'uno
                 </div>
                 <div
                   id="uploadStatus"
@@ -1720,6 +1720,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return files.filter((f) => isVideoFile(f) && f.size > MAX_VIDEO_BYTES);
     }
 
+    // File scartati all'ultima selezione. Restano qui per essere mostrati sotto
+    // la dropzone: un alert sparisce e l'utente non ha più modo di sapere quale
+    // file era il problema.
+    let rejectedFiles: Array<{ name: string; motivo: string }> = [];
+
+    /**
+     * Tiene i file validi e mette da parte gli altri. input.files è di sola
+     * lettura, quindi per scartarne qualcuno senza perdere il resto della
+     * selezione i buoni si spostano nell'elenco gestito a mano.
+     */
+    function acceptFiles(picked: File[]) {
+      const tooBig = oversizedVideos(picked);
+      const unsupported = picked.filter((f) => !isMediaFile(f));
+      rejectedFiles = [
+        ...tooBig.map((f) => ({
+          name: `${f.name} (${formatBytes(f.size)})`,
+          motivo: "oltre 250MB",
+        })),
+        ...unsupported.map((f) => ({ name: f.name, motivo: "formato non supportato" })),
+      ];
+      return picked.filter((f) => isMediaFile(f) && !tooBig.includes(f));
+    }
+
     const MAX_TOTAL_BYTES = 1024 * 1024 * 1024;
     function formatBytes(b: number) {
       const u = ["B", "KB", "MB", "GB"];
@@ -1745,15 +1768,39 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       if (!msg) return;
       const bytes = totalSelectedBytes();
       const tooBig = oversizedVideos(allSelectedFiles());
-      const over = bytes > MAX_TOTAL_BYTES || tooBig.length > 0;
-      msg.textContent = tooBig.length
-        ? `Video oltre il limite di 250MB: ${tooBig.map((f) => f.name).join(", ")}`
-        : over
-          ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB (max)`
-          : `Selezionati ${formatBytes(bytes)} su 1GB (max)`;
+      const overTotal = bytes > MAX_TOTAL_BYTES;
+      const over = overTotal || tooBig.length > 0;
+
+      // Vanno mostrati entrambi i limiti, e insieme: superarne uno non deve
+      // nascondere l'altro, altrimenti si corregge un problema per volta.
+      const problemi: string[] = [];
+      if (overTotal) {
+        problemi.push(
+          `totale ${formatBytes(bytes)}: superato il massimo di 1GB per caricamento`,
+        );
+      }
+      if (tooBig.length) {
+        problemi.push(
+          `oltre 250MB: ${tooBig.map((f) => `${f.name} (${formatBytes(f.size)})`).join(", ")}`,
+        );
+      }
+      if (rejectedFiles.length) {
+        problemi.push(
+          `esclusi ${rejectedFiles.map((r) => `${r.name} — ${r.motivo}`).join("; ")}`,
+        );
+      }
+
+      const riepilogo = `Selezionati ${formatBytes(bytes)} su 1GB (max) · video fino a 250MB l'uno`;
+      msg.textContent = problemi.length
+        ? `${riepilogo} — ${problemi.join(" · ")}`
+        : riepilogo;
+      // Il rosso segnala solo ciò che blocca l'invio; i file esclusi sono già
+      // stati tolti dalla selezione, quindi bastano in arancione.
       msg.className = over
         ? "text-xs text-red-600 mt-2 text-center font-semibold"
-        : "text-xs text-gray-500 mt-2 text-center";
+        : rejectedFiles.length
+          ? "text-xs text-orange-600 mt-2 text-center font-semibold"
+          : "text-xs text-gray-500 mt-2 text-center";
     }
     document
       .getElementById("uploadForm")
@@ -1899,7 +1946,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         }
         const totalBytesAll = allFiles.reduce((a, f) => a + (f.size || 0), 0);
         let uploadedBase = 0;
-        const RAW_THRESHOLD_BYTES = 100 * 1024 * 1024;
 
         const existing =
           (
@@ -1917,75 +1963,191 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           (document.getElementById("description") as HTMLTextAreaElement | null)
             ?.value || "";
 
-        async function uploadOne(file: File) {
-          return new Promise<void>((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            let url = "/api/media";
-            let fd: FormData | null = null;
-            if (file.size >= RAW_THRESHOLD_BYTES) {
-              const params = new URLSearchParams();
-              params.set("raw", "1");
-              params.set("filename", file.name);
-              if (file.type) params.set("contentType", file.type);
-              if (existing) {
-                params.set("existingFolder", existing);
-              } else {
-                params.set("eventName", name);
-                params.set("date", date);
-              }
-              if (desc) params.set("description", desc);
-              url = `/api/media?${params.toString()}`;
-              xhr.open("POST", url);
-            } else {
-              xhr.open("POST", url);
-              fd = new FormData();
-              if (existing) fd.append("existingFolder", existing);
-              else {
-                fd.append("eventName", name);
-                fd.append("date", date);
-              }
-              if (desc) fd.append("description", desc);
-              fd.append("files", file);
-            }
+        // Oltre questa soglia il file viene spezzato: Cloudflare rifiuta i
+        // corpi di richiesta sopra i 100MB sui piani Free e Pro, quindi un
+        // video da 250MB non può passare in un colpo solo.
+        const PART_SIZE = 25 * 1024 * 1024;
+        const MAX_PART_ATTEMPTS = 3;
 
-            xhr.upload.onprogress = (evt) => {
-              const totalLoaded = uploadedBase + (evt.loaded || 0);
-              const percent = Math.round((totalLoaded / totalBytesAll) * 100);
-              if (bar) bar.style.width = percent + "%";
-              if (pct) pct.textContent = percent + "%";
-            };
+        function eventParams(params: URLSearchParams) {
+          if (existing) {
+            params.set("existingFolder", existing);
+          } else {
+            params.set("eventName", name);
+            params.set("date", date);
+          }
+          if (desc) params.set("description", desc);
+          return params;
+        }
+
+        function errorFrom(xhr: XMLHttpRequest, file: File) {
+          if (xhr.status === 413) {
+            // Un 413 può arrivare anche dal bordo Cloudflare prima del nostro
+            // codice, e in quel caso il corpo è una pagina HTML: meglio un
+            // messaggio nostro che l'HTML grezzo a schermo.
+            return new Error(
+              `"${file.name}" (${formatBytes(file.size || 0)}) è troppo grande per essere caricato.`,
+            );
+          }
+          if (xhr.status === 0) {
+            // Caso più frequente su rete mobile: la richiesta non è mai
+            // arrivata a destinazione, quindi non c'è un corpo da leggere.
+            return new Error(
+              `Connessione interrotta durante il caricamento di "${file.name}".`,
+            );
+          }
+          let msg = "";
+          try {
+            msg = JSON.parse(xhr.responseText)?.error || xhr.responseText;
+          } catch {
+            msg = xhr.responseText;
+          }
+          return new Error(msg || "Errore nel caricamento");
+        }
+
+        /** POST con progresso. `onProgress` riceve i byte inviati di questo corpo. */
+        function send(
+          url: string,
+          body: Blob | File | string | null,
+          file: File,
+          onProgress?: (loaded: number) => void,
+        ) {
+          return new Promise<any>((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            if (typeof body === "string") {
+              xhr.setRequestHeader("Content-Type", "application/json");
+            }
+            if (onProgress) {
+              xhr.upload.onprogress = (evt) => onProgress(evt.loaded || 0);
+            }
+            xhr.onerror = () => reject(new Error("Connessione interrotta"));
             xhr.onreadystatechange = () => {
-              if (xhr.readyState === 4) {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                  uploadedBase += file.size || 0;
-                  resolve();
-                } else {
-                  let msg = "";
-                  try {
-                    msg =
-                      JSON.parse(xhr.responseText)?.error || xhr.responseText;
-                  } catch {
-                    msg = xhr.responseText;
-                  }
-                  if (xhr.status === 413) {
-                    // Un 413 può arrivare anche dal bordo Cloudflare prima del
-                    // nostro codice, e in quel caso il corpo è una pagina HTML:
-                    // meglio un messaggio nostro che l'HTML grezzo a schermo.
-                    msg = `"${file.name}" (${formatBytes(file.size || 0)}) è troppo grande per essere caricato.`;
-                  }
-                  reject(new Error(msg || "Errore nel caricamento"));
+              if (xhr.readyState !== 4) return;
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  resolve(xhr.responseText ? JSON.parse(xhr.responseText) : {});
+                } catch {
+                  resolve({});
+                }
+              } else {
+                reject(errorFrom(xhr, file));
+              }
+            };
+            xhr.send(body as any);
+          });
+        }
+
+        const reportProgress = (loadedInFile: number) => {
+          const percent = Math.round(
+            ((uploadedBase + loadedInFile) / totalBytesAll) * 100,
+          );
+          if (bar) bar.style.width = percent + "%";
+          if (pct) pct.textContent = percent + "%";
+        };
+
+        async function uploadMultipart(file: File) {
+          const created = await send(
+            `/api/media?${eventParams(
+              new URLSearchParams({
+                mp: "create",
+                filename: file.name,
+                size: String(file.size),
+                ...(file.type ? { contentType: file.type } : {}),
+              }),
+            ).toString()}`,
+            null,
+            file,
+          );
+          const partSize = Number(created.partSize) || PART_SIZE;
+          const base = new URLSearchParams({
+            filename: String(created.filename),
+            folder: String(created.folder),
+            uploadId: String(created.uploadId),
+          });
+
+          const parts: Array<{ partNumber: number; etag: string }> = [];
+          let sent = 0;
+          try {
+            for (let offset = 0, n = 1; offset < file.size; offset += partSize, n++) {
+              const chunk = file.slice(offset, Math.min(offset + partSize, file.size));
+              const params = new URLSearchParams(base);
+              params.set("mp", "part");
+              params.set("partNumber", String(n));
+
+              // Una parte può fallire per un buco di rete senza che l'intero
+              // upload sia perso: si ritenta solo quella.
+              let part: any = null;
+              for (let attempt = 1; ; attempt++) {
+                try {
+                  part = await send(
+                    `/api/media?${params.toString()}`,
+                    chunk,
+                    file,
+                    (loaded) => reportProgress(sent + loaded),
+                  );
+                  break;
+                } catch (err) {
+                  const fatal =
+                    err instanceof Error && /troppo grande|limite/i.test(err.message);
+                  if (fatal || attempt >= MAX_PART_ATTEMPTS) throw err;
+                  await new Promise((r) => setTimeout(r, 1000 * attempt));
                 }
               }
-            };
-            if (fd) xhr.send(fd);
-            else xhr.send(file);
-          });
+              parts.push({
+                partNumber: Number(part.partNumber),
+                etag: String(part.etag),
+              });
+              sent += chunk.size;
+              reportProgress(sent);
+            }
+
+            const done = new URLSearchParams(base);
+            done.set("mp", "complete");
+            await send(
+              `/api/media?${done.toString()}`,
+              JSON.stringify({ parts }),
+              file,
+            );
+          } catch (err) {
+            // Senza abort le parti già caricate restano su R2 a occupare spazio.
+            const cancel = new URLSearchParams(base);
+            cancel.set("mp", "abort");
+            try {
+              await fetch(`/api/media?${cancel.toString()}`, { method: "POST" });
+            } catch { }
+            throw err;
+          }
+        }
+
+        async function uploadSingle(file: File) {
+          const params = eventParams(
+            new URLSearchParams({ raw: "1", filename: file.name }),
+          );
+          if (file.type) params.set("contentType", file.type);
+          await send(
+            `/api/media?${params.toString()}`,
+            file,
+            file,
+            (loaded) => reportProgress(loaded),
+          );
+        }
+
+        async function uploadOne(file: File) {
+          if (file.size > PART_SIZE) {
+            await uploadMultipart(file);
+          } else {
+            await uploadSingle(file);
+          }
         }
 
         try {
           for (const f of allFiles) {
             if (!f || !f.name || f.size === 0) continue;
             await uploadOne(f);
+            // Il progresso è cumulativo sull'intero lotto: chiuso un file, la
+            // sua dimensione diventa la base da cui riparte il conteggio.
+            uploadedBase += f.size || 0;
           }
           const originals = sources.map((f) => f.name).filter((n) => !!n);
           const existing =
@@ -2041,6 +2203,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           if (pct) pct.textContent = "0%";
 
           // Reset completo sezione upload
+          rejectedFiles = [];
           if (existingHidden) existingHidden.value = "";
           if (comboInput) {
             comboInput.value = "";
@@ -2178,46 +2341,26 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     document.getElementById("files")?.addEventListener("change", (e) => {
       const input = e.target as HTMLInputElement;
       const summary = document.getElementById("filesSummary");
+      const picked = input.files ? Array.from(input.files) : [];
+      const valid = acceptFiles(picked);
 
-      // Validazione file selezionati via dialog
-      if (input.files) {
-        const picked = Array.from(input.files);
-        const tooBig = oversizedVideos(picked);
-        if (tooBig.length > 0) {
-          alert(
-            `Questi video superano il limite di 250MB: ${tooBig.map((f) => `${f.name} (${formatBytes(f.size)})`).join(", ")}`,
-          );
-          input.value = "";
-          externalFiles = [];
-          if (summary) summary.textContent = "";
-          updateSubmitEnabled();
-          updateSizeLimitInfo();
-          return;
-        }
-        const invalidFiles = picked.filter((f) => !isMediaFile(f));
-        if (invalidFiles.length > 0) {
-          alert(
-            `Alcuni file non sono foto o video supportati e saranno ignorati: ${invalidFiles.map((f) => f.name).join(", ")}`,
-          );
-          // Reset input se ci sono file non validi per costringere a riselezionare pulito,
-          // oppure si potrebbe accettare solo quelli validi se si usasse un array separato per tutto.
-          // Dato che input.files è readonly, resettiamo per semplicità se l'utente forza file non immagini.
-          input.value = "";
-          externalFiles = [];
-          if (summary) summary.textContent = "";
-          updateSubmitEnabled();
-          return;
-        }
+      if (valid.length !== picked.length) {
+        // Qualcosa è stato scartato: i validi passano nell'elenco manuale e
+        // l'input si svuota, altrimenti i file rifiutati resterebbero dentro.
+        externalFiles = valid;
+        input.value = "";
+      } else {
+        externalFiles = [];
       }
 
-      const count = input.files ? input.files.length : 0;
-      externalFiles = []; // Reset external files on new input selection to avoid confusion mixing both
+      const total = allSelectedFiles().length;
       if (summary)
-        summary.textContent = count > 0 ? `${count} file selezionati` : "";
-      console.log("files:inputChange", { count });
+        summary.textContent = total > 0 ? `${total} file selezionati` : "";
+      console.log("files:inputChange", { total, scartati: rejectedFiles.length });
       updateSubmitEnabled();
       updateSizeLimitInfo();
     });
+
     const dropzone = document.getElementById("dropzone");
     const pickFiles = document.getElementById("pickFiles");
     dropzone?.addEventListener("dragover", (e) => {
@@ -2235,34 +2378,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const summary = document.getElementById("filesSummary");
       const files = (e as DragEvent).dataTransfer?.files;
       if (input && files) {
-        const droppedFiles = Array.from(files);
-        const tooBig = oversizedVideos(droppedFiles);
-        const validFiles = droppedFiles.filter(
-          (f) => isMediaFile(f) && !tooBig.includes(f),
-        );
-        const invalidFiles = droppedFiles.filter((f) => !isMediaFile(f));
+        // input.files non è scrivibile, quindi i file trascinati vivono qui e
+        // si sommano a quelli già scelti dal selettore, che non vanno toccati.
+        externalFiles = acceptFiles(Array.from(files));
 
-        if (invalidFiles.length > 0) {
-          alert(
-            `I seguenti file non sono stati aggiunti perché non sono foto o video supportati: ${invalidFiles.map((f) => f.name).join(", ")}`,
-          );
-        }
-        if (tooBig.length > 0) {
-          alert(
-            `Questi video non sono stati aggiunti perché superano il limite di 250MB: ${tooBig.map((f) => `${f.name} (${formatBytes(f.size)})`).join(", ")}`,
-          );
-        }
-
-        externalFiles = validFiles;
-        // Nota: input.files non può essere modificato programmaticamente per aggiungere file droppati
-        // Quindi externalFiles gestisce quelli del drop.
-
-        const countInput = input.files ? input.files.length : 0;
-        const countDrop = externalFiles.length;
-        const total = countInput + countDrop;
+        const total = allSelectedFiles().length;
         if (summary)
           summary.textContent = total > 0 ? `${total} file selezionati` : "";
-        console.log("files:drop", { countInput, countDrop, total });
+        console.log("files:drop", { total, scartati: rejectedFiles.length });
         updateSubmitEnabled();
         updateSizeLimitInfo();
       }
