@@ -106,8 +106,15 @@ const saldoCassa = totaleEntrate - totaleUscite;
 const saldoContoPostale = 1945.38;
 const saldoLiquidi = 0;
 
-const euro = (n: number) =>
-  n.toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// Formattazione fatta a mano e non con toLocaleString: il runtime di
+// Cloudflare applica la regola di raggruppamento "min2" dell'italiano e lascia
+// i numeri di quattro cifre senza separatore (4508,99 invece di 4.508,99),
+// mentre in locale ne metteva. Così il risultato è identico ovunque.
+const euro = (n: number) => {
+  const [intero, decimali] = Math.abs(n).toFixed(2).split(".");
+  const conMigliaia = intero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${n < 0 ? "-" : ""}${conMigliaia},${decimali}`;
+};
 
 const bilanciSorted = sortBilanciByYear(bilanciArray);
 const currentBudget = bilanciSorted.length > 0 ? bilanciSorted[0] : null;
