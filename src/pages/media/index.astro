@@ -93,7 +93,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     class="w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
-                <div class="min-w-0 overflow-hidden">
+                <!-- Su mobile i filtri per data sono nascosti: resta il solo
+                     nome, con ordinamenti e reset sotto. -->
+                <div class="min-w-0 overflow-hidden hidden sm:block">
                   <div class="text-xs font-semibold text-white mb-1">
                     Data Inizio
                   </div>
@@ -103,7 +105,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     class="w-full max-w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
-                <div class="min-w-0 overflow-hidden">
+                <!-- Su mobile i filtri per data sono nascosti: resta il solo
+                     nome, con ordinamenti e reset sotto. -->
+                <div class="min-w-0 overflow-hidden hidden sm:block">
                   <div class="text-xs font-semibold text-white mb-1">
                     Data Fine
                   </div>
@@ -374,20 +378,26 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               autocomplete="off"
             >
               <!-- Sezione 1: Selezione Modalità -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
                 <button
                   id="modeExisting"
                   type="button"
-                  class="px-3 py-1.5 rounded-full text-sm font-medium text-white no-min-h"
+                  class="px-3 py-1.5 rounded-full text-sm font-medium text-white no-min-h whitespace-nowrap"
                   style="background: linear-gradient(135deg, #FF2400, #E01E00);"
-                  >Aggiungi a evento esistente</button
                 >
+                  <!-- Su mobile l'etichetta lunga va a capo e sforma il
+                       pulsante: sotto sm si accorcia. -->
+                  <span class="sm:hidden">Aggiungi a esistente</span>
+                  <span class="hidden sm:inline">Aggiungi a evento esistente</span>
+                </button>
                 <button
                   id="modeNew"
                   type="button"
-                  class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 no-min-h"
-                  >Crea nuovo evento</button
+                  class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 no-min-h whitespace-nowrap"
                 >
+                  <span class="sm:hidden">Crea nuovo</span>
+                  <span class="hidden sm:inline">Crea nuovo evento</span>
+                </button>
                 <button
                   type="button"
                   aria-label="Info"
@@ -1229,17 +1239,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         if (uploadMode === "existing") {
           mE.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
           mE.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0 whitespace-nowrap";
           mN.style.background = "";
           mN.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0 whitespace-nowrap";
         } else {
           mN.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
           mN.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0 whitespace-nowrap";
           mE.style.background = "";
           mE.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0 whitespace-nowrap";
         }
       }
     }
