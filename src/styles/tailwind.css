@@ -547,3 +547,34 @@ body {
 .lightbox-overlay * {
   touch-action: none;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SU MOBILE NIENTE CONTENITORE ESTERNO
+
+   Su schermo stretto il riquadro che avvolge una sezione (sfondo, cornice,
+   ombra, angoli e padding laterale) mangia larghezza utile senza aggiungere
+   informazione: la separazione fra le sezioni la fa già lo spazio verticale,
+   che infatti non viene toccato.
+
+   Viene spogliato SOLO il riquadro più esterno: i sotto-riquadri interni
+   restano come sono. È quello che fa `:not(...  *)`, che esclude ogni pannello
+   che si trovi già dentro un altro pannello.
+
+   Da md in su non cambia nulla: sul desktop i riquadri restano tutti.
+
+   Fuori da @layer perché deve battere le utility di Tailwind, che hanno
+   specificità di classe. `.keep-card` è la via d'uscita per i casi singoli.
+   ───────────────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  main :is(div, section, article, form)[class*="rounded-"]:is([class*="shadow-"], [class*="border-gray-2"]):not(.keep-card):not(.keep-card *):not(:is(div, section, article, form)[class*="rounded-"]:is([class*="shadow-"], [class*="border-gray-2"]) *) {
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
