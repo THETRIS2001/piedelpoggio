@@ -421,6 +421,41 @@ const BookingCalendar: React.FC = () => {
         </div>
       )}
 
+      {/* Condizioni del contributo: vanno lette prima di prenotare, non solo
+          nel riepilogo finale. */}
+      <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50/70 p-4 sm:p-5">
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white border border-amber-200 flex-shrink-0 flex items-center justify-center text-amber-600">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div className="min-w-0">
+            <h3 className="text-sm sm:text-base font-bold text-amber-900 mb-1">
+              Prenotare il campo è gratuito
+            </h3>
+            <p className="text-xs sm:text-sm text-amber-900/90 leading-relaxed">
+              È previsto un contributo di <strong>25 €</strong> soltanto quando valgono
+              entrambe queste condizioni:
+            </p>
+            <ul className="mt-2 space-y-1 text-xs sm:text-sm text-amber-900/90">
+              <li className="flex items-start gap-2">
+                <span aria-hidden="true" className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
+                <span>il gruppo è composto da <strong>più di 10 persone</strong></span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span aria-hidden="true" className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
+                <span>l'attività è <strong>riservata al gruppo</strong> e non aperta a tutti</span>
+              </li>
+            </ul>
+            <p className="mt-2 text-xs sm:text-sm text-amber-900/80 leading-relaxed">
+              Le iniziative aperte a chiunque voglia partecipare — per esempio fare il
+              pane insieme ai bambini — restano sempre gratuite, anche con molte persone.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Intestazione calendario */}
       <CalendarHeader month={visibleMonth} year={visibleYear} onPrev={handlePrev} onNext={handleNext} onToday={handleToday} />
 
@@ -758,14 +793,20 @@ const BookingCalendar: React.FC = () => {
                     <div className="w-12 h-12 rounded-2xl bg-white border border-amber-100 flex-shrink-0 flex items-center justify-center text-amber-600 shadow-sm">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1 opacity-80">Importo da versare</h4>
-                      <div className="flex items-baseline gap-1 mb-1">
-                        <span className="text-2xl font-black text-amber-900 tracking-tight">25€</span>
-                        <span className="text-xs font-semibold text-amber-700">/ prenotazione</span>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1 opacity-80">Contributo</h4>
+                      <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 mb-1.5">
+                        <span className="text-2xl font-black text-amber-900 tracking-tight">25 €</span>
+                        <span className="text-xs font-semibold text-amber-700">solo in questi casi</span>
                       </div>
                       <p className="text-xs text-amber-800/90 leading-relaxed font-medium">
-                        da consegnare ad un membro della Pro Loco
+                        Si versa quando il gruppo supera le <strong>10 persone</strong> e
+                        l'attività è riservata al gruppo. Le iniziative{' '}
+                        <strong>aperte a tutti</strong> non prevedono alcun contributo,
+                        qualunque sia il numero di partecipanti.
+                      </p>
+                      <p className="text-xs text-amber-800/80 leading-relaxed mt-1.5">
+                        Va consegnato a un membro della Pro Loco.
                       </p>
                     </div>
                   </div>
