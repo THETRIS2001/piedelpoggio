@@ -311,7 +311,20 @@ import InfoDropdownMobile from "./InfoDropdownMobile.astro";
       // Senza questo il click risalirebbe fino a document e il gestore qui
       // sotto richiuderebbe il menu nello stesso istante in cui si apre.
       e.stopPropagation();
+      const stavaChiuso = !isOpen();
       menu.classList.toggle("hidden");
+      // Proprio perché il click non arriva a document, l'altro menu non può
+      // accorgersene da solo: glielo si dice.
+      if (stavaChiuso) {
+        document.dispatchEvent(
+          new CustomEvent("menu:apertura", { detail: "hamburger" }),
+        );
+      }
+    });
+
+    // Un menu alla volta: si chiude quando se ne apre un altro.
+    document.addEventListener("menu:apertura", (e) => {
+      if ((e as CustomEvent).detail !== "hamburger") close();
     });
 
     // Si chiude toccando qualunque altro punto dello schermo.

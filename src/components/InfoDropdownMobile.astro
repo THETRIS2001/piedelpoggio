@@ -209,11 +209,15 @@
     button.addEventListener('click', (e) => {
       e.preventDefault();
       isOpen = !isOpen;
-      
+
       if (isOpen) {
         dropdown.style.display = 'block';
         arrow.style.transform = 'rotate(180deg)';
         button.setAttribute('aria-expanded', 'true');
+        // Avvisa gli altri menu, che così si chiudono.
+        document.dispatchEvent(
+          new CustomEvent('menu:apertura', { detail: 'risorse' }),
+        );
       } else {
         dropdown.style.display = 'none';
         arrow.style.transform = 'rotate(0deg)';
@@ -234,6 +238,11 @@
       const target = e.target as Node;
 
       if (isOpen && !button.contains(target) && !dropdown.contains(target)) close();
+    });
+
+    // Un menu alla volta: si chiude quando se ne apre un altro.
+    document.addEventListener('menu:apertura', (e) => {
+      if ((e as CustomEvent).detail !== 'risorse' && isOpen) close();
     });
 
     // E anche solo scorrendo la pagina, senza bisogno di un tap.
