@@ -562,11 +562,15 @@ body {
 
    Da md in su non cambia nulla: sul desktop i riquadri restano tutti.
 
+   Sono escluse le finestre sovrapposte — tutto ciò che è, o sta dentro, un
+   elemento `fixed` — perché lì il riquadro non è decorazione: senza sfondo la
+   modale diventa trasparente e si legge sopra la pagina.
+
    Fuori da @layer perché deve battere le utility di Tailwind, che hanno
    specificità di classe. `.keep-card` è la via d'uscita per i casi singoli.
    ───────────────────────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
-  main :is(div, section, article, form)[class*="rounded-"]:is([class*="shadow-"], [class*="border-gray-2"]):not(.keep-card):not(.keep-card *):not(:is(div, section, article, form)[class*="rounded-"]:is([class*="shadow-"], [class*="border-gray-2"]) *) {
+  main :is(div, section, article, form)[class*="rounded-"]:is([class*="shadow-"], [class*="border-gray-2"]):not(.keep-card):not(.keep-card *):not([class*="fixed"]):not([class*="fixed"] *):not(.lightbox-overlay *):not(:is(div, section, article, form)[class*="rounded-"]:is([class*="shadow-"], [class*="border-gray-2"]) *) {
     background-color: transparent !important;
     background-image: none !important;
     border: 0 !important;
