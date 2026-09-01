@@ -373,6 +373,27 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               class="flex flex-col gap-6"
               autocomplete="off"
             >
+              <!-- Sezione 0: Chi carica -->
+              <div>
+                <label
+                  for="uploader"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Nome di chi carica <span class="text-red-600">*</span></label
+                >
+                <input
+                  name="uploader"
+                  id="uploader"
+                  type="text"
+                  placeholder="Nome e cognome"
+                  maxlength="60"
+                  autocomplete="name"
+                  class="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-0 focus:border-red-500"
+                  required
+                />
+              </div>
+
+              <hr class="border-gray-200" />
+
               <!-- Sezione 1: Selezione Modalità -->
               <div class="flex items-center gap-2">
                 <button
@@ -1390,6 +1411,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       uploadMode = "new";
       updateUploadVisibility();
     });
+    const uploaderEl = document.getElementById(
+      "uploader",
+    ) as HTMLInputElement | null;
+    try {
+      const savedUploader = localStorage.getItem("mediaUploaderName") || "";
+      if (uploaderEl && savedUploader) uploaderEl.value = savedUploader;
+    } catch {}
+    uploaderEl?.addEventListener("input", () => updateSubmitEnabled());
     document
       .getElementById("eventName")
       ?.addEventListener("input", () => updateSubmitEnabled());
@@ -1761,6 +1790,37 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
             filesInput && filesInput.files ? filesInput.files.length : 0,
           externalFilesCount: externalFiles.length,
         });
+        const uploaderName =
+          (
+            document.getElementById("uploader") as HTMLInputElement | null
+          )?.value.trim() || "";
+        if (!uploaderName) {
+          if (statusEl) {
+            statusEl.innerHTML = `
+              <div class="flex items-center gap-3 p-1">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center border border-amber-200">
+                  <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-bold text-amber-800 leading-tight">Nome mancante</div>
+                  <div class="text-xs font-medium text-amber-600/90 mt-0.5">Inserisci il nome di chi sta caricando le foto</div>
+                </div>
+              </div>
+            `;
+            statusEl.className =
+              "text-sm rounded-2xl border border-amber-200 mt-4 bg-amber-50/80 backdrop-blur-md shadow-lg shadow-amber-900/5";
+            statusEl.classList.remove("hidden");
+          }
+          setTimeout(() => {
+            if (statusEl) statusEl.classList.add("hidden");
+          }, 3000);
+          (
+            document.getElementById("uploader") as HTMLInputElement | null
+          )?.focus();
+          return;
+        }
         const hasAnyFiles =
           !!(filesInput && filesInput.files && filesInput.files.length > 0) ||
           externalFiles.length > 0;
@@ -1913,6 +1973,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                 params.set("date", date);
               }
               if (desc) params.set("description", desc);
+              params.set("uploader", uploaderName);
               url = `/api/media?${params.toString()}`;
               xhr.open("POST", url);
             } else {
@@ -1924,6 +1985,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                 fd.append("date", date);
               }
               if (desc) fd.append("description", desc);
+              fd.append("uploader", uploaderName);
               fd.append("files", file);
             }
 
@@ -1996,12 +2058,20 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                 eventName: name,
                 date,
                 description: desc,
+                uploader: uploaderName,
                 files: filesWithSizes,
               }),
             });
           } catch {}
+          try {
+            localStorage.setItem("mediaUploaderName", uploaderName);
+          } catch {}
           await loadEvents();
           formEl.reset();
+          const uploaderReset = document.getElementById(
+            "uploader",
+          ) as HTMLInputElement | null;
+          if (uploaderReset) uploaderReset.value = uploaderName;
           const summary = document.getElementById("filesSummary");
           summary && (summary.textContent = "");
           externalFiles = [];
@@ -2128,10 +2198,15 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           ? isDuplicateNewEvent(nameEl?.value || "", dateEl?.value || "")
           : false;
       const sizeOk = totalSelectedBytes() <= MAX_TOTAL_BYTES;
-      const enabled = hasFiles && hasEventInfo && !hasDup && sizeOk;
+      const hasUploader = !!(
+        document.getElementById("uploader") as HTMLInputElement | null
+      )?.value.trim();
+      const enabled =
+        hasFiles && hasEventInfo && hasUploader && !hasDup && sizeOk;
       submitBtn && (submitBtn.disabled = !enabled);
       console.log("updateSubmitEnabled", {
         enabled,
+        hasUploader,
         hasFiles,
         hasEventInfo,
         hasDup,

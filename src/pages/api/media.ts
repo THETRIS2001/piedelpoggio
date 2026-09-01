@@ -42,6 +42,10 @@ function sanitizeFilename(name: string): string {
   return `${slug}${ext.toLowerCase()}`
 }
 
+function sanitizeUploader(value: unknown): string {
+  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, 60)
+}
+
 function contentTypeFor(name: string): string {
   const ext = getExt(name)
   if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg'
@@ -226,6 +230,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             eventName: String(fd.get('eventName') || ''),
             date: String(fd.get('date') || ''),
             description: fd.get('description') ? String(fd.get('description')) : undefined,
+            uploader: fd.get('uploader') ? String(fd.get('uploader')) : undefined,
             files: (fd.getAll('files') || []).map((v) => String(v)),
           }
         }
@@ -234,6 +239,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const eventNameInput = String(data?.eventName || '')
       const dateInput = String(data?.date || '')
       const descriptionInput = typeof data?.description !== 'undefined' ? String(data.description) : undefined
+      const uploaderInput = sanitizeUploader(data?.uploader)
       let folder = folderInput
       let meta: Meta | null = null
       const prefix = 'media/'
@@ -288,6 +294,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             eventName: evName,
             date: evDate,
             description: descriptionInput,
+            uploader: uploaderInput || undefined,
             files,
           })
           const payload = {
@@ -324,9 +331,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const existingFolder = url.searchParams.get('existingFolder') ? String(url.searchParams.get('existingFolder')) : undefined
       const filename = String(url.searchParams.get('filename') || '')
       const contentTypeHint = String(url.searchParams.get('contentType') || '')
+      const uploader = sanitizeUploader(url.searchParams.get('uploader'))
 
       if (!filename) {
         return new Response(JSON.stringify({ error: 'missing filename' }), { status: 400 })
+      }
+      if (!uploader) {
+        return new Response(JSON.stringify({ error: 'Inserisci il nome di chi carica le foto' }), { status: 400 })
       }
 
       let folder = existingFolder && existingFolder.length > 0 ? existingFolder : ''
@@ -376,7 +387,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         return new Response(JSON.stringify({ error: 'missing body' }), { status: 400 })
       }
       const ct = contentTypeHint || contentTypeFor(safe)
-      await bucket.put(key, body, { httpMetadata: { contentType: ct } })
+      await bucket.put(key, body, { httpMetadata: { contentType: ct }, customMetadata: { uploader } })
 
       // no email here; final notification is handled via notify=1 branch
 
@@ -391,7 +402,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const date = String(form.get('date') || '')
     const description = form.get('description') ? String(form.get('description')) : undefined
     const existingFolder = form.get('existingFolder') ? String(form.get('existingFolder')) : undefined
+    const uploader = sanitizeUploader(form.get('uploader'))
     const files = form.getAll('files') as File[]
+
+    if (!uploader) {
+      return new Response(JSON.stringify({ error: 'Inserisci il nome di chi carica le foto' }), { status: 400 })
+    }
 
     const bucket = getBucket(locals)
     if (!bucket) {
@@ -459,7 +475,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const key = `${prefix}${folder}/${dest}`
       const body: any = (f as any).stream ? (f as any).stream() : await f.arrayBuffer()
       const ct = contentTypeFor(dest)
-      await bucket.put(key, body, { httpMetadata: { contentType: ct } })
+      await bucket.put(key, body, { httpMetadata: { contentType: ct }, customMetadata: { uploader } })
       savedFiles.push(dest)
     }
 

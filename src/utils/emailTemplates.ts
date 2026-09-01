@@ -333,9 +333,10 @@ export function buildMediaUploadEmail(data: {
   eventName: string;
   date: string;
   description?: string;
+  uploader?: string;
   files: Array<{name: string, size: number}> | string[];
 }): string {
-  const { eventName, date, description } = data;
+  const { eventName, date, description, uploader } = data;
   const formattedDate = date ? formatDateIT(date) : '';
 
   // Normalizza files: supporta sia string[] (legacy) che {name, size}[]
@@ -347,6 +348,7 @@ export function buildMediaUploadEmail(data: {
   const totalSize = normalizedFiles.reduce((acc, f) => acc + f.size, 0);
 
   const infoRows = [
+    uploader ? infoRow('Caricato da', escapeHtml(uploader), colors.accent) : '',
     infoRow('Evento', escapeHtml(eventName), colors.blue),
     formattedDate ? infoRow('Data evento', escapeHtml(formattedDate), colors.blueDark) : '',
     description ? infoRow('Descrizione', escapeHtml(description), colors.accent) : '',
