@@ -1,23 +1,11 @@
 ---
 export const prerender = false;
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
+import { isAllowedMedia, isVideoName } from "../../lib/mediaTypes";
 
 const folder = Astro.params.folder;
 
-const isAllowed = (name: string) => {
-  const i = name.lastIndexOf(".");
-  const ext = i >= 0 ? name.slice(i).toLowerCase() : "";
-  return [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-    ".mp4",
-    ".webm",
-    ".ogg",
-    ".bmp",
-  ].includes(ext);
-};
+const isAllowed = isAllowedMedia;
 
 let meta: any = null;
 let files: Array<{
@@ -72,7 +60,7 @@ try {
       .map((o: any) => {
         const key = String(o.key || "");
         const name = key.split("/").pop() || "";
-        const isVideo = /\.(mp4|webm|ogg)$/i.test(name);
+        const isVideo = isVideoName(name);
         const size = Number(
           (o.size as number | undefined) || (o.Size as number | undefined) || 0,
         );
@@ -227,11 +215,20 @@ const capitalize = (s: string) => {
               files.map((f, idx) => (
                 <div class="rounded-lg overflow-hidden bg-gray-100">
                   {f.isVideo ? (
+                    /* preload="metadata" fa scaricare il primo fotogramma, così
+                       la cella mostra un'anteprima invece di un riquadro nero;
+                       playsinline evita che iOS apra a tutto schermo al play. */
                     <video
                       src={f.url}
-                      class="w-full h-40 md:h-48 object-cover"
+                      class="w-full h-40 md:h-48 object-cover bg-black"
                       controls
-                    />
+                      playsinline
+                      preload="metadata"
+                    >
+                      <a href={f.url} download>
+                        Il tuo browser non riproduce questo video: scaricalo
+                      </a>
+                    </video>
                   ) : (
                     <img
                       src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
@@ -297,7 +294,7 @@ const capitalize = (s: string) => {
         class="absolute inset-0 flex items-center justify-center z-[105] pointer-events-none transition-opacity duration-300 opacity-0 w-full h-full"
       >
         <div
-          class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"
+          class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"
         >
         </div>
       </div>
@@ -312,6 +309,26 @@ const capitalize = (s: string) => {
   </main>
 
   <script>
+    import { attachPhotoZoom } from "../../lib/photoZoom";
+
+    // Un codec che il browser non sa decodificare (i .mov HEVC degli iPhone su
+    // Firefox, per esempio) lascerebbe solo un riquadro nero senza spiegazione.
+    // Meglio dirlo e offrire il download, che funziona ovunque.
+    for (const video of document.querySelectorAll("video")) {
+      video.addEventListener("error", () => {
+        const src = video.getAttribute("src") || "";
+        const avviso = document.createElement("div");
+        avviso.className =
+          "w-full h-40 md:h-48 flex flex-col items-center justify-center gap-2 bg-gray-100 text-center px-3";
+        avviso.innerHTML =
+          '<span class="text-xs text-gray-600">Questo browser non riproduce il formato del video</span>' +
+          '<a class="text-xs font-semibold text-red-700 underline" download href="' +
+          src +
+          '">Scarica il video</a>';
+        video.replaceWith(avviso);
+      });
+    }
+
     interface WindowWithFflate extends Window {
       fflate?: any;
     }
@@ -336,6 +353,10 @@ const capitalize = (s: string) => {
       "nextBtn",
     ) as HTMLButtonElement | null;
 
+    // La pagina non zooma mai, quindi le frecce (position: fixed) restano
+    // immobili da sole: a ingrandirsi è solo la foto, qui sotto.
+    const photoZoom = lb && lbImg ? attachPhotoZoom(lbImg, lb) : null;
+
     let current = 0;
 
     const showIndex = (idx: number) => {
@@ -356,6 +377,8 @@ const capitalize = (s: string) => {
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
+        // Nuova foto: si riparte sempre da scala 1.
+        photoZoom?.reset();
       }
     };
 
@@ -364,16 +387,22 @@ const capitalize = (s: string) => {
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
+      photoZoom?.reset();
       if (lbImg) lbImg.src = "";
       const loader = document.getElementById("lightboxLoader");
       if (loader) loader.style.opacity = "0";
     };
 
-    // Click anywhere (including photo) closes lightbox
+    // Si chiude solo cliccando fuori dalla foto: click sulla foto stessa
+    // e sui pulsanti freccia non chiudono la lightbox.
     lb?.addEventListener("click", (e) => {
       const t = e.target as HTMLElement;
-      // Don't close if clicking prev/next buttons
-      if (t.closest("#prevBtn") || t.closest("#nextBtn")) return;
+      if (
+        t.closest("#prevBtn") ||
+        t.closest("#nextBtn") ||
+        t.closest("#lightboxImg")
+      )
+        return;
       close();
     });
 
@@ -397,45 +426,7 @@ const capitalize = (s: string) => {
       showIndex((current + 1) % imgs.length);
     });
 
-    // Swipe gesture for mobile
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let isSwiping = false;
-
-    lb?.addEventListener(
-      "touchstart",
-      (e) => {
-        if (e.touches.length === 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-          isSwiping = true;
-        } else {
-          isSwiping = false; // Multi-touch (pinch zoom) — don't swipe
-        }
-      },
-      { passive: true },
-    );
-
-    lb?.addEventListener("touchend", (e) => {
-      if (!isSwiping || e.changedTouches.length === 0) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = e.changedTouches[0].clientY - touchStartY;
-      const absDx = Math.abs(dx);
-      const absDy = Math.abs(dy);
-
-      // Must be a horizontal swipe: min 50px, and more horizontal than vertical
-      if (absDx > 50 && absDx > absDy * 1.5) {
-        e.preventDefault();
-        if (dx > 0) {
-          // Swipe right -> previous
-          showIndex((current - 1 + imgs.length) % imgs.length);
-        } else {
-          // Swipe left -> next
-          showIndex((current + 1) % imgs.length);
-        }
-      }
-      isSwiping = false;
-    });
+    // Nessuna navigazione da swipe: si cambia foto solo con i pulsanti freccia.
 
     async function ensureFflate() {
       const g = window as WindowWithFflate;

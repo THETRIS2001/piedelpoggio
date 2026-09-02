@@ -302,9 +302,48 @@ import InfoDropdownMobile from "./InfoDropdownMobile.astro";
   document.addEventListener("DOMContentLoaded", () => {
     const button = document.querySelector(".mobile-menu-button");
     const menu = document.querySelector(".mobile-menu");
+    if (!button || !menu) return;
 
-    button?.addEventListener("click", () => {
-      menu?.classList.toggle("hidden");
+    const isOpen = () => !menu.classList.contains("hidden");
+    const close = () => menu.classList.add("hidden");
+
+    button.addEventListener("click", (e) => {
+      // Senza questo il click risalirebbe fino a document e il gestore qui
+      // sotto richiuderebbe il menu nello stesso istante in cui si apre.
+      e.stopPropagation();
+      const stavaChiuso = !isOpen();
+      menu.classList.toggle("hidden");
+      // Proprio perché il click non arriva a document, l'altro menu non può
+      // accorgersene da solo: glielo si dice.
+      if (stavaChiuso) {
+        document.dispatchEvent(
+          new CustomEvent("menu:apertura", { detail: "hamburger" }),
+        );
+      }
     });
+
+    // Un menu alla volta: si chiude quando se ne apre un altro.
+    document.addEventListener("menu:apertura", (e) => {
+      if ((e as CustomEvent).detail !== "hamburger") close();
+    });
+
+    // Si chiude toccando qualunque altro punto dello schermo.
+    document.addEventListener("click", (e) => {
+      const target = e.target as Node;
+      if (isOpen() && !menu.contains(target) && !button.contains(target)) close();
+    });
+
+    // E anche solo scorrendo la pagina, senza bisogno di un tap.
+    window.addEventListener("scroll", () => { if (isOpen()) close(); }, { passive: true });
+
+    // Il trascinamento va intercettato a parte: su iOS un dito che scorre non
+    // produce sempre un evento scroll (rimbalzo elastico, scroll bloccato).
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        if (isOpen() && !menu.contains(e.target as Node)) close();
+      },
+      { passive: true },
+    );
   });
 </script>

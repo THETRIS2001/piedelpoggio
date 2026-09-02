@@ -4,12 +4,8 @@ export const prerender = false;
 import DefaultLayout from "../../layouts/DefaultLayout.astro";
 import Lightbox from "../../components/Lightbox";
 import {
-  parseEventoFrazione,
   parseProgrammaPrecedente,
-  sortEventiByDate,
   sortProgrammiByYear,
-  formatDateBadge,
-  type EventoFrazione,
   type ProgrammaPrecedente,
 } from "../../utils/eventiParser";
 
@@ -39,24 +35,9 @@ async function listAll(bucket: any, options: any) {
 }
 
 const bucket = getBucket(Astro.locals);
-const eventiArray: EventoFrazione[] = [];
 const programmiArray: ProgrammaPrecedente[] = [];
 
 if (bucket) {
-  // Load Eventi Frazioni
-  const eventiPrefix = "documents/Eventi Frazioni/";
-  const eventiResult = await listAll(bucket, { prefix: eventiPrefix });
-  for (const obj of eventiResult.objects) {
-    const filename = (obj.key as string).slice(eventiPrefix.length);
-    if (filename && !filename.includes("/")) {
-      const evento = parseEventoFrazione(
-        filename,
-        "/documents/Eventi Frazioni",
-      );
-      if (evento) eventiArray.push(evento);
-    }
-  }
-
   // Load Programmi estivi
   const progPrefix = "documents/Programmi estivi/";
   const progResult = await listAll(bucket, { prefix: progPrefix });
@@ -72,7 +53,6 @@ if (bucket) {
   }
 }
 
-const eventiSorted = sortEventiByDate(eventiArray);
 const programmiSorted = sortProgrammiByYear(programmiArray);
 const currentProgram = programmiSorted.length > 0 ? programmiSorted[0] : null;
 const previousPrograms = programmiSorted.length > 1 ? programmiSorted.slice(1) : [];
@@ -153,12 +133,10 @@ const currentProgramPath = currentProgram
     <section class="pt-4 pb-16">
       <div class="container mx-auto px-4">
         <!-- Sezione Programma Estivo -->
+        <!-- Contenuto senza riquadro esterno: i programmi precedenti si
+             estendono verso il basso quanto serve, scorrendo con la pagina. -->
         <div class="max-w-6xl mx-auto mb-12">
-          <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
-          >
-            <!-- Layout a 2 colonne su desktop, verticale su mobile -->
-            <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8">
               <!-- Colonna sinistra: Programma Corrente -->
               <div class="">
                 <div class="flex items-center gap-4 mb-6">
@@ -225,7 +203,7 @@ const currentProgramPath = currentProgram
                   </h3>
                 </div>
 
-                <div class="overflow-y-auto max-h-[60vh] lg:max-h-[calc(70vh-100px)] px-4 py-4 -mx-4 -my-4 space-y-4 scrollbar-hidden">
+                <div class="space-y-4">
                   {
                     previousPrograms.map((programma, index) => (
                       <div class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 hover:shadow-2xl transition-all duration-300">
@@ -276,85 +254,7 @@ const currentProgramPath = currentProgram
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Eventi Frazioni Limitrofe -->
-        <div class="max-w-6xl mx-auto">
-          <div
-            class="bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-gray-200 p-6 md:p-12"
-          >
-            <div class="flex items-center gap-4 mb-8">
-              <div
-                class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg bg-gradient-to-br from-green-500 to-emerald-600"
-              >
-                <svg
-                  class="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-              </div>
-              <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">
-                Eventi Frazioni Limitrofe
-              </h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {
-                eventiSorted.map((evento) => (
-                  <div
-                    class="bg-white rounded-xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col h-full eventi-frazioni-card"
-                    data-img={evento.path}
-                  >
-                    <div class="relative h-48 overflow-hidden">
-                      <img
-                        src={evento.path}
-                        alt={evento.nomeEvento}
-                        class="w-full h-full object-cover"
-                      />
-                      <div class="absolute top-3 right-3 bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold shadow-lg">
-                        {formatDateBadge(evento.dataString)}
-                      </div>
-                    </div>
-                    <div class="p-4">
-                      <div class="flex items-start gap-2 mb-2">
-                        <svg
-                          class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                        <span class="text-sm font-semibold text-gray-700">
-                          {evento.luogo}
-                        </span>
-                      </div>
-                      <h3 class="text-lg font-bold text-gray-900 mb-1">
-                        {evento.nomeEvento}
-                      </h3>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </main>
@@ -373,6 +273,8 @@ const currentProgramPath = currentProgram
 </DefaultLayout>
 
 <script>
+  import { attachPhotoZoom } from "../../lib/photoZoom";
+
   document.addEventListener("DOMContentLoaded", () => {
     const programmaImg = document.getElementById(
       "programma-img",
@@ -384,7 +286,12 @@ const currentProgramPath = currentProgram
     ) as HTMLImageElement;
 
     if (programmaContainer && lightbox && lightboxImg && programmaImg) {
+      // Stesso zoom della galleria: pinch sulla sola immagine, la pagina non
+      // scala, così il programma si può leggere ingrandendolo.
+      const photoZoom = attachPhotoZoom(lightboxImg, lightbox);
+
       const openLightbox = (imgSrc: string) => {
+        photoZoom.reset();
         lightboxImg.src = imgSrc;
 
         const img = new Image();
@@ -419,26 +326,19 @@ const currentProgramPath = currentProgram
         });
       });
 
-      // Apri lightbox per card Eventi Frazioni
-      const eventCards = document.querySelectorAll(".eventi-frazioni-card");
-      eventCards.forEach((card) => {
-        card.addEventListener("click", () => {
-          const imgSrc = card.getAttribute("data-img");
-          if (imgSrc) {
-            openLightbox(imgSrc);
-          }
-        });
-      });
-
-      // Chiudi lightbox al click ovunque
-      lightbox.addEventListener("click", () => {
+      // Si chiude cliccando fuori dall'immagine: un tap sull'immagine no,
+      // altrimenti si chiuderebbe proprio mentre la si sta guardando da vicino.
+      lightbox.addEventListener("click", (e) => {
+        if ((e.target as HTMLElement | null)?.closest("#lightbox-img")) return;
         lightbox.style.display = "none";
         document.body.style.overflow = "unset";
+        photoZoom.reset();
       });
 
       // Chiudi con ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && lightbox.style.display === "flex") {
+          photoZoom.reset();
           lightbox.style.display = "none";
           document.body.style.overflow = "unset";
         }

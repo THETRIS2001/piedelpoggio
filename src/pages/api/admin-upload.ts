@@ -47,15 +47,10 @@ const FILENAME_PATTERNS: Record<string, { regex: RegExp, allowedExts: string[], 
         regex: /^Bilancio - \d{4}\.(pdf|png|jpg|jpeg|webp)$/i,
         allowedExts: ['.pdf', '.png', '.jpg', '.jpeg', '.webp'],
         errorMsg: 'Il nome file per il Bilancio deve seguire il formato "Bilancio - AAAA.pdf" (es. Bilancio - 2026.pdf).'
-    },
-    '4': {
-        regex: /^.+ - \d{2}-\d{2}-\d{4} - .+\.(png|jpg|jpeg|webp)$/i,
-        allowedExts: ['.png', '.jpg', '.jpeg', '.webp'],
-        errorMsg: 'Il nome file per gli Eventi Frazioni deve seguire il formato "Luogo - GG-MM-AAAA - Nome Evento.jpg" (es. Leonessa - 07-12-2025 - Festa.jpg).'
     }
 }
 
-// GET: Elenco flessibile (case-insensitive) dei file presenti in R2 per le 4 sezioni
+// GET: Elenco flessibile (case-insensitive) dei file presenti in R2 per le 3 sezioni
 export const GET: APIRoute = async ({ locals }) => {
     const bucket = getBucket(locals)
     if (!bucket) {
@@ -86,7 +81,6 @@ export const GET: APIRoute = async ({ locals }) => {
             sec1: getFilesForCategory('programmi estivi'),
             sec2: getFilesForCategory('proloco'),
             sec3: getFilesForCategory('bilanci'),
-            sec4: getFilesForCategory('eventi frazioni'),
         }
 
         return new Response(JSON.stringify(data), {
@@ -154,9 +148,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
                 break
             case '3':
                 prefix = 'documents/Bilanci/'
-                break
-            case '4':
-                prefix = 'documents/Eventi Frazioni/'
                 break
         }
 

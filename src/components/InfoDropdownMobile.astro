@@ -70,12 +70,6 @@
             </svg>
             <span>Università Agraria</span>
           </a>
-          <a href="/info/parrocchia" class="menu-link">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-            </svg>
-            <span>Parrocchia S.M. Cerreto</span>
-          </a>
         </div>
       </div>
 
@@ -215,11 +209,15 @@
     button.addEventListener('click', (e) => {
       e.preventDefault();
       isOpen = !isOpen;
-      
+
       if (isOpen) {
         dropdown.style.display = 'block';
         arrow.style.transform = 'rotate(180deg)';
         button.setAttribute('aria-expanded', 'true');
+        // Avvisa gli altri menu, che così si chiudono.
+        document.dispatchEvent(
+          new CustomEvent('menu:apertura', { detail: 'risorse' }),
+        );
       } else {
         dropdown.style.display = 'none';
         arrow.style.transform = 'rotate(0deg)';
@@ -227,17 +225,38 @@
       }
     });
 
+    const close = () => {
+      dropdown.style.display = 'none';
+      arrow.style.transform = 'rotate(0deg)';
+      button.setAttribute('aria-expanded', 'false');
+      isOpen = false;
+    };
+
     // Chiudi quando si clicca fuori
     document.addEventListener('click', (e) => {
       // Castiamo e.target a 'Node' perché 'EventTarget' è troppo generico per .contains()
       const target = e.target as Node;
-      
-      if (isOpen && !button.contains(target) && !dropdown.contains(target)) {
-        dropdown.style.display = 'none';
-        arrow.style.transform = 'rotate(0deg)';
-        button.setAttribute('aria-expanded', 'false');
-        isOpen = false;
-      }
+
+      if (isOpen && !button.contains(target) && !dropdown.contains(target)) close();
     });
+
+    // Un menu alla volta: si chiude quando se ne apre un altro.
+    document.addEventListener('menu:apertura', (e) => {
+      if ((e as CustomEvent).detail !== 'risorse' && isOpen) close();
+    });
+
+    // E anche solo scorrendo la pagina, senza bisogno di un tap.
+    window.addEventListener('scroll', () => { if (isOpen) close(); }, { passive: true });
+
+    // Il trascinamento va intercettato a parte: su iOS un dito che scorre non
+    // produce sempre un evento scroll. Il tocco dentro la tendina è escluso,
+    // altrimenti scorrere l'elenco delle voci la chiuderebbe.
+    document.addEventListener(
+      'touchmove',
+      (e) => {
+        if (isOpen && !dropdown.contains(e.target as Node)) close();
+      },
+      { passive: true },
+    );
   });
 </script>

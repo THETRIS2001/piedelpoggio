@@ -192,16 +192,19 @@ function formatDateIT(dateStr: string): string {
 //  EMAIL 1: Nuova Idea / Suggerimento
 // ═══════════════════════════════════════════════
 export function buildIdeaEmail(data: {
-  nome: string;
-  cognome: string;
+  nome?: string;
+  cognome?: string;
   email?: string;
   telefono?: string;
   idea: string;
 }): string {
   const { nome, cognome, email, telefono, idea } = data;
 
+  // Nome e cognome sono facoltativi: senza, il suggerimento resta anonimo.
+  const mittente = [nome, cognome].filter(Boolean).join(' ').trim();
+
   const contactRows = [
-    infoRow('Mittente', `${escapeHtml(nome)} ${escapeHtml(cognome)}`, colors.primary),
+    infoRow('Mittente', mittente ? escapeHtml(mittente) : 'Anonimo', colors.primary),
     email ? infoRow('Email', `<a href="mailto:${escapeHtml(email)}" style="color:${colors.primary};text-decoration:none;">${escapeHtml(email)}</a>`, colors.accent) : '',
     telefono ? infoRow('Telefono', `<a href="tel:${escapeHtml(telefono)}" style="color:${colors.primary};text-decoration:none;">${escapeHtml(telefono)}</a>`, colors.amber) : '',
   ].filter(Boolean).join('');
@@ -216,7 +219,7 @@ export function buildIdeaEmail(data: {
     `, colors.borderLight) : '';
 
   const content = [
-    heroSection('Nuova idea ricevuta', `${nome} ${cognome} ha inviato un suggerimento`, colors.primary, colors.primaryDark, '💡'),
+    heroSection('Nuova idea ricevuta', mittente ? `${mittente} ha inviato un suggerimento` : 'Hai ricevuto un suggerimento anonimo', colors.primary, colors.primaryDark, '💡'),
     card(`
       <tr><td><p style="margin:0 0 16px;font-size:16px;font-weight:700;color:${colors.textPrimary};">Dettagli contatto</p></td></tr>
       ${contactRows}

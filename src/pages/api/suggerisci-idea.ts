@@ -13,8 +13,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const telefono = (form.get('telefono') || '').toString().trim();
     const idea = (form.get('idea') || '').toString().trim();
 
-    // Validazione minima lato server
-    if (!nome || !cognome || !idea || idea.length < 10) {
+    // Validazione minima lato server. Nome e cognome sono facoltativi: si può
+    // suggerire in forma anonima, quindi l'unico campo obbligatorio è l'idea.
+    if (!idea || idea.length < 10) {
       return new Response('', {
         status: 303,
         headers: {
@@ -23,8 +24,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const subject = `💡 Nuova idea da ${nome} ${cognome}`;
-    const html = buildIdeaEmail({ nome, cognome, email: email || undefined, telefono: telefono || undefined, idea });
+    const mittente = [nome, cognome].filter(Boolean).join(' ');
+    const subject = mittente ? `💡 Nuova idea da ${mittente}` : '💡 Nuova idea (anonima)';
+    const html = buildIdeaEmail({
+      nome: nome || undefined,
+      cognome: cognome || undefined,
+      email: email || undefined,
+      telefono: telefono || undefined,
+      idea,
+    });
 
     const RESEND_API_KEY = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
     if (!RESEND_API_KEY) {

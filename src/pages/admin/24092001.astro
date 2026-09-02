@@ -149,44 +149,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           </div>
         </div>
 
-        <!-- ================= SEZIONE 4 (Dx) ================= -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-5">
-          <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
-            <div class="flex items-center space-x-2.5">
-              <span class="w-7 h-7 bg-purple-600 text-white rounded-lg font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0">4</span>
-              <h2 class="text-base font-bold text-gray-900">Eventi nelle Frazioni</h2>
-            </div>
-            <a href="/programma" target="_blank" class="text-xs text-blue-600 hover:underline font-medium">Vedi /programma ↗</a>
-          </div>
-
-          <p class="text-xs text-amber-800 bg-amber-50 border-l-3 border-amber-500 px-3 py-1.5 rounded-r mb-3">
-            <strong>Formato:</strong> <code class="font-mono font-semibold">Luogo - GG-MM-AAAA - Titolo.jpg</code>. Mostrato automaticamente in ordine di data decrescente nella griglia eventi su <code class="font-mono">/programma</code>.
-          </p>
-
-          <form class="upload-form space-y-3" data-section="4">
-            <div>
-              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-0.5">Seleziona Immagini (puoi selezionarne più di una)</label>
-              <input type="file" name="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/*" multiple required class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-200 rounded-lg bg-gray-50 p-1" />
-            </div>
-
-            <!-- Contenitore dinamico singoli file selezionati -->
-            <div id="fileListContainer-sec4" class="space-y-3"></div>
-
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100 flex flex-col items-stretch justify-between gap-2 text-xs">
-              <button type="submit" disabled class="submit-btn-sec4 w-full bg-purple-600 hover:bg-purple-700 text-white font-bold px-4 py-2 rounded-lg shadow transition-all opacity-50 cursor-not-allowed">
-                Carica File
-              </button>
-            </div>
-          </form>
-
-          <div class="mt-4 pt-3 border-t border-gray-100">
-            <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">File su R2:</h4>
-            <ul id="files-sec4" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-gray-700">
-              <li class="italic text-gray-400 col-span-2">Caricamento...</li>
-            </ul>
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -199,7 +161,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     '1': { regex: /^Programma estivo \d{4}\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Programma estivo AAAA.ext' },
     '2': { regex: /^\d{2}-\d{2}-\d{4} - .+\.(pdf|doc|docx)$/i, expectedFormat: 'GG-MM-AAAA - Titolo.pdf' },
     '3': { regex: /^Bilancio - \d{4}\.(pdf|png|jpg|jpeg|webp)$/i, expectedFormat: 'Bilancio - AAAA.pdf' },
-    '4': { regex: /^.+ - \d{2}-\d{2}-\d{4} - .+\.(png|jpg|jpeg|webp)$/i, expectedFormat: 'Luogo - GG-MM-AAAA - Titolo.jpg' }
   };
 
   function formatDateDDMMYYYY(dateStr: string): string {
@@ -234,7 +195,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
 
   // Struttura dati in memoria per i file attualmente selezionati e i loro parametri individuali
   const selectedFilesMap: Record<string, { file: File, useOriginal: boolean, anno?: string, data?: string, titolo?: string, luogo?: string }[]> = {
-    '1': [], '2': [], '3': [], '4': []
+    '1': [], '2': [], '3': []
   };
 
   function renderFileListUI(section: string) {
@@ -299,23 +260,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               <div>
                 <label class="block text-[10px] font-bold uppercase text-gray-500">Anno Bilancio</label>
                 <input type="number" data-idx="${idx}" name="item-anno" value="${item.anno || ''}" min="1990" max="2050" placeholder="Es. 2026" class="w-full px-2 py-1 border border-gray-300 rounded text-xs outline-none" />
-              </div>
-            </div>
-          `;
-        } else if (section === '4') {
-          fieldsHtml = `
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-gray-500">Luogo</label>
-                <input type="text" data-idx="${idx}" name="item-luogo" value="${item.luogo || ''}" placeholder="Es. Leonessa" class="w-full px-2 py-1 border border-gray-300 rounded text-xs outline-none" />
-              </div>
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-gray-500">Data Evento</label>
-                <input type="date" data-idx="${idx}" name="item-data" value="${item.data || ''}" class="w-full px-2 py-1 border border-gray-300 rounded text-xs outline-none" />
-              </div>
-              <div>
-                <label class="block text-[10px] font-bold uppercase text-gray-500">Nome Evento</label>
-                <input type="text" data-idx="${idx}" name="item-titolo" value="${item.titolo || ''}" placeholder="Es. Festa Patronale" class="w-full px-2 py-1 border border-gray-300 rounded text-xs outline-none" />
               </div>
             </div>
           `;
@@ -435,23 +379,11 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return { filename: `Bilancio - ${anno}${extension}` };
     }
 
-    if (section === '4') {
-      const luogo = item.luogo?.trim() || '';
-      const dateStr = formatDateDDMMYYYY(item.data?.trim() || '');
-      const title = item.titolo?.trim() || '';
-      const extension = ext || '.jpg';
-
-      if (!luogo || !dateStr || !title) {
-        return { filename: '', error: 'Compila Luogo, Data e Titolo dell\'evento.' };
-      }
-      return { filename: `${luogo} - ${dateStr} - ${title}${extension}` };
-    }
-
     return { filename: f.name };
   }
 
   function setupFileSelection() {
-    ['1', '2', '3', '4'].forEach((section) => {
+    ['1', '2', '3'].forEach((section) => {
       const form = document.querySelector(`.upload-form[data-section="${section}"]`) as HTMLFormElement;
       if (!form) return;
 
@@ -488,11 +420,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const prefixesMap: Record<string, string> = {
         '1': 'documents/Programmi estivi/',
         '2': 'documents/proloco/',
-        '3': 'documents/Bilanci/',
-        '4': 'documents/Eventi Frazioni/'
+        '3': 'documents/Bilanci/'
       };
 
-      ['sec1', 'sec2', 'sec3', 'sec4'].forEach((secKey, idx) => {
+      ['sec1', 'sec2', 'sec3'].forEach((secKey, idx) => {
         const secNum = String(idx + 1);
         const ul = document.getElementById(`files-${secKey}`);
         if (!ul) return;
@@ -632,7 +563,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     setupForms();
     loadFileList();
 
-    ['1', '2', '3', '4'].forEach(renderFileListUI);
+    ['1', '2', '3'].forEach(renderFileListUI);
 
     const refreshBtn = document.getElementById('refreshFilesBtn');
     if (refreshBtn) {

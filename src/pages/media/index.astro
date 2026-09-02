@@ -93,7 +93,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     class="w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
-                <div class="min-w-0 overflow-hidden">
+                <!-- Su mobile i filtri per data sono nascosti: resta il solo
+                     nome, con ordinamenti e reset sotto. -->
+                <div class="min-w-0 overflow-hidden hidden sm:block">
                   <div class="text-xs font-semibold text-white mb-1">
                     Data Inizio
                   </div>
@@ -103,7 +105,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                     class="w-full max-w-full px-3 py-2 border border-gray-200 !rounded-xl focus:outline-none focus:ring-0 focus:border-red-500 transition-colors duration-300 appearance-none bg-white"
                   />
                 </div>
-                <div class="min-w-0 overflow-hidden">
+                <!-- Su mobile i filtri per data sono nascosti: resta il solo
+                     nome, con ordinamenti e reset sotto. -->
+                <div class="min-w-0 overflow-hidden hidden sm:block">
                   <div class="text-xs font-semibold text-white mb-1">
                     Data Fine
                   </div>
@@ -395,20 +399,26 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
               <hr class="border-gray-200" />
 
               <!-- Sezione 1: Selezione Modalità -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-wrap">
                 <button
                   id="modeExisting"
                   type="button"
-                  class="px-3 py-1.5 rounded-full text-sm font-medium text-white no-min-h"
+                  class="px-3 py-1.5 rounded-full text-sm font-medium text-white no-min-h whitespace-nowrap"
                   style="background: linear-gradient(135deg, #FF2400, #E01E00);"
-                  >Aggiungi a evento esistente</button
                 >
+                  <!-- Su mobile l'etichetta lunga va a capo e sforma il
+                       pulsante: sotto sm si accorcia. -->
+                  <span class="sm:hidden">Aggiungi a esistente</span>
+                  <span class="hidden sm:inline">Aggiungi a evento esistente</span>
+                </button>
                 <button
                   id="modeNew"
                   type="button"
-                  class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 no-min-h"
-                  >Crea nuovo evento</button
+                  class="px-3 py-1.5 rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 no-min-h whitespace-nowrap"
                 >
+                  <span class="sm:hidden">Crea nuovo</span>
+                  <span class="hidden sm:inline">Crea nuovo evento</span>
+                </button>
                 <button
                   type="button"
                   aria-label="Info"
@@ -534,7 +544,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   id="files"
                   type="file"
                   multiple
-                  accept="image/*,.bmp"
+                  accept="image/*,video/*,.bmp,.mp4,.webm,.ogg,.mov"
                   autocomplete="off"
                   class="sr-only"
                 />
@@ -550,7 +560,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   <div class="flex flex-col items-center justify-center gap-3">
                     <p class="text-sm text-gray-700">
                       <span class="hidden sm:inline"
-                        >Trascina qui le immagini oppure
+                        >Trascina qui foto o video oppure
                       </span>
                       <button
                         type="button"
@@ -568,7 +578,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
                   id="sizeLimitMsg"
                   class="text-xs text-gray-500 mt-2 text-center"
                 >
-                  Selezionati 0 B su 1GB (max)
+                  Selezionati 0 B su 1GB (max) · video fino a 250MB l'uno
                 </div>
                 <div
                   id="uploadStatus"
@@ -665,7 +675,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       class="absolute inset-0 flex items-center justify-center z-[105] pointer-events-none transition-opacity duration-300 opacity-0 w-full h-full"
     >
       <div
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"
+        class="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"
       >
       </div>
     </div>
@@ -679,6 +689,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
   </div>
 
   <script>
+    import { attachPhotoZoom } from "../../lib/photoZoom";
+    import { IMAGE_EXTS, VIDEO_EXTS, isVideoName } from "../../lib/mediaTypes";
+
     interface MediaFile {
       name: string;
       url: string;
@@ -868,7 +881,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         return container;
       }
 
-      const photos = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
+      const photos = files.filter((f) => !isVideoName(f.name));
       // Ordina per peso crescente: le 3 più leggere come copertina per velocizzare il caricamento
       const sorted = [...photos].sort((a, b) => {
         const sa = Number((a.size as number | undefined) || 0);
@@ -944,6 +957,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return container;
     }
 
+    /** Porta il badge dallo stato scheletro al conteggio reale. */
+    function setPhotoCount(badge: HTMLElement, files: MediaFile[]) {
+      const photosCount = files.filter(
+        (f) => !isVideoName(f.name),
+      ).length;
+      badge.className =
+        "inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5";
+      badge.removeAttribute("aria-label");
+      badge.textContent = `Foto: ${photosCount}`;
+    }
+
     function updateCardImages(
       folder: string,
       files: MediaFile[],
@@ -959,15 +983,10 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         oldContainer.replaceWith(newContainer);
       }
 
-      const photosCount = files.filter(
-        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
-      ).length;
-      const badge = Array.from(card.querySelectorAll("span")).find((s) =>
-        s.textContent?.startsWith("Foto:"),
+      const badge = card.querySelector<HTMLElement>(
+        '[data-role="photo-count"]',
       );
-      if (badge) {
-        badge.textContent = `Foto: ${photosCount}`;
-      }
+      if (badge) setPhotoCount(badge, files);
     }
 
     function renderCard(grid: HTMLElement, ev: EventData) {
@@ -1004,13 +1023,19 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       }
       badges.appendChild(date);
 
-      const photosCount = filesArr.filter(
-        (f) => !/\.(mp4|webm|ogg)$/i.test(f.name),
-      ).length;
       const badgePhoto = document.createElement("span");
-      badgePhoto.className =
-        "inline-flex text-xs font-semibold text-gray-700 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5";
-      badgePhoto.textContent = `Foto: ${photosCount}`;
+      // Marcatore stabile: updateCardImages deve ritrovare questo badge anche
+      // mentre è uno scheletro e quindi non contiene ancora la scritta "Foto:".
+      badgePhoto.dataset.role = "photo-count";
+      if (filesArr.length > 0) {
+        setPhotoCount(badgePhoto, filesArr);
+      } else {
+        // L'elenco file non è ancora arrivato: "Foto: 0" sarebbe un numero
+        // falso, quindi si mostra un segnaposto che lampeggia.
+        badgePhoto.className =
+          "inline-flex h-[21px] w-16 rounded-full bg-gray-200 animate-pulse";
+        badgePhoto.setAttribute("aria-label", "Conteggio foto in caricamento");
+      }
       badges.appendChild(badgePhoto);
 
       info.appendChild(title);
@@ -1248,17 +1273,17 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         if (uploadMode === "existing") {
           mE.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
           mE.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0 whitespace-nowrap";
           mN.style.background = "";
           mN.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0 whitespace-nowrap";
         } else {
           mN.style.background = "linear-gradient(135deg, #FF2400, #E01E00)";
           mN.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-white border border-transparent focus:outline-none focus:ring-0 whitespace-nowrap";
           mE.style.background = "";
           mE.className =
-            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0";
+            "px-3 py-1.5 !rounded-full text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:outline-none focus:ring-0 whitespace-nowrap";
         }
       }
     }
@@ -1517,9 +1542,13 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       "nextBtn",
     ) as HTMLButtonElement | null;
 
+    // La pagina non zooma mai, quindi le frecce (position: fixed) restano
+    // immobili da sole: a ingrandirsi è solo la foto, qui sotto.
+    const photoZoom = lb && lbImg ? attachPhotoZoom(lbImg, lb) : null;
+
     function openLightbox(files: MediaFile[], idx: number) {
       if (!lb || !lbImg) return;
-      lbFiles = files.filter((f) => !/\.(mp4|webm|ogg)$/i.test(f.name));
+      lbFiles = files.filter((f) => !isVideoName(f.name));
       const originalFile = files[idx];
       const newIdx = lbFiles.findIndex((f) => f.name === originalFile.name);
 
@@ -1547,6 +1576,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         lb.classList.remove("hidden");
         lb.classList.add("flex");
         document.body.style.overflow = "hidden";
+        // Nuova foto: si riparte sempre da scala 1.
+        photoZoom?.reset();
       }
     };
     function closeLightbox() {
@@ -1554,15 +1585,22 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       lb.classList.add("hidden");
       lb.classList.remove("flex");
       document.body.style.overflow = "unset";
+      photoZoom?.reset();
       if (lbImg) lbImg.src = "";
       const loader = document.getElementById("lightboxLoader");
       if (loader) loader.style.opacity = "0";
     }
 
-    // Click anywhere (including photo) closes lightbox
+    // Si chiude solo cliccando fuori dalla foto: click sulla foto stessa
+    // e sui pulsanti freccia non chiudono la lightbox.
     lb?.addEventListener("click", (e) => {
       const t = e.target as HTMLElement;
-      if (t.closest("#prevBtn") || t.closest("#nextBtn")) return;
+      if (
+        t.closest("#prevBtn") ||
+        t.closest("#nextBtn") ||
+        t.closest("#lightboxImg")
+      )
+        return;
       closeLightbox();
     });
 
@@ -1587,42 +1625,8 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       showIndex((lbCurrent + 1) % lbFiles.length);
     });
 
-    // Swipe gesture for mobile
-    let lbTouchStartX = 0;
-    let lbTouchStartY = 0;
-    let lbIsSwiping = false;
+    // Nessuna navigazione da swipe: si cambia foto solo con i pulsanti freccia.
 
-    lb?.addEventListener(
-      "touchstart",
-      (e) => {
-        if (e.touches.length === 1) {
-          lbTouchStartX = e.touches[0].clientX;
-          lbTouchStartY = e.touches[0].clientY;
-          lbIsSwiping = true;
-        } else {
-          lbIsSwiping = false;
-        }
-      },
-      { passive: true },
-    );
-
-    lb?.addEventListener("touchend", (e) => {
-      if (!lbIsSwiping || e.changedTouches.length === 0) return;
-      const dx = e.changedTouches[0].clientX - lbTouchStartX;
-      const dy = e.changedTouches[0].clientY - lbTouchStartY;
-      const absDx = Math.abs(dx);
-      const absDy = Math.abs(dy);
-
-      if (absDx > 50 && absDx > absDy * 1.5) {
-        e.preventDefault();
-        if (dx > 0) {
-          showIndex((lbCurrent - 1 + lbFiles.length) % lbFiles.length);
-        } else {
-          showIndex((lbCurrent + 1) % lbFiles.length);
-        }
-      }
-      lbIsSwiping = false;
-    });
     // Scroll istantaneo alla sezione eventi
     const scrollToTop = () => {
       // Verifica se siamo in visualizzazione mobile/tablet (dove l'ordine degli elementi cambia)
@@ -1730,6 +1734,61 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
     document
       .getElementById("pageNextBottom")
       ?.addEventListener("click", handleNext);
+    // Estensioni accettate: devono restare allineate a isAllowedFile()
+    // in src/pages/api/media.ts, che è ciò che il server applica davvero.
+    const MAX_VIDEO_BYTES = 250 * 1024 * 1024;
+
+    function hasExt(file: File, exts: string[]) {
+      const n = file.name.toLowerCase();
+      return exts.some((e) => n.endsWith(e));
+    }
+    function isVideoFile(file: File) {
+      return file.type.startsWith("video/") || hasExt(file, VIDEO_EXTS);
+    }
+    function isMediaFile(file: File) {
+      return (
+        hasExt(file, IMAGE_EXTS) ||
+        hasExt(file, VIDEO_EXTS) ||
+        // Il tipo MIME da solo non basta: il server decide sull'estensione,
+        // quindi un file senza estensione nota va rifiutato comunque.
+        ((file.type.startsWith("image/") || file.type.startsWith("video/")) &&
+          hasExt(file, [...IMAGE_EXTS, ...VIDEO_EXTS]))
+      );
+    }
+    /** Video troppo pesanti: il limite è per singolo video, non complessivo. */
+    function oversizedVideos(files: File[]) {
+      return files.filter((f) => isVideoFile(f) && f.size > MAX_VIDEO_BYTES);
+    }
+
+    // File scartati all'ultima selezione. Restano qui per essere mostrati sotto
+    // la dropzone: un alert sparisce e l'utente non ha più modo di sapere quale
+    // file era il problema.
+    let rejectedFiles: Array<{ name: string; motivo: string }> = [];
+
+    /**
+     * Tiene i file validi e mette da parte gli altri. input.files è di sola
+     * lettura, quindi per scartarne qualcuno senza perdere il resto della
+     * selezione i buoni si spostano nell'elenco gestito a mano.
+     */
+    function acceptFiles(picked: File[]) {
+      const unsupported = picked.filter((f) => !isMediaFile(f));
+      // Il controllo sulla dimensione vale solo per ciò che sarebbe accettato:
+      // altrimenti un formato non supportato e troppo pesante finiva elencato
+      // due volte, con due motivi diversi per lo stesso file.
+      const tooBig = oversizedVideos(picked.filter((f) => isMediaFile(f)));
+      rejectedFiles = [
+        ...unsupported.map((f) => ({
+          name: f.name,
+          motivo: "formato non supportato",
+        })),
+        ...tooBig.map((f) => ({
+          name: `${f.name} (${formatBytes(f.size)})`,
+          motivo: "oltre 250MB",
+        })),
+      ];
+      return picked.filter((f) => isMediaFile(f) && !tooBig.includes(f));
+    }
+
     const MAX_TOTAL_BYTES = 1024 * 1024 * 1024;
     function formatBytes(b: number) {
       const u = ["B", "KB", "MB", "GB"];
@@ -1742,26 +1801,52 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       return `${v.toFixed(i >= 2 ? 1 : 0)} ${u[i]}`;
     }
 
-    function totalSelectedBytes() {
+    function allSelectedFiles(): File[] {
       const input = document.getElementById("files") as HTMLInputElement | null;
-      const inputBytes =
-        input && input.files
-          ? Array.from(input.files).reduce((a, f) => a + (f.size || 0), 0)
-          : 0;
-      const dropBytes = externalFiles.reduce((a, f) => a + (f.size || 0), 0);
-      return inputBytes + dropBytes;
+      const fromInput = input && input.files ? Array.from(input.files) : [];
+      return [...fromInput, ...externalFiles];
+    }
+    function totalSelectedBytes() {
+      return allSelectedFiles().reduce((a, f) => a + (f.size || 0), 0);
     }
     function updateSizeLimitInfo() {
       const msg = document.getElementById("sizeLimitMsg");
       if (!msg) return;
       const bytes = totalSelectedBytes();
-      const over = bytes > MAX_TOTAL_BYTES;
-      msg.textContent = over
-        ? `Limite superato: selezionati ${formatBytes(bytes)} su 1GB (max)`
-        : `Selezionati ${formatBytes(bytes)} su 1GB (max)`;
+      const tooBig = oversizedVideos(allSelectedFiles());
+      const overTotal = bytes > MAX_TOTAL_BYTES;
+      const over = overTotal || tooBig.length > 0;
+
+      // Vanno mostrati entrambi i limiti, e insieme: superarne uno non deve
+      // nascondere l'altro, altrimenti si corregge un problema per volta.
+      const problemi: string[] = [];
+      if (overTotal) {
+        problemi.push(
+          `totale ${formatBytes(bytes)}: superato il massimo di 1GB per caricamento`,
+        );
+      }
+      if (tooBig.length) {
+        problemi.push(
+          `oltre 250MB: ${tooBig.map((f) => `${f.name} (${formatBytes(f.size)})`).join(", ")}`,
+        );
+      }
+      if (rejectedFiles.length) {
+        problemi.push(
+          `esclusi ${rejectedFiles.map((r) => `${r.name} — ${r.motivo}`).join("; ")}`,
+        );
+      }
+
+      const riepilogo = `Selezionati ${formatBytes(bytes)} su 1GB (max) · video fino a 250MB l'uno`;
+      msg.textContent = problemi.length
+        ? `${riepilogo} — ${problemi.join(" · ")}`
+        : riepilogo;
+      // Il rosso segnala solo ciò che blocca l'invio; i file esclusi sono già
+      // stati tolti dalla selezione, quindi bastano in arancione.
       msg.className = over
         ? "text-xs text-red-600 mt-2 text-center font-semibold"
-        : "text-xs text-gray-500 mt-2 text-center";
+        : rejectedFiles.length
+          ? "text-xs text-orange-600 mt-2 text-center font-semibold"
+          : "text-xs text-gray-500 mt-2 text-center";
     }
     document
       .getElementById("uploadForm")
@@ -1938,7 +2023,6 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         }
         const totalBytesAll = allFiles.reduce((a, f) => a + (f.size || 0), 0);
         let uploadedBase = 0;
-        const RAW_THRESHOLD_BYTES = 100 * 1024 * 1024;
 
         const existing =
           (
@@ -1956,71 +2040,192 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           (document.getElementById("description") as HTMLTextAreaElement | null)
             ?.value || "";
 
-        async function uploadOne(file: File) {
-          return new Promise<void>((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            let url = "/api/media";
-            let fd: FormData | null = null;
-            if (file.size >= RAW_THRESHOLD_BYTES) {
-              const params = new URLSearchParams();
-              params.set("raw", "1");
-              params.set("filename", file.name);
-              if (file.type) params.set("contentType", file.type);
-              if (existing) {
-                params.set("existingFolder", existing);
-              } else {
-                params.set("eventName", name);
-                params.set("date", date);
-              }
-              if (desc) params.set("description", desc);
-              params.set("uploader", uploaderName);
-              url = `/api/media?${params.toString()}`;
-              xhr.open("POST", url);
-            } else {
-              xhr.open("POST", url);
-              fd = new FormData();
-              if (existing) fd.append("existingFolder", existing);
-              else {
-                fd.append("eventName", name);
-                fd.append("date", date);
-              }
-              if (desc) fd.append("description", desc);
-              fd.append("uploader", uploaderName);
-              fd.append("files", file);
-            }
+        // Oltre questa soglia il file viene spezzato: Cloudflare rifiuta i
+        // corpi di richiesta sopra i 100MB sui piani Free e Pro, quindi un
+        // video da 250MB non può passare in un colpo solo.
+        const PART_SIZE = 25 * 1024 * 1024;
+        const MAX_PART_ATTEMPTS = 3;
 
-            xhr.upload.onprogress = (evt) => {
-              const totalLoaded = uploadedBase + (evt.loaded || 0);
-              const percent = Math.round((totalLoaded / totalBytesAll) * 100);
-              if (bar) bar.style.width = percent + "%";
-              if (pct) pct.textContent = percent + "%";
-            };
+        function eventParams(params: URLSearchParams) {
+          if (existing) {
+            params.set("existingFolder", existing);
+          } else {
+            params.set("eventName", name);
+            params.set("date", date);
+          }
+          if (desc) params.set("description", desc);
+          params.set("uploader", uploaderName);
+          return params;
+        }
+
+        function errorFrom(xhr: XMLHttpRequest, file: File) {
+          if (xhr.status === 413) {
+            // Un 413 può arrivare anche dal bordo Cloudflare prima del nostro
+            // codice, e in quel caso il corpo è una pagina HTML: meglio un
+            // messaggio nostro che l'HTML grezzo a schermo.
+            return new Error(
+              `"${file.name}" (${formatBytes(file.size || 0)}) è troppo grande per essere caricato.`,
+            );
+          }
+          if (xhr.status === 0) {
+            // Caso più frequente su rete mobile: la richiesta non è mai
+            // arrivata a destinazione, quindi non c'è un corpo da leggere.
+            return new Error(
+              `Connessione interrotta durante il caricamento di "${file.name}".`,
+            );
+          }
+          let msg = "";
+          try {
+            msg = JSON.parse(xhr.responseText)?.error || xhr.responseText;
+          } catch {
+            msg = xhr.responseText;
+          }
+          return new Error(msg || "Errore nel caricamento");
+        }
+
+        /** POST con progresso. `onProgress` riceve i byte inviati di questo corpo. */
+        function send(
+          url: string,
+          body: Blob | File | string | null,
+          file: File,
+          onProgress?: (loaded: number) => void,
+        ) {
+          return new Promise<any>((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", url);
+            if (typeof body === "string") {
+              xhr.setRequestHeader("Content-Type", "application/json");
+            }
+            if (onProgress) {
+              xhr.upload.onprogress = (evt) => onProgress(evt.loaded || 0);
+            }
+            xhr.onerror = () => reject(new Error("Connessione interrotta"));
             xhr.onreadystatechange = () => {
-              if (xhr.readyState === 4) {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                  uploadedBase += file.size || 0;
-                  resolve();
-                } else {
-                  let msg = "";
-                  try {
-                    msg =
-                      JSON.parse(xhr.responseText)?.error || xhr.responseText;
-                  } catch {
-                    msg = xhr.responseText;
-                  }
-                  reject(new Error(msg || "Errore nel caricamento"));
+              if (xhr.readyState !== 4) return;
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  resolve(xhr.responseText ? JSON.parse(xhr.responseText) : {});
+                } catch {
+                  resolve({});
+                }
+              } else {
+                reject(errorFrom(xhr, file));
+              }
+            };
+            xhr.send(body as any);
+          });
+        }
+
+        const reportProgress = (loadedInFile: number) => {
+          const percent = Math.round(
+            ((uploadedBase + loadedInFile) / totalBytesAll) * 100,
+          );
+          if (bar) bar.style.width = percent + "%";
+          if (pct) pct.textContent = percent + "%";
+        };
+
+        async function uploadMultipart(file: File) {
+          const created = await send(
+            `/api/media?${eventParams(
+              new URLSearchParams({
+                mp: "create",
+                filename: file.name,
+                size: String(file.size),
+                ...(file.type ? { contentType: file.type } : {}),
+              }),
+            ).toString()}`,
+            null,
+            file,
+          );
+          const partSize = Number(created.partSize) || PART_SIZE;
+          const base = new URLSearchParams({
+            filename: String(created.filename),
+            folder: String(created.folder),
+            uploadId: String(created.uploadId),
+          });
+
+          const parts: Array<{ partNumber: number; etag: string }> = [];
+          let sent = 0;
+          try {
+            for (let offset = 0, n = 1; offset < file.size; offset += partSize, n++) {
+              const chunk = file.slice(offset, Math.min(offset + partSize, file.size));
+              const params = new URLSearchParams(base);
+              params.set("mp", "part");
+              params.set("partNumber", String(n));
+
+              // Una parte può fallire per un buco di rete senza che l'intero
+              // upload sia perso: si ritenta solo quella.
+              let part: any = null;
+              for (let attempt = 1; ; attempt++) {
+                try {
+                  part = await send(
+                    `/api/media?${params.toString()}`,
+                    chunk,
+                    file,
+                    (loaded) => reportProgress(sent + loaded),
+                  );
+                  break;
+                } catch (err) {
+                  const fatal =
+                    err instanceof Error && /troppo grande|limite/i.test(err.message);
+                  if (fatal || attempt >= MAX_PART_ATTEMPTS) throw err;
+                  await new Promise((r) => setTimeout(r, 1000 * attempt));
                 }
               }
-            };
-            if (fd) xhr.send(fd);
-            else xhr.send(file);
-          });
+              parts.push({
+                partNumber: Number(part.partNumber),
+                etag: String(part.etag),
+              });
+              sent += chunk.size;
+              reportProgress(sent);
+            }
+
+            const done = new URLSearchParams(base);
+            done.set("mp", "complete");
+            await send(
+              `/api/media?${done.toString()}`,
+              JSON.stringify({ parts }),
+              file,
+            );
+          } catch (err) {
+            // Senza abort le parti già caricate restano su R2 a occupare spazio.
+            const cancel = new URLSearchParams(base);
+            cancel.set("mp", "abort");
+            try {
+              await fetch(`/api/media?${cancel.toString()}`, { method: "POST" });
+            } catch { }
+            throw err;
+          }
+        }
+
+        async function uploadSingle(file: File) {
+          const params = eventParams(
+            new URLSearchParams({ raw: "1", filename: file.name }),
+          );
+          if (file.type) params.set("contentType", file.type);
+          await send(
+            `/api/media?${params.toString()}`,
+            file,
+            file,
+            (loaded) => reportProgress(loaded),
+          );
+        }
+
+        async function uploadOne(file: File) {
+          if (file.size > PART_SIZE) {
+            await uploadMultipart(file);
+          } else {
+            await uploadSingle(file);
+          }
         }
 
         try {
           for (const f of allFiles) {
             if (!f || !f.name || f.size === 0) continue;
             await uploadOne(f);
+            // Il progresso è cumulativo sull'intero lotto: chiuso un file, la
+            // sua dimensione diventa la base da cui riparte il conteggio.
+            uploadedBase += f.size || 0;
           }
           const originals = sources.map((f) => f.name).filter((n) => !!n);
           const existing =
@@ -2084,6 +2289,7 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
           if (pct) pct.textContent = "0%";
 
           // Reset completo sezione upload
+          rejectedFiles = [];
           if (existingHidden) existingHidden.value = "";
           if (comboInput) {
             comboInput.value = "";
@@ -2197,7 +2403,9 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
         uploadMode === "new"
           ? isDuplicateNewEvent(nameEl?.value || "", dateEl?.value || "")
           : false;
-      const sizeOk = totalSelectedBytes() <= MAX_TOTAL_BYTES;
+      const sizeOk =
+        totalSelectedBytes() <= MAX_TOTAL_BYTES &&
+        oversizedVideos(allSelectedFiles()).length === 0;
       const hasUploader = !!(
         document.getElementById("uploader") as HTMLInputElement | null
       )?.value.trim();
@@ -2221,46 +2429,29 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       });
       updateSizeLimitInfo();
     }
-    // Helper per validare immagini
-    function isImageFile(file: File) {
-      return (
-        file.type.startsWith("image/") ||
-        file.name.toLowerCase().endsWith(".bmp")
-      );
-    }
-
     document.getElementById("files")?.addEventListener("change", (e) => {
       const input = e.target as HTMLInputElement;
       const summary = document.getElementById("filesSummary");
+      const picked = input.files ? Array.from(input.files) : [];
+      const valid = acceptFiles(picked);
 
-      // Validazione file selezionati via dialog
-      if (input.files) {
-        const invalidFiles = Array.from(input.files).filter(
-          (f) => !isImageFile(f),
-        );
-        if (invalidFiles.length > 0) {
-          alert(
-            `Alcuni file non sono immagini supportate e saranno ignorati: ${invalidFiles.map((f) => f.name).join(", ")}`,
-          );
-          // Reset input se ci sono file non validi per costringere a riselezionare pulito,
-          // oppure si potrebbe accettare solo quelli validi se si usasse un array separato per tutto.
-          // Dato che input.files è readonly, resettiamo per semplicità se l'utente forza file non immagini.
-          input.value = "";
-          externalFiles = [];
-          if (summary) summary.textContent = "";
-          updateSubmitEnabled();
-          return;
-        }
+      if (valid.length !== picked.length) {
+        // Qualcosa è stato scartato: i validi passano nell'elenco manuale e
+        // l'input si svuota, altrimenti i file rifiutati resterebbero dentro.
+        externalFiles = valid;
+        input.value = "";
+      } else {
+        externalFiles = [];
       }
 
-      const count = input.files ? input.files.length : 0;
-      externalFiles = []; // Reset external files on new input selection to avoid confusion mixing both
+      const total = allSelectedFiles().length;
       if (summary)
-        summary.textContent = count > 0 ? `${count} file selezionati` : "";
-      console.log("files:inputChange", { count });
+        summary.textContent = total > 0 ? `${total} file selezionati` : "";
+      console.log("files:inputChange", { total, scartati: rejectedFiles.length });
       updateSubmitEnabled();
       updateSizeLimitInfo();
     });
+
     const dropzone = document.getElementById("dropzone");
     const pickFiles = document.getElementById("pickFiles");
     dropzone?.addEventListener("dragover", (e) => {
@@ -2278,26 +2469,14 @@ import DefaultLayout from "../../layouts/DefaultLayout.astro";
       const summary = document.getElementById("filesSummary");
       const files = (e as DragEvent).dataTransfer?.files;
       if (input && files) {
-        const droppedFiles = Array.from(files);
-        const validFiles = droppedFiles.filter(isImageFile);
-        const invalidFiles = droppedFiles.filter((f) => !isImageFile(f));
+        // input.files non è scrivibile, quindi i file trascinati vivono qui e
+        // si sommano a quelli già scelti dal selettore, che non vanno toccati.
+        externalFiles = acceptFiles(Array.from(files));
 
-        if (invalidFiles.length > 0) {
-          alert(
-            `I seguenti file non sono stati aggiunti perché non sono immagini: ${invalidFiles.map((f) => f.name).join(", ")}`,
-          );
-        }
-
-        externalFiles = validFiles;
-        // Nota: input.files non può essere modificato programmaticamente per aggiungere file droppati
-        // Quindi externalFiles gestisce quelli del drop.
-
-        const countInput = input.files ? input.files.length : 0;
-        const countDrop = externalFiles.length;
-        const total = countInput + countDrop;
+        const total = allSelectedFiles().length;
         if (summary)
           summary.textContent = total > 0 ? `${total} file selezionati` : "";
-        console.log("files:drop", { countInput, countDrop, total });
+        console.log("files:drop", { total, scartati: rejectedFiles.length });
         updateSubmitEnabled();
         updateSizeLimitInfo();
       }

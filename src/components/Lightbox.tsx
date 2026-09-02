@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { attachPhotoZoom, type PhotoZoom } from '../lib/photoZoom';
 import './Lightbox.css';
 
 interface LightboxProps {
@@ -15,6 +16,9 @@ interface LightboxProps {
 
 const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose, folderHref, onPrev, onNext }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef<PhotoZoom | null>(null);
 
   useEffect(() => {
     setIsLoaded(false);
@@ -42,10 +46,25 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
     };
   }, [isOpen, onClose, onPrev, onNext]);
 
+  // La pagina non zooma mai: a ingrandirsi con il pinch è solo la foto,
+  // così le frecce restano immobili.
+  useEffect(() => {
+    if (!isOpen || !imgRef.current || !surfaceRef.current) return;
+    zoomRef.current = attachPhotoZoom(imgRef.current, surfaceRef.current);
+    return () => {
+      zoomRef.current?.destroy();
+      zoomRef.current = null;
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    zoomRef.current?.reset();
+  }, [imageSrc]);
+
   if (!isOpen) return null;
 
   const lightboxContent = (
-    <div className="lightbox-overlay" onClick={onClose}>
+    <div className="lightbox-overlay" onClick={onClose} ref={surfaceRef}>
       <div className="lightbox-container relative w-full h-full flex items-center justify-center">
         {onPrev && (
           <button
@@ -105,6 +124,7 @@ const Lightbox: React.FC<LightboxProps> = ({ isOpen, imageSrc, imageAlt, onClose
           onClick={(e) => e.stopPropagation()}
         >
           <img
+            ref={imgRef}
             src={imageSrc}
             alt={imageAlt}
             className="lightbox-image relative z-[106]"
